@@ -1,0 +1,13 @@
+.ant-timeline-item-label {
+  width: calc(10% - 12px) !important;
+}
+.ant-timeline-item-tail {
+  left: 10% !important;
+}
+.ant-timeline-item-head {
+  left: 10% !important;
+}
+.ant-timeline-item-content {
+  left: calc(10% - 4px) !important;
+  width: calc(90% - 24px) !important;
+}

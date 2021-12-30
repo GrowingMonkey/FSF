@@ -15,10 +15,7 @@ npm-debug.log*
 yarn-error.log
 
 /coverage
-.idea
-yarn.lock
-package-lock.json
-pnpm-lock.yaml
+.ideas
 *bak
 
 

@@ -13,9 +13,19 @@ import {
 import ModalMyInfo from "./component/ModalMyInfo";
 import styles from "./index.less";
 import { PageContainer } from "@ant-design/pro-layout";
+import { useEffect, useState } from "react";
+import { selectEmployList } from '@/services/employ'
+import { useRequest } from 'umi'
 
 const ColleagueList = () => {
+  console.clear();
   const [form] = Form.useForm();
+  const [colleagueList, setColleagueList] = useState([]);
+  const { data } = useRequest(selectEmployList);
+  console.log(data);
+  useEffect(() => {
+    setColleagueList(data?.list || []);
+  }, [data])
   const formList = [
     {
       name: "name",
@@ -24,7 +34,6 @@ const ColleagueList = () => {
       span: 6,
     },
   ];
-  const colleagueList = [];
   const colleagueColumns = [
     {
       title: "头像",
@@ -45,11 +54,6 @@ const ColleagueList = () => {
       title: "在职状态",
       dataIndex: "workState",
       key: "workState",
-    },
-    {
-      title: "评价",
-      dataIndex: "commentOn",
-      key: "commentOn",
     },
     {
       title: "电话",

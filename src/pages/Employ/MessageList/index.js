@@ -12,9 +12,16 @@ import {
 } from "antd";
 import styles from "./index.less";
 import { PageContainer } from "@ant-design/pro-layout";
-
+import { useRequest } from 'umi';
+import { selectMsgList } from '@/services/employ'
+import { useState, useEffect } from "react";
 const MessageList = () => {
   const [form] = Form.useForm();
+  const [messageList, setMessageList] = useState([]);
+  const { data } = useRequest(selectMsgList)
+  useEffect(() => {
+    setMessageList(data?.list || []);
+  }, [data])
   const formList = [
     {
       name: "name",
@@ -53,7 +60,6 @@ const MessageList = () => {
       ],
     },
   ];
-  const messageList = [];
   const messageColumns = [
     // {
     //   title: "选择",

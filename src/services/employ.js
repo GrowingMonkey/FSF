@@ -55,6 +55,17 @@ export const changeTripState = (payload) => {
     ...(payload || {}),
   });
 };
+export const selectEmployList = (payload) => {
+  // return new Promise((resolve, reject) => {
+  //   request.post("/employ/changeTripState", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/employ/selectEmployList', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
 export const delMsg = (payload) => {
   // return new Promise((resolve, reject) => {
   //   request.post("/employ/delMsg", payload).then((data) => {

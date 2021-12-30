@@ -12,9 +12,16 @@ import {
 } from "antd";
 import { PageContainer } from '@ant-design/pro-layout';
 import styles from "./index.less";
-
+import { useRequest } from 'umi'
+import { selectTripList } from "@/services/employ"
+import { useState, useEffect } from "react";
 const TripList = () => {
   const [form] = Form.useForm();
+  const { data } = useRequest(selectTripList);
+  const [tripList, setTripList] = useState([]);
+  useEffect(() => {
+    setTripList(data?.list || [])
+  }, [data])
   const formList = [
     {
       name: "name",
@@ -69,7 +76,6 @@ const TripList = () => {
       }
     },
   ];
-  const tripList = [];
   const tripColumns = [
     {
       title: "行为类型",

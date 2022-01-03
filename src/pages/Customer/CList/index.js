@@ -439,7 +439,7 @@ const CustomerList = () => {
       const { data } = res;
       console.log(res);
       setCustomerList(
-        data.list.map((item) => {
+        data?.list.map((item) => {
           return Object.assign(item, {
             key: item.customerId,
           });

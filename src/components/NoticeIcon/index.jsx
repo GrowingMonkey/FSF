@@ -3,7 +3,7 @@ import { Tag, message } from 'antd';
 import { groupBy } from 'lodash';
 import moment from 'moment';
 import { useModel, useRequest } from 'umi';
-import { getNotices } from '@/services/ant-design-pro/api';
+
 import { selectMsgList, selectTripList } from '@/services/home'
 import NoticeIcon from './NoticeIcon';
 import styles from './index.less';
@@ -68,13 +68,8 @@ const NoticeIconView = () => {
   console.clear();
   const { initialState } = useModel('@@initialState');
   const { currentUser } = initialState || {};
-  const [notices, setNotices] = useState([]);
   const [msgList, setMsgList] = useState([]);
   const [tripList, setTripList] = useState([]);
-  const { data } = useRequest(getNotices);
-  useEffect(() => {
-    setNotices(data || []);
-  }, [data]);
   //消息列表
   const msgResult = useRequest(selectMsgList);
   useEffect(() => {
@@ -85,7 +80,7 @@ const NoticeIconView = () => {
   useEffect(() => {
     setTripList(tripResult?.data?.list || [])
   }, [tripResult])
-  const noticeData = getNoticeData(notices);//通知
+  const noticeData = getNoticeData(tripResult);//通知
   // const unreadMsg = getUnreadData(noticeData || {});//消息
   const unreadMsg = getUnreadData(msgResult || []);
   const changeReadState = (id) => {

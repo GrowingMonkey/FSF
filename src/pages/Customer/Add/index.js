@@ -361,8 +361,9 @@ const Add = () => {
           // console.log(payload);
           // console.log(contactValues.contact);
           console.log(teamValues.team);
-          getCustomerId().then((id) => {
-            payload.customerId = id;
+          getCustomerId().then((res) => {
+            const { data } = res;
+            payload.customerId = data;
             addCustomer(payload).then((data) => {
               let extraInfo = [];
               if (contactValues.contact && contactValues.contact.length > 0) {

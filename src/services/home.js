@@ -8,7 +8,7 @@ export const changeMsgState = (payload) => {
   // });
   return request('/home/changeMsgState', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const changeTripState = (payload) => {
@@ -19,7 +19,7 @@ export const changeTripState = (payload) => {
   // });
   return request('/home/changeTripState', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const cRank = (payload) => {
@@ -30,7 +30,7 @@ export const cRank = (payload) => {
   // });
   return request('/home/cRank', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const delMsg = (payload) => {
@@ -41,7 +41,7 @@ export const delMsg = (payload) => {
   // });
   return request('/home/delMsg', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const hkRank = (payload) => {
@@ -52,7 +52,7 @@ export const hkRank = (payload) => {
   // });
   return request('/home/hkRank', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const kpiRank = (payload) => {
@@ -63,7 +63,7 @@ export const kpiRank = (payload) => {
   // });
   return request('/home/kpiRank', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const selectMsgList = (payload) => {
@@ -74,7 +74,7 @@ export const selectMsgList = (payload) => {
   // });
   return request('/home/selectMsgList', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const selectTripList = (payload) => {
@@ -85,7 +85,7 @@ export const selectTripList = (payload) => {
   // });
   return request('/home/selectTripList', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const selectWorkFlow = (payload) => {
@@ -96,7 +96,7 @@ export const selectWorkFlow = (payload) => {
   // });
   return request('/home/selectWorkFlow', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const signRank = (payload) => {
@@ -107,6 +107,6 @@ export const signRank = (payload) => {
   // });
   return request('/home/signRank', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };

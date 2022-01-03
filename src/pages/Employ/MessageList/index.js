@@ -12,19 +12,34 @@ import {
 } from "antd";
 import styles from "./index.less";
 import { PageContainer } from "@ant-design/pro-layout";
-import { useRequest } from 'umi';
-import { selectMsgList } from '@/services/employ'
+import { useRequest, history } from 'umi';
+import { selectMsgList, delMsg, changeMsgState } from '@/services/employ'
 import { useState, useEffect } from "react";
+
+const handlerAdd = () => {
+  history.push(`/employ/message-add`)
+}
+
 const MessageList = () => {
   const [form] = Form.useForm();
   const [messageList, setMessageList] = useState([]);
-  const { data } = useRequest(selectMsgList)
+  const { data, refresh, run } = useRequest(selectMsgList);
+  const [total, setTotal] = useState(0);
+
   useEffect(() => {
     setMessageList(data?.list || []);
+    setTotal(data?.count)
   }, [data])
+  const handleChangeState = async (row, state) => {
+    console.log(row)
+    //刷新
+    let result = await changeMsgState({ id: row.id, state: state });
+    console.log(result);
+    refresh();
+  }
   const formList = [
     {
-      name: "name",
+      name: "title",
       label: "标题",
       type: "input",
       span: 6,
@@ -37,7 +52,7 @@ const MessageList = () => {
     },
     {
       name: "state",
-      label: "消息状态",
+      label: "状态",
       type: "select",
       span: 6,
       options: [
@@ -46,8 +61,8 @@ const MessageList = () => {
       ],
     },
     {
-      name: "行为类型",
-      label: "姓名",
+      name: "type",
+      label: "类型",
       type: "select",
       span: 6,
       options: [
@@ -60,16 +75,21 @@ const MessageList = () => {
       ],
     },
   ];
+  const handleDelete = async (row) => {
+    console.log(row)
+    //刷新
+    let result = await delMsg({ id: row.id });
+    console.log(result);
+    refresh();
+  }
   const messageColumns = [
-    // {
-    //   title: "选择",
-    //   dataIndex: "",
-    //   key: "",
-    // },
     {
       title: "信息分类",
       dataIndex: "type",
       key: "type",
+      render: (text, record) => {
+        return text == 0 ? '客户交流' : +text == 1 ? "职位交流" : +text == 2 ? '人选交流' : +text == 5 ? '其他文本' : '喜报'
+      }
     },
     {
       title: "发件人",
@@ -91,16 +111,22 @@ const MessageList = () => {
       title: "操作",
       dataIndex: "action",
       key: "action",
-      render: () => {
+      render: (text, record) => {
         return (
           <Space size="middle">
-            <Button type="text">删除</Button>
-            <Button type="text">展示</Button>
+            <Button type="danger" size="small" onClick={() => handleDelete(record)}>删除</Button>
+            <Button type="primary" size="small" onClick={() => handleChangeState(record, 1)} >标记为已处理</Button>
           </Space>
         );
       },
     },
   ];
+  const handleSearch = () => {
+    form.validateFields().then(values => {
+      console.log(values)
+      run({ ...values, createTime: values.createTime ? moment(values.createTime).format("YYYY/MM/DD") : '' })
+    })
+  }
   return (
     <PageContainer>
       <div className={styles["search-container"]}>
@@ -110,8 +136,11 @@ const MessageList = () => {
           </Col>
           <Col>
             <Space size={8}>
-              <Button>清空</Button>
-              <Button type="primary">搜索</Button>
+
+              <Button onClick={() => form.resetFields()}>清空</Button>
+              <Button type="primary" onClick={handleSearch}>搜索</Button>
+
+              <Button type="primary" onClick={handlerAdd}>添加</Button>
             </Space>
           </Col>
         </Row>
@@ -173,7 +202,11 @@ const MessageList = () => {
         <Table
           columns={messageColumns}
           dataSource={messageList}
-          pagination={false}
+          pagination={{
+            total: total,
+            pageSize: 10,
+            onChange: e => { run({ pageNo: e }) }
+          }}
           size="small"
         />
       </div>

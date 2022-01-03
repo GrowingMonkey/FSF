@@ -8,7 +8,7 @@ export const addMsg = (payload) => {
   // });
   return request('/employ/addMsg', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const addTrip = (payload) => {
@@ -19,7 +19,7 @@ export const addTrip = (payload) => {
   // });
   return request('/employ/addTrip', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const allotQuota = (payload) => {
@@ -30,7 +30,7 @@ export const allotQuota = (payload) => {
   // });
   return request('/employ/allotQuota', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const changeMsgState = (payload) => {
@@ -41,7 +41,7 @@ export const changeMsgState = (payload) => {
   // });
   return request('/employ/changeMsgState', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const changeTripState = (payload) => {
@@ -52,7 +52,7 @@ export const changeTripState = (payload) => {
   // });
   return request('/employ/changeTripState', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const selectEmployList = (payload) => {
@@ -74,7 +74,7 @@ export const delMsg = (payload) => {
   // });
   return request('/employ/delMsg', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const delTrip = (payload) => {
@@ -85,7 +85,7 @@ export const delTrip = (payload) => {
   // });
   return request('/employ/delTrip', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const myInfo = (payload) => {
@@ -96,7 +96,7 @@ export const myInfo = (payload) => {
   // });
   return request('/employ/myInfo', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const currentUser = (payload) => {
@@ -107,7 +107,7 @@ export const currentUser = (payload) => {
   // });
   return request('/employ/myInfo', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const selectMsgList = (payload) => {
@@ -118,7 +118,7 @@ export const selectMsgList = (payload) => {
   // });
   return request('/employ/selectMsgList', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const selectTripList = (payload) => {
@@ -129,7 +129,7 @@ export const selectTripList = (payload) => {
   // });
   return request('/employ/selectTripList', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const selectUser = (payload) => {
@@ -140,7 +140,8 @@ export const selectUser = (payload) => {
   // });
   return request('/employ/selectUser', {
     method: 'POST',
-    ...(payload || {}),
+
+    data: { ...(payload || {}) },
   });
 };
 export const ulfq = (payload) => {
@@ -161,6 +162,61 @@ export const updatePwd = (payload) => {
   //   });
   // });
   return request('/employ/updatePwd', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+export const sysNotice = (payload) => {
+  // return new Promise((resolve, reject) => {
+  //   request.post("/employ/updatePwd", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/employ/sysNotice', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+export const addNotice = (payload) => {
+  // return new Promise((resolve, reject) => {
+  //   request.post("/employ/updatePwd", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/employ/addNotice', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+export const notice = (payload) => {
+  // return new Promise((resolve, reject) => {
+  //   request.post("/employ/updatePwd", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/employ/notice', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+export const publishSys = (payload) => {
+  // return new Promise((resolve, reject) => {
+  //   request.post("/employ/updatePwd", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/employ/publishSys', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+export const updateNotice = (payload) => {
+  // return new Promise((resolve, reject) => {
+  //   request.post("/employ/updatePwd", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/employ/updateNotice', {
     method: 'POST',
     data: { ...(payload || {}) },
   });

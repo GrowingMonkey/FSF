@@ -164,7 +164,8 @@ const CardTableExpand = ({ record, index, indent, expanded }) => {
     if (expanded) {
       if (!detail) {
         selectTalentById({ talentId: record.talentId }).then((res) => {
-          // console.log(index, data);
+          debugger
+          console.log(index, data);
           const { data } = res;
           setDetail(data);
           setListEdu(

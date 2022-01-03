@@ -8,7 +8,7 @@ export const tcaList = (payload) => {
   // });
   return request('/admin/TCAList', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -20,7 +20,7 @@ export const addTCA = (payload) => {
   // });
   return request('/admin/addTCA', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -32,7 +32,7 @@ export const updateTCA = (payload) => {
   // });
   return request('/admin/updateTCA', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -44,7 +44,7 @@ export const roleList = (payload) => {
   // });
   return request('/admin/roleList', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -56,7 +56,7 @@ export const addRole = (payload) => {
   // });
   return request('/admin/addRole', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -68,7 +68,7 @@ export const updateRole = (payload) => {
   // });
   return request('/admin/updateRole', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -80,7 +80,7 @@ export const permissionList = (payload) => {
   // });
   return request('/admin/permissionList', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -92,7 +92,7 @@ export const addPermission = (payload) => {
   // });
   return request('/admin/addPermission', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -104,7 +104,7 @@ export const updatePermission = (payload) => {
   // });
   return request('/admin/updatePermission', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -116,7 +116,7 @@ export const userList = (payload) => {
   // });
   return request('/admin/userList', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -128,7 +128,7 @@ export const addUser = (payload) => {
   // });
   return request('/admin/addUser', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -140,6 +140,6 @@ export const updateUser = (payload) => {
   // });
   return request('/admin/updateUser', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };

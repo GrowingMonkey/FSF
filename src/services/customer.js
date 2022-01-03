@@ -8,7 +8,7 @@ export const abandonCustomer = (payload) => {
   // });
   return request('/customer/abandonCustomer', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -20,7 +20,7 @@ export const acceptWorkOrder = (payload) => {
   // });
   return request('/customer/acceptWorkOrder', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -32,7 +32,7 @@ export const addContact = (payload) => {
   // });
   return request('/customer/addContact', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -44,7 +44,7 @@ export const addCustomer = (payload) => {
   // });
   return request('/customer/addCustomer', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -56,7 +56,7 @@ export const addCustomerCompany = (payload) => {
   // });
   return request('/customer/addCustomerCompany', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -68,7 +68,7 @@ export const addCustomerTeam = (payload) => {
   // });
   return request('/customer/addCustomerTeam', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -80,7 +80,7 @@ export const addTags = (payload) => {
   // });
   return request('/customer/addTags', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -92,7 +92,7 @@ export const addWorkOrder = (payload) => {
   // });
   return request('/customer/addWorkOrder', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -104,7 +104,7 @@ export const cclfq = (payload) => {
   // });
   return request('/customer/cclfq', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -116,7 +116,7 @@ export const contractsQuery = (payload) => {
   // });
   return request('/customer/contractsQuery', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -128,7 +128,7 @@ export const cstList = (payload) => {
   // });
   return request('/customer/cstList', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -140,7 +140,7 @@ export const deleteContact = (payload) => {
   // });
   return request('/customer/deleteContact', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -152,7 +152,7 @@ export const getCustomerId = (payload) => {
   // });
   return request('/customer/getCustomerId', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -164,7 +164,7 @@ export const refuseWorkOrder = (payload) => {
   // });
   return request('/customer/refuseWorkOrder', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -176,7 +176,7 @@ export const reminderPayment = (payload) => {
   // });
   return request('/customer/reminderPayment', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -188,7 +188,7 @@ export const rzCustomer = (payload) => {
   // });
   return request('/customer/rzCustomer', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -200,7 +200,7 @@ export const selectContactList = (payload) => {
   // });
   return request('/customer/selectContactList', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -212,7 +212,7 @@ export const selectCTeamList = (payload) => {
   // });
   return request('/customer/selectCTeamList', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -224,7 +224,7 @@ export const selectCustomerCompany = (payload) => {
   // });
   return request('/customer/selectCustomerCompany', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -236,7 +236,7 @@ export const selectWorkOrderList = (payload) => {
   // });
   return request('/customer/selectWorkOrderList', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -248,7 +248,7 @@ export const signCustomer = (payload) => {
   // });
   return request('/customer/signCustomer', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -260,7 +260,7 @@ export const twffq = (payload) => {
   // });
   return request('/customer/twffq', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -272,7 +272,7 @@ export const ulfq = (payload) => {
   // });
   return request('/customer/acceptWorkOrder', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const updateContact = (payload) => {
@@ -283,7 +283,7 @@ export const updateContact = (payload) => {
   // });
   return request('/customer/acceptWorkOrder', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -295,7 +295,7 @@ export const updateCustomer = (payload) => {
   // });
   return request('/customer/acceptWorkOrder', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -307,7 +307,7 @@ export const woInfo = (payload) => {
   // });
   return request('/customer/acceptWorkOrder', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -319,7 +319,7 @@ export const wolfq = (payload) => {
   // });
   return request('/customer/acceptWorkOrder', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -331,6 +331,6 @@ export const zdzr = (payload) => {
   // });
   return request('/customer/acceptWorkOrder', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };

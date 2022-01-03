@@ -34,10 +34,11 @@ const TalentSearch = ({ value = {}, onChange }) => {
   const handleSearch = (value) => {
     if (value) {
       selectTalentList({ pageNo: 1, pageSize: 1000, name: value }).then(
-        (data) => {
+        (res) => {
+          const { data } = res;
           console.log(data.list);
           setOptions(
-            data.list.map((item) => {
+            data?.list.map((item) => {
               return (
                 <Option key={`${item.talentId}/${item.name}`}>
                   {item.name}

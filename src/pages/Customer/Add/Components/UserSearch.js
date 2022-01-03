@@ -40,8 +40,8 @@ const UserSearch = ({ value = {}, onChange }) => {
   };
   const handleSearch = (value) => {
     if (value) {
-      ulfq({ name: value }).then((data) => {
-        console.log(data.list);
+      ulfq({ name: value }).then((res) => {
+        const { data } = res;
         setOptions(
           data.list.map((item) => {
             return (

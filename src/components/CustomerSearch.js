@@ -33,7 +33,8 @@ const CustomerSearch = ({ value = {}, onChange }) => {
   };
   const handleSearch = (value) => {
     if (value) {
-      cstList({ pageNo: 1, pageSize: 1000, name: value }).then((data) => {
+      cstList({ pageNo: 1, pageSize: 1000, name: value }).then((res) => {
+        const { data } = res;
         console.log(data.list);
         setOptions(
           data.list.map((item) => {

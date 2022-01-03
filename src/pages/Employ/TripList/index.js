@@ -12,20 +12,39 @@ import {
 } from "antd";
 import { PageContainer } from '@ant-design/pro-layout';
 import styles from "./index.less";
-import { useRequest } from 'umi'
-import { selectTripList } from "@/services/employ"
+import moment from "moment";
+import { useRequest, history } from 'umi'
+import { selectTripList, delTrip, changeTripState } from "@/services/employ"
 import { useState, useEffect } from "react";
+import { ConsoleSqlOutlined } from "@ant-design/icons";
+
 const TripList = () => {
   const [form] = Form.useForm();
-  const { data } = useRequest(selectTripList);
+  const { data, refresh, run } = useRequest(selectTripList);
   const [tripList, setTripList] = useState([]);
+  const [total, setTotal] = useState(0);
   useEffect(() => {
     setTripList(data?.list || [])
-  }, [data])
+    setTotal(data?.count)
+  }, [data]);
+  const handlerDelete = async (row) => {
+    console.log(row)
+    //刷新
+    let result = await delTrip({ id: row.id });
+    console.log(result);
+    refresh();
+  }
+  const handleChangeState = async (row, state) => {
+    console.log(row)
+    //刷新
+    let result = await changeTripState({ id: row.id, state: state });
+    console.log(result);
+    refresh();
+  }
   const formList = [
     {
-      name: "name",
-      label: "标题",
+      name: "title",
+      label: "客户名",
       type: "input",
       wrapCol: {
         xl: 6,
@@ -44,8 +63,8 @@ const TripList = () => {
       }
     },
     {
-      name: "state",
-      label: "消息状态",
+      name: "type",
+      label: "行为类型",
       type: "select",
       options: [
         { label: "客户提醒", value: 0 },
@@ -62,8 +81,8 @@ const TripList = () => {
       }
     },
     {
-      name: "type",
-      label: "行为类型",
+      name: "state",
+      label: "消息状态",
       type: "select",
       options: [
         { label: "未处理", value: 0 },
@@ -81,6 +100,9 @@ const TripList = () => {
       title: "行为类型",
       dataIndex: "type",
       key: "type",
+      render: (text, record) => {
+        return +text == 0 ? '客户提醒' : +text == 1 ? '职位提醒' : +text == 2 ? '人选提醒' : +text == 3 ? '面试提醒' : +text == 4 ? '待办事项' : '其他提醒'
+      }
     },
     {
       title: "提醒时间",
@@ -106,22 +128,32 @@ const TripList = () => {
       title: "状态",
       dataIndex: "state",
       key: "state",
+      render: (text, record) => {
+        return +text == 0 ? '未读' : '已读'
+      }
     },
     {
       title: "操作",
       dataIndex: "action",
       key: "action",
-      render: () => {
+      render: (text, record) => {
         return (
           <Space size="middle">
-            <Button type="text">删除</Button>
-            <Button type="text">标记为未处理</Button>
-            <Button type="text">标记为已处理</Button>
+            <Button type="danger" size="small" onClick={() => handlerDelete(record)}>删除</Button>
+            <Button type="default" size="small" onClick={() => handleChangeState(record, 0)}>标记为未处理</Button>
+            <Button type="primary" size="small" onClick={() => handleChangeState(record, 1)} >标记为已处理</Button>
           </Space>
         );
       },
     },
   ];
+
+  const handleSearch = () => {
+    form.validateFields().then(values => {
+      console.log(values)
+      run({ ...values, createTime: values.createTime ? moment(values.createTime).format("YYYY/MM/DD") : '' })
+    })
+  }
   return (
     <PageContainer>
       <div className={styles["search-container"]}>
@@ -131,8 +163,9 @@ const TripList = () => {
           </Col>
           <Col>
             <Space size={8}>
-              <Button>清空</Button>
-              <Button type="primary">搜索</Button>
+              <Button onClick={() => form.resetFields()}>清空</Button>
+              <Button type="primary" onClick={handleSearch}>搜索</Button>
+              <Button type="primary" onClick={() => { history.push(`/employ/trip-add`) }}>添加日程</Button>
             </Space>
           </Col>
         </Row>
@@ -194,7 +227,11 @@ const TripList = () => {
         <Table
           columns={tripColumns}
           dataSource={tripList}
-          pagination={false}
+          pagination={{
+            total: total,
+            pageSize: 10,
+            onChange: e => { run({ pageNo: e }) }
+          }}
           size="small"
         />
       </div>

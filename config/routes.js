@@ -111,10 +111,37 @@ export default [
       },
       {
 
+        path: "/employ/trip-add",
+        name: "添加日程",
+        hideInMenu: 'true',
+        component: "./Employ/TripList/addTrip",
+      },
+      {
+
+        path: "/employ/publish-list",
+        name: "系统公告",
+        component: "./Employ/PublishList",
+      },
+      {
+
+        path: "/employ/publish-add",
+        name: "添加通知",
+        hideInMenu: 'true',
+        component: "./Employ/PublishList/addPublish",
+      },
+      {
+
         path: "/employ/message-list",
         name: "我的通知",
 
         component: "./Employ/MessageList",
+      },
+      {
+
+        path: "/employ/message-add",
+        name: "添加通知",
+        hideInMenu: 'true',
+        component: "./Employ/MessageList/addMessage",
       },
       {
 

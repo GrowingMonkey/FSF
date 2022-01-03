@@ -14,12 +14,16 @@ import {
   selectContactList,
   deleteContact,
 } from "../../../../services/customer";
+import { useRequest } from 'umi'
 import ModalCustomerContact from "./ModalCustomerContact";
 import ModalCustomerSubsidiary from "./ModalCustomerSubsidiary";
+import { signCustomer } from '@/services/customer'
 import styles from "./InfoBasic.less";
+import ModalCustomerSign from "./ModalCustomerSign";
 
 const InfoBasic = ({ record }) => {
   const [contactVisible, setContactVisible] = useState(false);
+  const [signVisible, setSignVisible] = useState(false);
   const [subsidiaryVisible, setSubsidiaryVisible] = useState(false);
   const [contactRecord, setContactRecord] = useState(null);
   const [subsidiaryRecord, setSubsidiaryRecord] = useState(null);
@@ -39,6 +43,7 @@ const InfoBasic = ({ record }) => {
     //   wechatId: "",
     // },
   ]);
+
   const tagList1 = ["北京", "半导体芯片", "民营企业", "50-2000人"];
   const contactColumns = [
     {
@@ -155,6 +160,9 @@ const InfoBasic = ({ record }) => {
       value: 3,
     },
   ];
+  const handleInvite = (value) => {
+    run(value)
+  }
   const onContactSubmit = () => {
     selectContactList({
       pageNo: 1,
@@ -246,6 +254,12 @@ const InfoBasic = ({ record }) => {
         onCancel={onContactCancel}
         customerId={record.customerId}
       ></ModalCustomerContact>
+      <ModalCustomerSign
+        visible={signVisible}
+        record={contactRecord}
+        onSubmit={onContactSubmit}
+        onCancel={() => setSignVisible(false)}
+        customerId={record.customerId}></ModalCustomerSign>
       <ModalCustomerSubsidiary
         visible={subsidiaryVisible}
         record={subsidiaryRecord}
@@ -345,6 +359,9 @@ const InfoBasic = ({ record }) => {
           {/* <Descriptions.Item label="回传编号">?</Descriptions.Item> */}
           <Descriptions.Item label="创建时间">
             {record.createTime}
+          </Descriptions.Item>
+          <Descriptions.Item label="">
+            <Button type="primary" onClick={() => setSignVisible(true)}>邀请签约</Button>
           </Descriptions.Item>
         </Descriptions>
       </div>

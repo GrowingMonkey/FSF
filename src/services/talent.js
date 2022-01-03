@@ -8,7 +8,7 @@ export const addEC = (payload) => {
   // });
   return request('/talent/addEC', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const addEdu = (payload) => {
@@ -19,7 +19,7 @@ export const addEdu = (payload) => {
   // });
   return request('/talent/addEdu', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const addEP = (payload) => {
@@ -30,7 +30,7 @@ export const addEP = (payload) => {
   // });
   return request('/talent/addEP', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const addTA = (payload) => {
@@ -41,7 +41,7 @@ export const addTA = (payload) => {
   // });
   return request('/talent/addTA', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const addTalent = (payload) => {
@@ -52,7 +52,7 @@ export const addTalent = (payload) => {
   // });
   return request('/talent/addTalent', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const addTalentC = (payload) => {
@@ -63,7 +63,7 @@ export const addTalentC = (payload) => {
   // });
   return request('/talent/addTalentC', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const addTF = (payload) => {
@@ -74,7 +74,7 @@ export const addTF = (payload) => {
   // });
   return request('/talent/addTF', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const checkTalentPhone = (payload) => {
@@ -85,7 +85,7 @@ export const checkTalentPhone = (payload) => {
   // });
   return request('/talent/checkTalentPhone', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const delEC = (payload) => {
@@ -96,7 +96,7 @@ export const delEC = (payload) => {
   // });
   return request('/talent/delEC', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const delEDU = (payload) => {
@@ -107,7 +107,7 @@ export const delEDU = (payload) => {
   // });
   return request('/talent/delEDU', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const delEP = (payload) => {
@@ -118,7 +118,7 @@ export const delEP = (payload) => {
   // });
   return request('/talent/delEP', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const getTalentId = (payload) => {
@@ -129,7 +129,7 @@ export const getTalentId = (payload) => {
   // });
   return request('/talent/getTalentId', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const selectMyRecommend = (payload) => {
@@ -140,7 +140,7 @@ export const selectMyRecommend = (payload) => {
   // });
   return request('/talent/selectMyRecommend', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const selectProjectList = (payload) => {
@@ -151,7 +151,7 @@ export const selectProjectList = (payload) => {
   // });
   return request('/talent/selectProjectList', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const selectTalentById = (payload) => {
@@ -162,7 +162,7 @@ export const selectTalentById = (payload) => {
   // });
   return request('/talent/selectTalentById', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const selectTalentList = (payload) => {
@@ -173,7 +173,7 @@ export const selectTalentList = (payload) => {
   // });
   return request('/talent/selectTalentList', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const selectTAList = (payload) => {
@@ -184,7 +184,7 @@ export const selectTAList = (payload) => {
   // });
   return request('/talent/selectTAList', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const selectTCList = (payload) => {
@@ -195,7 +195,7 @@ export const selectTCList = (payload) => {
   // });
   return request('/talent/selectTCList', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const selectTFList = (payload) => {
@@ -206,7 +206,7 @@ export const selectTFList = (payload) => {
   // });
   return request('/talent/selectTFList', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const talentJoinProject = (payload) => {
@@ -217,7 +217,7 @@ export const talentJoinProject = (payload) => {
   // });
   return request('/talent/talentJoinProject', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const updateTalent = (payload) => {
@@ -228,6 +228,6 @@ export const updateTalent = (payload) => {
   // });
   return request('/talent/updateTalent', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };

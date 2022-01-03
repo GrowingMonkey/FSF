@@ -13,83 +13,99 @@ import {
   Cascader,
 } from "antd";
 import styles from "./index.less";
+import moment from "moment";
 import { PageContainer } from "@ant-design/pro-layout";
-
+import { getCRank } from '@/services/kpi'
+import { useRequest } from 'umi'
+import { useEffect, useState } from "react";
+import { tcaList } from '@/services/admin'
+const { RangePicker } = DatePicker;
 const CommissionRank = () => {
+  const { data, run: CRankRun } = useRequest(getCRank)
+  const [cRankList, setCRankList] = useState([])
+  const [total, setTotal] = useState(0);
+  useEffect(() => {
+    setCRankList(data?.list || []);
+    setTotal(data?.count)
+  }, [data]);
   const [form] = Form.useForm();
+  const { data: areaList, run, refresh } = useRequest((params) => {
+    return tcaList({ ...params, level: 0, count: 100 })
+  });
+
+  console.log(areaList)
   const formList = [
     {
       name: "areaId",
       label: "排行区域",
-      type: "input",
-      span: 6,
+      type: "select",
+      span: 8,
+      options: areaList?.list
+
     },
     {
-      name: "startTime",
-      label: "时间范围开始",
-      type: "datePicker",
-      span: 6,
-    },
-    {
-      name: "endTime",
-      label: "时间范围结束",
-      type: "datePicker",
-      span: 6,
+      name: "dateRang",
+      label: "时间范围",
+      type: "dateRangPicker",
+      span: 12,
     },
   ];
-  const commissionList = [];
+  const onFinish = () => { }
   const commissionColumns = [
     {
-      title: "名次",
-      dataIndex: "type0",
-      key: "type0",
+      title: "提成金额",
+      dataIndex: "money",
+      key: "money",
     },
     {
       title: "姓名",
-      dataIndex: "type1",
-      key: "type1",
+      dataIndex: "name",
+      key: "name",
     },
     {
       title: "归属公司",
-      dataIndex: "type2",
-      key: "type2",
+      dataIndex: "comName",
+      key: "comName",
     },
     {
       title: "担任职务",
-      dataIndex: "type3",
-      key: "type3",
+      dataIndex: "roleName",
+      key: "roleName",
     },
     {
       title: "团队人数",
-      dataIndex: "type4",
-      key: "type4",
+      dataIndex: "teamNum",
+      key: "teamNum",
     },
     {
-      title: "汇报对象",
-      dataIndex: "type5",
-      key: "type5",
-    },
-    {
-      title: "签约客户数",
-      dataIndex: "type6",
-      key: "type6",
+      title: "提成次数",
+      dataIndex: "signNum",
+      key: "signNum",
     },
     {
       title: "平均比例",
-      dataIndex: "type7",
-      key: "type7",
+      dataIndex: "avg",
+      key: "avg",
     },
     {
-      title: "首付金额",
-      dataIndex: "type8",
-      key: "type8",
-    },
-    {
-      title: "时间范围",
-      dataIndex: "type9",
-      key: "type9",
+      title: "时间",
+      dataIndex: "month",
+      key: "month",
     },
   ];
+  const handleSearch = () => {
+    form.validateFields().then(values => {
+      console.log(values)
+      CRankRun({ areaId: values.areaId, startTime: moment(values.dateRang[0]).format("YYYY/MM/DD"), endTime: moment(values.dateRang[1]).format("YYYY/MM/DD") })
+    })
+  }
+  const handleInpputSearch = (e) => {
+    run({ name: e })
+  }
+  const handleReset = () => {
+    console.log(form);
+    form.resetFields()
+  }
   return (
     <PageContainer>
 
@@ -100,8 +116,8 @@ const CommissionRank = () => {
           </Col>
           <Col>
             <Space size={8}>
-              <Button>清空</Button>
-              <Button type="primary">搜索</Button>
+              <Button onClick={handleReset}>清空</Button>
+              <Button type="primary" onClick={handleSearch}>搜索</Button>
             </Space>
           </Col>
         </Row>
@@ -152,7 +168,14 @@ const CommissionRank = () => {
                         label={col.label}
                         rules={col.rules}
                       >
-                        <Select options={col.options}></Select>
+                        <Select showSearch onSearch={handleInpputSearch}>
+                          {
+                            areaList && areaList?.list.map((item) => {
+                              return (<Option value={item.id}>{item.name}</Option>)
+                            })
+
+                          }
+                        </Select>
                       </Form.Item>
                     </Col>
                   );
@@ -179,6 +202,13 @@ const CommissionRank = () => {
                     </Col>
                   );
                 }
+                if (col.type === 'dateRangPicker') {
+                  return (<Col span={col.span} key={col.name}>
+                    <Form.Item name={col.name} label={col.label}>
+                      <RangePicker format={`YYYY-MM-DD`} />
+                    </Form.Item>
+                  </Col>)
+                }
                 return null;
               })}
             </Row>
@@ -188,9 +218,14 @@ const CommissionRank = () => {
       <div className={styles["list-container"]}>
         <Table
           columns={commissionColumns}
-          dataSource={commissionList}
-          pagination={false}
+          dataSource={cRankList}
+          pagination={{
+            total: total,
+            pageSize: 10,
+            onChange: e => { CRankRun({ pageNo: e }) }
+          }}
           size="small"
+
         />
       </div>
       <div style={{ width: "100%", minHeight: "15px" }}></div>

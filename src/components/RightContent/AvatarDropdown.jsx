@@ -36,6 +36,10 @@ const AvatarDropdown = ({ menu }) => {
         loginOut();
         return;
       }
+      if (key == 'center') {
+        history.push(`/employ/password-manager`);
+        return;
+      }
 
       history.push(`/account/${key}`);
     },

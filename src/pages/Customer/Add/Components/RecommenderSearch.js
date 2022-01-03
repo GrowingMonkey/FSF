@@ -33,8 +33,9 @@ const RecommenderSearch = ({ value = {}, onChange }) => {
   };
   const handleSearch = (value) => {
     if (value) {
-      ulfq({ name: value }).then((data) => {
+      ulfq({ name: value }).then((res) => {
         console.log(data.list);
+        const { data } = res;
         setOptions(
           data.list.map((item) => {
             return (

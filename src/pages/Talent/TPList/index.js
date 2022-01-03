@@ -127,18 +127,32 @@ const TPList = () => {
   const handleSearchConfirm = () => {
     form.validateFields().then((values) => {
       console.log(values);
+      selectMyRecommend({
+        pageNo: currentPage,
+        pageSize: 10,
+        ...values.talent,
+      }).then((res) => {
+        const { data } = res;
+        setListData(data?.list || [])
+        console.log(data);
+      });
     });
   };
   const handleSearchClear = () => {
     form.resetFields();
   };
-  const onPageChange = (value) => { };
+  const onPageChange = (value) => {
+    setCurrentPage(value)
+  };
   useEffect(() => {
     selectMyRecommend({
       pageNo: currentPage,
       pageSize: 10,
       ...searchValues,
-    }).then((data) => {
+    }).then((res) => {
+      const { data } = res;
+      setListData(data?.list || [])
+      setListLength(data?.count);
       console.log(data);
     });
   }, [currentPage]);
@@ -190,7 +204,11 @@ const TPList = () => {
         <Table
           columns={listColumns}
           dataSource={listData}
-          pagination={false}
+          pagination={{
+            total: listLength,
+            pageSize: 10,
+            onChange: onPageChange
+          }}
           size="small"
         />
       </div>

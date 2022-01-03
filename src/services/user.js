@@ -68,6 +68,6 @@ export async function loginOut(payload) {
   // });
   return request('/login/loginOut', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };

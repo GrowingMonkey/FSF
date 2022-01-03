@@ -12,87 +12,100 @@ import {
   DatePicker,
   Cascader,
 } from "antd";
+import moment from "moment";
 import styles from "./index.less";
+import { useRequest } from 'umi'
 import { PageContainer } from "@ant-design/pro-layout";
-
+import { getSignKpi } from '@/services/kpi'
+import { tcaList } from '@/services/admin'
+import { useEffect, useState } from "react";
+const { RangePicker } = DatePicker;
 const SignRank = () => {
+  const { data, run: signRun } = useRequest(getSignKpi)
+  const [rankList, setRankList] = useState([])
+  const [total, setTotal] = useState(0);
+  useEffect(() => {
+    setRankList(data?.list || []);
+    setTotal(data?.count)
+  }, [data]);
   const [form] = Form.useForm();
+  const { data: areaList, run, refresh } = useRequest((params) => {
+    return tcaList({ ...params, level: 0, count: 100 })
+  });
   const formList = [
     {
-      name: "areaId",
+      name: "areaName",
       label: "排行区域",
-      type: "input",
-      span: 6,
+      type: "select",
+      span: 8,
+      options: areaList?.list
     },
     {
-      name: "startTime",
-      label: "时间范围开始",
-      type: "datePicker",
-      span: 6,
-    },
-    {
-      name: "endTime",
-      label: "时间范围结束",
-      type: "datePicker",
-      span: 6,
+      name: "dateRang",
+      label: "时间范围",
+      type: "dateRangPicker",
+      span: 12,
     },
   ];
-  const signList = [];
+
   const signColumns = [
     {
-      title: "名次",
-      dataIndex: "type0",
-      key: "type0",
-    },
-    {
       title: "姓名",
-      dataIndex: "type1",
-      key: "type1",
+      dataIndex: "name",
+      key: "name",
     },
     {
       title: "归属公司",
-      dataIndex: "type2",
-      key: "type2",
+      dataIndex: "comName",
+      key: "comName",
     },
     {
       title: "担任职务",
-      dataIndex: "type3",
-      key: "type3",
+      dataIndex: "roleName",
+      key: "roleName",
     },
     {
       title: "团队人数",
-      dataIndex: "type4",
-      key: "type4",
-    },
-    {
-      title: "汇报对象",
-      dataIndex: "type5",
-      key: "type5",
+      dataIndex: "teamNum",
+      key: "teamNum",
     },
     {
       title: "签约客户数",
-      dataIndex: "type6",
-      key: "type6",
+      dataIndex: "signNum",
+      key: "signNum",
     },
     {
       title: "平均比例",
-      dataIndex: "type7",
-      key: "type7",
+      dataIndex: "avg",
+      key: "avg",
     },
     {
       title: "首付金额",
-      dataIndex: "type8",
-      key: "type8",
+      dataIndex: "money",
+      key: "money",
     },
     {
-      title: "时间范围",
-      dataIndex: "type9",
-      key: "type9",
+      title: "月份",
+      dataIndex: "month",
+      key: "month",
     },
   ];
+  console.log(rankList);
+  const handleSearch = () => {
+    form.validateFields().then(values => {
+      console.log(values)
+      signRun({ areaName: values.areaId, startTime: moment(values.dateRang[0]).format("YYYY/MM/DD"), endTime: moment(values.dateRang[1]).format("YYYY/MM/DD") })
+    })
+  }
+  const handleInpputSearch = (e) => {
+    run({ name: e })
+  }
+  const handleReset = () => {
+    console.log(form);
+    form.resetFields()
+  }
   return (
     <PageContainer>
-
       <div className={styles["search-container"]}>
         <Row justify="space-between" align="middle">
           <Col>
@@ -100,8 +113,8 @@ const SignRank = () => {
           </Col>
           <Col>
             <Space size={8}>
-              <Button>清空</Button>
-              <Button type="primary">搜索</Button>
+              <Button onClick={handleReset}>清空</Button>
+              <Button type="primary" onClick={handleSearch}>搜索</Button>
             </Space>
           </Col>
         </Row>
@@ -152,7 +165,14 @@ const SignRank = () => {
                         label={col.label}
                         rules={col.rules}
                       >
-                        <Select options={col.options}></Select>
+                        <Select showSearch onSearch={handleInpputSearch}>
+                          {
+                            areaList && areaList?.list.map((item) => {
+                              return (<Option value={item.id}>{item.name}</Option>)
+                            })
+
+                          }
+                        </Select>
                       </Form.Item>
                     </Col>
                   );
@@ -179,6 +199,13 @@ const SignRank = () => {
                     </Col>
                   );
                 }
+                if (col.type === 'dateRangPicker') {
+                  return (<Col span={col.span} key={col.name}>
+                    <Form.Item name={col.name} label={col.label}>
+                      <RangePicker format={`YYYY-MM-DD`} />
+                    </Form.Item>
+                  </Col>)
+                }
                 return null;
               })}
             </Row>
@@ -188,8 +215,12 @@ const SignRank = () => {
       <div className={styles["list-container"]}>
         <Table
           columns={signColumns}
-          dataSource={signList}
-          pagination={false}
+          dataSource={rankList}
+          pagination={{
+            total: total,
+            pageSize: 10,
+            onChange: e => { signRun({ pageNo: e }) }
+          }}
           size="small"
         />
       </div>

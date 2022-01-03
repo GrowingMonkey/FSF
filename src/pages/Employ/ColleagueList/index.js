@@ -15,16 +15,18 @@ import styles from "./index.less";
 import { PageContainer } from "@ant-design/pro-layout";
 import { useEffect, useState } from "react";
 import { selectEmployList } from '@/services/employ'
-import { useRequest } from 'umi'
+import { useRequest, history } from 'umi'
 
 const ColleagueList = () => {
   console.clear();
   const [form] = Form.useForm();
   const [colleagueList, setColleagueList] = useState([]);
-  const { data } = useRequest(selectEmployList);
+  const { data, run } = useRequest(selectEmployList);
+  const [total, setTotal] = useState(0);
   console.log(data);
   useEffect(() => {
     setColleagueList(data?.list || []);
+    setTotal(data?.count)
   }, [data])
   const formList = [
     {
@@ -71,6 +73,12 @@ const ColleagueList = () => {
       key: "email",
     },
   ];
+  const handleSearch = () => {
+    form.validateFields().then(values => {
+
+      run(values)
+    })
+  }
   return (
     <PageContainer>
       {/* <div className={styles["colleague-list"]}> */}
@@ -82,9 +90,9 @@ const ColleagueList = () => {
           </Col>
           <Col>
             <Space size={8}>
-              <Button>清空</Button>
-              <Button type="primary">搜索</Button>
-              <Button type="primary">我的信息</Button>
+              <Button onClick={() => form.resetFields()}>清空</Button>
+              <Button type="primary" onClick={handleSearch}>搜索</Button>
+              <Button type="primary" onClick={() => { history.push(`/welcome`) }}>我的信息</Button>
             </Space>
           </Col>
         </Row>
@@ -146,7 +154,11 @@ const ColleagueList = () => {
         <Table
           columns={colleagueColumns}
           dataSource={colleagueList}
-          pagination={false}
+          pagination={{
+            total: total,
+            pageSize: 10,
+            onChange: e => { run({ pageNo: e }) }
+          }}
           size="small"
         />
       </div>

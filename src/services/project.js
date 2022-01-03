@@ -157,7 +157,7 @@ export const selectPList = (payload) => {
   // });
   return request('/project/selectPList', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const selectPTList = (payload) => {
@@ -173,7 +173,7 @@ export const selectPTList = (payload) => {
   // });
   return request('/project/selectPTList', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const selectTPById = (payload) => {
@@ -189,7 +189,7 @@ export const selectTPById = (payload) => {
   // });
   return request('/project/selectTPById', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const selectTPList = (payload) => {
@@ -205,7 +205,7 @@ export const selectTPList = (payload) => {
   // });
   return request('/project/selectTPList', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const updateProject = (payload) => {
@@ -221,7 +221,7 @@ export const updateProject = (payload) => {
   // });
   return request('/project/updateProject', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const updateTP = (payload) => {
@@ -237,6 +237,6 @@ export const updateTP = (payload) => {
   // });
   return request('/project/updateTP', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };

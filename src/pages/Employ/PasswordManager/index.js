@@ -8,7 +8,7 @@ const PasswordManager = () => {
   const [form] = Form.useForm();
   const handlerSubmit = async (value) => {
     const result = await updatePwd({ newPwd1: md5(value.newPwd1), newPwd2: md5(value.newPwd2), oldPwd: md5(value.oldPwd) });
-    message.info(result.data.message)
+    message.info(result.message)
   }
   return (
     <PageContainer>
@@ -41,7 +41,9 @@ const PasswordManager = () => {
           >
             <Input.Password />
           </Form.Item>
-          <Button type="primary" htmlType="submit">提交</Button>
+          <Form.Item label=" ">
+            <Button type="primary" htmlType="submit">提交</Button>
+          </Form.Item>
         </Form>
       </div>
     </PageContainer>

@@ -133,7 +133,7 @@ const TalentDetail = ({ setDetailVisible, record }) => {
       {detail && (
         <>
           <Row gutter={16}>
-            <Col span={16}>
+            <Col span={24}>
               <div className={styles["basic-container"]}>
                 <Row justify="space-between" align="middle">
                   <Col>
@@ -336,8 +336,6 @@ const TalentDetail = ({ setDetailVisible, record }) => {
                   );
                 })}
               </div>
-            </Col>
-            <Col span={8}>
               <div className={styles["project-container"]}>
                 <Row justify="space-between" align="middle">
                   <Col>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Modal, Form, Input, DatePicker, Select } from "antd";
 import { addLeave } from '@/services/office'
+// import { upload } from '@/utils/lib/upload'
 const ModalLeaveApply = ({ visible, onSubmit, onCancel, record }) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [form] = Form.useForm();

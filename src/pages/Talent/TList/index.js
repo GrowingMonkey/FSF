@@ -11,11 +11,13 @@ import {
   Space,
   Table,
 } from "antd";
+import { history } from 'umi'
 import { selectTalentList, selectTalentById } from "../../../services/talent";
 import CardTableExpand from "./components/CardTableExpand";
 import TalentDetail from "./components/TalentDetail";
 import styles from "./index.less";
 import { PageContainer } from "@ant-design/pro-layout";
+import { WomanOutlined, ManOutlined, UserOutlined } from "@ant-design/icons";
 const TList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [listLength, setListLength] = useState(0);
@@ -95,11 +97,6 @@ const TList = () => {
         type: "input",
       },
       {
-        name: "keyWord",
-        label: "关键词",
-        type: "input",
-      },
-      {
         name: "source",
         label: "来源",
         type: "select",
@@ -130,6 +127,9 @@ const TList = () => {
       dataIndex: "name",
       key: "name",
       width: 150,
+      render: (text, record) => {
+        return record.gender == 2 ? (<span><WomanOutlined twoToneColor="#eb2f96" style={{ color: '#eb2f96' }} />{record.name}</span>) : record.gender == 1 ? (<span><ManOutlined style={{ color: '#eb2f96' }} /></span>) : (<span><UserOutlined />{record.name}</span>)
+      }
     },
     {
       title: "年龄",
@@ -143,26 +143,10 @@ const TList = () => {
       },
     },
     {
-      title: "性别",
-      dataIndex: "gender",
-      key: "gender",
-      render: (text, record) => {
-        if (text === 0) {
-          return <div>未知</div>;
-        }
-        if (text === 1) {
-          return <div>男</div>;
-        }
-        if (text === 2) {
-          return <div>女</div>;
-        }
-      },
+      title: "学历",
+      dataIndex: "education",
+      key: "education",
     },
-    // {
-    //   title: "学历",
-    //   dataIndex: "education",
-    //   key: "education",
-    // },
     {
       title: "工作经验",
       dataIndex: "experience",
@@ -174,9 +158,19 @@ const TList = () => {
       key: "location",
     },
     {
+      title: "公司",
+      dataIndex: "lastCompany",
+      key: "lastCompany",
+    },
+    {
       title: "职位",
       dataIndex: "job",
       key: "job",
+    },
+    {
+      title: "更新时间",
+      dataIndex: "updateTime",
+      key: "updateTime",
     },
     {
       title: "操作",
@@ -223,10 +217,17 @@ const TList = () => {
   };
 
   useEffect(() => {
+    console.log(history)
+    const { location } = history
+    console.log(location.state?.keyWord);
+    form.setFieldsValue({ keyWord: location.state?.keyword || '' })
+    console.log(searchValues);
+
     // console.log(currentPage, searchValues);
     selectTalentList({
       pageNo: currentPage,
       pageSize: 10,
+      keyWord: location.state?.keyword,
       ...searchValues,
     }).then(res => {
       // console.log(data);
@@ -275,6 +276,14 @@ const TList = () => {
                 wrapperCol={{ span: 16 }}
                 labelAlign="left"
               >
+
+                <Row>
+                  <Col span={24}>
+                    <Form.Item labelCol={{ span: 4 }} name={'keyWord'} label={'关键词'}>
+                      <Input></Input>
+                    </Form.Item>
+                  </Col>
+                </Row>
                 {formList.map((row, rIndex) => {
                   return (
                     <Row gutter={32} key={`row-${rIndex}`}>
@@ -338,8 +347,15 @@ const TList = () => {
                 columns={listColumns}
                 dataSource={listData}
                 pagination={false}
+
                 expandRowByClick={true}
                 expandable={{
+                  expandIcon: ({ expanded, onExpand, record }) => null,
+                  // expanded ? (
+                  //   <MinusCircleTwoTone onClick={e => onExpand(record, e)} />
+                  // ) : (
+                  //     <PlusCircleTwoTone onClick={e => onExpand(record, e)} />
+                  //   ),
                   expandedRowRender: (record, index, indent, expanded) => (
                     <CardTableExpand
                       record={record}

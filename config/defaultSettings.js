@@ -7,9 +7,9 @@ const Settings = {
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false,
-  title: 'FSF',
+  title: '费思福资源管理系统',
   pwa: false,
-  logo: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
+  logo: 'https://faithful.oss-cn-shanghai.aliyuncs.com/static/logo.png',
   iconfontUrl: '',
 };
 export default Settings;

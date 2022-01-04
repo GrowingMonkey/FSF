@@ -58,7 +58,7 @@ const ModalForm = ({
           updateUser({
             userId: record.userId,
             ...values,
-            hireDate: date.format("YYYY-MM-DD"),
+            hireDate: date?.format("YYYY-MM-DD"),
             comName: comName,
             areaName: areaName,
           }).then(() => {

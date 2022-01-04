@@ -13,7 +13,7 @@ export const addProject = (payload) => {
   // });
   return request('/project/addProject', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const addProjectTeam = (payload) => {
@@ -29,7 +29,7 @@ export const addProjectTeam = (payload) => {
   // });
   return request('/project/addProjectTeam', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const applyForProject = (payload) => {
@@ -45,7 +45,7 @@ export const applyForProject = (payload) => {
   // });
   return request('/project/applyForProject', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const closeProject = (payload) => {
@@ -61,7 +61,7 @@ export const closeProject = (payload) => {
   // });
   return request('/project/closeProject', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const confirmOffer = (payload) => {
@@ -77,7 +77,7 @@ export const confirmOffer = (payload) => {
   // });
   return request('/project/confirmOffer', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const finishProject = (payload) => {
@@ -93,7 +93,7 @@ export const finishProject = (payload) => {
   // });
   return request('/project/finishProject', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const getProjectId = (payload) => {
@@ -109,7 +109,7 @@ export const getProjectId = (payload) => {
   // });
   return request('/project/getProjectId', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const pauseProject = (payload) => {
@@ -125,7 +125,7 @@ export const pauseProject = (payload) => {
   // });
   return request('/project/pauseProject', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const runProject = (payload) => {
@@ -141,7 +141,7 @@ export const runProject = (payload) => {
   // });
   return request('/project/runProject', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 export const selectPList = (payload) => {

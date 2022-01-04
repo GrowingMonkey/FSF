@@ -1,0 +1,53 @@
+import { request } from './request';
+
+// 打卡记录
+export const queryDKList = (payload) => {
+  return request('/office/selectDKList', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+
+// 请假记录
+export const queryLeaveList = (payload) => {
+  return request('/office/selectLeaveList', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+
+// 外出管理
+export const queryBtripList = (payload) => {
+  return request('/office/selectBtripList', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+//申请补卡
+export const applyBK = (payload) => {
+  return request('/office/addbk', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+//打卡
+export const applyKQ = (payload) => {
+  return request('/office/addkq', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+//申请出差
+export const addBtrip = (payload) => {
+  return request('/office/addBtrip', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+//申请请假
+export const addLeave = (payload) => {
+  return request('/office/addLeave', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Modal, Form, Input, DatePicker, Select } from "antd";
-
+import { addBtrip } from '@/services/office'
 const ModalOnFieldApply = ({ visible, onSubmit, onCancel, record }) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [form] = Form.useForm();
@@ -54,8 +54,18 @@ const ModalOnFieldApply = ({ visible, onSubmit, onCancel, record }) => {
       span: 6,
     },
   ];
-  const handleCancel = () => {};
-  const handleOk = () => {};
+  const handleCancel = () => {
+    onCancel()
+  };
+  const handleOk = () => {
+    form.validateFields().then(value => {
+      console.log(value);
+      addBtrip(value).then(res => {
+        onSubmit()
+      })
+    })
+
+  };
   return (
     <Modal
       forceRender

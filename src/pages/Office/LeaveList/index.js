@@ -1,102 +1,97 @@
-import {
-  Form,
-  Row,
-  Col,
-  Input,
-  Button,
-  Select,
-  Table,
-  Divider,
-  Space,
-  DatePicker,
-} from "antd";
-import ModalLeaveApply from "./components/ModalLeaveApply";
-import styles from "./index.less";
-import { PageContainer } from "@ant-design/pro-layout";
+import { Form, Row, Col, Input, Button, Select, Table, Divider, Space, DatePicker } from 'antd';
+import ModalLeaveApply from './components/ModalLeaveApply';
+import styles from './index.less';
+import { PageContainer } from '@ant-design/pro-layout';
+import { useState, useEffect } from 'react';
+import { queryLeaveList } from '../../../services/office';
+
 const LeaveList = () => {
   const [form] = Form.useForm();
+  const [searchValues, setSearchValues] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [leaveList, setLeaveList] = useState([]);
+  const [leaveVisible, setLeaveVisible] = useState(false);
   const formList = [
     {
-      name: "leaveState",
-      label: "请假状态",
-      type: "select",
+      name: 'leaveState',
+      label: '请假状态',
+      type: 'select',
       span: 6,
       options: [
-        { label: "尚未批准", value: 0 },
-        { label: "同意请假", value: 1 },
-        { label: "驳回重写", value: 2 },
-        { label: "此假不批", value: 3 },
+        { label: '尚未批准', value: 0 },
+        { label: '同意请假', value: 1 },
+        { label: '驳回重写', value: 2 },
+        { label: '此假不批', value: 3 },
       ],
     },
     {
-      name: "comId",
-      label: "归属公司ID",
-      type: "input",
+      name: 'comId',
+      label: '归属公司ID',
+      type: 'input',
       span: 6,
     },
     {
-      name: "userId",
-      label: "请假用户ID",
-      type: "input",
+      name: 'employId',
+      label: '请假用户ID',
+      type: 'input',
       span: 6,
     },
   ];
-  const leaveList = [];
   const leaveColumns = [
     {
-      title: "编号",
-      dataIndex: "type0",
-      key: "type0",
+      title: '编号',
+      dataIndex: 'id',
+      key: 'id',
     },
     {
-      title: "编号",
-      dataIndex: "type1",
-      key: "type1",
+      title: '编号',
+      dataIndex: 'type1',
+      key: 'type1',
     },
     {
-      title: "请假用户",
-      dataIndex: "type2",
-      key: "type2",
+      title: '请假用户',
+      dataIndex: 'userName',
+      key: 'userName',
     },
     {
-      title: "分类",
-      dataIndex: "type3",
-      key: "type3",
+      title: '分类',
+      dataIndex: 'type',
+      key: 'type',
     },
     {
-      title: "归属公司",
-      dataIndex: "type4",
-      key: "type4",
+      title: '归属公司',
+      dataIndex: 'type4',
+      key: 'type4',
     },
     {
-      title: "请假时间",
-      dataIndex: "type5",
-      key: "type5",
+      title: '请假时间',
+      dataIndex: 'startTime',
+      key: 'startTime',
     },
     {
-      title: "时长",
-      dataIndex: "type6",
-      key: "type6",
+      title: '时长',
+      dataIndex: 'type6',
+      key: 'type6',
     },
     {
-      title: "请假状态",
-      dataIndex: "type7",
-      key: "type7",
+      title: '请假状态',
+      dataIndex: 'state',
+      key: 'state',
     },
     {
-      title: "批假用户",
-      dataIndex: "type8",
-      key: "type8",
+      title: '批假用户',
+      dataIndex: 'leaderName',
+      key: 'leaderName',
     },
     {
-      title: "请假事由",
-      dataIndex: "type9",
-      key: "type9",
+      title: '请假事由',
+      dataIndex: 'reason',
+      key: 'reason',
     },
     {
-      title: "操作",
-      dataIndex: "action",
-      key: "action",
+      title: '操作',
+      dataIndex: 'action',
+      key: 'action',
       render: () => {
         return (
           <Space size="middle">
@@ -107,65 +102,110 @@ const LeaveList = () => {
       },
     },
   ];
+
+  const handleSearchClear = () => {
+    form.resetFields();
+    setSearchValues(null);
+    setCurrentPage(1);
+  };
+
+  const handleSearch = () => {
+    form.validateFields().then((values) => {
+      let payload = Object.assign({}, values);
+      if (values.cityCode) {
+        if (values.cityCode[1]) {
+          payload.cityCode = `${values.cityCode[0]}/${values.cityCode[1]}`;
+        } else {
+          payload.cityCode = `${values.cityCode[0]}`;
+        }
+      }
+      if (values.customer) {
+        payload.customerName = values.customer.customerName;
+        delete payload.customer;
+      }
+      console.clear();
+      setSearchValues(payload);
+      setCurrentPage(1);
+    });
+  };
+
+  const onPageChange = (value) => {
+    setCurrentPage(value);
+  };
+
+  useEffect(() => {
+    queryLeaveList({ pageNo: currentPage, pageSize: 20, ...searchValues }).then((res) => {
+      const { data } = res;
+      setLeaveList(
+        data.list &&
+        data.list.map((item) => {
+          return Object.assign(item, { key: item.id });
+        }),
+      );
+    });
+  }, [currentPage, searchValues]);
+
   return (
     <PageContainer>
-      <ModalLeaveApply visible={false}></ModalLeaveApply>
-      <div className={styles["search-container"]}>
+      <ModalLeaveApply visible={leaveVisible} onSubmit={() => {
+        queryLeaveList({ pageNo: currentPage, pageSize: 20, ...searchValues }).then((res) => {
+          const { data } = res;
+          setLeaveList(
+            data.list &&
+            data.list.map((item) => {
+              return Object.assign(item, { key: item.id });
+            }),
+          );
+        })
+      }} onCancel={() => setLeaveVisible(false)}></ModalLeaveApply>
+      <div className={styles['search-container']}>
         <Row justify="space-between" align="middle">
           <Col>
-            <div className={styles["page-title"]}>请假管理</div>
+            <div className={styles['page-title']}>请假管理</div>
           </Col>
           <Col>
             <Space size={8}>
-              <Button>清空</Button>
-              <Button type="primary">搜索</Button>
+              <Button onClick={handleSearchClear}>清空</Button>
+              <Button type="primary" onClick={handleSearch}>
+                搜索
+              </Button>
+              <Button type="primary" onClick={() => setLeaveVisible(true)}>
+                申请请假
+              </Button>
             </Space>
           </Col>
         </Row>
         <Divider></Divider>
-        <Form
-          form={form}
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
-          labelAlign="left"
-        >
+        <Form form={form} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} labelAlign="left">
           {
             <Row gutter={32}>
               {formList.map((col) => {
                 if (col.render) {
                   return col.render();
                 }
-                if (col.type === "input") {
+                if (col.type === 'input') {
                   return (
                     <Col span={col.span} key={col.name}>
-                      <Form.Item
-                        name={col.name}
-                        label={col.label}
-                        rules={col.rules}
-                      >
+                      <Form.Item name={col.name} label={col.label} rules={col.rules}>
                         <Input></Input>
                       </Form.Item>
                     </Col>
                   );
                 }
-                if (col.type === "select") {
+                if (col.type === 'select') {
                   return (
                     <Col span={col.span} key={col.name}>
-                      <Form.Item
-                        name={col.name}
-                        label={col.label}
-                        rules={col.rules}
-                      >
+                      <Form.Item name={col.name} label={col.label} rules={col.rules}>
                         <Select options={col.options}></Select>
                       </Form.Item>
                     </Col>
                   );
                 }
-                if (col.type === "datePicker") {
+                if (col.type === 'datePicker') {
                   return (
                     <Col span={col.span} key={col.name}>
                       <Form.Item name={col.name} label={col.label}>
-                        <DatePicker style={{ width: "100%" }}></DatePicker>
+                        <DatePicker style={{ width: '100%' }}></DatePicker>
                       </Form.Item>
                     </Col>
                   );
@@ -176,15 +216,10 @@ const LeaveList = () => {
           }
         </Form>
       </div>
-      <div className={styles["list-container"]}>
-        <Table
-          columns={leaveColumns}
-          dataSource={leaveList}
-          pagination={false}
-          size="small"
-        />
+      <div className={styles['list-container']}>
+        <Table columns={leaveColumns} dataSource={leaveList} pagination={false} size="small" />
       </div>
-      <div style={{ width: "100%", minHeight: "15px" }}></div>
+      <div style={{ width: '100%', minHeight: '15px' }}></div>
     </PageContainer>
   );
 };

@@ -499,15 +499,15 @@ const TCreation = () => {
               }
             </Form>
           </div>
-          <div className={styles["education-container"]}>
-            <div className={styles["title"]}>教育经历</div>
+          <div className={styles["experience-container"]}>
+            <div className={styles["title"]}>工作经历</div>
             <Form
-              form={educationForm}
+              form={experienceForm}
               labelCol={{ span: 8 }}
               wrapperCol={{ span: 16 }}
               labelAlign="left"
             >
-              <Form.List name="education">
+              <Form.List name="experience">
                 {(fields, { add, remove }) => (
                   <>
                     {fields.length === 0 ? <Divider></Divider> : null}
@@ -516,89 +516,66 @@ const TCreation = () => {
                         <Divider orientation="right">
                           <MinusCircleOutlined onClick={() => remove(name)} />
                         </Divider>
-                        <Row gutter={32}>
-                          <Col span={8}>
-                            <Form.Item
-                              name={[name, "name"]}
-                              fieldKey={[fieldKey, "name"]}
-                              label="学校名"
-                              rules={[
-                                {
-                                  required: true,
-                                  message: "必填",
-                                },
-                              ]}
-                            >
-                              <Input></Input>
-                            </Form.Item>
-                          </Col>
-                          <Col span={8}>
-                            <Form.Item
-                              name={[name, "classes"]}
-                              fieldKey={[fieldKey, "classes"]}
-                              label="专业"
-                              rules={[
-                                {
-                                  required: true,
-                                  message: "必填",
-                                },
-                              ]}
-                            >
-                              <Input></Input>
-                            </Form.Item>
-                          </Col>
-                          <Col span={8}>
-                            <Form.Item
-                              name={[name, "isAllTime"]}
-                              fieldKey={[fieldKey, "isAllTime"]}
-                              label="是否统招"
-                              rules={[
-                                {
-                                  required: true,
-                                  message: "必填",
-                                },
-                              ]}
-                            >
-                              <Select
-                                options={[
-                                  { label: "是", value: 0 },
-                                  { label: "否", value: 1 },
-                                ]}
-                              ></Select>
-                            </Form.Item>
-                          </Col>
-                          <Col span={8}>
-                            <Form.Item
-                              name={[name, "startTime"]}
-                              fieldKey={[fieldKey, "startTime"]}
-                              label="开始日期"
-                            >
-                              <DatePicker
-                                style={{ width: "100%" }}
-                              ></DatePicker>
-                            </Form.Item>
-                          </Col>
-                          <Col span={8}>
-                            <Form.Item
-                              name={[name, "endTime"]}
-                              fieldKey={[fieldKey, "endTime"]}
-                              label="结束日期"
-                            >
-                              <DatePicker
-                                style={{ width: "100%" }}
-                              ></DatePicker>
-                            </Form.Item>
-                          </Col>
-                          <Col span={8}>
-                            <Form.Item
-                              name={[name, "duty"]}
-                              fieldKey={[fieldKey, "duty"]}
-                              label="担任职务"
-                            >
-                              <Input></Input>
-                            </Form.Item>
-                          </Col>
-                        </Row>
+                        <Form.Item
+                          name={[name, "name"]}
+                          fieldKey={[fieldKey, "name"]}
+                          label="公司名称"
+                          rules={[
+                            {
+                              required: true,
+                              message: "必填",
+                            },
+                          ]}
+                        >
+                          <Input></Input>
+                        </Form.Item>
+                        <Form.Item
+                          name={[name, "duty"]}
+                          fieldKey={[fieldKey, "duty"]}
+                          label="职责"
+                        >
+                          <Input></Input>
+                        </Form.Item>
+                        <Form.Item
+                          name={[name, "startTime"]}
+                          fieldKey={[fieldKey, "startTime"]}
+                          label="开始日期"
+                        >
+                          <DatePicker style={{ width: "100%" }}></DatePicker>
+                        </Form.Item>
+                        <Form.Item
+                          name={[name, "endTime"]}
+                          fieldKey={[fieldKey, "endTime"]}
+                          label="结束日期"
+                        >
+                          <DatePicker style={{ width: "100%" }}></DatePicker>
+                        </Form.Item>
+                        <Form.Item
+                          name={[name, "industry"]}
+                          fieldKey={[fieldKey, "industry"]}
+                          label="行业"
+                        >
+                          <Select
+                            options={industryList}
+                            onChange={(value, data) => {
+                              onEIndustryChange(value, data, fieldKey);
+                            }}
+                          ></Select>
+                        </Form.Item>
+                        <Form.Item
+                          name={[name, "industryChild"]}
+                          fieldKey={[fieldKey, "industryChild"]}
+                          label="子行业"
+                        >
+                          <Select options={eIndustryChildList}></Select>
+                        </Form.Item>
+                        <Form.Item
+                          name={[name, "details"]}
+                          fieldKey={[fieldKey, "details"]}
+                          label="工作内容"
+                        >
+                          <Input></Input>
+                        </Form.Item>
                       </div>
                     ))}
                     <Button
@@ -607,7 +584,7 @@ const TCreation = () => {
                       block
                       icon={<PlusOutlined />}
                     >
-                      添加教育经历
+                      添加项目经历
                     </Button>
                   </>
                 )}
@@ -748,15 +725,15 @@ const TCreation = () => {
           </div>
         </Col>
         <Col span={8}>
-          <div className={styles["experience-container"]}>
-            <div className={styles["title"]}>工作经历</div>
+          <div className={styles["education-container"]}>
+            <div className={styles["title"]}>教育经历</div>
             <Form
-              form={experienceForm}
+              form={educationForm}
               labelCol={{ span: 8 }}
               wrapperCol={{ span: 16 }}
               labelAlign="left"
             >
-              <Form.List name="experience">
+              <Form.List name="education">
                 {(fields, { add, remove }) => (
                   <>
                     {fields.length === 0 ? <Divider></Divider> : null}
@@ -765,66 +742,89 @@ const TCreation = () => {
                         <Divider orientation="right">
                           <MinusCircleOutlined onClick={() => remove(name)} />
                         </Divider>
-                        <Form.Item
-                          name={[name, "name"]}
-                          fieldKey={[fieldKey, "name"]}
-                          label="公司名称"
-                          rules={[
-                            {
-                              required: true,
-                              message: "必填",
-                            },
-                          ]}
-                        >
-                          <Input></Input>
-                        </Form.Item>
-                        <Form.Item
-                          name={[name, "duty"]}
-                          fieldKey={[fieldKey, "duty"]}
-                          label="职责"
-                        >
-                          <Input></Input>
-                        </Form.Item>
-                        <Form.Item
-                          name={[name, "startTime"]}
-                          fieldKey={[fieldKey, "startTime"]}
-                          label="开始日期"
-                        >
-                          <DatePicker style={{ width: "100%" }}></DatePicker>
-                        </Form.Item>
-                        <Form.Item
-                          name={[name, "endTime"]}
-                          fieldKey={[fieldKey, "endTime"]}
-                          label="结束日期"
-                        >
-                          <DatePicker style={{ width: "100%" }}></DatePicker>
-                        </Form.Item>
-                        <Form.Item
-                          name={[name, "industry"]}
-                          fieldKey={[fieldKey, "industry"]}
-                          label="行业"
-                        >
-                          <Select
-                            options={industryList}
-                            onChange={(value, data) => {
-                              onEIndustryChange(value, data, fieldKey);
-                            }}
-                          ></Select>
-                        </Form.Item>
-                        <Form.Item
-                          name={[name, "industryChild"]}
-                          fieldKey={[fieldKey, "industryChild"]}
-                          label="子行业"
-                        >
-                          <Select options={eIndustryChildList}></Select>
-                        </Form.Item>
-                        <Form.Item
-                          name={[name, "details"]}
-                          fieldKey={[fieldKey, "details"]}
-                          label="工作内容"
-                        >
-                          <Input></Input>
-                        </Form.Item>
+                        <Row gutter={32}>
+                          <Col span={8}>
+                            <Form.Item
+                              name={[name, "name"]}
+                              fieldKey={[fieldKey, "name"]}
+                              label="学校名"
+                              rules={[
+                                {
+                                  required: true,
+                                  message: "必填",
+                                },
+                              ]}
+                            >
+                              <Input></Input>
+                            </Form.Item>
+                          </Col>
+                          <Col span={8}>
+                            <Form.Item
+                              name={[name, "classes"]}
+                              fieldKey={[fieldKey, "classes"]}
+                              label="专业"
+                              rules={[
+                                {
+                                  required: true,
+                                  message: "必填",
+                                },
+                              ]}
+                            >
+                              <Input></Input>
+                            </Form.Item>
+                          </Col>
+                          <Col span={8}>
+                            <Form.Item
+                              name={[name, "isAllTime"]}
+                              fieldKey={[fieldKey, "isAllTime"]}
+                              label="是否统招"
+                              rules={[
+                                {
+                                  required: true,
+                                  message: "必填",
+                                },
+                              ]}
+                            >
+                              <Select
+                                options={[
+                                  { label: "是", value: 0 },
+                                  { label: "否", value: 1 },
+                                ]}
+                              ></Select>
+                            </Form.Item>
+                          </Col>
+                          <Col span={8}>
+                            <Form.Item
+                              name={[name, "startTime"]}
+                              fieldKey={[fieldKey, "startTime"]}
+                              label="开始日期"
+                            >
+                              <DatePicker
+                                style={{ width: "100%" }}
+                              ></DatePicker>
+                            </Form.Item>
+                          </Col>
+                          <Col span={8}>
+                            <Form.Item
+                              name={[name, "endTime"]}
+                              fieldKey={[fieldKey, "endTime"]}
+                              label="结束日期"
+                            >
+                              <DatePicker
+                                style={{ width: "100%" }}
+                              ></DatePicker>
+                            </Form.Item>
+                          </Col>
+                          <Col span={8}>
+                            <Form.Item
+                              name={[name, "duty"]}
+                              fieldKey={[fieldKey, "duty"]}
+                              label="担任职务"
+                            >
+                              <Input></Input>
+                            </Form.Item>
+                          </Col>
+                        </Row>
                       </div>
                     ))}
                     <Button
@@ -833,7 +833,7 @@ const TCreation = () => {
                       block
                       icon={<PlusOutlined />}
                     >
-                      添加项目经历
+                      添加教育经历
                     </Button>
                   </>
                 )}

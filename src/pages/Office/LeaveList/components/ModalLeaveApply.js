@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Modal, Form, Input, DatePicker, Select } from "antd";
-
+import { addLeave } from '@/services/office'
 const ModalLeaveApply = ({ visible, onSubmit, onCancel, record }) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [form] = Form.useForm();
@@ -36,8 +36,18 @@ const ModalLeaveApply = ({ visible, onSubmit, onCancel, record }) => {
       span: 6,
     },
   ];
-  const handleCancel = () => {};
-  const handleOk = () => {};
+  const handleCancel = () => {
+    onCancel()
+  };
+  const handleOk = () => {
+    console.log(111);
+    form.validateFields().then(value => {
+      console.log(value);
+      addLeave(value).then(res => {
+        onSubmit()
+      })
+    })
+  };
   return (
     <Modal
       forceRender

@@ -8,7 +8,7 @@ export async function getPhoneCode(payload) {
   // });
   return request('/login/getPhoneCode', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -16,7 +16,6 @@ export const getToken = (body, options) => {
   return request('/login/getToken', {
     method: 'POST',
     data: body,
-    ...(options || {}),
   });
 }
 export async function getVerifyCode(payload) {
@@ -27,7 +26,7 @@ export async function getVerifyCode(payload) {
   // });
   return request('/login/getVerifyCode', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -39,7 +38,8 @@ export async function getVerifyCodeImg(payload) {
   // });
   return request('/login/getVerifyCodeImg', {
     method: 'POST',
-    ...(payload || {}),
+
+    data: { ...(payload || {}) },
   });
 };
 

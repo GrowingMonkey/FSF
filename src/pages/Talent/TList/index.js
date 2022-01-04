@@ -95,6 +95,11 @@ const TList = () => {
         type: "input",
       },
       {
+        name: "keyWord",
+        label: "关键词",
+        type: "input",
+      },
+      {
         name: "source",
         label: "来源",
         type: "select",
@@ -333,6 +338,7 @@ const TList = () => {
                 columns={listColumns}
                 dataSource={listData}
                 pagination={false}
+                expandRowByClick={true}
                 expandable={{
                   expandedRowRender: (record, index, indent, expanded) => (
                     <CardTableExpand

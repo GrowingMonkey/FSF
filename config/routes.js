@@ -216,6 +216,11 @@ export default [
         component: "./Office/AttendanceList/index",
       },
       {
+        path: "/office/added-attendance-list",
+        name: "申请补卡",
+        component: "./Office/AttendanceList/AddedAttendanceList",
+      },
+      {
         path: "/office/leave-list",
         name: "请假管理",
         component: "./Office/LeaveList/index",
@@ -304,12 +309,12 @@ export default [
       },
     ],
   },
-  {
-    name: 'list.table-list',
-    icon: 'table',
-    path: '/list',
-    component: './TableList',
-  },
+  // {
+  //   name: 'list.table-list',
+  //   icon: 'table',
+  //   path: '/list',
+  //   component: './TableList',
+  // },
   {
     path: '/',
     redirect: '/welcome',

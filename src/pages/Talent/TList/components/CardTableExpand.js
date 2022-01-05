@@ -192,7 +192,7 @@ const CardTableExpand = ({ record, index, indent, expanded }) => {
 
       {listEduData.length > 0 && (
         <Table
-          title={() => <div style={{ fontSize: 24, fontWeight: 600 }}>教育经历</div>}
+          title={() => <div style={{ fontSize: 18, fontWeight: 600 }}>教育经历</div>}
           style={{ marginTop: "15px" }}
           columns={listEduColumns}
           dataSource={listEduData}

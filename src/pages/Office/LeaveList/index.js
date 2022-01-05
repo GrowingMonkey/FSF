@@ -3,10 +3,11 @@ import ModalLeaveApply from './components/ModalLeaveApply';
 import styles from './index.less';
 import { PageContainer } from '@ant-design/pro-layout';
 import { useState, useEffect } from 'react';
-import { queryLeaveList } from '../../../services/office';
+import { queryLeaveList, passLeave, denyLeave } from '../../../services/office';
 
 const LeaveList = () => {
   const [form] = Form.useForm();
+  const [total, setTotal] = useState(0);
   const [searchValues, setSearchValues] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [leaveList, setLeaveList] = useState([]);
@@ -92,11 +93,21 @@ const LeaveList = () => {
       title: '操作',
       dataIndex: 'action',
       key: 'action',
-      render: () => {
+      render: (text, record) => {
         return (
           <Space size="middle">
-            <Button type="text">查看详情</Button>
-            <Button type="text">编辑</Button>
+            <Popconfirm
+              title="确定审核当前用户的请求？"
+              onConfirm={() => { passLeave({ id: record.id }) }}
+              onCancel={() => {
+                denyLeave({ id: record.id })
+              }
+              }
+              okText="通过"
+              cancelText="拒绝"
+            >
+              <Button type="link">审批</Button>
+            </Popconfirm>
           </Space>
         );
       },
@@ -142,12 +153,14 @@ const LeaveList = () => {
           return Object.assign(item, { key: item.id });
         }),
       );
+      setTotal(data?.count || 0);
     });
   }, [currentPage, searchValues]);
 
   return (
     <PageContainer>
       <ModalLeaveApply visible={leaveVisible} onSubmit={() => {
+        setLeaveVisible(false)
         queryLeaveList({ pageNo: currentPage, pageSize: 20, ...searchValues }).then((res) => {
           const { data } = res;
           setLeaveList(
@@ -217,7 +230,11 @@ const LeaveList = () => {
         </Form>
       </div>
       <div className={styles['list-container']}>
-        <Table columns={leaveColumns} dataSource={leaveList} pagination={false} size="small" />
+        <Table columns={leaveColumns} dataSource={leaveList} pagination={{
+          total: total,
+          pageSize: 10,
+          onChange: e => setSearchValues({ pageNo: e })
+        }} size="small" />
       </div>
       <div style={{ width: '100%', minHeight: '15px' }}></div>
     </PageContainer>

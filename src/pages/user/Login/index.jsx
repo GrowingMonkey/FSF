@@ -71,6 +71,21 @@ const Login = () => {
             canvas.width / 2,
             canvas.height / 2 + 12
           );
+        }).catch(err => {
+          console.log(err);
+          window.localStorage.clear();
+          setContext(null);
+          getToken().then((data) => {
+            window.localStorage.setItem("token", data.data.token);
+            getVerifyCode().then((data) => {
+              setVerifyCode(data.data.verifyCode);
+              context.fillText(
+                data.data.verifyCode,
+                canvas.width / 2,
+                canvas.height / 2 + 12
+              );
+            });
+          });
         });
       } else {
         getToken().then((data) => {

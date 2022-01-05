@@ -1,56 +1,41 @@
 import { useState, useEffect } from "react";
 import { Modal, Form, Input, DatePicker, Select } from "antd";
 import { addBtrip } from '@/services/office'
+const { RangePicker } = DatePicker;
+const { TextArea } = Input;
 const ModalOnFieldApply = ({ visible, onSubmit, onCancel, record }) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [form] = Form.useForm();
   const formList = [
     {
-      name: "bstripAddress",
+      name: "address",
       label: "出差地址",
       type: "input",
       span: 6,
     },
     {
-      name: "bstripCompany",
-      label: "出差公司名",
-      type: "input",
+      name: "attendanceId",
+      label: "出差业务",
+      type: "select",
       span: 6,
     },
     {
-      name: "bstripCompanyId",
-      label: "出差公司ID",
-      type: "input",
+      name: "type",
+      label: "出差类型",
+      type: "select",
       span: 6,
+      options: [{ label: '单人出差', value: 0 }, { label: '多人出差', value: 1 }]
     },
     {
-      name: "bstripTel",
-      label: "联系人电话",
-      type: "input",
-      span: 6,
-    },
-    {
-      name: "bstripUser",
-      label: "出差联系人",
-      type: "input",
-      span: 6,
-    },
-    {
-      name: "inTime",
-      label: "出差结束日期",
-      type: "datePicker",
-      span: 6,
-    },
-    {
-      name: "outTime",
-      label: "出差开始日期",
-      type: "datePicker",
+      name: "onfiledDate",
+      label: "出差日期",
+      type: "dateRange",
       span: 6,
     },
     {
       name: "reason",
       label: "出差原因",
-      type: "input",
+      type: "textArea",
       span: 6,
     },
   ];
@@ -112,6 +97,23 @@ const ModalOnFieldApply = ({ visible, onSubmit, onCancel, record }) => {
             return (
               <Form.Item name={col.name} label={col.label} key={col.label}>
                 <DatePicker style={{ width: "100%" }}></DatePicker>
+              </Form.Item>
+            );
+          }
+          if (col.type === "textArea") {
+            return (
+              <Form.Item name={col.name} label={col.label} key={col.label}>
+                <TextArea
+                  placeholder="Controlled autosize"
+                  autoSize={{ minRows: 3, maxRows: 5 }}
+                />
+              </Form.Item>
+            );
+          }
+          if (col.type === "dateRange") {
+            return (
+              <Form.Item name={col.name} label={col.label} key={col.label}>
+                <RangePicker style={{ width: "100%" }} />
               </Form.Item>
             );
           }

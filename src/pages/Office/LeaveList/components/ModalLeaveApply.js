@@ -1,39 +1,37 @@
 import { useState, useEffect } from "react";
 import { Modal, Form, Input, DatePicker, Select } from "antd";
 import { addLeave } from '@/services/office'
+const { RangePicker } = DatePicker;
+const { TextArea } = Input;
+import moment from 'moment'
 // import { upload } from '@/utils/lib/upload'
 const ModalLeaveApply = ({ visible, onSubmit, onCancel, record }) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [form] = Form.useForm();
   const formList = [
     {
-      name: "inTime",
-      label: "请假结束日期",
-      type: "datePicker",
+      name: "leaveDate",
+      label: "请假时间",
+      type: "dateRange",
       span: 6,
     },
     {
-      name: "leaveTime",
-      label: "请假时长",
-      type: "input",
+      name: "type",
+      label: "请假类型",
+      type: "select",
       span: 6,
-    },
-    {
-      name: "outTime",
-      label: "请假开始日期",
-      type: "datePicker",
-      span: 6,
+      options: [
+        { label: '事假', value: 0 },
+        { label: '病假', value: 1 },
+        { label: '婚假', value: 2 },
+        { label: '丧假', value: 3 },
+        { label: '产假', value: 4 },
+        { label: '其他', value: 5 }]
     },
     {
       name: "reason",
       label: "请假原因",
-      type: "input",
-      span: 6,
-    },
-    {
-      name: "url",
-      label: "附件地址",
-      type: "input",
+      type: "textArea",
       span: 6,
     },
   ];
@@ -44,7 +42,7 @@ const ModalLeaveApply = ({ visible, onSubmit, onCancel, record }) => {
     console.log(111);
     form.validateFields().then(value => {
       console.log(value);
-      addLeave(value).then(res => {
+      addLeave({ reason: value.reason, type: value.type, startTime: moment(value.leaveDate[0]).format('YYYY-MM-DD'), endTime: moment(value.leaveDate[1]).format('YYYY-MM-DD') }).then(res => {
         onSubmit()
       })
     })
@@ -95,6 +93,23 @@ const ModalLeaveApply = ({ visible, onSubmit, onCancel, record }) => {
             return (
               <Form.Item name={col.name} label={col.label} key={col.label}>
                 <DatePicker style={{ width: "100%" }}></DatePicker>
+              </Form.Item>
+            );
+          }
+          if (col.type === "textArea") {
+            return (
+              <Form.Item name={col.name} label={col.label} key={col.label}>
+                <TextArea
+                  placeholder="Controlled autosize"
+                  autoSize={{ minRows: 3, maxRows: 5 }}
+                />
+              </Form.Item>
+            );
+          }
+          if (col.type === "dateRange") {
+            return (
+              <Form.Item name={col.name} label={col.label} key={col.label}>
+                <RangePicker style={{ width: "100%" }} />
               </Form.Item>
             );
           }

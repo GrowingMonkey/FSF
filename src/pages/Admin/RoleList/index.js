@@ -60,7 +60,6 @@ const RoleList = () => {
             });
             console.log('urlList', urlList);
             if (urlList.length === 2) {
-              debugger
               functionTree[urlList[0]]?.children.push({
                 title: `${item.name}-${urlList[1]}`,
                 key: item.id,

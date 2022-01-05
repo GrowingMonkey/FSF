@@ -1,16 +1,17 @@
-import { Form, Row, Col, Input, Button, Select, Table, Divider, Space, DatePicker } from 'antd';
+import { Form, Row, Col, Input, Button, Select, Table, Divider, Popconfirm, Space, DatePicker } from 'antd';
 import ModalOnFieldApply from './components/ModalOnFieldApply';
 import styles from './index.less';
 import { PageContainer } from '@ant-design/pro-layout';
 import { useState, useEffect } from 'react';
-import { queryBtripList } from '../../../services/office';
+import { useRequest } from 'umi'
+import { queryBtripList, passBtrip, denyBtrip } from '../../../services/office';
 
 const OnFieldList = () => {
   const [form] = Form.useForm();
+  const [total, setTotal] = useState(0);
   const [searchValues, setSearchValues] = useState(null);
   const [onFieldList, setOnFieldList] = useState([]);
   const [fieldVisible, setFieldVisible] = useState(false);
-
   const formList = [
     {
       name: 'bstripState',
@@ -86,11 +87,21 @@ const OnFieldList = () => {
       title: '操作',
       dataIndex: 'action',
       key: 'action',
-      render: () => {
+      render: (text, record) => {
         return (
           <Space size="middle">
-            <Button type="text">查看详情</Button>
-            <Button type="text">编辑</Button>
+            <Popconfirm
+              title="确定审核当前用户的请求？"
+              onConfirm={() => { passBtrip({ id: record.id }) }}
+              onCancel={() => {
+                denyBtrip({ id: record.id })
+              }
+              }
+              okText="通过"
+              cancelText="拒绝"
+            >
+              <Button type="link">审批</Button>
+            </Popconfirm>
           </Space>
         );
       },
@@ -125,17 +136,16 @@ const OnFieldList = () => {
     queryBtripList(searchValues).then((res) => {
       const { data } = res;
       setOnFieldList(
-        data.list &&
-        data.list.map((item) => {
-          return Object.assign(item, { key: item.id });
-        }),
+        data?.list || []
       );
+      setTotal(data?.count || 0)
     });
   }, [searchValues]);
 
   return (
     <PageContainer>
-      <ModalOnFieldApply visible={fieldVisible} onSubmit={
+      <ModalOnFieldApply visible={fieldVisible} onSubmit={() => {
+        setFieldVisible(false);
         queryBtripList(searchValues).then((res) => {
           const { data } = res;
           setOnFieldList(
@@ -145,7 +155,7 @@ const OnFieldList = () => {
             }),
           );
         })
-      } onCancel={() => setFieldVisible(false)}></ModalOnFieldApply>
+      }} onCancel={() => setFieldVisible(false)}></ModalOnFieldApply>
       <div className={styles['search-container']}>
         <Row justify="space-between" align="middle">
           <Col>
@@ -203,7 +213,11 @@ const OnFieldList = () => {
         </Form>
       </div>
       <div className={styles['list-container']}>
-        <Table columns={onFieldColumns} dataSource={onFieldList} pagination={false} size="small" />
+        <Table columns={onFieldColumns} dataSource={onFieldList} pagination={{
+          total: total,
+          pageSize: 10,
+          onChange: e => setSearchValues({ pageNo: e })
+        }} size="small" />
       </div>
       <div style={{ width: '100%', minHeight: '15px' }}></div>
     </PageContainer >

@@ -1,16 +1,15 @@
-import { Form, Row, Col, Modal, Input, Button, Select, Table, Divider, Space, DatePicker } from 'antd';
+import { Form, Row, Col, Modal, Input, Button, Select, Table, Divider, Space, DatePicker, message } from 'antd';
 import styles from './index.less';
 import { PageContainer, } from '@ant-design/pro-layout';
 import { useState, useEffect } from 'react';
 import { queryDKList, applyKQ } from '@/services/office';
 import ProForm, {
-
   ProFormRadio,
-
 } from '@ant-design/pro-form';
 import { useRequest } from 'umi'
 const AttendanceList = () => {
   const [form] = Form.useForm();
+  const [total, setTotal] = useState(0);
   const [searchValues, setSearchValues] = useState(null);
   const [attendanceList, setAttendanceList] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -117,14 +116,16 @@ const AttendanceList = () => {
       setAttendanceList(
         data?.list || []
       );
+      setTotal(data?.count || 0)
     });
   }, [searchValues]);
   const handleAdd = () => {
     setIsModalVisible(true)
   }
   const onFinish = (values) => {
-    console.log(values);
+
     run(values);
+    setIsModalVisible(false)
   }
   return (
     <PageContainer>
@@ -189,7 +190,11 @@ const AttendanceList = () => {
         <Table
           columns={attendanceColumns}
           dataSource={attendanceList}
-          pagination={false}
+          pagination={{
+            total: total,
+            pageSize: 10,
+            onChange: e => setSearchValues({ pageNo: e })
+          }}
           size="small"
         />
       </div>

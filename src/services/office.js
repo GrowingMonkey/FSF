@@ -51,3 +51,31 @@ export const addLeave = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+//请假未通过
+export const denyLeave = (payload) => {
+  return request('/office/denyLeave', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+//请假通过
+export const passLeave = (payload) => {
+  return request('/office/passLeave', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+export const denyBtrip = (payload) => {
+  return request('/office/denyBtrip', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+//请假通过
+export const passBtrip = (payload) => {
+  return request('/office/passBtrip', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+

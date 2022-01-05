@@ -20,7 +20,7 @@ const AddedAttendanceList = () => {
         manual: true,
         onSuccess: () => {
             message.success('提交成功');
-            history.push(`/attendance-list`)
+            history.push(`/office//attendance-list`)
         },
     });
 

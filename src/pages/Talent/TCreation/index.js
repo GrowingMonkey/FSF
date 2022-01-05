@@ -305,7 +305,8 @@ const TCreation = () => {
   ];
   const handleSubmit = () => {
     basicForm.validateFields().then((basicValues) => {
-      getTalentId().then((id) => {
+      getTalentId().then((res) => {
+        const { data } = res;
         let payload = Object.assign({}, basicValues);
         if (basicValues.RCity) {
           if (basicValues.RCity[1]) {
@@ -317,7 +318,8 @@ const TCreation = () => {
         if (basicValues.birthday) {
           payload.birthday = basicValues.birthday.format("YYYY-MM-DD");
         }
-        addTalent({ talentId: id, ...payload }).then((data) => {
+
+        addTalent({ talentId: data, ...payload }).then((data) => {
           Promise.all([
             educationForm.validateFields(),
             projectForm.validateFields(),

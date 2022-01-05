@@ -164,7 +164,6 @@ const CardTableExpand = ({ record, index, indent, expanded }) => {
     if (expanded) {
       if (!detail) {
         selectTalentById({ talentId: record.talentId }).then((res) => {
-          debugger
           console.log(index, data);
           const { data } = res;
           setDetail(data);
@@ -189,47 +188,47 @@ const CardTableExpand = ({ record, index, indent, expanded }) => {
   }, [expanded]);
   return (
     <>
-      <Row gutter={8}>
-        <Col span={8}>
-          {listEduData.length > 0 && (
-            <Table
-              title={() => "教育经历"}
-              style={{ marginTop: "15px" }}
-              columns={listEduColumns}
-              dataSource={listEduData}
-              pagination={false}
-              showHeader={false}
-              size="small"
-            />
-          )}
-        </Col>
-        <Col span={8}>
-          {listCompanyData.length > 0 && (
-            <Table
-              title={() => "工作经历"}
-              style={{ marginTop: "15px" }}
-              columns={listCompanyColumns}
-              dataSource={listCompanyData}
-              pagination={false}
-              showHeader={false}
-              size="small"
-            />
-          )}
-        </Col>
-        <Col span={8}>
-          {listProjectData.length > 0 && (
-            <Table
-              title={() => "项目经历"}
-              style={{ marginTop: "15px" }}
-              columns={listProjectColumns}
-              dataSource={listProjectData}
-              pagination={false}
-              showHeader={false}
-              size="small"
-            />
-          )}
-        </Col>
-      </Row>
+
+
+      {listEduData.length > 0 && (
+        <Table
+          title={() => <div style={{ fontSize: 24, fontWeight: 600 }}>教育经历</div>}
+          style={{ marginTop: "15px" }}
+          columns={listEduColumns}
+          dataSource={listEduData}
+          pagination={false}
+          showHeader={false}
+          size="small"
+        />
+      )}
+
+
+      {listCompanyData.length > 0 && (
+        <Table
+          title={() => <div style={{ fontSize: 24, fontWeight: 600 }}>公司经历</div>}
+          style={{ marginTop: "15px" }}
+          columns={listCompanyColumns}
+          dataSource={listCompanyData}
+          pagination={false}
+          showHeader={false}
+          size="small"
+        />
+      )}
+
+
+      {listProjectData.length > 0 && (
+        <Table
+          title={() => <div style={{ fontSize: 24, fontWeight: 600 }}>项目经验</div>}
+          style={{ marginTop: "15px" }}
+          columns={listProjectColumns}
+          dataSource={listProjectData}
+          pagination={false}
+          showHeader={false}
+          size="small"
+        />
+      )}
+
+
     </>
   );
   // <>

@@ -128,7 +128,7 @@ const TList = () => {
       key: "name",
       width: 150,
       render: (text, record) => {
-        return record.gender == 2 ? (<span><WomanOutlined twoToneColor="#eb2f96" style={{ color: '#eb2f96' }} />{record.name}</span>) : record.gender == 1 ? (<span><ManOutlined style={{ color: '#eb2f96' }} /></span>) : (<span><UserOutlined />{record.name}</span>)
+        return record.gender == 2 ? (<span><WomanOutlined twoToneColor="#eb2f96" style={{ color: '#eb2f96' }} />{record.name}</span>) : record.gender == 1 ? (<span><ManOutlined style={{ color: '#eb2f96' }} />{record.name}</span>) : (<span><UserOutlined />{record.name}</span>)
       }
     },
     {

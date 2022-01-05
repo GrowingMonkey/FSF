@@ -151,7 +151,7 @@ const Login = () => {
               <Col><div className={styles.point}></div></Col>
             </Row>
             <div className={styles.center}></div>
-            <div style={{ fontSize: '0.9375vw', color: '#95A8C8', position: 'absolute', left: '5.46875vw', bottom: '5.4vh' }}>即连城科技 版权所有 粤ICP备1382</div>
+            <div style={{ fontSize: '0.9375vw', color: '#95A8C8', position: 'absolute', left: '5.46875vw', bottom: '5.4vh' }}>Copyright © 2021 费思福(成都)人力资源咨询有限公司  蜀ICP备2021005893号-2</div>
             <div className={styles.content} style={{ zIndex: 999 }} >
               <div>
                 <LoginForm

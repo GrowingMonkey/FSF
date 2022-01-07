@@ -246,7 +246,7 @@ const TableList = () => {
         actionRef={actionRef}
         rowKey="key"
         search={{
-          labelWidth: 120,
+          labelWidth: 150,
         }}
         toolBarRender={() => [
           <Button

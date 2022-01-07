@@ -3,6 +3,7 @@ import { defineConfig } from 'umi';
 import { join } from 'path';
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
+import envConfig from './envConfig'
 import routes from './routes';
 const { REACT_APP_ENV } = process.env;
 export default defineConfig({
@@ -45,6 +46,7 @@ export default defineConfig({
   title: false,
   ignoreMomentLocale: true,
   proxy: proxy[REACT_APP_ENV || 'dev'],
+  define: envConfig[REACT_APP_ENV || 'dev'],
   manifest: {
     basePath: '/',
   },

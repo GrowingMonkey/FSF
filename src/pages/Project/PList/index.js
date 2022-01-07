@@ -20,6 +20,7 @@ import {
   finishProject,
   closeProject,
 } from "../../../services/project";
+import { history } from 'umi';
 import { cityList } from "../../../utils/CityList";
 import { industryList } from "../../../utils/Industry";
 import { positionList } from "../../../utils/Position";
@@ -111,12 +112,13 @@ const PList = () => {
       key: "action",
       render: (text, record) => (
         <Space size={16}>
-          <Button type="link" style={{ padding: 0 }}>
+          <Button type="link" style={{ padding: 0 }} onClick={() => history.push({
+            pathname: `/project/p-detail`, state: {
+              id: record.id
+            }
+          })}>
             查看详情
           </Button>
-          {/* <Button type="link" style={{ padding: 0 }}>
-            加入项目
-          </Button> */}
         </Space>
       ),
       width: 100,

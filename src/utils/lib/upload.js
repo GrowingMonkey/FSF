@@ -1,18 +1,5 @@
 import { request } from 'umi'
-import configuration from "../../src/utils/utils";
-const {
-  NODE_ENV,
-  VUE_APP_CLOSE,
-  VUE_APP_BASEURL,
-  VUE_APP_OSSADDRESS,
-  VUE_APP_VIDEO,
-  VUE_APP_CDN,
-  VUE_APP_ENDPOINT,
-  VUE_APP_BUCKET1,
-  VUE_APP_BUCKET2,
-  VUE_APP_DIR_IMG,
-  VUE_APP_DIR_VIDEO
-} = configuration;
+import { getOssSign } from '@/services/admin'
 import OSS from "ali-oss";
 let ossClient = {};
 const setOssClient = (val) => {
@@ -27,16 +14,18 @@ const getOssClient = () => {
  */
 export async function upload(file, callback) {
   //获取签名
-  let sign = await getSign();
+  let sign = await getOssSign();
   let { data } = sign;
-  let dataObj = JSON.parse(data);
+  let dataObj = JSON.parse(data).credentials;
+  debugger
+  console.log(OSS_END_POINT, OSS_BURKET)
   let callbackObj = callback();
   let clientOss = new OSS({
     accessKeyId: dataObj.accessKeyId,
     accessKeySecret: dataObj.accessKeySecret,
     stsToken: dataObj.securityToken,
-    endpoint: callbackObj ? callbackObj.VUE_APP_ENDPOINT : VUE_APP_ENDPOINT,
-    bucket: callbackObj ? callbackObj.VUE_APP_BUCKET : VUE_APP_BUCKET2
+    endpoint: callbackObj ? callbackObj.OSS_END_POINT : OSS_END_POINT,
+    bucket: callbackObj ? callbackObj.OSS_BURKET : OSS_BURKET
   });
   //设置oss对象
   setOssClient(clientOss);
@@ -45,7 +34,7 @@ export async function upload(file, callback) {
   let fileFormat = file.name.substring(temporary + 1, fileNameLength); //png
   let fileName = callbackObj && callbackObj.fileName ? callbackObj.fileName + '.' + fileFormat : file.name;//在callback获取文件名
   return new Promise((resolve, reject) => {
-    multipartUploadWithSts(fileName, file).then(res => {
+    multipartUploadWithSts('/static/' + fileName, file).then(res => {
       resolve(res);
     }).catch(function (err) {
       reject(err);
@@ -80,7 +69,7 @@ async function multitest(ossClient, storeAs, file, cpt) {
       .catch(function (err) {
 
         console.log(err);
-        multipartUploadWithSts(storeAs, file, checkpoint_temp);
+        // multipartUploadWithSts(storeAs, file, checkpoint_temp);
       });
   } else {
     console.log("multitest without cpt");
@@ -100,16 +89,7 @@ async function multitest(ossClient, storeAs, file, cpt) {
       })
       .catch(function (err) {
         console.log(err);
-        multipartUploadWithSts(storeAs, file, checkpoint_temp);
+        // multipartUploadWithSts(storeAs, file, checkpoint_temp);
       });
   }
-}
-const getToken = () => {
-  let Token = window.localStorage.getItem('token');
-  return Token;
-}
-const getSign = () => {
-  return post(`${VUE_APP_BASEURL}/${
-    NODE_ENV == "aiyu" ? "api" : "api"
-    }/upload/pic/getSTSToken`)
 }

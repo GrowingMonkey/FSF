@@ -143,3 +143,14 @@ export const updateUser = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export async function getOssSign(payload) {
+  // return new Promise((resolve, reject) => {
+  //   request.post("/login/loginOut", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/admin/getALLSTSToken', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};

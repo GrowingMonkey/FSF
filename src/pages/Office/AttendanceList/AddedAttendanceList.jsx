@@ -2,6 +2,7 @@ import { Card, message } from 'antd';
 import ProForm, {
     ProFormDatePicker,
     ProFormDateTimePicker,
+    ProFormUploadButton,
     ProFormDependency,
     ProFormSearchSelect,
     ProFormDigit,
@@ -13,7 +14,7 @@ import ProForm, {
 import { useRequest, history } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
 import { applyBK } from '@/services/office'
-// import { fakeSubmitForm } from './service';
+import { upload } from '@/utils/lib/upload'
 
 const AddedAttendanceList = () => {
     const { run } = useRequest(applyBK, {
@@ -92,6 +93,18 @@ const AddedAttendanceList = () => {
                         help=""//备注
                         name="type"
 
+                    />
+                    <ProFormUploadButton
+                        label="补卡类型"
+                        help=""//备注
+                        name="type"
+                        fieldProps={{
+                            beforeUpload: (e) => {
+                                console.log(e);
+                                upload(e, () => { console.log(11) })
+                            },
+                            onChange: (e) => { console.log(e) }
+                        }}
                     />
 
                 </ProForm>

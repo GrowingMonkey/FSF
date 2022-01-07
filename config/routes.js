@@ -61,6 +61,12 @@ export default [
         component: "./Project/PList/index",
       },
       {
+        path: "/project/p-detail",
+        name: "职位详情",
+        hideInMenu: true,
+        component: "./Project/PDetail/index",
+      },
+      {
         path: "/project/pm-list",
         name: "我的职位",
         component: "./Project/PMList/index",
@@ -309,12 +315,7 @@ export default [
       },
     ],
   },
-  // {
-  //   name: 'list.table-list',
-  //   icon: 'table',
-  //   path: '/list',
-  //   component: './TableList',
-  // },
+
   {
     path: '/',
     redirect: '/welcome',

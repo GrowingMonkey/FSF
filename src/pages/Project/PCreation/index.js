@@ -373,8 +373,9 @@ const PCreation = () => {
       payload.customerId = values.customer.customerId;
       payload.customerName = values.customer.customerName;
       console.log(payload);
-      getProjectId().then((id) => {
-        addProject({ projectId: id, ...payload }).then((data) => {
+      getProjectId().then((res) => {
+        const { data } = res
+        addProject({ projectId: data, ...payload }).then((data) => {
           // console.log(data);
           history.push("/project/p-list");
         });

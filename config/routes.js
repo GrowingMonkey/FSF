@@ -37,6 +37,24 @@ export default [
         component: "./Customer/CList/index",
       },
       {
+
+        path: "/customer/my-list",
+        name: "我的客户",
+        component: "./Customer/CList/MyCustomer",
+      },
+      {
+
+        path: "/customer/team-list",
+        name: "合作客户",
+        component: "./Customer/CList/TeamCustomer",
+      },
+      {
+
+        path: "/customer/public-list",
+        name: "公共客户",
+        component: "./Customer/CList/PublicCustomer",
+      },
+      {
         hideInMenu: true,
         path: "/customer/detail",
         name: "客户详情",
@@ -69,7 +87,12 @@ export default [
       {
         path: "/project/pm-list",
         name: "我的职位",
-        component: "./Project/PMList/index",
+        component: "./Project/PList/MyProject",
+      },
+      {
+        path: "/project/team-list",
+        name: "合作职位",
+        component: "./Project/PList/TeamProject",
       },
       {
         path: "/project/p-creation",
@@ -92,9 +115,26 @@ export default [
         component: "./Talent/TList/index",
       },
       {
+
+        path: "/talent/my-list",
+        name: "我的简历",
+
+        component: "./Talent/TList/resume",
+      },
+      {
         path: "/talent/tp-list",
         name: "我的推荐",
         component: "./Talent/TPList/index",
+      },
+      {
+        path: "/talent/my-offer",
+        name: "我的offer",
+        component: "./Talent/TPList/offer",
+      },
+      {
+        path: "/talent/my-talented",
+        name: "入职人选",
+        component: "./Talent/TPList/talented",
       },
       {
         path: "/talent/t-creatiion",

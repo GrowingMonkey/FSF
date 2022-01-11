@@ -240,3 +240,17 @@ export const updateTP = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+// 我的职位
+export const myJobList = (payload) => {
+  return request('/project/myJobList', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+// 合作职位
+export const hzJobList = (payload) => {
+  return request('/project/hzJobList', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};

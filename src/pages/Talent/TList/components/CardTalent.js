@@ -108,7 +108,7 @@ const CardTalent = ({ record }) => {
           <Col>
             <Space>
               <Button>查看详情</Button>
-              <Button>加入项目</Button>
+              {/* <Button>加入项目</Button> */}
             </Space>
           </Col>
         </Row>

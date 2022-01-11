@@ -25,7 +25,8 @@ export async function upload(file, callback) {
     accessKeySecret: dataObj.accessKeySecret,
     stsToken: dataObj.securityToken,
     endpoint: callbackObj ? callbackObj.OSS_END_POINT : OSS_END_POINT,
-    bucket: callbackObj ? callbackObj.OSS_BURKET : OSS_BURKET
+    bucket: callbackObj ? callbackObj.OSS_BURKET : OSS_BURKET,
+    secure: false,
   });
   //设置oss对象
   setOssClient(clientOss);

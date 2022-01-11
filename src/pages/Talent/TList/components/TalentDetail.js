@@ -215,16 +215,16 @@ const TalentDetail = ({ setDetailVisible, record }) => {
                   </Descriptions.Item>
                 </Descriptions>
               </div>
-              <div className={styles["education-container"]}>
+              <div className={styles["project-container"]}>
                 <Row justify="space-between" align="middle">
                   <Col>
-                    <div className={styles["page-title"]}>教育经历</div>
+                    <div className={styles["page-title"]}>公司经历</div>
                   </Col>
                   <Col>
                     <Space>
                       <Button
                         onClick={() => {
-                          setEducationVisible(true);
+                          setCompanyVisible(true);
                         }}
                       >
                         添加
@@ -232,8 +232,10 @@ const TalentDetail = ({ setDetailVisible, record }) => {
                     </Space>
                   </Col>
                 </Row>
-                {detail.experienceEdus.length > 0 ? null : <Divider></Divider>}
-                {detail.experienceEdus.map((item) => {
+                {detail.experienceCompanies.length > 0 ? null : (
+                  <Divider></Divider>
+                )}
+                {detail.experienceCompanies.map((item) => {
                   return (
                     <div key={item.id}>
                       <Divider orientation="right">
@@ -241,7 +243,7 @@ const TalentDetail = ({ setDetailVisible, record }) => {
                           placement="topLeft"
                           title="确认删除?"
                           onConfirm={() => {
-                            deleteEducation(item.id);
+                            deleteCompany(item.id);
                           }}
                           okText="Yes"
                           cancelText="No"
@@ -249,15 +251,15 @@ const TalentDetail = ({ setDetailVisible, record }) => {
                           <Button type="text">删除</Button>
                         </Popconfirm>
                       </Divider>
-                      <Descriptions column={3}>
-                        <Descriptions.Item label="学校名">
+                      <Descriptions column={1}>
+                        <Descriptions.Item label="公司名">
                           {item.name}
                         </Descriptions.Item>
-                        <Descriptions.Item label="专业">
-                          {item.classes}
+                        <Descriptions.Item label="当前岗位">
+                          {item.job}
                         </Descriptions.Item>
-                        <Descriptions.Item label="是否统招">
-                          {isAllTimeTypes[item.isAllTime]}
+                        <Descriptions.Item label="行业">
+                          {item.industry}({item.industryChild})
                         </Descriptions.Item>
                         <Descriptions.Item label="开始日期">
                           {item.startTime && item.startTime.split(" ")[0]}
@@ -265,8 +267,11 @@ const TalentDetail = ({ setDetailVisible, record }) => {
                         <Descriptions.Item label="结束日期">
                           {item.endTime && item.endTime.split(" ")[0]}
                         </Descriptions.Item>
-                        <Descriptions.Item label="担任职务">
+                        <Descriptions.Item label="职责">
                           {item.duty}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="工作内容">
+                          {item.details}
                         </Descriptions.Item>
                       </Descriptions>
                     </div>
@@ -336,16 +341,16 @@ const TalentDetail = ({ setDetailVisible, record }) => {
                   );
                 })}
               </div>
-              <div className={styles["project-container"]}>
+              <div className={styles["education-container"]}>
                 <Row justify="space-between" align="middle">
                   <Col>
-                    <div className={styles["page-title"]}>公司经历</div>
+                    <div className={styles["page-title"]}>教育经历</div>
                   </Col>
                   <Col>
                     <Space>
                       <Button
                         onClick={() => {
-                          setCompanyVisible(true);
+                          setEducationVisible(true);
                         }}
                       >
                         添加
@@ -353,10 +358,8 @@ const TalentDetail = ({ setDetailVisible, record }) => {
                     </Space>
                   </Col>
                 </Row>
-                {detail.experienceCompanies.length > 0 ? null : (
-                  <Divider></Divider>
-                )}
-                {detail.experienceCompanies.map((item) => {
+                {detail.experienceEdus.length > 0 ? null : <Divider></Divider>}
+                {detail.experienceEdus.map((item) => {
                   return (
                     <div key={item.id}>
                       <Divider orientation="right">
@@ -364,7 +367,7 @@ const TalentDetail = ({ setDetailVisible, record }) => {
                           placement="topLeft"
                           title="确认删除?"
                           onConfirm={() => {
-                            deleteCompany(item.id);
+                            deleteEducation(item.id);
                           }}
                           okText="Yes"
                           cancelText="No"
@@ -372,15 +375,15 @@ const TalentDetail = ({ setDetailVisible, record }) => {
                           <Button type="text">删除</Button>
                         </Popconfirm>
                       </Divider>
-                      <Descriptions column={1}>
-                        <Descriptions.Item label="公司名">
+                      <Descriptions column={3}>
+                        <Descriptions.Item label="学校名">
                           {item.name}
                         </Descriptions.Item>
-                        <Descriptions.Item label="当前岗位">
-                          {item.job}
+                        <Descriptions.Item label="专业">
+                          {item.classes}
                         </Descriptions.Item>
-                        <Descriptions.Item label="行业">
-                          {item.industry}({item.industryChild})
+                        <Descriptions.Item label="是否统招">
+                          {isAllTimeTypes[item.isAllTime]}
                         </Descriptions.Item>
                         <Descriptions.Item label="开始日期">
                           {item.startTime && item.startTime.split(" ")[0]}
@@ -388,17 +391,16 @@ const TalentDetail = ({ setDetailVisible, record }) => {
                         <Descriptions.Item label="结束日期">
                           {item.endTime && item.endTime.split(" ")[0]}
                         </Descriptions.Item>
-                        <Descriptions.Item label="职责">
+                        <Descriptions.Item label="担任职务">
                           {item.duty}
-                        </Descriptions.Item>
-                        <Descriptions.Item label="工作内容">
-                          {item.details}
                         </Descriptions.Item>
                       </Descriptions>
                     </div>
                   );
                 })}
               </div>
+
+
             </Col>
           </Row>
           <div style={{ width: "100%", minHeight: "15px" }}></div>

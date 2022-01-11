@@ -111,9 +111,6 @@ const InfoProject = ({ record }) => {
           <Button type="link" style={{ padding: 0 }}>
             查看详情
           </Button>
-          {/* <Button type="link" style={{ padding: 0 }}>
-            加入项目
-          </Button> */}
         </Space>
       ),
       width: 100,

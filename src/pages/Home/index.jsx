@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 import { PageContainer } from '@ant-design/pro-layout';
 import { Row, Col } from "antd";
 import { selectWorkFlow } from "../../services/home";
@@ -8,6 +9,7 @@ import RankTabCard from "./components/RankTabCard";
 import RankListCard from "./components/RankListCard";
 import styles from "./index.less";
 const Home = () => {
+
     const [activeTab, setActiveTab] = useState(0);
     const [dataState, setDataState] = useState([0, 0, 0, 0, 0]);
     useEffect(() => {

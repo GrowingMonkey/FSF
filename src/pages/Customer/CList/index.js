@@ -33,6 +33,7 @@ import { Link } from "umi";
 const CustomerList = () => {
   console.clear()
   const [form] = Form.useForm();
+  const [showState, setShowState] = useState(false)
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValues, setSearchValues] = useState(null);
   const [listLength, setListLength] = useState(0);
@@ -421,20 +422,6 @@ const CustomerList = () => {
     setCurrentPage(page);
   };
   useEffect(() => {
-    // form.validateFields().then((values) => {
-    //   // console.log(values);
-    //   cstList({ ...values, pageNo: currentPage, pageSize: 10 }).then((data) => {
-    //     // console.log(data);
-    //     setCustomerList(
-    //       data.list.map((item) => {
-    //         return Object.assign(item, {
-    //           key: item.customerId,
-    //         });
-    //       })
-    //     );
-    //     setListLength(data.count);
-    //   });
-    // });
     cstList({ pageNo: currentPage, pageSize: 10, ...searchValues }).then(res => {
       const { data } = res;
       console.log(res);
@@ -456,13 +443,14 @@ const CustomerList = () => {
   }
   return (
     <PageContainer>
-      <div className={styles["search-container"]}>
+      <div className={styles["search-container"]} style={{ maxHeight: !showState ? '200px' : '10000px', overflow: 'hidden', transition: 'max-height .4s' }}>
         <Row justify="space-between" align="middle">
           <Col>
             <div className={styles["page-title"]}>客户列表</div>
           </Col>
           <Col>
             <Space size={8}>
+              <Button type="primary" onClick={() => setShowState(!showState)}>{showState ? '收起' : '展开'}</Button>
               <Button onClick={onClear}>清空</Button>
               <Button type="primary" onClick={onSearch}>
                 搜索

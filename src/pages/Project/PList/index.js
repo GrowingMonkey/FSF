@@ -55,17 +55,17 @@ const PList = () => {
       },
     },
     {
+      title: "客户",
+      dataIndex: "customerName",
+      key: "customerName",
+    },
+    {
       title: "职位名称",
       dataIndex: "name",
       key: "name",
     },
     {
-      title: "职位年薪",
-      dataIndex: "salary",
-      key: "salary",
-    },
-    {
-      title: "地点",
+      title: "工作地点",
       dataIndex: "cityCode",
       key: "cityCode",
       render: (text) => {
@@ -81,11 +81,7 @@ const PList = () => {
         return <span>{info(city).name}</span>;
       },
     },
-    {
-      title: "客户",
-      dataIndex: "customerName",
-      key: "customerName",
-    },
+
     // {
     //   title: "执行团队",
     //   dataIndex: "k6",

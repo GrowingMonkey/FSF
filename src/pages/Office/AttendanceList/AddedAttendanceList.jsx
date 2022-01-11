@@ -27,7 +27,7 @@ const AddedAttendanceList = () => {
 
     const onFinish = async (values) => {
         console.log(values)
-        run(values);
+        // run(values);
     };
 
 
@@ -97,13 +97,15 @@ const AddedAttendanceList = () => {
                     <ProFormUploadButton
                         label="补卡类型"
                         help=""//备注
-                        name="type"
+                        name="type1"
                         fieldProps={{
-                            beforeUpload: (e) => {
-                                console.log(e);
-                                upload(e, () => { console.log(11) })
+                            customRequest: async (options) => {
+                                console.log(options);
+                                let result = await upload(options.file, () => { console.log(11) })
+                                console.log(result.res.requestUrls[0]);
+
+                                options.onSuccess(result.res.requestUrls[0], options.file)
                             },
-                            onChange: (e) => { console.log(e) }
                         }}
                     />
 

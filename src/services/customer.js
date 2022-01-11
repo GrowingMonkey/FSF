@@ -334,3 +334,27 @@ export const zdzr = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+//公共客户
+export const ggCustomerList = (payload) => {
+
+  return request('/customer/ggCustomerList', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+//我的客户
+export const myCustomerList = (payload) => {
+
+  return request('/customer/myCustomerList', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+//合作客户
+export const hzCustomerList = (payload) => {
+  return request('/customer/hzCustomerList', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+

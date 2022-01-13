@@ -5,12 +5,14 @@ import {
   Row,
   Col,
   Input,
+  Radio,
   Button,
   Select,
   Divider,
   Cascader,
   InputNumber,
   DatePicker,
+  Card,
 } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { cityList } from "../../../utils/CityList";
@@ -24,7 +26,24 @@ import {
   addEC,
 } from "../../../services/talent";
 import styles from "./index.less";
+import ProForm, {
+  ProFormSwitch,
+  ProFormText,
+  ProFormRadio,
+  ProFormDatePicker,
+  ProFormCheckbox,
+  ProFormRate,
+  ProFormSelect,
+  ProFormDigit,
+  ProFormSlider,
+  ProFormGroup,
+  ProFormDigitRange,
+  ProFormTextArea,
+  ProFormDateRangePicker,
+} from "@ant-design/pro-form";
 import { PageContainer } from "@ant-design/pro-layout";
+import TextArea from "antd/lib/input/TextArea";
+const { RangePicker } = DatePicker;
 const TCreation = () => {
   const history = useHistory();
   const [industryChildList, setIndustryChildList] = useState([]);
@@ -34,6 +53,7 @@ const TCreation = () => {
   const [educationForm] = Form.useForm();
   const [projectForm] = Form.useForm();
   const [experienceForm] = Form.useForm();
+  const [contactForm] = Form.useForm();
   const basicFormList = [
     {
       name: "name",
@@ -130,40 +150,6 @@ const TCreation = () => {
       label: "学历",
       type: "select",
       span: 12,
-      options: [
-        {
-          label: "不限",
-          value: 0,
-        },
-        {
-          label: "初中以上",
-          value: 1,
-        },
-        {
-          label: "中专以上",
-          value: 2,
-        },
-        {
-          label: "高中以上",
-          value: 3,
-        },
-        {
-          label: "大专以上",
-          value: 4,
-        },
-        {
-          label: "本科以上",
-          value: 5,
-        },
-        {
-          label: "硕士以上",
-          value: 6,
-        },
-        {
-          label: "博士以上",
-          value: 7,
-        },
-      ],
     },
 
     {
@@ -404,6 +390,15 @@ const TCreation = () => {
     Object.assign(experience[key], { industryChild: data.children[0].value });
     experienceForm.setFieldsValue({ experience });
   };
+  const formItemLayout = {
+    labelCol: {//label占比 当屏幕为xs最小像素时 当屏幕为sm大于小像素时
+      span: 4
+    },
+    wrapperCol: {//input框占比
+      xs: 24,
+      sm: 4
+    }
+  }
   return (
     <PageContainer>
 
@@ -412,7 +407,7 @@ const TCreation = () => {
           <div className={styles["basic-container"]}>
             <Row justify="space-between">
               <Col>
-                <div className={styles["title"]}>基本信息</div>
+                <div className={styles["title"]}>联系方式</div>
               </Col>
               <Col>
                 <Button type="primary" onClick={handleSubmit}>
@@ -421,93 +416,242 @@ const TCreation = () => {
               </Col>
             </Row>
             <Divider></Divider>
-            <Form
-              form={basicForm}
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 16 }}
-              labelAlign="left"
-            >
-              {
-                <Row gutter={32}>
-                  {basicFormList.map((col) => {
-                    if (col.render) {
-                      return col.render();
-                    }
-                    if (col.type === "input") {
-                      return (
-                        <Col span={col.span} key={col.name}>
-                          <Form.Item
-                            name={col.name}
-                            label={col.label}
-                            rules={col.rules}
-                          >
-                            <Input></Input>
-                          </Form.Item>
-                        </Col>
-                      );
-                    }
-                    if (col.type === "inputNumber") {
-                      return (
-                        <Col span={col.span} key={col.name}>
-                          <Form.Item
-                            name={col.name}
-                            label={col.label}
-                            rules={col.rules}
-                          >
-                            <InputNumber
-                              style={{ width: "100%" }}
-                            ></InputNumber>
-                          </Form.Item>
-                        </Col>
-                      );
-                    }
-                    if (col.type === "select") {
-                      return (
-                        <Col span={col.span} key={col.name}>
-                          <Form.Item
-                            name={col.name}
-                            label={col.label}
-                            rules={col.rules}
-                          >
-                            <Select options={col.options}></Select>
-                          </Form.Item>
-                        </Col>
-                      );
-                    }
-                    if (col.type === "cascader") {
-                      return (
-                        <Col span={col.span} key={col.name}>
-                          <Form.Item name={col.name} label={col.label}>
-                            <Cascader
-                              options={col.options}
-                              placeholder=""
-                            ></Cascader>
-                          </Form.Item>
-                        </Col>
-                      );
-                    }
-                    if (col.type === "datePicker") {
-                      return (
-                        <Col span={col.span} key={col.name}>
-                          <Form.Item name={col.name} label={col.label}>
-                            <DatePicker style={{ width: "100%" }}></DatePicker>
-                          </Form.Item>
-                        </Col>
-                      );
-                    }
-                    return null;
-                  })}
-                </Row>
-              }
-            </Form>
+            <ProForm labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} layout={'horizontal'} form={contactForm} submitter={{
+              render: (props, dom) => {
+                return null
+              },
+            }}>
+              <ProForm.Group>
+                <ProFormText width="sm" name="name" label="手机号码" />
+                <ProFormText width="sm" name="name1" label="邮箱地址" />
+              </ProForm.Group>
+
+            </ProForm>
+          </div>
+          <div className={styles["education-container"]}>
+            <Row justify="space-between">
+              <Col>
+                <div className={styles["title"]}>基本信息</div>
+              </Col>
+            </Row>
+            <Divider></Divider>
+            <ProForm form={contactForm} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} layout={'horizontal'} submitter={{
+              render: (props, dom) => {
+                return null
+              },
+            }}>
+              <ProForm.Group>
+                <ProFormText fieldProps={{
+                  ...formItemLayout
+                }} width="sm" name="name" label="人选姓名" />
+                <ProFormSelect width="sm" name="name" label="最高学历" options={[
+                  {
+                    label: "不限",
+                    value: 0,
+                  },
+                  {
+                    label: "初中以上",
+                    value: 1,
+                  },
+                  {
+                    label: "中专以上",
+                    value: 2,
+                  },
+                  {
+                    label: "高中以上",
+                    value: 3,
+                  },
+                  {
+                    label: "大专以上",
+                    value: 4,
+                  },
+                  {
+                    label: "本科以上",
+                    value: 5,
+                  },
+                  {
+                    label: "硕士以上",
+                    value: 6,
+                  },
+                  {
+                    label: "博士以上",
+                    value: 7,
+                  },
+                ]} />
+              </ProForm.Group>
+              <ProForm.Group>
+                <ProFormSelect width="sm" name="name" label="工作经验" options={[
+                  {
+                    label: "3年以下",
+                    value: "3年以下",
+                  },
+                  {
+                    label: "3-5年",
+                    value: "3-5年",
+                  },
+                  {
+                    label: "5-10年",
+                    value: "5-10年",
+                  },
+                  {
+                    label: "10年以上",
+                    value: "10年以上",
+                  },
+                ]} />
+                <ProFormRadio.Group
+                  label="人选性别"
+                  name="gender"
+                  labelCol={{
+                    style: { width: '95.33px' }
+                  }}
+                  options={[
+                    {
+                      value: '1',
+                      label: '男',
+                    },
+                    {
+                      value: '2',
+                      label: '女',
+                    },
+                  ]}
+                />
+                {/* <ProFormSelect width="sm" name="name" label="人选性别" options={[
+                  {
+                    label: "男",
+                    value: "3年以下",
+                  },
+                  {
+                    label: "女",
+                    value: "3-5年",
+                  },
+                ]} /> */}
+
+
+              </ProForm.Group>
+              <ProForm.Group>
+                <ProFormDatePicker
+                  label="出生日期"
+                  width="sm"
+                  help=""//备注
+                  name="state" />
+                <ProFormText label="目前薪资"
+                  help=""//备注
+                  fieldProps={{
+                    prefix: "￥",
+                    suffix: "万元"
+                  }}
+                  width="sm"
+                  name="state" />
+              </ProForm.Group>
+              <ProForm.Group>
+                <ProFormText
+                  label="户籍地址"
+                  help=""//备注
+                  width="sm"
+                  name="state" />
+                <ProFormText
+                  label="现居地址"
+                  help=""//备注
+                  width="sm"
+                  name="state" />
+              </ProForm.Group>
+              <ProForm.Group>
+                <ProFormSelect width="sm" name="name" label="工作状态" options={[
+                  {
+                    label: "3年以下",
+                    value: "3年以下",
+                  },
+                  {
+                    label: "3-5年",
+                    value: "3-5年",
+                  },
+                  {
+                    label: "5-10年",
+                    value: "5-10年",
+                  },
+                  {
+                    label: "10年以上",
+                    value: "10年以上",
+                  },
+                ]} />
+                <ProFormSelect width="sm" name="name" label="推荐来源" options={[
+                  {
+                    label: "3年以下",
+                    value: "3年以下",
+                  },
+                  {
+                    label: "3-5年",
+                    value: "3-5年",
+                  },
+                  {
+                    label: "5-10年",
+                    value: "5-10年",
+                  },
+                  {
+                    label: "10年以上",
+                    value: "10年以上",
+                  },
+                ]} />
+              </ProForm.Group>
+            </ProForm>
+          </div>
+          <div className={styles["education-container"]}>
+            <div className={styles["title"]}>个人经历</div>
+            <Divider></Divider>
+            <ProForm form={contactForm} layout={'horizontal'} submitter={{
+              render: (props, dom) => {
+                return null
+              },
+            }}>
+              <ProFormTextArea width="xl" name="name" label="" />
+            </ProForm>
+          </div>
+          <div className={styles["education-container"]}>
+            <div className={styles["title"]}>求职意向</div>
+            <Divider></Divider>
+            <ProForm form={contactForm} layout={'horizontal'} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} submitter={{
+              render: (props, dom) => {
+                return null
+              },
+
+            }}>
+              <ProForm.Group>
+                {/* <Form.Item name="RIndustry" label="期望行业">
+                  <Select
+                    options={industryList}
+                    onChange={onIndustryChange}
+                  ></Select>
+                </Form.Item> */}
+                <ProFormSelect width="sm" name="name" label="期望行业" options={industryList} onChange={onIndustryChange} />
+                <ProFormCheckbox width="sm" label="不限" name="aa" />
+              </ProForm.Group>
+              <ProForm.Group>
+                <ProFormSelect width="sm" name="name" label="期望岗位" options={industryList} onChange={onIndustryChange} />
+                <ProFormCheckbox width="sm" label="不限" name="aa" />
+              </ProForm.Group>
+              <ProForm.Group>
+                <ProFormSelect width="sm" name="name" label="期望薪资" options={industryList} onChange={onIndustryChange} />
+                <ProFormCheckbox width="sm" label="不限" name="aa" />
+              </ProForm.Group>
+              <ProForm.Group>
+                <ProFormSelect width="sm" name="name" label="期望地点" options={industryList} onChange={onIndustryChange} />
+                <ProFormCheckbox width="sm" label="不限" name="aa" />
+              </ProForm.Group>
+            </ProForm>
           </div>
           <div className={styles["education-container"]}>
             <div className={styles["title"]}>教育经历</div>
-            <Form
+            <ProForm
               form={educationForm}
-              labelCol={{ span: 8 }}
+              labelCol={{ style: { width: '95.33px' } }}
               wrapperCol={{ span: 16 }}
-              labelAlign="left"
+              layout="horizontal"
+              labelAlign="right"
+              submitter={{
+                render: (props, dom) => {
+                  return null
+                }
+              }}
             >
               <Form.List name="education">
                 {(fields, { add, remove }) => (
@@ -518,89 +662,60 @@ const TCreation = () => {
                         <Divider orientation="right">
                           <MinusCircleOutlined onClick={() => remove(name)} />
                         </Divider>
-                        <Row gutter={32}>
-                          <Col span={8}>
-                            <Form.Item
-                              name={[name, "name"]}
-                              fieldKey={[fieldKey, "name"]}
-                              label="学校名"
-                              rules={[
-                                {
-                                  required: true,
-                                  message: "必填",
-                                },
-                              ]}
-                            >
-                              <Input></Input>
-                            </Form.Item>
-                          </Col>
-                          <Col span={8}>
-                            <Form.Item
-                              name={[name, "classes"]}
-                              fieldKey={[fieldKey, "classes"]}
-                              label="专业"
-                              rules={[
-                                {
-                                  required: true,
-                                  message: "必填",
-                                },
-                              ]}
-                            >
-                              <Input></Input>
-                            </Form.Item>
-                          </Col>
-                          <Col span={8}>
-                            <Form.Item
-                              name={[name, "isAllTime"]}
-                              fieldKey={[fieldKey, "isAllTime"]}
-                              label="是否统招"
-                              rules={[
-                                {
-                                  required: true,
-                                  message: "必填",
-                                },
-                              ]}
-                            >
-                              <Select
-                                options={[
-                                  { label: "是", value: 0 },
-                                  { label: "否", value: 1 },
-                                ]}
-                              ></Select>
-                            </Form.Item>
-                          </Col>
-                          <Col span={8}>
-                            <Form.Item
-                              name={[name, "startTime"]}
-                              fieldKey={[fieldKey, "startTime"]}
-                              label="开始日期"
-                            >
-                              <DatePicker
-                                style={{ width: "100%" }}
-                              ></DatePicker>
-                            </Form.Item>
-                          </Col>
-                          <Col span={8}>
-                            <Form.Item
-                              name={[name, "endTime"]}
-                              fieldKey={[fieldKey, "endTime"]}
-                              label="结束日期"
-                            >
-                              <DatePicker
-                                style={{ width: "100%" }}
-                              ></DatePicker>
-                            </Form.Item>
-                          </Col>
-                          <Col span={8}>
-                            <Form.Item
-                              name={[name, "duty"]}
-                              fieldKey={[fieldKey, "duty"]}
-                              label="担任职务"
-                            >
-                              <Input></Input>
-                            </Form.Item>
-                          </Col>
-                        </Row>
+
+                        <Form.Item
+                          name={[name, "name"]}
+                          fieldKey={[fieldKey, "name"]}
+                          label="学校名"
+                          rules={[
+                            {
+                              required: true,
+                              message: "必填",
+                            },
+                          ]}
+                        >
+                          <Input style={{ width: '328px' }}></Input>
+                        </Form.Item>
+
+
+                        <Form.Item
+                          name={[name, "classes"]}
+                          fieldKey={[fieldKey, "classes"]}
+                          label="专业"
+                          rules={[
+                            {
+                              required: true,
+                              message: "必填",
+                            },
+                          ]}
+                        >
+                          <Input style={{ width: '328px' }}></Input>
+                        </Form.Item>
+
+
+                        <Form.Item
+                          name={[name, "isAllTime"]}
+                          fieldKey={[fieldKey, "isAllTime"]}
+                          label="是否统招"
+                          rules={[
+                            {
+                              required: true,
+                              message: "必填",
+                            },
+                          ]}
+                        >
+                          {/* <Select
+                            options={[
+                              { label: "是", value: 0 },
+                              { label: "否", value: 1 },
+                            ]}
+                          ></Select> */}
+                          <Radio.Group >
+                            <Radio value={1}>是</Radio>
+                            <Radio value={2}>否</Radio>
+                          </Radio.Group>
+                        </Form.Item>
+                        <ProFormDateRangePicker width="md" label="学习时间" />
                       </div>
                     ))}
                     <Button
@@ -614,15 +729,15 @@ const TCreation = () => {
                   </>
                 )}
               </Form.List>
-            </Form>
+            </ProForm>
           </div>
           <div className={styles["experience-container"]}>
             <div className={styles["title"]}>工作经历</div>
             <Form
               form={experienceForm}
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 16 }}
-              labelAlign="left"
+              labelCol={{ style: { width: '95.33px' } }}
+              wrapperCol={{ style: { width: '328px' } }}
+              labelAlign="right"
             >
               <Form.List name="experience">
                 {(fields, { add, remove }) => (
@@ -644,55 +759,61 @@ const TCreation = () => {
                             },
                           ]}
                         >
-                          <Input></Input>
+                          <Input style={{ width: '328px' }}></Input>
                         </Form.Item>
                         <Form.Item
                           name={[name, "duty"]}
                           fieldKey={[fieldKey, "duty"]}
                           label="职责"
                         >
-                          <Input></Input>
+                          <Input style={{ width: '328px' }}></Input>
                         </Form.Item>
                         <Form.Item
                           name={[name, "startTime"]}
                           fieldKey={[fieldKey, "startTime"]}
                           label="开始日期"
                         >
-                          <DatePicker style={{ width: "100%" }}></DatePicker>
+                          <RangePicker style={{ width: "328px" }}></RangePicker>
                         </Form.Item>
-                        <Form.Item
+                        {/* <Form.Item
                           name={[name, "endTime"]}
                           fieldKey={[fieldKey, "endTime"]}
                           label="结束日期"
                         >
                           <DatePicker style={{ width: "100%" }}></DatePicker>
-                        </Form.Item>
-                        <Form.Item
-                          name={[name, "industry"]}
-                          fieldKey={[fieldKey, "industry"]}
-                          label="行业"
-                        >
-                          <Select
-                            options={industryList}
-                            onChange={(value, data) => {
-                              onEIndustryChange(value, data, fieldKey);
-                            }}
-                          ></Select>
-                        </Form.Item>
-                        <Form.Item
-                          name={[name, "industryChild"]}
-                          fieldKey={[fieldKey, "industryChild"]}
-                          label="子行业"
-                        >
-                          <Select options={eIndustryChildList}></Select>
-                        </Form.Item>
+                        </Form.Item> */}
+                        <ProForm.Group>
+                          <Form.Item
+                            name={[name, "industry"]}
+                            fieldKey={[fieldKey, "industry"]}
+                            label="行业"
+                            style={{ width: '242px' }}
+                          >
+                            <Select
+                              options={industryList}
+                              onChange={(value, data) => {
+                                onEIndustryChange(value, data, fieldKey);
+                              }}
+                              style={{ width: "146px" }}
+                            ></Select>
+                          </Form.Item>
+                          <Form.Item
+                            name={[name, "industryChild"]}
+                            fieldKey={[fieldKey, "industryChild"]}
+                            label=""
+                          >
+                            <Select options={eIndustryChildList} style={{ width: "150px" }}></Select>
+                          </Form.Item>
+                        </ProForm.Group>
+
                         <Form.Item
                           name={[name, "details"]}
                           fieldKey={[fieldKey, "details"]}
-                          label="工作内容"
+                          label="工作职责"
                         >
-                          <Input></Input>
+                          <TextArea style={{ width: "328px" }}></TextArea>
                         </Form.Item>
+
                       </div>
                     ))}
                     <Button
@@ -712,9 +833,9 @@ const TCreation = () => {
             <div className={styles["title"]}>项目经历</div>
             <Form
               form={projectForm}
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 16 }}
-              labelAlign="left"
+              labelCol={{ style: { width: '95.33px' } }}
+              wrapperCol={{ style: { width: '328px' } }}
+              labelAlign="right"
             >
               <Form.List name="project">
                 {(fields, { add, remove }) => (
@@ -725,102 +846,55 @@ const TCreation = () => {
                         <Divider orientation="right">
                           <MinusCircleOutlined onClick={() => remove(name)} />
                         </Divider>
-                        <Row gutter={32}>
-                          <Col span={8}>
-                            <Form.Item
-                              name={[name, "name"]}
-                              fieldKey={[fieldKey, "name"]}
-                              label="项目名称"
-                              rules={[
-                                {
-                                  required: true,
-                                  message: "必填",
-                                },
-                              ]}
-                            >
-                              <Input></Input>
-                            </Form.Item>
-                          </Col>
-                          <Col span={8}>
-                            <Form.Item
-                              name={[name, "job"]}
-                              fieldKey={[fieldKey, "job"]}
-                              label="当前岗位"
-                              rules={[
-                                {
-                                  required: true,
-                                  message: "必填",
-                                },
-                              ]}
-                            >
-                              <Input></Input>
-                            </Form.Item>
-                          </Col>
-                          <Col span={8}></Col>
-                          <Col span={8}>
-                            <Form.Item
-                              name={[name, "industry"]}
-                              fieldKey={[fieldKey, "industry"]}
-                              label="行业"
-                            >
-                              <Select
-                                options={industryList}
-                                onChange={(value, data) =>
-                                  onPIndustryChange(value, data, fieldKey)
-                                }
-                              ></Select>
-                            </Form.Item>
-                          </Col>
-                          <Col span={8}>
-                            <Form.Item
-                              name={[name, "industryChild"]}
-                              fieldKey={[fieldKey, "industryChild"]}
-                              label="子行业"
-                            >
-                              <Select options={pIndustryChildList}></Select>
-                            </Form.Item>
-                          </Col>
-                          <Col span={8}>
-                            <Form.Item
-                              name={[name, "startTime"]}
-                              fieldKey={[fieldKey, "startTime"]}
-                              label="开始日期"
-                            >
-                              <DatePicker
-                                style={{ width: "100%" }}
-                              ></DatePicker>
-                            </Form.Item>
-                          </Col>
-                          <Col span={8}>
-                            <Form.Item
-                              name={[name, "endTime"]}
-                              fieldKey={[fieldKey, "endTime"]}
-                              label="结束日期"
-                            >
-                              <DatePicker
-                                style={{ width: "100%" }}
-                              ></DatePicker>
-                            </Form.Item>
-                          </Col>
-                          <Col span={8}>
-                            <Form.Item
-                              name={[name, "details"]}
-                              fieldKey={[fieldKey, "details"]}
-                              label="项目业绩"
-                            >
-                              <Input></Input>
-                            </Form.Item>
-                          </Col>
-                          <Col span={8}>
-                            <Form.Item
-                              name={[name, "duty"]}
-                              fieldKey={[fieldKey, "duty"]}
-                              label="项目职责"
-                            >
-                              <Input></Input>
-                            </Form.Item>
-                          </Col>
-                        </Row>
+
+                        <Form.Item
+                          name={[name, "name"]}
+                          fieldKey={[fieldKey, "name"]}
+                          label="项目名称"
+                          rules={[
+                            {
+                              required: true,
+                              message: "必填",
+                            },
+                          ]}
+                        >
+                          <Input style={{ width: '328px' }}></Input>
+                        </Form.Item>
+
+
+                        <Form.Item
+                          name={[name, "job"]}
+                          fieldKey={[fieldKey, "job"]}
+                          label="当前岗位"
+                          rules={[
+                            {
+                              required: true,
+                              message: "必填",
+                            },
+                          ]}
+                        >
+                          <Input style={{ width: '328px' }}></Input>
+                        </Form.Item>
+
+
+                        <Form.Item
+                          name={[name, "startTime"]}
+                          fieldKey={[fieldKey, "startTime"]}
+                          label="开始日期"
+                        >
+                          <RangePicker
+                            style={{ width: '328px' }}
+                          ></RangePicker>
+                        </Form.Item>
+                        <Form.Item
+                          name={[name, "duty"]}
+                          fieldKey={[fieldKey, "duty"]}
+                          label="项目职责"
+                        >
+                          <TextArea style={{ width: '328px' }} />
+                        </Form.Item>
+
+
                       </div>
                     ))}
                     <Button

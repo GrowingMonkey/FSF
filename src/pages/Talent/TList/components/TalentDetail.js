@@ -25,8 +25,10 @@ import ModalEducation from "./ModalEducation";
 import ModalProject from "./ModalProject";
 import ModalCompany from "./ModalCompany";
 import styles from "./TalentDetail.less";
-
-const TalentDetail = ({ setDetailVisible, record }) => {
+import { useLocation } from "umi";
+import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+const TalentDetail = () => {
+  const { state: { record } } = useLocation();
   const [detail, setDetail] = useState(null);
   const [phone, setPhone] = useState(null);
   const [showBuy, setShowBuy] = useState(false);
@@ -38,6 +40,7 @@ const TalentDetail = ({ setDetailVisible, record }) => {
   const isAllTimeTypes = ["是", "否"];
   const onSubmit = () => {
     if (record) {
+      debugger
       // console.log(record.name);
       selectTalentById({ talentId: record.talentId }).then((res) => {
         const { data } = res;
@@ -98,15 +101,17 @@ const TalentDetail = ({ setDetailVisible, record }) => {
       }
     });
   };
+  console.log(record);
   useEffect(() => {
     if (record) {
-      // console.log(record.name);
+
+      console.log(record);
       selectTalentById({ talentId: record.talentId }).then((res) => {
         // console.log(data);
         const { data } = res;
         setDetail(data);
-        setPhone(data.phone);
-        setShowBuy(data.phone.split("").indexOf("*") !== -1);
+        setPhone(data?.phone || '暂无号码');
+        setShowBuy(data?.phone?.split("")?.indexOf("*") !== -1);
       });
     }
   }, [record]);
@@ -135,28 +140,9 @@ const TalentDetail = ({ setDetailVisible, record }) => {
           <Row gutter={16}>
             <Col span={24}>
               <div className={styles["basic-container"]}>
-                <Row justify="space-between" align="middle">
-                  <Col>
-                    <div className={styles["page-title"]}>基本信息</div>
-                  </Col>
-                  <Col>
-                    <Space>
-                      <Button
-                        type="text"
-                        onClick={() => {
-                          setDetailVisible(false);
-                        }}
-                        shape="circle"
-                        icon={<CloseOutlined />}
-                      ></Button>
-                    </Space>
-                  </Col>
-                </Row>
+                <div className={styles["page-title"]}>联系方式</div>
                 <Divider></Divider>
-                <Descriptions column={3}>
-                  <Descriptions.Item label="姓名">
-                    {detail.name}
-                  </Descriptions.Item>
+                <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', justifyContent: 'flex-end' }} column={2}>
                   <Descriptions.Item label="电话">
                     <Space>
                       <span>{phone}</span>
@@ -183,6 +169,56 @@ const TalentDetail = ({ setDetailVisible, record }) => {
                       ) : null}
                     </Space>
                   </Descriptions.Item>
+                  <Descriptions.Item label="邮箱">
+                    {detail.email}
+                  </Descriptions.Item>
+                </Descriptions>
+              </div>
+              <div className={styles["project-container"]} style={{ position: 'relative' }}>
+                <div className={styles["page-title"]}>基本信息<span style={{ paddingLeft: '24px', fontSize: '14px', color: '#1890ff' }}>简历编号#：{record.talentId}</span></div>
+                <Divider></Divider>
+                <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', justifyContent: 'flex-end' }} column={2}>
+                  <Descriptions.Item label="姓名">
+                    {detail.name}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="学历">
+                    {detail.education}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="性别">
+                    {genderTypes[detail.gender]}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="工作经验">
+                    {detail.experience}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="出生日期">
+                    {detail.birthday}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="目前年薪">
+                    {detail.salary}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="户籍地址">
+                    {detail.domicile}
+                  </Descriptions.Item>
+
+                  <Descriptions.Item label="现居地">
+                    {detail.location}
+                  </Descriptions.Item>
+
+                  <Descriptions.Item label="工作状态">
+                    {workStateTypes[detail.workSate]}
+                  </Descriptions.Item>
+                  <div style={{ position: 'absolute', top: 95, right: 28, width: '100px', height: '100px', borderRadius: '5px', background: '#ddd' }}>{detail.headUrl?<PlusOutlined />:<img src={detail.headUrl}/>}</div>
+                </Descriptions>
+                <Descriptions labelStyle={{ width: '95.33px', display: 'flex', justifyContent: 'flex-end' }}>
+                  <Descriptions.Item label="个人介绍">
+                    {detail.introduce}
+                  </Descriptions.Item>
+                </Descriptions>
+              </div>
+              <div className={styles["project-container"]}>
+                <div className={styles["page-title"]}>求职意向</div>
+                <Divider></Divider>
+                <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', justifyContent: 'flex-end' }} column={1}>
                   <Descriptions.Item label="期望地点">
                     {detail.RCity}
                   </Descriptions.Item>
@@ -194,24 +230,6 @@ const TalentDetail = ({ setDetailVisible, record }) => {
                   </Descriptions.Item>
                   <Descriptions.Item label="期望薪资">
                     {detail.salary}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="学历">
-                    {detail.education}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="毕业院校">
-                    {detail.school}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="工作经验">
-                    {detail.experience}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="现居地">
-                    {detail.location}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="性别">
-                    {genderTypes[detail.gender]}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="工作状态">
-                    {workStateTypes[detail.workSate]}
                   </Descriptions.Item>
                 </Descriptions>
               </div>
@@ -375,7 +393,7 @@ const TalentDetail = ({ setDetailVisible, record }) => {
                           <Button type="text">删除</Button>
                         </Popconfirm>
                       </Divider>
-                      <Descriptions column={3}>
+                      <Descriptions column={2}>
                         <Descriptions.Item label="学校名">
                           {item.name}
                         </Descriptions.Item>

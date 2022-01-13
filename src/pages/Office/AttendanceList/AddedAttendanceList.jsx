@@ -104,7 +104,7 @@ const AddedAttendanceList = () => {
                                 let result = await upload(options.file, () => { console.log(11) })
                                 console.log(result.res.requestUrls[0]);
 
-                                options.onSuccess(result.res.requestUrls[0], options.file)
+                                options.onSuccess(result.res.requestUrls[0], result.res.requestUrls[0])
                             },
                         }}
                     />

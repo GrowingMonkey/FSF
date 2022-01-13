@@ -11,13 +11,14 @@ import {
   Space,
   Table,
 } from "antd";
-import { history } from 'umi'
+import { history, Link } from 'umi'
 import { selectTalentList, selectTalentById } from "../../../services/talent";
 import CardTableExpand from "./components/CardTableExpand";
 import TalentDetail from "./components/TalentDetail";
 import styles from "./index.less";
 import { PageContainer } from "@ant-design/pro-layout";
 import { WomanOutlined, ManOutlined, UserOutlined } from "@ant-design/icons";
+
 const TList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [listLength, setListLength] = useState(0);
@@ -177,7 +178,7 @@ const TList = () => {
       key: "action",
       render: (text, record) => (
         <Space size={16}>
-          <Button
+          {/* <Button
             type="link"
             style={{ padding: 0 }}
             onClick={() => {
@@ -186,7 +187,15 @@ const TList = () => {
             }}
           >
             查看详情
-          </Button>
+          </Button> */}
+          <Link to={{
+            pathname: '/talent/detail',
+            search: '?talentId=' + record.id,
+            state: { record: record },
+          }}>查看</Link>
+          {/* <Button type="link" style={{ padding: 0 }}>
+            加入项目
+          </Button> */}
         </Space>
       ),
       width: 100,

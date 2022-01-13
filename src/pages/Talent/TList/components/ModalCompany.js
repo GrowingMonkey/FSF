@@ -48,9 +48,9 @@ const ModalCompany = ({ visible, onSubmit, onCancel, record, talentId }) => {
     >
       <Form
         form={form}
-        labelCol={{ span: 8 }}
+        labelCol={{ span: 6 }}
         wrapperCol={{ span: 16 }}
-        labelAlign="left"
+        labelAlign="right"
       >
         <Form.Item
           name="name"

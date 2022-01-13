@@ -1,5 +1,9 @@
 export const positionList = [
   {
+    label: "不限",
+    value: "不限",
+  },
+  {
     label: "销售/客服",
     value: "销售/客服",
     children: [

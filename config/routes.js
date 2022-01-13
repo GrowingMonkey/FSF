@@ -115,6 +115,12 @@ export default [
         component: "./Talent/TList/index",
       },
       {
+        hideInMenu: true,
+        path: "/talent/detail",
+        name: "人才详情",
+        component: "./Talent/TList/components/TalentDetail",
+      },
+      {
 
         path: "/talent/my-list",
         name: "我的简历",
@@ -203,24 +209,6 @@ export default [
       },
     ],
   },
-  // {
-  //   path: '/admin',
-  //   name: 'admin',
-  //   icon: 'crown',
-  //   access: 'canAdmin',
-  //   component: './Admin',
-  //   routes: [
-  //     {
-  //       path: '/admin/sub-page',
-  //       name: 'sub-page',
-  //       icon: 'smile',
-  //       component: './Welcome',
-  //     },
-  //     {
-  //       component: './404',
-  //     },
-  //   ],
-  // },
   //后台管理
   {
     icon: 'setting',

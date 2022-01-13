@@ -1,5 +1,9 @@
 export const industryList = [
   {
+    label: "不限",
+    value: "不限",
+  },
+  {
     label: "互联网 / 游戏 / 软件",
     value: "互联网 / 游戏 / 软件",
     children: [

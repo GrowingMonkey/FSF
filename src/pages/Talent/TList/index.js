@@ -190,7 +190,7 @@ const TList = () => {
           </Button> */}
           <Link to={{
             pathname: '/talent/detail',
-            search: '?talentId=' + record.id,
+            search: '?talentId=' + record.talentId,
             state: { record: record },
           }}>查看</Link>
           {/* <Button type="link" style={{ padding: 0 }}>
@@ -280,12 +280,12 @@ const TList = () => {
                 form={form}
                 labelCol={{ span: 8 }}
                 wrapperCol={{ span: 16 }}
-                labelAlign="left"
+                labelAlign="center"
               >
 
-                <Row>
-                  <Col span={24}>
-                    <Form.Item labelCol={{ span: 4 }} name={'keyWord'} label={'关键词'}>
+                <Row gutter={32}>
+                  <Col  {...wrapCol}>
+                    <Form.Item name={'keyWord'} label={'关键词'}>
                       <Input></Input>
                     </Form.Item>
                   </Col>

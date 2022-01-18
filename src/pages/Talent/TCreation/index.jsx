@@ -13,6 +13,7 @@ import {
     Cascader,
     InputNumber,
     DatePicker,
+    Upload,
 } from "antd";
 import ProForm, {
     ProFormText,
@@ -38,6 +39,7 @@ import {
 } from "../../../services/talent";
 import styles from "./index.less";
 import { PageContainer } from "@ant-design/pro-layout";
+import { upload } from '@/utils/lib/upload'
 const { TextArea } = Input;
 const { RangePicker } = DatePicker;
 const TCreation = () => {
@@ -359,10 +361,9 @@ const TCreation = () => {
                                 className: "avatar-uploader",
                                 showUploadList: false,
                                 customRequest: async (options) => {
-                                    console.log(options);
                                     let result = await upload(options.file, () => { console.log(11) })
                                     console.log(result.res.requestUrls[0]);
-
+                                    basicForm.setFieldsValue({ headUrl: [result.res.requestUrls[0]] })
                                     options.onSuccess(result.res.requestUrls[0], result.res.requestUrls[0])
                                 },
                             }}
@@ -709,7 +710,7 @@ const TCreation = () => {
             <div className={styles["attachment-container"]}>
                 <div className={styles["title"]}>附件</div>
                 <Divider></Divider>
-
+                {/* <Upload /> */}
             </div>
 
 

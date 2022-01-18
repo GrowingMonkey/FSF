@@ -5,6 +5,7 @@ import {
   Row,
   Col,
   Input,
+  Radio,
   InputNumber,
   Button,
   Select,
@@ -20,336 +21,20 @@ import { industryList } from "../../../utils/Industry";
 import { positionList } from "../../../utils/Position";
 import styles from "./index.less";
 import { PageContainer } from "@ant-design/pro-layout";
-
+import ProForm, { ProFormText, ProFormSelect, ProFormTextArea } from '@ant-design/pro-form'
+const { TextArea } = Input;
 const PCreation = () => {
   const history = useHistory();
   const [form] = Form.useForm();
+  const [jobForm] = Form.useForm();
   const [industryChildList, setIndustryChildList] = useState([]);
-  const formList = [
-    {
-      name: "customer",
-      label: "客户",
-      type: "input",
-      options: null,
-      rules: [
-        {
-          required: true,
-          message: "必填",
-        },
-      ],
-      span: 12,
-      render: () => {
-        return (
-          <Col span={12} key="customer" {...wrapCol}>
-            <Form.Item
-              name="customer"
-              label="客户"
-              rules={[
-                {
-                  required: true,
-                  message: "必填",
-                },
-              ]}
-            >
-              <CustomerSearch></CustomerSearch>
-            </Form.Item>
-          </Col>
-        );
-      },
-    },
-    {
-      name: "name",
-      label: "职位名",
-      type: "input",
-      options: null,
-      rules: [
-        {
-          required: true,
-          message: "必填",
-        },
-      ],
-      span: 12,
-    },
-    {
-      name: "cityCode",
-      label: "城市",
-      type: "cascader",
-      options: cityList,
-      rules: [
-        {
-          required: true,
-          message: "必填",
-        },
-      ],
-      span: 12,
-    },
-    {
-      name: "industry",
-      label: "行业",
-      type: "select",
-      options: industryList,
-      span: 12,
-      render: () => {
-        return (
-          <Col span={12} key="industry" {...wrapCol}>
-            <Form.Item
-              name="industry"
-              label="行业"
-              rules={[
-                {
-                  required: true,
-                  message: "必填",
-                },
-              ]}
-            >
-              <Select
-                options={industryList}
-                onChange={onIndustryChange}
-              ></Select>
-            </Form.Item>
-          </Col>
-        );
-      },
-    },
-    {
-      name: "industryChild",
-      label: "子行业",
-      type: "select",
-      options: industryChildList,
-      span: 12,
-      render: () => {
-        return (
-          <Col span={12} key="industryChild" {...wrapCol}>
-            <Form.Item
-              name="industryChild"
-              label="子行业"
-              rules={[
-                {
-                  required: true,
-                  message: "必填",
-                },
-              ]}
-            >
-              <Select options={industryChildList}></Select>
-            </Form.Item>
-          </Col>
-        );
-      },
-    },
-    {
-      name: "job",
-      label: "岗位",
-      type: "cascader",
-      rules: [
-        {
-          required: true,
-          message: "必填",
-        },
-      ],
-      span: 12,
-      options: positionList,
-    },
-    {
-      name: "state",
-      label: "类型",
-      type: "select",
-      options: [
-        { label: "草稿", value: 0 },
-        { label: "发布", value: 1 },
-      ],
-      rules: [
-        {
-          required: true,
-          message: "必填",
-        },
-      ],
-      span: 12,
-    },
-    // {
-    //   name: "customerId",
-    //   label: "客户ID",
-    //   type: "input",
-    //   options: null,
-    //   span: 6,
-    // },
-    {
-      name: "details",
-      label: "职位描述",
-      type: "input",
-      options: null,
-      span: 12,
-    },
-
-    // {
-    //   name: "endTime",
-    //   label: "项目结束时间",
-    //   type: "datePicker",
-    //   options: null,
-    //   span: 12,
-    // },
-    {
-      name: "level",
-      label: "紧急程度",
-      type: "select",
-      options: [
-        { label: "一般", value: 0 },
-        { label: "紧急", value: 1 },
-        { label: "特急", value: 2 },
-      ],
-      span: 12,
-    },
-    // {
-    //   name: "projectId",
-    //   label: "职位ID",
-    //   type: "input",
-    //   options: null,
-    //   span: 6,
-    // },
-    {
-      name: "requireEdu",
-      label: "学历要求",
-      type: "select",
-      options: [
-        {
-          label: "不限",
-          value: 0,
-        },
-        {
-          label: "初中以上",
-          value: 1,
-        },
-        {
-          label: "中专以上",
-          value: 2,
-        },
-        {
-          label: "高中以上",
-          value: 3,
-        },
-        {
-          label: "大专以上",
-          value: 4,
-        },
-        {
-          label: "本科以上",
-          value: 5,
-        },
-        {
-          label: "硕士以上",
-          value: 6,
-        },
-        {
-          label: "博士以上",
-          value: 7,
-        },
-      ],
-      span: 12,
-    },
-    {
-      name: "requireGender",
-      label: "性别要求",
-      type: "select",
-      options: [
-        { label: "不限", value: 0 },
-        { label: "男", value: 1 },
-        { label: "女", value: 2 },
-      ],
-      span: 12,
-    },
-    {
-      name: "quotTime",
-      label: "所保用期限",
-      type: "select",
-      options: [
-        { label: "无期限", value: 0 },
-        { label: "一个月", value: 1 },
-        { label: "二个月", value: 2 },
-        { label: "三个月", value: 3 },
-        { label: "四个月", value: 4 },
-        { label: "五个月", value: 5 },
-        { label: "六个月", value: 6 },
-        { label: "七个月", value: 7 },
-        { label: "八个月", value: 8 },
-        { label: "九个月", value: 9 },
-        { label: "十个月", value: 10 },
-        { label: "十一个月", value: 11 },
-        { label: "十二个月", value: 12 },
-      ],
-      span: 12,
-    },
-    {
-      name: "recruitNum",
-      label: "招聘人数",
-      type: "input",
-      options: null,
-      span: 12,
-    },
-    {
-      name: "reportName",
-      label: "汇报对象",
-      type: "input",
-      options: null,
-      span: 12,
-    },
-    {
-      name: "reportTel",
-      label: "汇报对象电话",
-      type: "input",
-      options: null,
-      span: 12,
-    },
-    // {
-    //   name: "requireAgeS",
-    //   label: "年龄要求 范围开始",
-    //   type: "inputNumber",
-    //   options: null,
-    //   span: 12,
-    // },
-    // {
-    //   name: "requireAgeE",
-    //   label: "年龄要求 范围结束",
-    //   type: "inputNumber",
-    //   options: null,
-    //   span: 12,
-    // },
-    {
-      name: "requireAgeE",
-      label: "年龄范围",
-      type: "range",
-      options: null,
-      span: 12,
-    },
-    {
-      name: "requireAllTime",
-      label: "是否统招",
-      type: "select",
-      options: [
-        { label: "不是", value: 0 },
-        { label: "是", value: 1 },
-      ],
-      span: 12,
-    },
-    {
-      name: "salary",
-      label: "年薪",
-      type: "inputNumber",
-      options: null,
-      span: 12,
-    },
-    {
-      name: "startTime",
-      label: "项目时间",
-      type: "datePickerRange",
-      options: null,
-      span: 12,
-    },
-  ];
   const onIndustryChange = (value, data) => {
     // console.log(value, data);
     setIndustryChildList(data.children);
     form.setFieldsValue({ industryChild: data.children[0].value });
   };
-  const onSubmit = () => {
+  const onSubmit = (params) => {
+
     form.validateFields().then((values) => {
       console.clear();
       let payload = Object.assign({}, values);
@@ -375,10 +60,13 @@ const PCreation = () => {
       console.log(payload);
       getProjectId().then((res) => {
         const { data } = res
-        addProject({ projectId: data, ...payload }).then((data) => {
-          // console.log(data);
-          history.push("/project/p-list");
-        });
+        jobForm.validateFields().then((values) => {
+          addProject({ projectId: data, ...payload, ...values, ...params }).then((data) => {
+            // console.log(data);
+            history.push("/project/p-list");
+          })
+        })
+          ;
       });
     });
   };
@@ -403,139 +91,298 @@ const PCreation = () => {
       <div className={styles["info-container"]}>
         <Row justify="space-between" align="middle">
           <Row>
-            <div className={styles["page-title"]}>创建职位</div>
+            <div className={styles["page-title"]}>职位基本信息</div>
           </Row>
           <Col>
             <Space>
               <Button onClick={onReset}>清空</Button>
-              <Button type="primary" onClick={onSubmit}>
-                提交
+              <Button type="primary" onClick={() => onSubmit({ state: 1 })}>
+                发布
+              </Button>
+              <Button type="primary" onClick={() => onSubmit({ state: 0 })}>
+                保存草稿
               </Button>
             </Space>
           </Col>
         </Row>
         <Divider></Divider>
-        <Form
-          form={form}
-          style={{ marginTop: "15px" }}
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
-          labelAlign="left"
-          initialValues={{
-            level: 0,
-            quotTime: 0,
-            requireGender: 0,
-            requireEdu: 0,
-          }}
-        >
-          <Row gutter={32}>
-            {formList.map((item) => {
-              if (item.render) {
-                return item.render();
-              }
-              if (item.type === "select") {
-                return (
-                  <Col span={item.span} {...wrapCol} key={item.name}>
-                    <Form.Item
-                      name={item.name}
-                      label={item.label}
-                      rules={item.rules}
-                    >
-                      <Select options={item.options}></Select>
-                    </Form.Item>
-                  </Col>
-                );
-              }
-              if (item.type === "cascader") {
-                return (
-                  <Col span={item.span} key={item.name} {...wrapCol}>
-                    <Form.Item
-                      name={item.name}
-                      label={item.label}
-                      rules={item.rules}
-                    >
-                      <Cascader
-                        options={item.options}
-                        placeholder=""
-                      ></Cascader>
-                    </Form.Item>
-                  </Col>
-                );
-              }
-              if (item.type === "input") {
-                return (
-                  <Col span={item.span} key={item.name} {...wrapCol}>
-                    <Form.Item
-                      name={item.name}
-                      label={item.label}
-                      rules={item.rules}
-                    >
-                      <Input></Input>
-                    </Form.Item>
-                  </Col>
-                );
-              }
-              if (item.type === "inputNumber") {
-                return (
-                  <Col span={item.span} key={item.name} {...wrapCol}>
-                    <Form.Item
-                      name={item.name}
-                      label={item.label}
-                      rules={item.rules}
-                    >
-                      <InputNumber style={{ width: "100%" }}></InputNumber>
-                    </Form.Item>
-                  </Col>
-                );
-              }
-              if (item.type === "datePicker") {
-                return (
-                  <Col span={item.span} key={item.name} {...wrapCol}>
-                    <Form.Item
-                      name={item.name}
-                      label={item.label}
-                      rules={item.rules}
-                    >
-                      <DatePicker style={{ width: "100%" }}></DatePicker>
-                    </Form.Item>
-                  </Col>
-                );
-              }
-              if (item.type === "range") {
-                return (
-                  <Col span={item.span} key={item.name} {...wrapCol}>
-                    <Form.Item
-                      name={item.name}
-                      label={item.label}
-                      rules={item.rules}
-                    >
-                      <Input style={{ width: '47%' }}></Input>-<Input style={{ width: '47%' }}></Input>
-                    </Form.Item>
-                  </Col>
-                );
-              }
-              if (item.type === "datePickerRange") {
-                return (
-                  <Col span={item.span} key={item.name} {...wrapTimeCol}>
-                    <Form.Item
-                      name={item.name}
-                      label={item.label}
-                      labelCol={{ xs: 2, sm: 4, lg: 4, md: 4 }}
-                      wrapperCol={{ xs: 2, sm: 20, lg: 20, md: 20 }}
-                      rules={item.rules}
-                    >
-                      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <DatePicker style={{ width: "47%" }}></DatePicker>-<DatePicker style={{ width: "47%" }}></DatePicker>
-                      </div>
+        <div>
+          <ProForm
+            form={form}
+            layout={'horizontal'}
+            labelCol={{ style: { width: '95.33px' } }}
+            wrapperCol={{ style: { width: '328px' } }}
+            submitter={{
+              render: (props, dom) => {
+                return null
+              },
 
-                    </Form.Item>
-                  </Col>
-                );
-              }
-              return null;
-            })}
-          </Row>
-        </Form>
+            }}
+            labelAlign="right">
+
+            <Form.Item
+              name="customer"
+              rules={[
+                {
+                  required: true,
+                  message: "必填",
+                },
+              ]}
+              label="客户选择"
+            >
+              <CustomerSearch CustomerStyle={{ width: '328px' }}></CustomerSearch>
+            </Form.Item>
+            <Form.Item
+              name="name"
+              label="职位名称"
+              rules={[
+                {
+                  required: true,
+                  message: "必填",
+                },
+              ]}
+            >
+              <Input style={{ width: '328px' }}></Input>
+            </Form.Item>
+            <ProForm.Group>
+              <Form.Item
+                name="industry"
+                label="职位类别"
+                style={{ width: '245px' }}
+                rules={[
+                  {
+                    required: true,
+                    message: "必填",
+                  },
+                ]}
+              >
+                <Select options={industryList} onChange={onIndustryChange} style={{ width: '145px' }}></Select>
+              </Form.Item>
+              <Form.Item
+                name="industryChild"
+                style={{ width: '145px' }}
+                rules={[
+                  {
+                    required: true,
+                    message: "必填",
+                  },
+                ]}
+              >
+                <Select options={industryChildList} style={{ width: '145px' }}></Select>
+              </Form.Item>
+            </ProForm.Group>
+            <Form.Item
+              name="job"
+              label={<div></div>}
+              colon={false}
+              rules={[
+                {
+                  required: true,
+                  message: "必填",
+                },
+              ]}
+            >
+              <Cascader
+                style={{ width: '328px' }}
+                options={positionList}
+                placeholder=""
+              ></Cascader>
+            </Form.Item>
+            <Form.Item
+              name="cityCode"
+              label="工作地点"
+              rules={[
+                {
+                  required: true,
+                  message: "必填",
+                },
+              ]}
+            >
+              <Cascader
+                style={{ width: '328px' }}
+                options={cityList}
+                placeholder=""
+              ></Cascader>
+            </Form.Item>
+            {/* <Form.Item
+              name="RJob"
+              label="职位年薪"
+
+            >
+              <Input style={{ width: '328px' }}></Input>
+            </Form.Item> */}
+            <ProForm.Group>
+              <Form.Item
+                name="salaryStart"
+                label="职位年薪"
+                style={{ width: '222px' }}
+              >
+                <Input style={{ width: '122px' }} suffix="万"></Input>
+              </Form.Item>
+                至
+              <Form.Item
+                name="salaryEnd"
+              >
+                <Input style={{ width: '122px' }} suffix="万"></Input>
+              </Form.Item>
+            </ProForm.Group>
+            <Form.Item
+              name="department"
+              label="所属部门"
+
+            >
+              <Input style={{ width: '328px' }}></Input>
+            </Form.Item>
+            <Form.Item
+              name="RJob"
+              label="招聘人数"
+              help="备注：0为若干"
+            >
+              <Input style={{ width: '130px' }}></Input>
+            </Form.Item>
+            <ProForm.Group>
+              <Form.Item
+                name="reportName"
+                label="汇报对象"
+                style={{ width: '230px' }}
+              >
+                <Input style={{ width: '130px' }}></Input>
+              </Form.Item>
+              <Form.Item
+                name="reportTel"
+                label="tel"
+                labelCol={{ width: '50px' }}
+                style={{ width: '212px', justifyContent: 'start' }}
+              >
+                <Input style={{ width: '131px' }}></Input>
+              </Form.Item>
+            </ProForm.Group>
+          </ProForm>
+
+        </div>
+        <div className={styles["page-title"]}>职位要求</div>
+        <Divider></Divider>
+        <ProForm
+          form={jobForm}
+          layout={'horizontal'}
+          labelCol={{ style: { width: '95.33px' } }}
+          wrapperCol={{ style: { width: '328px' } }}
+          submitter={{
+            render: (props, dom) => {
+              return null
+            },
+
+          }}
+          labelAlign="right">
+
+          <Form.Item
+            name="requireEdu"
+
+            label="学历要求"
+          >
+            <Select
+              style={{ width: '328px' }}
+              options={[
+                {
+                  label: "不限",
+                  value: 0,
+                },
+                {
+                  label: "初中以上",
+                  value: 1,
+                },
+                {
+                  label: "中专以上",
+                  value: 2,
+                },
+                {
+                  label: "高中以上",
+                  value: 3,
+                },
+                {
+                  label: "大专以上",
+                  value: 4,
+                },
+                {
+                  label: "本科以上",
+                  value: 5,
+                },
+                {
+                  label: "硕士以上",
+                  value: 6,
+                },
+                {
+                  label: "博士以上",
+                  value: 7,
+                },
+              ]}
+            ></Select>
+          </Form.Item>
+          <ProForm.Group>
+            <Form.Item label="年龄要求" name="requireAgeS" style={{ width: '200px' }}>
+              <Input style={{ width: '100px' }}></Input>
+            </Form.Item>-
+            <Form.Item name="requireAgeE" style={{ width: '100px' }}>
+              <Input></Input>
+            </Form.Item>
+            <Form.Item style={{ width: '68px' }}>
+              <Radio>不限</Radio>
+            </Form.Item>
+          </ProForm.Group>
+
+          <Form.Item
+            name="experience"
+            label="工作年限"
+
+          >
+            <Select style={{ width: '328px' }} options={[
+              {
+                label: "3年以下",
+                value: "3年以下",
+              },
+              {
+                label: "3-5年",
+                value: "3-5年",
+              },
+              {
+                label: "5-10年",
+                value: "5-10年",
+              },
+              {
+                label: "10年以上",
+                value: "10年以上",
+              },
+            ]}></Select>
+          </Form.Item>
+          <Form.Item
+            name="requireGender"
+            label="性别要求"
+
+          >
+            <Radio.Group>
+              <Radio value={1}>男</Radio>
+              <Radio value={0}>女</Radio>
+              <Radio value={2}>不限</Radio>
+            </Radio.Group>
+          </Form.Item>
+          <Form.Item
+            name="requireAllTime"
+            label="是否统招"
+
+          >
+            <Radio.Group>
+              <Radio value={1}>是</Radio>
+              <Radio value={2}>不限</Radio>
+            </Radio.Group>
+          </Form.Item>
+          <Form.Item
+            name="details"
+            label="职位描述"
+
+          >
+            <TextArea style={{ width: '328px' }}></TextArea>
+          </Form.Item>
+        </ProForm>
       </div>
     </PageContainer>
   );

@@ -83,6 +83,7 @@ const Home = () => {
                         <div className={styles["data-tracker-card"]}></div>
                     </Col>
                 </Row>
+
             </div>
         </PageContainer>
     );

@@ -207,7 +207,7 @@ const TalentDetail = () => {
                   <Descriptions.Item label="工作状态">
                     {workStateTypes[detail.workSate]}
                   </Descriptions.Item>
-                  <div style={{ position: 'absolute', top: 95, right: 28, width: '100px', height: '100px', borderRadius: '5px', background: '#ddd' }}>{detail.headUrl?<PlusOutlined />:<img src={detail.headUrl}/>}</div>
+                  <div style={{ position: 'absolute', top: 95, right: 28, width: '100px', height: '100px', borderRadius: '5px', background: '#ddd' }}>{detail.headUrl ? <PlusOutlined /> : <img src={detail.headUrl} />}</div>
                 </Descriptions>
                 <Descriptions labelStyle={{ width: '95.33px', display: 'flex', justifyContent: 'flex-end' }}>
                   <Descriptions.Item label="个人介绍">
@@ -236,7 +236,7 @@ const TalentDetail = () => {
               <div className={styles["project-container"]}>
                 <Row justify="space-between" align="middle">
                   <Col>
-                    <div className={styles["page-title"]}>公司经历</div>
+                    <div className={styles["page-title"]}>工作经历</div>
                   </Col>
                   <Col>
                     <Space>

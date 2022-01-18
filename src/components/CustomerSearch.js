@@ -3,7 +3,9 @@ import { Select } from "antd";
 import debounce from "lodash/debounce";
 import { cstList } from "../services/customer";
 
-const CustomerSearch = ({ value = {}, onChange }) => {
+
+
+const CustomerSearch = ({ value = {}, CustomerStyle = {}, onChange }) => {
   const { Option } = Select;
   const [customerId, setCustomerId] = useState(null);
   const [customerName, setCustomerName] = useState(null);
@@ -53,6 +55,7 @@ const CustomerSearch = ({ value = {}, onChange }) => {
   const debouncedSeach = debounce(handleSearch, 250);
   return (
     <Select
+      style={{ ...CustomerStyle }}
       showSearch
       placeholder=""
       defaultActiveFirstOption={false}

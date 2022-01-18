@@ -1,4 +1,4 @@
-import { Card, message } from 'antd';
+import { Card, message, Form } from 'antd';
 import ProForm, {
     ProFormDatePicker,
     ProFormDateTimePicker,
@@ -24,7 +24,11 @@ const AddedAttendanceList = () => {
             history.push(`/office//attendance-list`)
         },
     });
-
+    const [applyForm] = Form.useForm();
+    /**
+     * 
+     * @param {Promise} values 
+     */
     const onFinish = async (values) => {
         console.log(values)
         // run(values);
@@ -41,6 +45,7 @@ const AddedAttendanceList = () => {
                         marginTop: 8,
                         maxWidth: 600,
                     }}
+                    form={applyForm}
                     name="basic"
                     layout="vertical"
                     initialValues={{
@@ -94,17 +99,15 @@ const AddedAttendanceList = () => {
                         name="type"
 
                     />
+
                     <ProFormUploadButton
                         label="补卡类型"
-                        help=""//备注
                         name="type1"
                         fieldProps={{
                             customRequest: async (options) => {
-                                console.log(options);
                                 let result = await upload(options.file, () => { console.log(11) })
-                                console.log(result.res.requestUrls[0]);
-
-                                options.onSuccess(result.res.requestUrls[0], result.res.requestUrls[0])
+                                applyForm.setFieldsValue({ type1: [result.res.requestUrls[0]] })
+                                options.onSuccess(result.res.requestUrls[0], options.file)
                             },
                         }}
                     />

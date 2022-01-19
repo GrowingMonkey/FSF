@@ -28,7 +28,9 @@ import styles from "./TalentDetail.less";
 import { useLocation } from "umi";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 const TalentDetail = () => {
-  const { state: { record } } = useLocation();
+
+  const { query: { talentId } } = useLocation();
+  const [record, setRecord] = useState(null);
   const [detail, setDetail] = useState(null);
   const [phone, setPhone] = useState(null);
   const [showBuy, setShowBuy] = useState(false);
@@ -38,11 +40,20 @@ const TalentDetail = () => {
   const genderTypes = ["未知", "男", "女"];
   const workStateTypes = ["当前在职 ", "已离职", "失业"];
   const isAllTimeTypes = ["是", "否"];
+  useEffect(() => {
+    selectTalentById({ talentId: talentId }).then(res => {
+      const { data } = res;
+      setRecord(data);
+      setDetail(data);
+      setPhone(data?.phone || '暂无号码');
+      setShowBuy(data?.phone?.split("")?.indexOf("*") !== -1);
+    })
+  }, [talentId]);
   const onSubmit = () => {
     if (record) {
       debugger
       // console.log(record.name);
-      selectTalentById({ talentId: record.talentId }).then((res) => {
+      selectTalentById({ talentId: talentId }).then((res) => {
         const { data } = res;
         // console.log(data);
         setDetail(data);
@@ -59,81 +70,63 @@ const TalentDetail = () => {
     setCompanyVisible(false);
   };
   const queryPhone = () => {
-    checkTalentPhone({ talentId: record.talentId }).then((res) => {
+    checkTalentPhone({ talentId: talentId }).then((res) => {
       const { data } = res;
       setPhone(data);
       setShowBuy(data.split("").indexOf("*") !== -1);
     });
   };
   const deleteEducation = (id) => {
-    delEDU({ talentId: record.talentId, id: id }).then(() => {
-      if (record) {
-        selectTalentById({ talentId: record.talentId }).then((res) => {
-          const { data } = res;
-          setDetail(data);
-          setPhone(data.phone);
-          setShowBuy(data.phone.split("").indexOf("*") !== -1);
-        });
-      }
+    delEDU({ talentId: talentId, id: id }).then(() => {
+      selectTalentById({ talentId: talentId }).then((res) => {
+        const { data } = res;
+        setDetail(data);
+        setPhone(data.phone);
+        setShowBuy(data.phone.split("").indexOf("*") !== -1);
+      });
     });
   };
   const deleteProject = (id) => {
-    delEP({ talentId: record.talentId, id: id }).then(() => {
-      if (record) {
-        selectTalentById({ talentId: record.talentId }).then((res) => {
-          const { data } = res;
-          setDetail(data);
-          setPhone(data.phone);
-          setShowBuy(data.phone.split("").indexOf("*") !== -1);
-        });
-      }
+    delEP({ talentId: talentId, id: id }).then(() => {
+
+      selectTalentById({ talentId: talentId }).then((res) => {
+        const { data } = res;
+        setDetail(data);
+        setPhone(data.phone);
+        setShowBuy(data.phone.split("").indexOf("*") !== -1);
+      });
+
     });
   };
   const deleteCompany = (id) => {
-    delEC({ talentId: record.talentId, id: id }).then(() => {
-      if (record) {
-        selectTalentById({ talentId: record.talentId }).then((res) => {
-          const { data } = res;
-          setDetail(data);
-          setPhone(data.phone);
-          setShowBuy(data.phone.split("").indexOf("*") !== -1);
-        });
-      }
-    });
-  };
-  console.log(record);
-  useEffect(() => {
-    if (record) {
-
-      console.log(record);
-      selectTalentById({ talentId: record.talentId }).then((res) => {
-        // console.log(data);
+    delEC({ talentId: talentId, id: id }).then(() => {
+      selectTalentById({ talentId: talentId }).then((res) => {
         const { data } = res;
         setDetail(data);
-        setPhone(data?.phone || '暂无号码');
-        setShowBuy(data?.phone?.split("")?.indexOf("*") !== -1);
+        setPhone(data.phone);
+        setShowBuy(data.phone.split("").indexOf("*") !== -1);
       });
-    }
-  }, [record]);
+    });
+  };
   return (
     <div className={styles["talent-detail"]}>
       <ModalEducation
         visible={educationVisible}
         onSubmit={onSubmit}
         onCancel={onCancel}
-        talentId={record.talentId}
+        talentId={talentId}
       ></ModalEducation>
       <ModalProject
         visible={projectVisible}
         onSubmit={onSubmit}
         onCancel={onCancel}
-        talentId={record.talentId}
+        talentId={talentId}
       ></ModalProject>
       <ModalCompany
         visible={companyVisible}
         onSubmit={onSubmit}
         onCancel={onCancel}
-        talentId={record.talentId}
+        talentId={talentId}
       ></ModalCompany>
       {detail && (
         <>
@@ -175,7 +168,7 @@ const TalentDetail = () => {
                 </Descriptions>
               </div>
               <div className={styles["project-container"]} style={{ position: 'relative' }}>
-                <div className={styles["page-title"]}>基本信息<span style={{ paddingLeft: '24px', fontSize: '14px', color: '#1890ff' }}>简历编号#：{record.talentId}</span></div>
+                <div className={styles["page-title"]}>基本信息<span style={{ paddingLeft: '24px', fontSize: '14px', color: '#1890ff' }}>简历编号#：{talentId}</span></div>
                 <Divider></Divider>
                 <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', justifyContent: 'flex-end' }} column={2}>
                   <Descriptions.Item label="姓名">

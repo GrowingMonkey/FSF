@@ -2,6 +2,7 @@ import { PageLoading } from '@ant-design/pro-layout';
 import { history, Link } from 'umi';
 import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
+import { Button, Menu } from 'antd';
 // 查询当前用户
 // import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
 import { currentUser as queryCurrentUser } from './services/employ';
@@ -72,14 +73,31 @@ export const layout = ({ initialState }) => {
         // </Link>,
       ]
       : [],
-    menuHeaderRender: undefined,
+    // menuItemRender: (menuItemProps, defaultDom) => {
+    //   console.log(menuItemProps);
+    //   if (menuItemProps.isUrl || menuItemProps.children || !menuItemProps.path) {
+    //     return defaultDom;
+    //   }
+    //   return (
+    //     <Link to={menuItemProps.path}>
+    //       <ul>
+    //         <Menu.Item key={menuItemProps.key} style={{ fontSize: '12px' }}>
+    //           {/* <IconFont type={menuItemProps.icon} style={{ fontSize: '12px' }} /> */}
+    //           {menuItemProps.name}
+    //         </Menu.Item>
+    //       </ul>
+    //     </Link>
+    //   );
+    // },
+    // subMenuItemRender: (_, dom) => <div>{dom}</div>,
+    // menuHeaderRender: undefined,
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,
     // 增加一个 loading 的状态
-    // childrenRender: (children) => {
-    //   if (initialState.loading) return <PageLoading />;
-    //   return children;
-    // },
+    childrenRender: (children) => {
+      if (initialState.loading) return <PageLoading />;
+      return children;
+    },
     ...initialState?.settings,
   };
 };

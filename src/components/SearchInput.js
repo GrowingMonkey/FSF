@@ -3,8 +3,11 @@ import { useState } from "react";
 import { Select } from "antd";
 import debounce from "lodash/debounce";
 import { ulfq } from "../services/customer";
-
-const SearchInput = ({ value = {}, onChange }) => {
+/**
+ * 员工列表，同事列表select组件
+ * @param {props} param0 
+ */
+const SearchInput = ({ value = {}, onChange, filedProps = {} }) => {
   const { Option } = Select;
 
   const [recommenderName, setRecommenderName] = useState(null);
@@ -21,27 +24,51 @@ const SearchInput = ({ value = {}, onChange }) => {
   };
 
   const onRecommenderNameChange = (newValue) => {
-    let list = newValue.split("/");
-    let id = list[0];
-    let name = list[1];
 
-    console.log(id, name);
-    if (!("recommenderName" in value)) {
-      setRecommenderName(name);
+    //单选
+    if (!Array.isArray(newValue)) {
+
+      let list = newValue.split("/");
+      let id = list[0];
+      let name = list[1];
+
+      console.log(id, name);
+      if (!("recommenderName" in value)) {
+        setRecommenderName(name);
+      }
+      if (!("recommenderUserId" in value)) {
+        setRecommenderUserId(id);
+      }
+      triggerChange({
+        recommenderName: name,
+        recommenderUserId: id,
+      });
+    } else {
+      //多选
+
+      let ArrayValue = [];
+      newValue.map(item => {
+        let list = item.split("/");
+        let id = list[0];
+        let name = list[1];
+        if (!("recommenderName" in value)) {
+          setRecommenderName(name);
+        }
+        if (!("recommenderUserId" in value)) {
+          setRecommenderUserId(id);
+        }
+        ArrayValue.push({
+          recommenderName: name,
+          recommenderUserId: id,
+        })
+      })
+      triggerChange(ArrayValue)
     }
-    if (!("recommenderUserId" in value)) {
-      setRecommenderUserId(id);
-    }
-    triggerChange({
-      recommenderName: name,
-      recommenderUserId: id,
-    });
   };
 
   const handleSearch = (value) => {
     if (value) {
       ulfq({ name: value }).then((res) => {
-        console.log(data.list);
         const { data } = res;
         setOptions(
           data.list.map((item) => {
@@ -52,7 +79,16 @@ const SearchInput = ({ value = {}, onChange }) => {
         );
       });
     } else {
-      setOptions([]);
+      ulfq({ name: '' }).then((res) => {
+        const { data } = res;
+        setOptions(
+          data.list.map((item) => {
+            return (
+              <Option key={`${item.userId}/${item.name}`}>{item.name}</Option>
+            );
+          })
+        );
+      })
     }
   };
   const debouncedSeach = debounce(handleSearch, 250);
@@ -64,9 +100,11 @@ const SearchInput = ({ value = {}, onChange }) => {
       defaultActiveFirstOption={false}
       showArrow={false}
       filterOption={false}
+      onFocus={() => handleSearch('')}
       onSearch={debouncedSeach}
       onChange={onRecommenderNameChange}
       notFoundContent={null}
+      {...filedProps}
     >
       {options}
     </Select>

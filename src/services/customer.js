@@ -270,7 +270,7 @@ export const ulfq = (payload) => {
   //     resolve(data);
   //   });
   // });
-  return request('/customer/acceptWorkOrder', {
+  return request('/customer/ulfq', {
     method: 'POST',
     data: { ...(payload || {}) },
   });
@@ -281,7 +281,7 @@ export const updateContact = (payload) => {
   //     resolve(data);
   //   });
   // });
-  return request('/customer/acceptWorkOrder', {
+  return request('/customer/updateContact', {
     method: 'POST',
     data: { ...(payload || {}) },
   });
@@ -293,7 +293,7 @@ export const updateCustomer = (payload) => {
   //     resolve(data);
   //   });
   // });
-  return request('/customer/acceptWorkOrder', {
+  return request('/customer/updateCustomer', {
     method: 'POST',
     data: { ...(payload || {}) },
   });
@@ -305,7 +305,7 @@ export const woInfo = (payload) => {
   //     resolve(data);
   //   });
   // });
-  return request('/customer/acceptWorkOrder', {
+  return request('/customer/woInfo', {
     method: 'POST',
     data: { ...(payload || {}) },
   });
@@ -317,7 +317,7 @@ export const wolfq = (payload) => {
   //     resolve(data);
   //   });
   // });
-  return request('/customer/acceptWorkOrder', {
+  return request('/customer/wolfq', {
     method: 'POST',
     data: { ...(payload || {}) },
   });
@@ -329,7 +329,7 @@ export const zdzr = (payload) => {
   //     resolve(data);
   //   });
   // });
-  return request('/customer/acceptWorkOrder', {
+  return request('/customer/zdzr', {
     method: 'POST',
     data: { ...(payload || {}) },
   });

@@ -4,7 +4,10 @@ import debounce from "lodash/debounce";
 import { cstList } from "../services/customer";
 
 
-
+/**
+ * 客户查询select控件
+ * @param {props} param0 
+ */
 const CustomerSearch = ({ value = {}, CustomerStyle = {}, onChange }) => {
   const { Option } = Select;
   const [customerId, setCustomerId] = useState(null);

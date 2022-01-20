@@ -2,7 +2,10 @@ import { useState } from "react";
 import { Select } from "antd";
 import debounce from "lodash/debounce";
 import { selectTalentList } from "../services/talent";
-
+/**
+ * 人选查询select组件
+ * @param {props} param0 
+ */
 const TalentSearch = ({ value = {}, onChange }) => {
   const { Option } = Select;
   const [talentId, setTalentId] = useState(null);

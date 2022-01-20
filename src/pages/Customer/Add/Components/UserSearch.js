@@ -3,7 +3,7 @@ import { Select } from "antd";
 import debounce from "lodash/debounce";
 import { ulfq } from "../../../../services/customer";
 
-const UserSearch = ({ value = {}, onChange }) => {
+const UserSearch = ({ value = {}, onChange, filedProps = {} }) => {
   const { Option } = Select;
   const [comId, setComId] = useState(null);
   const [userId, setUserId] = useState(null);
@@ -19,24 +19,50 @@ const UserSearch = ({ value = {}, onChange }) => {
     });
   };
   const onNameChange = (newValue) => {
-    let list = newValue.split("/");
-    let comId = list[0];
-    let userId = list[1];
-    let name = list[2];
-    if (!("comId" in value)) {
-      setComId(comId);
+    //单选
+    if (!Array.isArray(newValue)) {
+      let list = newValue.split("/");
+      let comId = list[0];
+      let userId = list[1];
+      let name = list[2];
+      if (!("comId" in value)) {
+        setComId(comId);
+      }
+      if (!("userId" in value)) {
+        setUserId(userId);
+      }
+      if (!("name" in value)) {
+        setName(name);
+      }
+      triggerChange({
+        comId: comId,
+        userId: userId,
+        name: name,
+      });
+    } else {
+      let ArrayValue = [];
+      newValue.map(item => {
+        let list = item.split("/");
+        let comId = list[0];
+        let userId = list[1];
+        let name = list[2];
+        if (!("comId" in value)) {
+          setComId(comId);
+        }
+        if (!("userId" in value)) {
+          setUserId(userId);
+        }
+        if (!("name" in value)) {
+          setName(name);
+        }
+        ArrayValue.push({
+          comId: comId,
+          userId: userId,
+          name: name
+        })
+      })
+      triggerChange(ArrayValue)
     }
-    if (!("userId" in value)) {
-      setUserId(userId);
-    }
-    if (!("name" in value)) {
-      setName(name);
-    }
-    triggerChange({
-      comId: comId,
-      userId: userId,
-      name: name,
-    });
   };
   const handleSearch = (value) => {
     if (value) {
@@ -53,7 +79,16 @@ const UserSearch = ({ value = {}, onChange }) => {
         );
       });
     } else {
-      setOptions([]);
+      ulfq({ name: '' }).then((res) => {
+        const { data } = res;
+        setOptions(
+          data.list.map((item) => {
+            return (
+              <Option key={`${item.userId}/${item.name}`}>{item.name}</Option>
+            );
+          })
+        );
+      })
     }
   };
   const debouncedSeach = debounce(handleSearch, 250);
@@ -64,9 +99,11 @@ const UserSearch = ({ value = {}, onChange }) => {
       defaultActiveFirstOption={false}
       showArrow={false}
       filterOption={false}
+      onFocus={() => handleSearch('')}
       onSearch={debouncedSeach}
       onChange={onNameChange}
       notFoundContent={null}
+      {...filedProps}
     >
       {options}
     </Select>

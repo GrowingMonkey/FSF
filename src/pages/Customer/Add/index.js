@@ -495,10 +495,8 @@ const Add = () => {
           </Form.Item>
 
           <Form.Item
-            name="companyRemark"
+            name="introduce"
             label="公司简介"
-            mode="multiple"
-            allowClear
           >
             <TextArea style={{ width: '422px' }}></TextArea>
           </Form.Item>

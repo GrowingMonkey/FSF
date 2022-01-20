@@ -12,6 +12,17 @@ export const abandonCustomer = (payload) => {
   });
 };
 
+export const checkCustomer = (payload) => {
+  // return new Promise((resolve, reject) => {
+  //   request.post("/customer/acceptWorkOrder", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/customer/checkCustomer', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
 export const acceptWorkOrder = (payload) => {
   // return new Promise((resolve, reject) => {
   //   request.post("/customer/acceptWorkOrder", payload).then((data) => {

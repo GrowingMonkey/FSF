@@ -18,6 +18,7 @@ import {
   getCustomerId,
   addContact,
   addCustomerTeam,
+  checkCustomer,
 } from "../../../services/customer";
 import { useState } from 'react'
 import RecommenderSearch from "./Components/RecommenderSearch";
@@ -171,10 +172,18 @@ const Add = () => {
             name="name"
             label="客户名称"
             rules={[
-              {
-                required: true,
-                message: "必填",
-              },
+              ({ getFieldValue }) => ({
+                async validator(_, value) {
+                  if (value.length == 0) {
+                    return Promise.reject(new Error('请输入客户名'));
+                  }
+                  let result = await checkCustomer({ customerName: value })
+                  if (result.data == 1) {
+                    return Promise.reject(new Error('客户名重复,请重新输入'));
+                  }
+                  return Promise.resolve();
+                },
+              }),
             ]}
           >
             <Input style={{ width: '422px' }} placeholder="请输入客户全称"></Input>

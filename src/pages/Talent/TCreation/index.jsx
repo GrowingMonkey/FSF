@@ -265,6 +265,7 @@ const TCreation = () => {
                         ]} />
                     </ProForm.Group>
                     <ProForm.Group>
+
                         <ProFormSelect width="sm" name="experience" label="工作经验" options={[
                             {
                                 label: "3年以下",
@@ -308,7 +309,7 @@ const TCreation = () => {
                             width="sm"
                             help=""//备注
                             name="birthday" />
-                        <ProFormText label="目前薪资"
+                        <ProFormText label="目前年薪"
                             help=""//备注
                             fieldProps={{
                                 prefix: "￥",
@@ -375,7 +376,7 @@ const TCreation = () => {
                 </ProForm>
             </div>
             <div className={styles["education-container"]}>
-                <div className={styles["title"]}>个人介绍</div>
+                <div className={styles["title"]}>个人简介</div>
                 <Divider></Divider>
                 <Form form={infoForm}
                     labelCol={{ style: { width: '95.33px' } }}
@@ -458,9 +459,16 @@ const TCreation = () => {
                                             <MinusCircleOutlined onClick={() => remove(name)} />
                                         </Divider>
                                         <Form.Item
+                                            name={[name, "startTime"]}
+                                            fieldKey={[fieldKey, "startTime"]}
+                                            label="工作时间"
+                                        >
+                                            <RangePicker style={{ width: "328px" }}></RangePicker>
+                                        </Form.Item>
+                                        <Form.Item
                                             name={[name, "name"]}
                                             fieldKey={[fieldKey, "name"]}
-                                            label="公司名称"
+                                            label="所在公司"
                                             rules={[
                                                 {
                                                     required: true,
@@ -470,32 +478,11 @@ const TCreation = () => {
                                         >
                                             <Input style={{ width: '328px' }}></Input>
                                         </Form.Item>
-                                        <Form.Item
-                                            name={[name, "duty"]}
-                                            fieldKey={[fieldKey, "duty"]}
-                                            label="职责"
-                                        >
-                                            <Input style={{ width: '328px' }}></Input>
-                                        </Form.Item>
-                                        <Form.Item
-                                            name={[name, "startTime"]}
-                                            fieldKey={[fieldKey, "startTime"]}
-                                            label="开始日期"
-                                        >
-                                            <RangePicker style={{ width: "328px" }}></RangePicker>
-                                        </Form.Item>
-                                        {/* <Form.Item
-                                                    name={[name, "endTime"]}
-                                                    fieldKey={[fieldKey, "endTime"]}
-                                                    label="结束日期"
-                                                >
-                                                    <DatePicker style={{ width: "100%" }}></DatePicker>
-                                                </Form.Item> */}
                                         <ProForm.Group>
                                             <Form.Item
                                                 name={[name, "industry"]}
                                                 fieldKey={[fieldKey, "industry"]}
-                                                label="行业"
+                                                label="所在行业"
                                                 style={{ width: '242px' }}
                                             >
                                                 <Select
@@ -514,10 +501,26 @@ const TCreation = () => {
                                                 <Select options={eIndustryChildList} style={{ width: "150px" }}></Select>
                                             </Form.Item>
                                         </ProForm.Group>
+
                                         <Form.Item
-                                            name={[name, "details"]}
-                                            fieldKey={[fieldKey, "details"]}
-                                            label="工作内容"
+                                            name={[name, "job"]}
+                                            fieldKey={[fieldKey, "job"]}
+                                            label="工作岗位"
+                                        >
+                                            <Input style={{ width: '328px' }}></Input>
+                                        </Form.Item>
+
+                                        {/* <Form.Item
+                                                    name={[name, "endTime"]}
+                                                    fieldKey={[fieldKey, "endTime"]}
+                                                    label="结束日期"
+                                                >
+                                                    <DatePicker style={{ width: "100%" }}></DatePicker>
+                                                </Form.Item> */}
+                                        <Form.Item
+                                            name={[name, "duty"]}
+                                            fieldKey={[fieldKey, "duty"]}
+                                            label="工作职责"
                                         >
                                             <TextArea style={{ width: "328px" }}></TextArea>
                                         </Form.Item>
@@ -553,7 +556,15 @@ const TCreation = () => {
                                         <Divider orientation="right">
                                             <MinusCircleOutlined onClick={() => remove(name)} />
                                         </Divider>
-
+                                        <Form.Item
+                                            name={[name, "startTime"]}
+                                            fieldKey={[fieldKey, "startTime"]}
+                                            label="项目时间"
+                                        >
+                                            <RangePicker
+                                                style={{ width: '328px' }}
+                                            ></RangePicker>
+                                        </Form.Item>
                                         <Form.Item
                                             name={[name, "name"]}
                                             fieldKey={[fieldKey, "name"]}
@@ -572,7 +583,7 @@ const TCreation = () => {
                                         <Form.Item
                                             name={[name, "job"]}
                                             fieldKey={[fieldKey, "job"]}
-                                            label="当前岗位"
+                                            label="项目职位"
                                             rules={[
                                                 {
                                                     required: true,
@@ -582,15 +593,7 @@ const TCreation = () => {
                                         >
                                             <Input style={{ width: '328px' }}></Input>
                                         </Form.Item>
-                                        <Form.Item
-                                            name={[name, "startTime"]}
-                                            fieldKey={[fieldKey, "startTime"]}
-                                            label="开始日期"
-                                        >
-                                            <RangePicker
-                                                style={{ width: '328px' }}
-                                            ></RangePicker>
-                                        </Form.Item>
+
                                         <Form.Item
                                             name={[name, "duty"]}
                                             fieldKey={[fieldKey, "duty"]}
@@ -633,11 +636,17 @@ const TCreation = () => {
                                             <MinusCircleOutlined onClick={() => remove(name)} />
                                         </Divider>
 
-
+                                        <Form.Item
+                                            name={[name, "startTime"]}
+                                            fieldKey={[fieldKey, "startTime"]}
+                                            label="学习时间"
+                                        >
+                                            <RangePicker style={{ width: "328px" }}></RangePicker>
+                                        </Form.Item>
                                         <Form.Item
                                             name={[name, "name"]}
                                             fieldKey={[fieldKey, "name"]}
-                                            label="学校名"
+                                            label="毕业院校"
                                             rules={[
                                                 {
                                                     required: true,
@@ -652,7 +661,7 @@ const TCreation = () => {
                                         <Form.Item
                                             name={[name, "classes"]}
                                             fieldKey={[fieldKey, "classes"]}
-                                            label="专业"
+                                            label="所读专业"
                                             rules={[
                                                 {
                                                     required: true,
@@ -679,15 +688,6 @@ const TCreation = () => {
                                                 <Radio value={0}>是</Radio>
                                                 <Radio value={1}>否</Radio>
                                             </Radio.Group>
-                                        </Form.Item>
-
-
-                                        <Form.Item
-                                            name={[name, "startTime"]}
-                                            fieldKey={[fieldKey, "startTime"]}
-                                            label="学习日期"
-                                        >
-                                            <RangePicker style={{ width: "328px" }}></RangePicker>
                                         </Form.Item>
                                     </div>
                                 ))}

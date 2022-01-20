@@ -144,36 +144,9 @@ const PCreation = () => {
             >
               <Input style={{ width: '328px' }}></Input>
             </Form.Item>
-            <ProForm.Group>
-              <Form.Item
-                name="industry"
-                label="职位类别"
-                style={{ width: '245px' }}
-                rules={[
-                  {
-                    required: true,
-                    message: "必填",
-                  },
-                ]}
-              >
-                <Select options={industryList} onChange={onIndustryChange} style={{ width: '145px' }}></Select>
-              </Form.Item>
-              <Form.Item
-                name="industryChild"
-                style={{ width: '145px' }}
-                rules={[
-                  {
-                    required: true,
-                    message: "必填",
-                  },
-                ]}
-              >
-                <Select options={industryChildList} style={{ width: '145px' }}></Select>
-              </Form.Item>
-            </ProForm.Group>
             <Form.Item
               name="job"
-              label={<div></div>}
+              label="职务类别"
               colon={false}
               rules={[
                 {

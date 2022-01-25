@@ -32,8 +32,8 @@ const StepDetail = () => {
                 </Row>
             </Card>
             <Card>
-                <div style={{ width: '100%', display: "flex,", background: '#096dd9', marginBottom: '12px' }}>
-                    <div style={{ width: '64px' }}>步骤</div>
+                <div style={{ width: '100%', display: "flex", alignItems: 'center', background: '#096dd9', marginBottom: '12px' }}>
+                    <div style={{ width: '64px', textAlign: 'center', color: '#fff', fontWeight: 600 }}>步骤</div>
                     <Row style={{ width: '100%', marginLeft: '12px', color: '#fff', padding: '12px', fontWeight: 600 }}>
                         <Col span={10}>详细内容</Col>
                         <Col span={2}>操作人</Col>

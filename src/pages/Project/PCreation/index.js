@@ -36,7 +36,7 @@ const PCreation = () => {
   const onSubmit = (params) => {
 
     form.validateFields().then((values) => {
-      console.clear();
+
       let payload = Object.assign({}, values);
       if (values.job) {
         payload.job = `${values.job[0]}/${values.job[1]}/${values.job[2]}`;

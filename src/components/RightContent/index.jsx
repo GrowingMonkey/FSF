@@ -1,4 +1,4 @@
-import { Space } from 'antd';
+import { Space, Select } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import React from 'react';
 import { useModel, SelectLang, history } from 'umi';
@@ -6,8 +6,9 @@ import Avatar from './AvatarDropdown';
 import HeaderSearch from '../HeaderSearch';
 import styles from './index.less';
 import NoticeIconView from '../NoticeIcon';
-
+import { useState } from 'react'
 const GlobalHeaderRight = () => {
+  const [type, setType] = useState('/talent/t-list')
   const { initialState } = useModel('@@initialState');
 
   if (!initialState || !initialState.settings) {
@@ -20,17 +21,17 @@ const GlobalHeaderRight = () => {
   if ((navTheme === 'dark' && layout === 'top') || layout === 'mix') {
     className = `${styles.right}  ${styles.dark}`;
   }
-
   return (
     <Space className={className}>
+      <Select onChange={val => setType(val)} size="small" defaultValue={'/talent/t-list'} options={[{ label: '人选搜索', value: '/talent/t-list' }, { label: '客户搜索', value: '/customer/list' }, { label: '职位搜索', value: '/project/p-list' }]}></Select>
       <HeaderSearch
         className={`${styles.action} ${styles.search}`}
-        placeholder="人选关键词查询"
+        placeholder="关键词查询"
         defaultValue=""
         options={null}
-        onSearch={value => {
+        onSearch={(value) => {
           console.log('input', value);
-          history.replace({ pathname: "/talent/t-list", state: { keyword: value } })
+          history.replace({ pathname: type, state: { keyword: value } })
         }}
       />
       {/* <span

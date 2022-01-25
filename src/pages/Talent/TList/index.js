@@ -17,7 +17,7 @@ import CardTableExpand from "./components/CardTableExpand";
 import TalentDetail from "./components/TalentDetail";
 import styles from "./index.less";
 import { PageContainer } from "@ant-design/pro-layout";
-import { WomanOutlined, ManOutlined, UserOutlined } from "@ant-design/icons";
+import { WomanOutlined, ManOutlined, UserOutlined, DownCircleOutlined, UpCircleOutlined } from "@ant-design/icons";
 
 const TList = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -26,6 +26,7 @@ const TList = () => {
   const [searchValues, setSearchValues] = useState(null);
   const [detailVisible, setDetailVisible] = useState(false);
   const [detailRecord, setDetailRecord] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
   const [form] = Form.useForm();
   const formList = [
     [
@@ -277,6 +278,7 @@ const TList = () => {
               </Row>
               <Divider></Divider>
               <Form
+                style={{ maxHeight: !isOpen ? '48px' : 'none', overflow: 'hidden' }}
                 form={form}
                 labelCol={{ span: 8 }}
                 wrapperCol={{ span: 16 }}
@@ -325,7 +327,9 @@ const TList = () => {
                     </Row>
                   );
                 })}
+
               </Form>
+              <Divider>{!isOpen ? <DownCircleOutlined onClick={() => setIsOpen(true)} /> : <UpCircleOutlined onClick={() => setIsOpen(false)} />}</Divider>
             </div>
             <div className={styles["list-container"]}>
               <div className={styles["list-title"]}>

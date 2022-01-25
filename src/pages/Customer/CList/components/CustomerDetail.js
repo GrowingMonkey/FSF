@@ -94,7 +94,6 @@ const CustomerDetail = ({ setDetailVisible, record }) => {
     },
   ];
   useEffect(() => {
-    console.clear();
     console.log(record);
   }, []);
   return (

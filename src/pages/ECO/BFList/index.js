@@ -134,7 +134,7 @@ const BFList = () => {
         payload.customerName = values.customer.customerName;
         delete payload.customer;
       }
-      console.clear();
+
       setSearchValues(payload);
     });
   };
@@ -144,9 +144,9 @@ const BFList = () => {
       const { data } = res;
       setBfList(
         data.list &&
-          data.list.map((item) => {
-            return Object.assign(item, { key: item.id });
-          }),
+        data.list.map((item) => {
+          return Object.assign(item, { key: item.id });
+        }),
       );
     });
   }, [searchValues]);

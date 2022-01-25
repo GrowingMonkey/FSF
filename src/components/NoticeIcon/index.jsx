@@ -65,7 +65,6 @@ const getUnreadData = (noticeData) => {
 };
 
 const NoticeIconView = () => {
-  console.clear();
   const { initialState } = useModel('@@initialState');
   const { currentUser } = initialState || {};
   const [msgList, setMsgList] = useState([]);
@@ -111,7 +110,7 @@ const NoticeIconView = () => {
     );
     message.success(`${'清空了'} ${title}`);
   };
-  console.log(noticeData, unreadMsg)
+
   return (
     <NoticeIcon
       className={styles.action}

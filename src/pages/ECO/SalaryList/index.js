@@ -125,7 +125,7 @@ const Salarylist = () => {
         payload.customerName = values.customer.customerName;
         delete payload.customer;
       }
-      console.clear();
+
       setSearchValues(payload);
       setCurrentPage(1);
     });
@@ -140,9 +140,9 @@ const Salarylist = () => {
       const { data } = res;
       setSalaryList(
         data.list &&
-          data.list.map((item) => {
-            return Object.assign(item, { key: item.id });
-          }),
+        data.list.map((item) => {
+          return Object.assign(item, { key: item.id });
+        }),
       );
     });
   }, [currentPage, searchValues]);

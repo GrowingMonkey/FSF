@@ -37,10 +37,10 @@ const CustomerSearch = ({ value = {}, CustomerStyle = {}, onChange }) => {
     });
   };
   const handleSearch = (value) => {
-    if (value) {
-      cstList({ pageNo: 1, pageSize: 1000, name: value }).then((res) => {
-        const { data } = res;
-        console.log(data.list);
+    cstList({ pageNo: 1, pageSize: 1000, name: value ? value : '' }).then((res) => {
+      const { data } = res;
+      console.log(data.list);
+      if (data.list) {
         setOptions(
           data.list.map((item) => {
             return (
@@ -50,11 +50,11 @@ const CustomerSearch = ({ value = {}, CustomerStyle = {}, onChange }) => {
             );
           })
         );
-      });
-    } else {
-      setOptions([]);
-    }
-  };
+      } else {
+        setOptions([])
+      }
+    });
+  }
   const debouncedSeach = debounce(handleSearch, 250);
   return (
     <Select
@@ -64,6 +64,7 @@ const CustomerSearch = ({ value = {}, CustomerStyle = {}, onChange }) => {
       defaultActiveFirstOption={false}
       showArrow={false}
       filterOption={false}
+      onFocus={() => handleSearch('')}
       onSearch={debouncedSeach}
       onChange={onCustomerChange}
       notFoundContent={null}

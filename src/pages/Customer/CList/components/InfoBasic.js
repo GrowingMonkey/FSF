@@ -228,7 +228,7 @@ const InfoBasic = ({ record }) => {
     });
   }, []);
   const onContactDeleteConfirm = (record) => {
-    console.clear();
+
     console.log(record);
     deleteContact({ customerId: record.customerId, id: record.id }).then(() => {
       selectContactList({

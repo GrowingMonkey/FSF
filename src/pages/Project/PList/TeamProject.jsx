@@ -360,7 +360,7 @@ const PList = () => {
         ],
     };
     const handleStateChange = (value, projectId) => {
-        console.clear();
+
         console.log(value, projectId);
         if (value === 1) {
             runProject({ projectId: projectId }).then((data) => {
@@ -446,7 +446,7 @@ const PList = () => {
                 payload.customerName = values.customer.customerName;
                 delete payload.customer;
             }
-            console.clear();
+
             console.log(payload);
             setSearchValues(payload);
             setCurrentPage(1);

@@ -18,7 +18,7 @@ import { selectEmployList } from '@/services/employ'
 import { useRequest, history } from 'umi'
 
 const ColleagueList = () => {
-  console.clear();
+
   const [form] = Form.useForm();
   const [colleagueList, setColleagueList] = useState([]);
   const { data, run } = useRequest(selectEmployList);

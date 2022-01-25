@@ -157,7 +157,7 @@ const AFList = () => {
         payload.customerName = values.customer.customerName;
         delete payload.customer;
       }
-      console.clear();
+
       setSearchValues(payload);
     });
   };
@@ -167,9 +167,9 @@ const AFList = () => {
       const { data } = res;
       setAf1List(
         data.list &&
-          data.list.map((item) => {
-            return Object.assign(item, { key: item.id });
-          }),
+        data.list.map((item) => {
+          return Object.assign(item, { key: item.id });
+        }),
       );
     });
   }, [searchValues]);

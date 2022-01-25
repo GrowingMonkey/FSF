@@ -162,7 +162,7 @@ const KpiList = () => {
         payload.customerName = values.customer.customerName;
         delete payload.customer;
       }
-      console.clear();
+
       setSearchValues(payload);
     });
   };
@@ -187,9 +187,9 @@ const KpiList = () => {
       const { data } = res;
       setKpiList(
         data.list &&
-          data.list.map((item) => {
-            return Object.assign(item, { key: item.id });
-          }),
+        data.list.map((item) => {
+          return Object.assign(item, { key: item.id });
+        }),
       );
     });
   }, [searchValues, count]);

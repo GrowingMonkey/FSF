@@ -382,7 +382,6 @@ const InfoProject = ({ record }) => {
       customerName: record.name,
       ...searchValues,
     }).then((res) => {
-      console.clear();
       const { data } = res;
       setListData(
         data.list.map((item) => {

@@ -49,4 +49,6 @@ export default {
   'menu.editor.flow': '流程编辑器',
   'menu.editor.mind': '脑图编辑器',
   'menu.editor.koni': '拓扑编辑器',
+  'menu.project.p-detail.detail': '职位详情',
+  'menu.project.p-detail.chapter-manager': '推荐管理',
 };

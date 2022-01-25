@@ -73,22 +73,22 @@ export const layout = ({ initialState }) => {
         // </Link>,
       ]
       : [],
-    // menuItemRender: (menuItemProps, defaultDom) => {
-    //   console.log(menuItemProps);
-    //   if (menuItemProps.isUrl || menuItemProps.children || !menuItemProps.path) {
-    //     return defaultDom;
-    //   }
-    //   return (
-    //     <Link to={menuItemProps.path}>
-    //       <ul>
-    //         <Menu.Item key={menuItemProps.key} style={{ fontSize: '12px' }}>
-    //           {/* <IconFont type={menuItemProps.icon} style={{ fontSize: '12px' }} /> */}
-    //           {menuItemProps.name}
-    //         </Menu.Item>
-    //       </ul>
-    //     </Link>
-    //   );
-    // },
+    menuItemRender: (menuItemProps, defaultDom) => {
+      console.log(menuItemProps);
+      if (menuItemProps.isUrl || menuItemProps.children || !menuItemProps.path) {
+        return defaultDom;
+      }
+      return (
+        <Link to={menuItemProps.path} target={menuItemProps.target ? "_blank" : undefined}>
+          <ul>
+            <Menu.Item key={menuItemProps.key} style={{ fontSize: '12px' }}>
+              {/* <IconFont type={menuItemProps.icon} style={{ fontSize: '12px' }} /> */}
+              {menuItemProps.name}
+            </Menu.Item>
+          </ul>
+        </Link>
+      );
+    },
     // subMenuItemRender: (_, dom) => <div>{dom}</div>,
     // menuHeaderRender: undefined,
     // 自定义 403 页面

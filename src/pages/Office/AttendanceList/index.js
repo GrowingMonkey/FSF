@@ -105,7 +105,7 @@ const AttendanceList = () => {
         payload.customerName = values.customer.customerName;
         delete payload.customer;
       }
-      console.clear();
+
       setSearchValues(payload);
     });
   };

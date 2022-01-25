@@ -41,6 +41,7 @@ export default [
         path: "/customer/my-list",
         name: "我的客户",
         component: "./Customer/CList/MyCustomer",
+        target: true
       },
       {
 
@@ -83,6 +84,30 @@ export default [
         name: "职位详情",
         hideInMenu: true,
         component: "./Project/PDetail/index",
+        routes: [
+          {
+            path: '/project/p-detail',
+            redirect: '/project/p-detail/detail',
+          },
+          //职务详情
+          {
+            name: 'detail',
+            path: '/project/p-detail/detail',
+            component: './Project/PDetail/tab/Detail',
+          },
+          //职位人选详情
+          {
+            name: 'talent',
+            path: '/project/p-detail/talent',
+            component: './Project/PDetail/tab/StepDetail',
+          },
+          //推荐管理
+          {
+            name: 'chapter-manager',
+            path: '/project/p-detail/chapter-manager',
+            component: './Project/PDetail/tab/ChapterManager',
+          },
+        ]
       },
       {
         path: "/project/pm-list",

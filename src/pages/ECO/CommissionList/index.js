@@ -173,7 +173,7 @@ const CommissionList = () => {
         payload.customerName = values.customer.customerName;
         delete payload.customer;
       }
-      console.clear();
+
       setSearchValues(payload);
     });
   };
@@ -183,9 +183,9 @@ const CommissionList = () => {
       const { data } = res;
       setCommissionList(
         data.list &&
-          data.list.map((item) => {
-            return Object.assign(item, { key: item.id });
-          }),
+        data.list.map((item) => {
+          return Object.assign(item, { key: item.id });
+        }),
       );
     });
   }, [searchValues]);

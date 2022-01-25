@@ -112,12 +112,9 @@ const PList = () => {
             key: "action",
             render: (text, record) => (
                 <Space size={16}>
-                    <Button type="link" style={{ padding: 0 }} onClick={() => history.push({
-                        pathname: `/project/p-detail`, state: {
-                            id: record.id
-                        }
-                    })}>
-                        查看详情
+                    <Button type="link" style={{ padding: 0 }} onClick={() => history.push(`/project/p-detail/detail?projectId=${record.projectId}&customerId=${record.customerId}&id=${record.id}`,
+                    )}>
+                        查看详情22
           </Button>
                 </Space>
             ),
@@ -360,7 +357,7 @@ const PList = () => {
         ],
     };
     const handleStateChange = (value, projectId) => {
-        console.clear();
+
         console.log(value, projectId);
         if (value === 1) {
             runProject({ projectId: projectId }).then((data) => {
@@ -446,7 +443,7 @@ const PList = () => {
                 payload.customerName = values.customer.customerName;
                 delete payload.customer;
             }
-            console.clear();
+
             console.log(payload);
             setSearchValues(payload);
             setCurrentPage(1);

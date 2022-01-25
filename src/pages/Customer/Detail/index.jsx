@@ -100,12 +100,17 @@ const CustomerDetail = () => {
         // console.clear();
         // console.log(record);
     }, []);
+    const wrapCol = {
+        xs: 24,
+        sm: 12,
+        lg: 5
+    }
     return (
         <PageContainer>
-            <Row gutter={16}>
+            <Row gutter={12} >
                 {cardList.map((card) => {
                     return (
-                        <Col flex={1} key={card.description}>
+                        <Col {...wrapCol} key={card.description}>
                             <div className={styles["customer-detail-card"]}>
                                 <div className={styles["card-title"]}>0{card.unit}</div>
                                 <div className={styles["card-content"]}>

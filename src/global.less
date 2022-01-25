@@ -6,6 +6,22 @@ body,
   height: 100%;
 }
 
+
+.ant-col-5 {
+  width: 20%;
+  display: block;
+  flex: 0 0 20%;
+  max-width: 20;
+}
+
+@media (min-width: 992px) {
+  .ant-col-lg-5 {
+    display: block;
+    flex: 0 0 20%;
+    max-width: 20%;
+  }
+}
+
 .colorWeak {
   filter: invert(80%);
 }
@@ -13,6 +29,7 @@ body,
 .ant-layout {
   min-height: 100vh;
 }
+
 .ant-pro-sider.ant-layout-sider.ant-pro-sider-fixed {
   left: unset;
 }
@@ -36,12 +53,15 @@ ol {
   .ant-table {
     width: 100%;
     overflow-x: auto;
-    &-thead > tr,
-    &-tbody > tr {
-      > th,
-      > td {
+
+    &-thead>tr,
+    &-tbody>tr {
+
+      >th,
+      >td {
         white-space: pre;
-        > span {
+
+        >span {
           display: block;
         }
       }
@@ -50,8 +70,9 @@ ol {
 }
 
 // Compatible with IE11
-@media screen and(-ms-high-contrast: active), (-ms-high-contrast: none) {
-  body .ant-design-pro > .ant-layout {
+@media screen and(-ms-high-contrast: active),
+(-ms-high-contrast: none) {
+  body .ant-design-pro>.ant-layout {
     min-height: 100vh;
   }
 }

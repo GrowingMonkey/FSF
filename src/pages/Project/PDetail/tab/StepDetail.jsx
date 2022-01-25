@@ -1,5 +1,5 @@
 import { PageContainer } from '@ant-design/pro-layout';
-import { Input, Dropdown, Menu, Button, Row, Divider, Tag, Descriptions, Card, Col, Avatar } from 'antd';
+import { Input, Dropdown, Menu, Button, Row, Divider, Tag, Descriptions, Card, Col, Avatar, Space } from 'antd';
 import { history } from 'umi';
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import StepItem from './components/StepItem';
@@ -32,14 +32,29 @@ const StepDetail = () => {
                 </Row>
             </Card>
             <Card>
+                <div style={{ width: '100%', display: "flex,", background: '#096dd9', marginBottom: '12px' }}>
+                    <div style={{ width: '64px' }}>步骤</div>
+                    <Row style={{ width: '100%', marginLeft: '12px', color: '#fff', padding: '12px', fontWeight: 600 }}>
+                        <Col span={10}>详细内容</Col>
+                        <Col span={2}>操作人</Col>
+                        <Col span={4}>时间</Col>
+                        <Col span={4}>绩效审核</Col>
+                        <Col span={4}>操作</Col>
+                    </Row>
+                </div>
                 <StepItem title="加入项目"></StepItem>
                 <StepItem title="推给客户"></StepItem>
                 <StepItem title="预约面试"></StepItem>
                 <StepItem title="客户面试"></StepItem>
                 <StepItem title="确认offer"></StepItem>
                 <StepItem title="客户确认"></StepItem>
-                <StepItem title="成功入职"></StepItem>
+                <StepItem title="成功入职" isEnd={true}></StepItem>
+                <div style={{ marginLeft: '76px' }}>
+                    <Space><Button>添加评语</Button><Button>添加评语</Button><Button>添加评语</Button></Space>
+                </div>
+
             </Card>
+
         </>
     );
 };

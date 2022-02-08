@@ -6,18 +6,24 @@ import {
   Input,
   Button,
   Select,
+  Modal,
   Divider,
   Pagination,
   Space,
   Table,
 } from "antd";
 import { history, Link } from 'umi'
-import { selectTalentList, selectTalentById } from "../../../services/talent";
+import { selectTalentList, selectTalentById, talentJoinProject } from "../../../services/talent";
 import CardTableExpand from "./components/CardTableExpand";
 import TalentDetail from "./components/TalentDetail";
 import styles from "./index.less";
 import { PageContainer } from "@ant-design/pro-layout";
+import ProForm, {
+  ProFormRadio,
+} from '@ant-design/pro-form';
 import { WomanOutlined, ManOutlined, UserOutlined, DownCircleOutlined, UpCircleOutlined } from "@ant-design/icons";
+import CustomerSearch from "@/components/CustomerSearch";
+import ProjectSearch from "@/components/ProjectSearch";
 
 const TList = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,6 +33,9 @@ const TList = () => {
   const [detailVisible, setDetailVisible] = useState(false);
   const [detailRecord, setDetailRecord] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [currentTarent, setCurrentTarent] = useState('');
+
   const [form] = Form.useForm();
   const formList = [
     [
@@ -194,9 +203,9 @@ const TList = () => {
             search: '?talentId=' + record.talentId,
             state: { record: record },
           }}>查看</Link>
-          {/* <Button type="link" style={{ padding: 0 }}>
+          <Button type="link" style={{ padding: 0 }} onClick={(e) => { e.stopPropagation(); setCurrentTarent(record.talentId); setIsModalVisible(true); }}>
             加入项目
-          </Button> */}
+          </Button>
         </Space>
       ),
       width: 100,
@@ -247,6 +256,14 @@ const TList = () => {
       );
     });
   }, [currentPage, searchValues]);
+  const onFinish = (values) => {
+    console.log(values);
+    // run(values);
+    talentJoinProject({ projectId: values.customer.projectId, talentId: currentTarent }).then(res => {
+
+    })
+    setIsModalVisible(false)
+  }
   const wrapCol = {
     xs: 24,
     md: 12,
@@ -389,7 +406,28 @@ const TList = () => {
                 </Col>
               </Row>
             </div>
-            <div style={{ width: "100%", minHeight: "15px" }}></div>
+            <Modal title="加入项目" visible={isModalVisible} footer={null} onCancel={() => setIsModalVisible(false)}>
+              <ProForm
+                hideRequiredMark
+                style={{
+                  margin: 'auto',
+                  marginTop: 8,
+                  maxWidth: 600,
+                }}
+                name="basic"
+                layout="horizontal"
+                initialValues={{
+                  public: '1',
+                }}
+                onFinish={onFinish}
+              >
+                <Form.Item name={'customer'} label={"选择客户"} >
+                  <ProjectSearch />
+                </Form.Item>
+
+              </ProForm>
+            </Modal>
+
           </>
         )}
     </PageContainer>

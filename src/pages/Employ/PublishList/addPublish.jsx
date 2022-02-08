@@ -79,12 +79,15 @@ const addTripC = () => {
                             },
                             {
                                 value: '1',
-                                label: '大鲨鱼(员工突破)',
+                                label: '大元宝',
                             },
                             {
                                 value: '2',
                                 label: '入职周年',
-                            },
+                            }, {
+                                value: '3',
+                                label: '大钻石',
+                            }
                         ]}
                         rules={[
                             {

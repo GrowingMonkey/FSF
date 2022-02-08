@@ -254,3 +254,17 @@ export const hzJobList = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+//查询项目详情
+export const selectPById = (payload) => {
+  return request('/project/selectPById', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+//推荐人选给客户
+export const recommendTalent = (payload) => {
+  return request('/project/recommendTalent', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};

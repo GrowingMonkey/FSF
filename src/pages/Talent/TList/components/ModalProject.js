@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { Modal, Form, Input, DatePicker, Select } from "antd";
 import { addEP } from "../../../../services/talent";
 import { industryList } from "../../../../utils/Industry";
-
+const { RangePicker } = DatePicker;
+const { TextArea } = Input;
 const ModalProject = ({ visible, onSubmit, onCancel, record, talentId }) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalTitle, setModalTitle] = useState("新增项目经历");
@@ -13,10 +14,8 @@ const ModalProject = ({ visible, onSubmit, onCancel, record, talentId }) => {
     form.validateFields().then((values) => {
       let payload = Object.assign({}, values);
       if (values.startTime) {
-        payload.startTime = values.startTime.format("YYYY-MM-DD");
-      }
-      if (values.endTime) {
-        payload.endTime = values.endTime.format("YYYY-MM-DD");
+        payload.startTime = values.startTime[0].format("YYYY-MM-DD");
+        payload.endTime = values.startTime[1].format("YYYY-MM-DD");
       }
       addEP({ talentId: talentId, ...payload }).then((data) => {
         console.log(data);
@@ -52,6 +51,9 @@ const ModalProject = ({ visible, onSubmit, onCancel, record, talentId }) => {
         wrapperCol={{ span: 16 }}
         labelAlign="right"
       >
+        <Form.Item name="startTime" label="项目时间">
+          <RangePicker style={{ width: "100%" }}></RangePicker>
+        </Form.Item>
         <Form.Item
           name="name"
           label="项目名称"
@@ -66,7 +68,7 @@ const ModalProject = ({ visible, onSubmit, onCancel, record, talentId }) => {
         </Form.Item>
         <Form.Item
           name="job"
-          label="当前岗位"
+          label="项目职位"
           rules={[
             {
               required: true,
@@ -76,23 +78,8 @@ const ModalProject = ({ visible, onSubmit, onCancel, record, talentId }) => {
         >
           <Input></Input>
         </Form.Item>
-        <Form.Item name="industry" label="行业">
-          <Select options={industryList} onChange={onIndustryChange}></Select>
-        </Form.Item>
-        <Form.Item name="industryChild" label="子行业">
-          <Select options={industryChildList}></Select>
-        </Form.Item>
-        <Form.Item name="startTime" label="开始日期">
-          <DatePicker style={{ width: "100%" }}></DatePicker>
-        </Form.Item>
-        <Form.Item name="endTime" label="结束日期">
-          <DatePicker style={{ width: "100%" }}></DatePicker>
-        </Form.Item>
-        <Form.Item name="details" label="项目业绩">
-          <Input></Input>
-        </Form.Item>
         <Form.Item name="duty" label="项目职责">
-          <Input></Input>
+          <TextArea></TextArea>
         </Form.Item>
       </Form>
     </Modal>

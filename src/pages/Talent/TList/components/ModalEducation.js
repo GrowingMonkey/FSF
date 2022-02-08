@@ -12,7 +12,7 @@ import {
 } from "antd";
 import moment from "moment";
 import { addEdu } from "../../../../services/talent";
-
+const { RangePicker } = DatePicker;
 const ModalEducation = ({ visible, onSubmit, onCancel, talentId }) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalTitle, setModalTitle] = useState("新增教育经历");
@@ -22,7 +22,8 @@ const ModalEducation = ({ visible, onSubmit, onCancel, talentId }) => {
     form.validateFields().then((values) => {
       let payload = Object.assign({}, values);
       if (values.startTime) {
-        payload.startTime = values.startTime.format("YYYY-MM-DD");
+        payload.startTime = values.startTime[0].format("YYYY-MM-DD");
+        payload.endTime = values.startTime[1].format("YYYY-MM-DD");
       }
       if (values.endTime) {
         payload.endTime = values.endTime.format("YYYY-MM-DD");
@@ -57,9 +58,12 @@ const ModalEducation = ({ visible, onSubmit, onCancel, talentId }) => {
         wrapperCol={{ span: 16 }}
         labelAlign="right"
       >
+        <Form.Item name="startTime" label="学习日期">
+          <RangePicker style={{ width: "100%" }}></RangePicker>
+        </Form.Item>
         <Form.Item
           name="name"
-          label="学校名"
+          label="毕业院校"
           rules={[
             {
               required: true,
@@ -71,7 +75,7 @@ const ModalEducation = ({ visible, onSubmit, onCancel, talentId }) => {
         </Form.Item>
         <Form.Item
           name="classes"
-          label="专业"
+          label="所学专业"
           rules={[
             {
               required: true,
@@ -98,15 +102,7 @@ const ModalEducation = ({ visible, onSubmit, onCancel, talentId }) => {
             ]}
           ></Select>
         </Form.Item>
-        <Form.Item name="startTime" label="开始日期">
-          <DatePicker style={{ width: "100%" }}></DatePicker>
-        </Form.Item>
-        <Form.Item name="endTime" label="结束日期">
-          <DatePicker style={{ width: "100%" }}></DatePicker>
-        </Form.Item>
-        <Form.Item name="duty" label="担任职务">
-          <Input></Input>
-        </Form.Item>
+
       </Form>
     </Modal>
   );

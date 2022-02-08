@@ -74,7 +74,7 @@ export const layout = ({ initialState }) => {
       ]
       : [],
     menuItemRender: (menuItemProps, defaultDom) => {
-      console.log(menuItemProps);
+      // console.log(menuItemProps);
       if (menuItemProps.isUrl || menuItemProps.children || !menuItemProps.path) {
         return defaultDom;
       }

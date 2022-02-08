@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { Modal, Form, Input, DatePicker, Select } from "antd";
 import { addEC } from "../../../../services/talent";
 import { industryList } from "../../../../utils/Industry";
-
+const { RangePicker } = DatePicker;
+const { TextArea } = Input;
 const ModalCompany = ({ visible, onSubmit, onCancel, record, talentId }) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalTitle, setModalTitle] = useState("新增工作经历");
@@ -52,9 +53,12 @@ const ModalCompany = ({ visible, onSubmit, onCancel, record, talentId }) => {
         wrapperCol={{ span: 16 }}
         labelAlign="right"
       >
+        <Form.Item name="startTime" label="工作时间">
+          <RangePicker style={{ width: "100%" }}></RangePicker>
+        </Form.Item>
         <Form.Item
           name="name"
-          label="公司名"
+          label="所在公司"
           rules={[
             {
               required: true,
@@ -66,7 +70,7 @@ const ModalCompany = ({ visible, onSubmit, onCancel, record, talentId }) => {
         </Form.Item>
         <Form.Item
           name="job"
-          label="当前岗位"
+          label="工作岗位"
           rules={[
             {
               required: true,
@@ -76,23 +80,12 @@ const ModalCompany = ({ visible, onSubmit, onCancel, record, talentId }) => {
         >
           <Input></Input>
         </Form.Item>
-        <Form.Item name="industry" label="行业">
+        <Form.Item name="industry" label="所在行业">
           <Select options={industryList} onChange={onIndustryChange}></Select>
         </Form.Item>
-        <Form.Item name="industryChild" label="子行业">
-          <Select options={industryChildList}></Select>
-        </Form.Item>
-        <Form.Item name="startTime" label="开始日期">
-          <DatePicker style={{ width: "100%" }}></DatePicker>
-        </Form.Item>
-        <Form.Item name="endTime" label="结束日期">
-          <DatePicker style={{ width: "100%" }}></DatePicker>
-        </Form.Item>
-        <Form.Item name="details" label="工作内容">
-          <Input></Input>
-        </Form.Item>
-        <Form.Item name="duty" label="职责">
-          <Input></Input>
+
+        <Form.Item name="duty" label="工作职责">
+          <TextArea></TextArea>
         </Form.Item>
       </Form>
     </Modal>

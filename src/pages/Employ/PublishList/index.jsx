@@ -82,7 +82,7 @@ const TripList = () => {
             dataIndex: "type",
             key: "type",
             render: (text, record) => {
-                return text == 0 ? '公司大事' : text == 1 ? '大鲨鱼（员工突破' : '入职周年'
+                return text == 0 ? '公司大事' : text == 1 ? '大元宝' : text == 2 ? '入职周年' : '大钻石'
             }
         },
         {

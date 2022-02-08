@@ -231,3 +231,14 @@ export const updateTalent = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export const selectTPById = (payload) => {
+  // return new Promise((resolve, reject) => {
+  //   request.post("/talent/updateTalent", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/talent/selectTPById', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};

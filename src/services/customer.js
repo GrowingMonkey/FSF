@@ -369,3 +369,10 @@ export const hzCustomerList = (payload) => {
   });
 };
 
+//客户详情
+export const selectCstById = (payload) => {
+  return request('/customer/selectCstById', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};

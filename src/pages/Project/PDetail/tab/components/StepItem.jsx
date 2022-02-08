@@ -4,11 +4,8 @@ import { history } from 'umi';
 import { DownOutlined } from '@ant-design/icons';
 
 
-const StepItem = ({ title, isEnd }) => {
-
-
-
-
+const StepItem = ({ title, isEnd, info }) => {
+    console.log(info);
     return (
         <>
             <div style={{ display: 'flex' }}>
@@ -20,21 +17,19 @@ const StepItem = ({ title, isEnd }) => {
                     <Row>
                         <Col span={10}>
                             <Descriptions column={1} >
-                                <Descriptions.Item label="UserName">Zhou Maomao</Descriptions.Item>
-                                <Descriptions.Item label="Telephone">1810000000</Descriptions.Item>
+                                <Descriptions.Item label={''}>{info?.remark || ''}</Descriptions.Item>
+                                {/* <Descriptions.Item label="Telephone">1810000000</Descriptions.Item>
                                 <Descriptions.Item label="Live">Hangzhou, Zhejiang</Descriptions.Item>
-                                <Descriptions.Item label="Remark">empty</Descriptions.Item>
+                                <Descriptions.Item label="Remark">empty</Descriptions.Item> */}
                             </Descriptions>
                         </Col>
-                        <Col span={2}>111</Col>
-                        <Col span={4}>111</Col>
-                        <Col span={4}>111</Col>
-                        <Col span={4}>111</Col>
+                        <Col span={4}>{info?.createTime || ''}</Col>
+                        <Col span={4}>{}</Col>
+                        <Col span={4}>{}</Col>
                     </Row>
                     <Divider></Divider>
                 </div>
             </div>
-
         </>
     );
 };

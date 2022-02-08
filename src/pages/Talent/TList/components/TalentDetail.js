@@ -262,27 +262,22 @@ const TalentDetail = () => {
                           <Button type="text">删除</Button>
                         </Popconfirm>
                       </Divider>
-                      <Descriptions column={1}>
-                        <Descriptions.Item label="公司名">
+                      <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', justifyContent: 'flex-end' }} column={1}>
+                        <Descriptions.Item label="工作时间">
+                          {item.startTime && item.startTime.split(" ")[0] - item.endTime && item.endTime.split(" ")[0]}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="所在公司">
                           {item.name}
                         </Descriptions.Item>
-                        <Descriptions.Item label="当前岗位">
+                        <Descriptions.Item label="工作岗位">
                           {item.job}
                         </Descriptions.Item>
-                        <Descriptions.Item label="行业">
+                        <Descriptions.Item label="所在行业">
                           {item.industry}({item.industryChild})
                         </Descriptions.Item>
-                        <Descriptions.Item label="开始日期">
-                          {item.startTime && item.startTime.split(" ")[0]}
-                        </Descriptions.Item>
-                        <Descriptions.Item label="结束日期">
-                          {item.endTime && item.endTime.split(" ")[0]}
-                        </Descriptions.Item>
-                        <Descriptions.Item label="职责">
+
+                        <Descriptions.Item label="工作职责">
                           {item.duty}
-                        </Descriptions.Item>
-                        <Descriptions.Item label="工作内容">
-                          {item.details}
                         </Descriptions.Item>
                       </Descriptions>
                     </div>
@@ -325,27 +320,18 @@ const TalentDetail = () => {
                           <Button type="text">删除</Button>
                         </Popconfirm>
                       </Divider>
-                      <Descriptions column={3}>
+                      <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', justifyContent: 'flex-end' }} column={1}>
+                        <Descriptions.Item label="项目时间">
+                          {item.startTime - item.endTime}
+                        </Descriptions.Item>
                         <Descriptions.Item label="项目名称">
                           {item.name}
                         </Descriptions.Item>
-                        <Descriptions.Item label="当前岗位">
+                        <Descriptions.Item label="项目职务">
                           {item.job}
-                        </Descriptions.Item>
-                        <Descriptions.Item label="行业">
-                          {item.industry}({item.industryChild})
-                        </Descriptions.Item>
-                        <Descriptions.Item label="开始日期">
-                          {item.startTime && item.startTime.split(" ")[0]}
-                        </Descriptions.Item>
-                        <Descriptions.Item label="结束日期">
-                          {item.endTime && item.endTime.split(" ")[0]}
                         </Descriptions.Item>
                         <Descriptions.Item label="项目职责">
                           {item.duty}
-                        </Descriptions.Item>
-                        <Descriptions.Item label="项目业绩">
-                          {item.details}
                         </Descriptions.Item>
                       </Descriptions>
                     </div>
@@ -386,24 +372,18 @@ const TalentDetail = () => {
                           <Button type="text">删除</Button>
                         </Popconfirm>
                       </Divider>
-                      <Descriptions column={2}>
-                        <Descriptions.Item label="学校名">
+                      <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', justifyContent: 'flex-end' }} column={1}>
+                        <Descriptions.Item label="学习时间">
+                          {item.startTime && item.startTime.split(" ")[0] - item.endTime && item.endTime.split(" ")[0]}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="毕业院校">
                           {item.name}
                         </Descriptions.Item>
-                        <Descriptions.Item label="专业">
+                        <Descriptions.Item label="所读专业">
                           {item.classes}
                         </Descriptions.Item>
                         <Descriptions.Item label="是否统招">
                           {isAllTimeTypes[item.isAllTime]}
-                        </Descriptions.Item>
-                        <Descriptions.Item label="开始日期">
-                          {item.startTime && item.startTime.split(" ")[0]}
-                        </Descriptions.Item>
-                        <Descriptions.Item label="结束日期">
-                          {item.endTime && item.endTime.split(" ")[0]}
-                        </Descriptions.Item>
-                        <Descriptions.Item label="担任职务">
-                          {item.duty}
                         </Descriptions.Item>
                       </Descriptions>
                     </div>

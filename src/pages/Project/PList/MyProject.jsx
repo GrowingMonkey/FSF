@@ -114,7 +114,7 @@ const PList = () => {
                 <Space size={16}>
                     <Button type="link" style={{ padding: 0 }} onClick={() => history.push(`/project/p-detail/detail?projectId=${record.projectId}&customerId=${record.customerId}&id=${record.id}`,
                     )}>
-                        查看详情22
+                        查看详情
           </Button>
                 </Space>
             ),
@@ -366,10 +366,11 @@ const PList = () => {
                     pageNo: currentPage,
                     pageSize: 10,
                     ...searchValues,
-                }).then((data) => {
+                }).then((res) => {
                     console.log(data);
+                    const { data } = res;
                     setListData(
-                        data.list.map((item) => {
+                        data?.list?.map((item) => {
                             return Object.assign(item, { key: item.id });
                         })
                     );

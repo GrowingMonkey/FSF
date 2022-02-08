@@ -463,7 +463,7 @@ const TCreation = () => {
                                             fieldKey={[fieldKey, "startTime"]}
                                             label="工作时间"
                                         >
-                                            <RangePicker style={{ width: "328px" }}></RangePicker>
+                                            <RangePicker picker="month" style={{ width: "328px" }}></RangePicker>
                                         </Form.Item>
                                         <Form.Item
                                             name={[name, "name"]}
@@ -532,7 +532,7 @@ const TCreation = () => {
                                     block
                                     icon={<PlusOutlined />}
                                 >
-                                    添加项目经历
+                                    添加工作经历
                     </Button>
                             </>
                         )}
@@ -563,7 +563,7 @@ const TCreation = () => {
                                         >
                                             <RangePicker
                                                 style={{ width: '328px' }}
-                                            ></RangePicker>
+                                                picker="month" ></RangePicker>
                                         </Form.Item>
                                         <Form.Item
                                             name={[name, "name"]}
@@ -641,7 +641,7 @@ const TCreation = () => {
                                             fieldKey={[fieldKey, "startTime"]}
                                             label="学习时间"
                                         >
-                                            <RangePicker style={{ width: "328px" }}></RangePicker>
+                                            <RangePicker picker="month" style={{ width: "328px" }}></RangePicker>
                                         </Form.Item>
                                         <Form.Item
                                             name={[name, "name"]}

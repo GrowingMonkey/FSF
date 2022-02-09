@@ -31,7 +31,6 @@ export default [
     name: "客户管理",
     routes: [
       {
-
         path: "/customer/list",
         name: "客户列表",
         component: "./Customer/CList/index",
@@ -292,55 +291,55 @@ export default [
       },
     ],
   },
-  //财务管理
-  {
-    path: "/eco",
-    name: "财务管理",
-    icon: 'wallet',
-    routes: [
-      {
-        path: "/eco/kpi-list",
-        name: "我的业绩",
-        component: "./ECO/KpiList/index",
-      },
-      {
-        path: "/eco/salary-list",
-        name: "工资管理",
-        component: "./ECO/SalaryList/index",
-      },
-      {
-        path: "/eco/invioce-list",
-        name: "发票管理",
-        component: "./ECO/InvoiceList/index",
-      },
-      {
-        path: "/eco/company-earning-list",
-        name: "公司收入",
-        component: "./ECO/CompanyEarningList/index",
-      },
-      {
-        path: "/eco/commission-list",
-        name: "我的提成",
-        component: "./ECO/CommissionList/index",
-      },
-      {
-        path: "/eco/bf-list",
-        name: "议价服务费审核",
-        component: "./ECO/BFList/index",
-      },
-      {
-        path: "/eco/ar-list",
-        name: "应收管理",
-        exact: true,
-        component: "./ECO/ARList/index",
-      },
-      {
-        path: "/eco/af-list",
-        name: "财务申请",
-        component: "./ECO/AFList/index",
-      },
-    ],
-  },
+  // //财务管理
+  // {
+  //   path: "/eco",
+  //   name: "财务管理",
+  //   icon: 'wallet',
+  //   routes: [
+  //     {
+  //       path: "/eco/kpi-list",
+  //       name: "我的业绩",
+  //       component: "./ECO/KpiList/index",
+  //     },
+  //     {
+  //       path: "/eco/salary-list",
+  //       name: "工资管理",
+  //       component: "./ECO/SalaryList/index",
+  //     },
+  //     {
+  //       path: "/eco/invioce-list",
+  //       name: "发票管理",
+  //       component: "./ECO/InvoiceList/index",
+  //     },
+  //     {
+  //       path: "/eco/company-earning-list",
+  //       name: "公司收入",
+  //       component: "./ECO/CompanyEarningList/index",
+  //     },
+  //     {
+  //       path: "/eco/commission-list",
+  //       name: "我的提成",
+  //       component: "./ECO/CommissionList/index",
+  //     },
+  //     {
+  //       path: "/eco/bf-list",
+  //       name: "议价服务费审核",
+  //       component: "./ECO/BFList/index",
+  //     },
+  //     {
+  //       path: "/eco/ar-list",
+  //       name: "应收管理",
+  //       exact: true,
+  //       component: "./ECO/ARList/index",
+  //     },
+  //     {
+  //       path: "/eco/af-list",
+  //       name: "财务申请",
+  //       component: "./ECO/AFList/index",
+  //     },
+  //   ],
+  // },
   //绩效管理
   {
     icon: 'moneyCollect',

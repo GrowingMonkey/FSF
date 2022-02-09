@@ -108,6 +108,20 @@ const TalentDetail = () => {
       });
     });
   };
+  const formatDateStr = (item) => {
+    let str = '';
+
+    if (item.startTime) {
+      str += item.startTime.split(" ")[0];
+    }
+    str += ' 至 '
+    if (item.isNow) {
+      str += '至今'
+    } else if (item.endTime) {
+      str += item.endTime.split(" ")[0];
+    }
+    return str
+  }
   return (
     <div className={styles["talent-detail"]}>
       <ModalEducation
@@ -264,7 +278,7 @@ const TalentDetail = () => {
                       </Divider>
                       <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', justifyContent: 'flex-end' }} column={1}>
                         <Descriptions.Item label="工作时间">
-                          {item.startTime && item.startTime.split(" ")[0] - item.endTime && item.endTime.split(" ")[0]}
+                          {formatDateStr(item)}
                         </Descriptions.Item>
                         <Descriptions.Item label="所在公司">
                           {item.name}
@@ -322,7 +336,7 @@ const TalentDetail = () => {
                       </Divider>
                       <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', justifyContent: 'flex-end' }} column={1}>
                         <Descriptions.Item label="项目时间">
-                          {item.startTime - item.endTime}
+                          {formatDateStr(item)}
                         </Descriptions.Item>
                         <Descriptions.Item label="项目名称">
                           {item.name}
@@ -374,7 +388,7 @@ const TalentDetail = () => {
                       </Divider>
                       <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', justifyContent: 'flex-end' }} column={1}>
                         <Descriptions.Item label="学习时间">
-                          {item.startTime && item.startTime.split(" ")[0] - item.endTime && item.endTime.split(" ")[0]}
+                          {formatDateStr(item)}
                         </Descriptions.Item>
                         <Descriptions.Item label="毕业院校">
                           {item.name}

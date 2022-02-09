@@ -242,3 +242,25 @@ export const selectTPById = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export const myOfferList = (payload) => {
+  // return new Promise((resolve, reject) => {
+  //   request.post("/talent/updateTalent", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/talent/myOfferList', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+export const myRZList = (payload) => {
+  // return new Promise((resolve, reject) => {
+  //   request.post("/talent/updateTalent", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/talent/myRZList', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};

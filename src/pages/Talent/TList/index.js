@@ -11,6 +11,7 @@ import {
   Pagination,
   Space,
   Table,
+  message,
 } from "antd";
 import { history, Link } from 'umi'
 import { selectTalentList, selectTalentById, talentJoinProject } from "../../../services/talent";
@@ -260,7 +261,7 @@ const TList = () => {
     console.log(values);
     // run(values);
     talentJoinProject({ projectId: values.customer.projectId, talentId: currentTarent }).then(res => {
-
+      message.success('加入项目成功');
     })
     setIsModalVisible(false)
   }

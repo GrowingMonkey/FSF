@@ -10,7 +10,7 @@ import {
     Table,
     Divider,
 } from "antd";
-import { selectMyRecommend } from "../../../services/talent";
+import { myRZList } from "../../../services/talent";
 import ModalEdit from "./components/ModalEdit";
 import CustomerSearch from "../../../components/CustomerSearch";
 import TalentSearch from "../../../components/TalentSearch";
@@ -127,7 +127,7 @@ const TPList = () => {
     const handleSearchConfirm = () => {
         form.validateFields().then((values) => {
             console.log(values);
-            selectMyRecommend({
+            myRZList({
                 pageNo: currentPage,
                 pageSize: 10,
                 ...values.talent,
@@ -145,7 +145,7 @@ const TPList = () => {
         setCurrentPage(value)
     };
     useEffect(() => {
-        selectMyRecommend({
+        myRZList({
             pageNo: currentPage,
             pageSize: 10,
             ...searchValues,

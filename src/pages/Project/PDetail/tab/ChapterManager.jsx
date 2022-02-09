@@ -1,8 +1,11 @@
 import { PageContainer } from '@ant-design/pro-layout';
-import { Input, Card, Button, Tabs, Form, Table, Select, Modal } from 'antd';
+import { Input, Card, Button, Tabs, Form, Table, Select, Modal, message } from 'antd';
 import { history, Link } from 'umi';
 import { useEffect } from 'react';
-import { selectTPList, recommendTalent, updateTP } from '@/services/project'
+import {
+    selectTPList, recommendTalent, updateTP, Interview, rejectTalent, talentGiveUp, sendOffer, confirmOffer,
+    customerReject, quitWork
+} from '@/services/project'
 import { useState } from 'react';
 import ProForm, {
     ProFormRadio, ProFormSelect, ProFormText, ProFormDatePicker, ProFormDateTimePicker, ProFormTextArea,
@@ -10,13 +13,19 @@ import ProForm, {
 import CustomerSearch from '@/components/CustomerSearch';
 const { TabPane } = Tabs;
 const ChapterManager = () => {
-    const [searchForm] = Form.useForm()
+    const [searchForm] = Form.useForm();
+    const [remarkForm] = Form.useForm();
     const [TPList, setTPList] = useState([])
     const [state, setState] = useState(0)
     const [customId, setCustomId] = useState('')
     const [isYuYueModalVisible, setIsYuYueModalVisible] = useState(false);
     const [isOfferModalVisible, setIsOfferModalVisible] = useState(false);
     const [isLeaveModalVisible, setIsLeaveModalVisible] = useState(false);
+    const [isRemarkModalVisible, setIsRemarkModalVisible] = useState(false);
+    const [currentState, setCurrentState] = useState(0);
+    const [currentCustomerId, setCurrentCustomerId] = useState(null);
+    const [recordId, setRecordId] = useState(null);
+
     const stateChaneTypes = {
         0: [
             {
@@ -25,28 +34,16 @@ const ChapterManager = () => {
                 disabled: true,
             },
             {
-                label: "预约面试",
-                value: 5,
-            },
-            {
-                label: "确认offer",
-                value: 8,
-            },
-            {
-                label: "客户确认",
-                value: 7,
-            },
-            {
-                label: "成功入职",
-                value: 9,
-            },
-            {
                 label: "推给客户",
-                value: 3,
+                value: 1,
             },
             {
-                label: "人选离职",
-                value: 10,
+                label: "否决人选",
+                value: 2,
+            },
+            {
+                label: "人选放弃",
+                value: 4,
             },
         ],
         1: [
@@ -60,59 +57,120 @@ const ChapterManager = () => {
                 value: 5,
             },
             {
-                label: "确认offer",
-                value: 8,
+                label: "否决人选",
+                value: 2,
             },
             {
-                label: "客户确认",
+                label: "人选放弃",
+                value: 4,
+            },
+            {
+                label: "客户否决",
                 value: 7,
-            },
+            }
+        ],
+        2: [
             {
-                label: "成功入职",
-                value: 9,
-            },
-            {
-                label: "推给客户",
-                value: 3,
-            },
-            {
-                label: "人选离职",
-                value: 10,
+                label: "否决人选",
+                value: 2,
+                disabled: true
             },
         ],
         3: [
+            {
+                label: "推给顾问",
+                value: 3,
+                disabled: true,
+            },
+            {
+                label: "否决人选",
+                value: 2,
+            },
+        ],
+        4: [
+            {
+                label: "人选放弃",
+                value: 4,
+                disabled: true,
+            },
+        ],
+        5: [
+            {
+                label: "请选择",
+                value: '',
+            },
             {
                 label: "预约面试",
                 value: 5,
             },
             {
-                label: "确认offer",
-                value: 8,
+                label: "否决人选",
+                value: 2,
+            }, {
+                label: "人选放弃",
+                value: 4,
             },
             {
-                label: "客户确认",
+                label: "客户否决",
                 value: 7,
             },
             {
-                label: "成功入职",
-                value: 9,
+                label: "确认offer",
+                value: 8,
+            },
+        ],
+        6: [
+            {
+                label: "客户面试",
+                value: 6,
+                disabled: true
+            }
+        ],
+        7: [
+            {
+                label: "客户否决",
+                value: 7,
+                disabled: true
+            }
+        ],
+        8: [
+            {
+                label: "确认offer",
+                value: 8,
+                disabled: true
             },
             {
-                label: "推给客户",
-                value: 1,
+                label: "人选放弃",
+                value: 4,
+            },
+            {
+                label: "确认入职",
+                value: 9,
+            },
+        ],
+        9: [
+            {
+                label: "成功入职",
+                value: 9,
                 disabled: true
             },
             {
                 label: "人选离职",
                 value: 10,
-            },
+            }
         ],
+        10: [
+            {
+                label: "人选离职",
+                value: 10,
+                disabled: true
+            }],
     };
     const [pageNo, setPageNo] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const { location: { query } } = history;
     useEffect(() => {
-        selectTPList({ pageNo: pageNo, pageSize: pageSize, searchForm, projectId: query.projectId }).then(res => {
+        selectTPList({ pageNo: pageNo, pageSize: pageSize, state: state, projectId: query.projectId }).then(res => {
             console.log(res);
             setTPList(res?.data?.list || []);
             // setTPList([{ address: '111', username: 'hh' }])
@@ -125,13 +183,9 @@ const ChapterManager = () => {
             title: '人选姓名',
             dataIndex: 'talentName',
             key: 'name',
-            render: (text, record) => <Link to={`/project/p-detail/talent?talentId=${record.talentId}&id=${record.id}`}>{text}</Link>,
+            render: (text, record) => <Link to={`/project/talent?talentId=${record.talentId}&id=${record.id}`}>{text}</Link>,
         },
-        {
-            title: '类型',
-            dataIndex: 'type',
-            key: 'type',
-        },
+
         {
             title: '所在公司',
             dataIndex: 'company',
@@ -147,11 +201,7 @@ const ChapterManager = () => {
             dataIndex: 'phone',
             key: 'phone',
         },
-        {
-            title: '推荐人状态',
-            dataIndex: 'state',
-            key: 'state',
-        },
+
         {
             title: '推荐人',
             dataIndex: 'userName',
@@ -162,18 +212,18 @@ const ChapterManager = () => {
             dataIndex: 'createTime',
             key: 'createTime',
         },
-        {
-            title: '沟通记录',
-            dataIndex: 'tpFlowList',
-            key: 'tpFlowList',
-        },
+        // {
+        //     title: '沟通记录',
+        //     dataIndex: 'tpFlowList',
+        //     key: 'tpFlowList',
+        // },
         {
             title: '操作',
             dataIndex: 'address',
             key: 'address',
             render: (text, record) => {
                 return <Select
-                    value={record.state}
+                    value={record.state == 5 ? '' : record.state}
                     options={stateChaneTypes[+record.state]}
                     style={{ width: "100%" }}
                     onChange={(value) => {
@@ -183,36 +233,76 @@ const ChapterManager = () => {
             }
         },
     ];
+    const stateStr = (state) => {
+        switch (state) {
+            case 0:
+                return '加入项目';
+                break;
+            case 1:
+                return '推给客户';
+                break;
+            case 2:
+                return '否决人选';
+                break;
+            case 4:
+                return '人选放弃';
+                break;
+            case 5:
+                return '预约面试';
+                break;
+            case 6:
+                return '客户面试';
+                break;
+            case 7:
+                return '客户否决';
+                break;
+            case 8:
+                return '确认Offer';
+                break;
+            case 9:
+                return '确认入职';
+                break;
+            case 10:
+                return '人选离职';
+                break;
+
+        }
+    }
     const TabChange = (e) => {
         console.log(e)
         setState(e);
     }
     const handleStateChange = async (value, record) => {
         console.log(value, record.projectId);
+        setCurrentState(value);
+        setRecordId(record.id);
+        setCurrentCustomerId(record.customerId);
         switch (value) {
             case 1://推给客户
-                recommendTalent({ customerId: record.customerId, id: record.id }).then(res => {
-                    //改变状态
-                    updateTP({ id: record.id, state: value });
-                })
+                setIsRemarkModalVisible(true);
                 break;
             case 2://否决人选
+                setIsRemarkModalVisible(true);
                 updateTP({ id: record.id, state: value })
                 break;
             case 4://人选放弃
+                setIsRemarkModalVisible(true);
                 updateTP({ id: record.id, state: value })
                 break;
             case 5://约面试
                 setIsYuYueModalVisible(true);
                 break;
             case 6://客户面试
+                setIsRemarkModalVisible(true);
                 break;
             case 7://客户否决
+                setIsRemarkModalVisible(true);
                 break;
             case 8://收offer
                 setIsOfferModalVisible(true);
                 break;
             case 9://已入职
+                setIsRemarkModalVisible(true);
                 break;
             case 10://人选离职
                 setIsLeaveModalVisible(true);
@@ -229,7 +319,55 @@ const ChapterManager = () => {
             name: record.name,
         }),
     };
+    const onFinishYuYue = (values) => {
+        Interview({ ...values, id: recordId, projectId: query.projectId }).then(res => {
+            message.success(res.data || '更改成功');
+            setIsYuYueModalVisible(false);
+        })
+    }
+    const onOfferFinish = (values) => {
+        console.log(values);
+        sendOffer({ ...values, id: recordId, projectId: query.projectId }).then(res => {
+            message.success(res.data || '更改成功');
+            setIsOfferModalVisible(false);
+        })
+    }
+    const onLeaveFinish = (values) => {
+        quitWork({ ...values, id: recordId, projectId: query.projectId }).then(res => {
+            message.success(res.data || '更改成功');
+            setIsLeaveModalVisible(false);
+        })
+    }
+    const onFinishRemark = async (values) => {
+        debugger;
+        console.log(values);
+        console.log(currentCustomerId, recordId)
+        switch (+currentState) {
+            case 1:
+                await recommendTalent({ projectId: query.projectId, id: recordId, remark: values.remark })
+                break;
+            case 2:
+                // //否决人选
+                await rejectTalent({ projectId: query.projectId, id: recordId, remark: values.remark });
+                break;
+            case 4:
+                //人选放弃
+                await talentGiveUp({ projectId: query.projectId, id: recordId, remark: values.remark });
+                break;
+            case 9:
+                // 确认入职
+                await confirmOffer({ projectId: query.projectId, id: recordId, remark: values.remark })
+                break;
+            case 7:
+                // 客户否决
+                await customerReject({ projectId: query.projectId, id: recordId, remark: values.remark })
+                break;
+        }
+        remarkForm.resetFields();
+        message.success('更改成功');
+        setIsRemarkModalVisible(false);
 
+    }
     return (
         <>
             <Card>
@@ -277,7 +415,7 @@ const ChapterManager = () => {
                         initialValues={{
                             public: '1',
                         }}
-                    // onFinish={onFinish}
+                        onFinish={onFinishYuYue}
                     >
                         <ProFormSelect label="面试类型"
                             help=""//备注
@@ -286,8 +424,12 @@ const ChapterManager = () => {
                                     value: '0',
                                     label: '线下面试',
                                 },
+                                {
+                                    value: '1',
+                                    label: '线上面试',
+                                },
                             ]}
-                            name="type" />
+                            name="way" />
                         <ProForm.Group>
                             <ProFormSelect options={[
                                 {
@@ -302,16 +444,18 @@ const ChapterManager = () => {
                                     value: '2',
                                     label: '终试',
                                 },
-                            ]} label="面试时间" />
-                            <ProFormDateTimePicker />
+                            ]} label="面试时间" name="type" />
+                            <ProFormDateTimePicker name="time" />
                         </ProForm.Group>
                         <ProFormText help=""//备注 
                             label="面试地点"
                             name="address" />
+                        <ProFormTextArea label="备注信息" name="remark" />
                     </ProForm>
                 </Modal>
                 <Modal title="确认offer" visible={isOfferModalVisible} footer={null} onCancel={() => setIsOfferModalVisible(false)}>
                     <ProForm
+                        form={remarkForm}
                         hideRequiredMark
                         style={{
                             margin: 'auto',
@@ -323,16 +467,16 @@ const ChapterManager = () => {
                         initialValues={{
                             public: '1',
                         }}
-                    // onFinish={onFinish}
+                        onFinish={onOfferFinish}
                     >
                         <ProFormDatePicker label="offer时间"
                             help=""//备注
-                            name="type" />
+                            name="offerDate" />
                         <ProFormDatePicker label="入职时间"
                             help=""//备注
-                            name="type" />
-                        <ProForm.Group>
-                            <ProFormSelect options={[
+                            name="workDate" />
+
+                        {/* <ProFormSelect options={[
                                 {
                                     value: '0',
                                     label: '税前',
@@ -341,31 +485,18 @@ const ChapterManager = () => {
                                     value: '1',
                                     label: '税后',
                                 },
-                            ]} label="年薪" />
-                            <ProFormText />
-                        </ProForm.Group>
-                        <ProFormRadio.Group
-                            options={[
-                                {
-                                    value: '0',
-                                    label: '上班打卡',
-                                },
-                                {
-                                    value: '1',
-                                    label: '下班打卡',
-                                },
-                            ]}
-                            rules={[
-                                {
-                                    required: true,
-                                    message: '请输入标题',
-                                },
-                            ]}
-                            label="人选状态"
-                            help=""//备注
-                            name="type"
+                            ]} label="年薪" /> */}
+                        <ProFormText label="年薪" name="salary" fieldProps={{
+                            suffix: '万'
+                        }} />
 
-                        />
+
+                        <ProFormText label="议价金额" name="needPayment" fieldProps={{
+                            suffix: '元'
+                        }} />
+                        <ProFormText name="quot" label="保用期" fieldProps={{
+                            suffix: '月'
+                        }} />
                         <ProFormRadio.Group
                             options={[
                                 {
@@ -376,25 +507,34 @@ const ChapterManager = () => {
                             rules={[
                                 {
                                     required: true,
-                                    message: '请输入标题',
+                                    message: '请选择',
                                 },
                             ]}
                             label="收费方式"
                             help=""//备注
-                            name="type"
+                            name="chargeWay"
 
                         />
                         <ProFormSelect options={[
                             {
-                                value: '0',
-                                label: '税前',
+                                value: '0%',
+                                label: '0%',
                             },
                             {
-                                value: '1',
-                                label: '税后',
+                                value: '1%',
+                                label: '1%',
                             },
-                        ]} label="税率" />
-                        <ProFormTextArea label="备注" />
+                            {
+                                value: '3%',
+                                label: '3%',
+                            },
+                            {
+                                value: '6%',
+                                label: '6%',
+                            },
+
+                        ]} label="税率" name="feeRate" />
+                        <ProFormTextArea label="备注" name="remark" />
                     </ProForm>
                 </Modal>
                 <Modal title="人选离职" visible={isLeaveModalVisible} footer={null} onCancel={() => setIsLeaveModalVisible(false)}>
@@ -410,30 +550,49 @@ const ChapterManager = () => {
                         initialValues={{
                             public: '1',
                         }}
-                    // onFinish={onFinish}
+                        onFinish={onLeaveFinish}
                     >
                         <ProFormRadio.Group
                             options={[
                                 {
                                     value: '0',
-                                    label: '上班打卡',
+                                    label: '保内',
                                 },
                                 {
                                     value: '1',
-                                    label: '下班打卡',
+                                    label: '保外',
                                 },
                             ]}
                             rules={[
                                 {
                                     required: true,
-                                    message: '请输入标题',
+                                    message: '请选择',
                                 },
                             ]}
-                            label="打卡类型"
+                            label="是否过保"
                             help=""//备注
-                            name="type"
+                            name="isQuot"
 
                         />
+
+                    </ProForm>
+                </Modal>
+                <Modal title={stateStr(currentState)} visible={isRemarkModalVisible} footer={null} onCancel={() => setIsRemarkModalVisible(false)}>
+                    <ProForm
+                        hideRequiredMark
+                        style={{
+                            margin: 'auto',
+                            marginTop: 8,
+                            maxWidth: 600,
+                        }}
+                        name="basic"
+                        layout="vertical"
+                        initialValues={{
+                            public: '1',
+                        }}
+                        onFinish={onFinishRemark}
+                    >
+                        <ProFormTextArea label="备注信息" name="remark" />
 
                     </ProForm>
                 </Modal>

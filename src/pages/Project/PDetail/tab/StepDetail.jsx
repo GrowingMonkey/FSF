@@ -55,7 +55,7 @@ const StepDetail = () => {
         })
     }, [talentId])
     const stateStr = (state) => {
-        switch (state) {
+        switch (+state) {
             case 0:
                 return '加入项目';
                 break;
@@ -103,7 +103,7 @@ const StepDetail = () => {
                             <Descriptions.Item label="电子邮箱">{talentDetail.email}</Descriptions.Item>
                             <Descriptions.Item label="当前职位">{talentDetail.job}</Descriptions.Item>
                             <Descriptions.Item label="目前薪资">{talentDetail.salary}</Descriptions.Item>
-                            <Descriptions.Item label="人选状态">{talentJoinDetail.state}</Descriptions.Item>
+                            <Descriptions.Item label="人选状态">{stateStr(talentJoinDetail.state)}</Descriptions.Item>
                             <Descriptions.Item label="推荐人">{talentJoinDetail.userName}</Descriptions.Item>
                             {/* <Descriptions.Item label="人选相关">Zhou Maomao</Descriptions.Item> */}
                             {/* <Descriptions.Item label="执行团队">1810000000</Descriptions.Item> */}
@@ -134,7 +134,7 @@ const StepDetail = () => {
                     talentJoinDetail.tpFlowList && talentJoinDetail.tpFlowList.map((item, index) => <StepItem title={stateStr(item.state)} isEnd={index == (talentJoinDetail.tpFlowList.length - 1)} info={item}></StepItem>)
                 }
                 <div style={{ marginLeft: '76px' }}>
-                    <Space><Button type="primary">添加评语</Button><Button>申请离职</Button><Button>添加评语</Button></Space>
+                    {/* <Space><Button type="primary">添加评语</Button><Button>申请离职</Button><Button>添加评语</Button></Space> */}
                 </div>
 
             </Card>

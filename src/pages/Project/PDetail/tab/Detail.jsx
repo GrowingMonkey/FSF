@@ -1,8 +1,8 @@
 import { PageContainer } from '@ant-design/pro-layout';
-import { Input, Card, Divider, Descriptions, Row, Col, Tabs, Button, Space, Modal, Form } from 'antd';
+import { Input, Card, Divider, Descriptions, Row, Col, Tabs, Button, Space, Modal, Form, message } from 'antd';
 import { history } from 'umi';
 import StepItem from './components/StepItem';
-import { selectPById, selectTPList } from '@/services/project';
+import { selectPById, selectTPList, applyForProject } from '@/services/project';
 import { selectCstById } from '@/services/customer';
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -31,10 +31,12 @@ const Search = () => {
             setTeam(res?.data || {});
         })
     }, [history])
-    const onFinish = (values) => {
-
-        console.log(values);
-        // setIsModalVisible(false)
+    const onFinish = () => {
+        const { location: { query } } = history;
+        applyForProject({ projectId: query.projectId }).then(res => {
+            message.success("加入团队成功");
+            setIsModalVisible(false);
+        })
     }
     return (
         <>
@@ -75,11 +77,11 @@ const Search = () => {
                     </Card>
                 </Col>
                 <Col span="7">
-                    <Card title="执行团队" extra={<Button type="primary" onClick={() => setIsModalVisible(true)}>申请加入</Button>}>
+                    <Card title="执行团队" extra={<Button type="primary" onClick={onFinish}>申请加入</Button>}>
                         {team.length > 0 ? team.map(item => <span>{item?.userName}</span>) : '暂无人员'}
                     </Card>
                 </Col>
-                <Modal title="人选离职" visible={isModalVisible} footer={null} onCancel={() => setIsModalVisible(false)}>
+                {/* <Modal title="加入团队" visible={isModalVisible} footer={null} onCancel={() => setIsModalVisible(false)}>
                     <ProForm
                         hideRequiredMark
                         style={{
@@ -102,7 +104,7 @@ const Search = () => {
                         </Form.Item>
 
                     </ProForm>
-                </Modal>
+                </Modal> */}
             </Row>
         </>
 

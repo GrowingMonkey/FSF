@@ -64,22 +64,6 @@ export const closeProject = (payload) => {
     data: { ...(payload || {}) },
   });
 };
-export const confirmOffer = (payload) => {
-  // return new Promise((resolve, reject) => {
-  //   request
-  //     .post("/project/confirmOffer", payload)
-  //     .then((data) => {
-  //       resolve(data);
-  //     })
-  //     .catch((error) => {
-  //       reject(error);
-  //     });
-  // });
-  return request('/project/confirmOffer', {
-    method: 'POST',
-    data: { ...(payload || {}) },
-  });
-};
 export const finishProject = (payload) => {
   // return new Promise((resolve, reject) => {
   //   request
@@ -264,6 +248,53 @@ export const selectPById = (payload) => {
 //推荐人选给客户
 export const recommendTalent = (payload) => {
   return request('/project/recommendTalent', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+//预约面试
+export const Interview = (payload) => {
+  return request('/project/interview', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+//确认0ffer
+export const sendOffer = (payload) => {
+  return request('/project/sendOffer', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+//确认入职
+export const confirmOffer = (payload) => {
+  return request('/project/confirmOffer', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+//客户否决
+export const customerReject = (payload) => {
+  return request('/project/customerReject', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+//人选离职
+export const quitWork = (payload) => {
+  return request('/project/quitWork', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+export const rejectTalent = (payload) => {
+  return request('/project/rejectTalent', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+export const talentGiveUp = (payload) => {
+  return request('/project/talentGiveUp', {
     method: 'POST',
     data: { ...(payload || {}) },
   });

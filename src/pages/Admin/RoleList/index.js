@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { Table, Button, Space, Row, Col, Pagination, Divider } from "antd";
 import ModalForm from "./components/ModalForm";
-import { roleList, permissionList } from "../../../services/admin";
+import { roleList, permissionList } from "@/services/admin";
 import styles from "./index.less";
-import { PageContainer } from "@ant-design/pro-layout";
 
 const RoleList = () => {
   const [visible, setVisible] = useState(false);
@@ -15,23 +14,21 @@ const RoleList = () => {
   const [formValue, setFormValue] = useState(null);
   useEffect(() => {
     roleList({ pageNo: currentPage, pageSize: 10 }).then((res) => {
-      const { data } = res;
       setList(
-        data.list.map((item) => {
+        res.data.list.map((item) => {
           return Object.assign(item, {
             key: item.id,
           });
         })
       );
-      setListLength(data.count);
+      setListLength(res.count);
       permissionList({ pageNo: currentPage, pageSize: 200 }).then((res) => {
-        const { data } = res;
-        if (data.list.length) {
+        if (res.data.list.length) {
           let functionTree = {};
           let menuTree = {};
           let functionList = [];
           let menuList = [];
-          data.list.forEach((item) => {
+          res.data.list.forEach((item) => {
             if (item.url.startsWith("/")) {
               functionList.push(item);
             }
@@ -39,18 +36,19 @@ const RoleList = () => {
               menuList.push(item);
             }
           });
-          console.log(functionList, "---", menuList);
+          // console.log(functionList, "---", menuList);
           functionList.forEach((item) => {
             let urlList = item.url.split("/").filter((url) => {
               return url.length > 0;
             });
             // console.log(urlList);
             if (urlList.length === 1) {
-              functionTree[urlList[0]] = {
-                title: `${item.name}-${urlList[0]}`,
-                key: item.id,
-                children: [],
-              };
+              if (!functionTree[urlList[0]])
+                functionTree[urlList[0]] = {
+                  title: `${item.name}-${urlList[0]}`,
+                  key: item.id,
+                  children: [],
+                };
             }
           });
           console.log(functionTree);
@@ -58,9 +56,8 @@ const RoleList = () => {
             let urlList = item.url.split("/").filter((url) => {
               return url.length > 0;
             });
-            console.log('urlList', urlList);
             if (urlList.length === 2) {
-              functionTree[urlList[0]]?.children.push({
+              functionTree[urlList[0]].children.push({
                 title: `${item.name}-${urlList[1]}`,
                 key: item.id,
                 parentKey: functionTree[urlList[0]].key,
@@ -111,15 +108,14 @@ const RoleList = () => {
   };
   const onSubmit = () => {
     roleList({ pageNo: currentPage, pageSize: 10 }).then((res) => {
-      const { data } = res;
       setList(
-        data.list.map((item) => {
+        res.list.map((item) => {
           return Object.assign(item, {
             key: item.id,
           });
         })
       );
-      setListLength(data.count);
+      setListLength(res.count);
     });
     setVisible(false);
   };
@@ -159,7 +155,7 @@ const RoleList = () => {
     },
   ];
   return (
-    <PageContainer>
+    <div className={styles["role-list"]}>
       <ModalForm
         visible={visible}
         onSubmit={onSubmit}
@@ -203,7 +199,7 @@ const RoleList = () => {
           </Col>
         </Row>
       </div>
-    </PageContainer>
+    </div>
   );
 };
 

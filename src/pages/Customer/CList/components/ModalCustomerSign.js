@@ -130,6 +130,22 @@ const ModalCustomerSign = ({
 
                     }}
                 </ProFormDependency>
+                <ProFormText label="保用期"
+                    name="quotTime" fieldProps={{
+                        suffix: '月'
+                    }} />
+                <ProFormDependency name={['isDownPayment']}>
+                    {({ isDownPayment }) => {
+                        if (+isDownPayment != 1) {
+                            return (<ProFormText label="服务费"
+                                name="serviceCharge" fieldProps={{
+                                    suffix: '元'
+                                }} />)
+                        }
+
+                    }}
+                </ProFormDependency>
+
             </ProForm>
         </Modal>
     );

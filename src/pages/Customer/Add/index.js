@@ -11,6 +11,7 @@ import {
   Divider,
   Space,
   Radio,
+  message
 } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import {
@@ -70,7 +71,7 @@ const Add = () => {
                   extraInfo.push(...contactPromises);
                 }
                 debugger
-                if (Object.keys(teamValues.user).length > 1) {
+                if (teamValues.user && Object.keys(teamValues.user).length > 1) {
                   extraInfo.push(addCustomerTeam({
                     customerId: id,
                     comId: teamValues.user.comId,
@@ -106,6 +107,8 @@ const Add = () => {
                   extraInfo.push(...teamPromises);
                 }
                 Promise.all(extraInfo).then((results) => {
+                  debugger
+                  message.success("添加客户成功")
                   console.log(results);
                   form.resetFields();
                   history.push("/customer/list");

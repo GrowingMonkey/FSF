@@ -9,10 +9,10 @@ import {
     Select,
     Divider,
     Radio,
-    Checkbox,
     Cascader,
     InputNumber,
     DatePicker,
+    message,
     Upload,
 } from "antd";
 import ProForm, {
@@ -135,6 +135,7 @@ const TCreation = () => {
                             }
                         });
                         Promise.all(extraInfo).then((datas) => {
+                            message.success("新增人选成功");
                             history.push("/talent/t-list");
                         });
                     });
@@ -643,6 +644,7 @@ const TCreation = () => {
                                         >
                                             <RangePicker picker="month" style={{ width: "328px" }}></RangePicker>
                                         </Form.Item>
+
                                         <Form.Item
                                             name={[name, "name"]}
                                             fieldKey={[fieldKey, "name"]}
@@ -715,7 +717,7 @@ const TCreation = () => {
 
 
             <div style={{ width: "100%", minHeight: "15px" }}></div>
-        </PageContainer>
+        </PageContainer >
     );
 };
 

@@ -63,6 +63,7 @@ const PCreation = () => {
         jobForm.validateFields().then((values) => {
           addProject({ projectId: data, ...payload, ...values, ...params }).then((data) => {
             // console.log(data);
+            message.success("新增职位成功");
             history.push("/project/p-list");
           })
         })

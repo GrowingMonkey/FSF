@@ -95,12 +95,6 @@ export default [
             path: '/project/p-detail/detail',
             component: './Project/PDetail/tab/Detail',
           },
-          //职位人选详情
-          {
-            name: 'talent',
-            path: '/project/p-detail/talent',
-            component: './Project/PDetail/tab/StepDetail',
-          },
           //推荐管理
           {
             name: 'chapter-manager',
@@ -108,6 +102,13 @@ export default [
             component: './Project/PDetail/tab/ChapterManager',
           },
         ]
+      },
+      //职位人选详情
+      {
+        name: 'talent',
+        path: '/project/talent',
+        hideInMenu: true,
+        component: './Project/PDetail/tab/StepDetail',
       },
       {
         path: "/project/pm-list",

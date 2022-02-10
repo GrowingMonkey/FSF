@@ -1,32 +1,24 @@
-import { useState, useEffect } from "react";
-import {
-  Modal,
-  Form,
-  Input,
-  Tree,
-  Row,
-  Col,
-  Divider,
-  DatePicker,
-  Select,
-} from "antd";
-import moment from "moment";
-import { addEdu } from "../../../../services/talent";
+import { useState, useEffect } from 'react';
+import { Modal, Form, Input, Tree, Row, Col, Divider, DatePicker, Select } from 'antd';
+import moment from 'moment';
+import { addEdu } from '../../../../services/talent';
 const { RangePicker } = DatePicker;
+import SelfDate from '@/components/SelfDate';
 const ModalEducation = ({ visible, onSubmit, onCancel, talentId }) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [modalTitle, setModalTitle] = useState("新增教育经历");
+  const [modalTitle, setModalTitle] = useState('新增教育经历');
   const [form] = Form.useForm();
   const handleOk = () => {
     setConfirmLoading(true);
     form.validateFields().then((values) => {
       let payload = Object.assign({}, values);
       if (values.startTime) {
-        payload.startTime = values.startTime[0].format("YYYY-MM-DD");
-        payload.endTime = values.startTime[1].format("YYYY-MM-DD");
+        payload.startTime = values.startTime.startTime.format('YYYY-MM-DD');
+        payload.endTime = values.startTime.endTime.format('YYYY-MM-DD');
+        payload.isNow = values.startTime.isNow;
       }
       if (values.endTime) {
-        payload.endTime = values.endTime.format("YYYY-MM-DD");
+        payload.endTime = values.endTime.format('YYYY-MM-DD');
       }
       addEdu({ talentId: talentId, ...payload }).then((data) => {
         console.log(data);
@@ -52,14 +44,13 @@ const ModalEducation = ({ visible, onSubmit, onCancel, talentId }) => {
       onOk={handleOk}
       confirmLoading={confirmLoading}
     >
-      <Form
-        form={form}
-        labelCol={{ span: 6 }}
-        wrapperCol={{ span: 16 }}
-        labelAlign="right"
-      >
+      <Form form={form} labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} labelAlign="right">
         <Form.Item name="startTime" label="学习日期">
-          <RangePicker style={{ width: "100%" }}></RangePicker>
+          <SelfDate
+            fieldProps={{ picker: 'month' }}
+            returnType={'moment'}
+            style={{ width: '328px' }}
+          ></SelfDate>
         </Form.Item>
         <Form.Item
           name="name"
@@ -67,7 +58,7 @@ const ModalEducation = ({ visible, onSubmit, onCancel, talentId }) => {
           rules={[
             {
               required: true,
-              message: "必填",
+              message: '必填',
             },
           ]}
         >
@@ -79,7 +70,7 @@ const ModalEducation = ({ visible, onSubmit, onCancel, talentId }) => {
           rules={[
             {
               required: true,
-              message: "必填",
+              message: '必填',
             },
           ]}
         >
@@ -91,18 +82,17 @@ const ModalEducation = ({ visible, onSubmit, onCancel, talentId }) => {
           rules={[
             {
               required: true,
-              message: "必填",
+              message: '必填',
             },
           ]}
         >
           <Select
             options={[
-              { label: "是", value: 0 },
-              { label: "否", value: 1 },
+              { label: '是', value: 0 },
+              { label: '否', value: 1 },
             ]}
           ></Select>
         </Form.Item>
-
       </Form>
     </Modal>
   );

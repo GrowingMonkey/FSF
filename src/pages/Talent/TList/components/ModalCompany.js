@@ -1,12 +1,13 @@
-import { useState, useEffect } from "react";
-import { Modal, Form, Input, DatePicker, Select } from "antd";
-import { addEC } from "../../../../services/talent";
-import { industryList } from "../../../../utils/Industry";
+import { useState, useEffect } from 'react';
+import { Modal, Form, Input, DatePicker, Select } from 'antd';
+import { addEC } from '../../../../services/talent';
+import { industryList } from '../../../../utils/Industry';
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
+import SelfDate from '@/components/SelfDate';
 const ModalCompany = ({ visible, onSubmit, onCancel, record, talentId }) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [modalTitle, setModalTitle] = useState("新增工作经历");
+  const [modalTitle, setModalTitle] = useState('新增工作经历');
   const [industryChildList, setIndustryChildList] = useState([]);
   const [form] = Form.useForm();
   const handleOk = () => {
@@ -14,10 +15,12 @@ const ModalCompany = ({ visible, onSubmit, onCancel, record, talentId }) => {
     form.validateFields().then((values) => {
       let payload = Object.assign({}, values);
       if (values.startTime) {
-        payload.startTime = values.startTime.format("YYYY-MM-DD");
+        payload.startTime = values.startTime.startTime.format('YYYY-MM-DD');
+        payload.endTime = values.startTime.endTime.format('YYYY-MM-DD');
+        payload.isNow = values.startTime.isNow;
       }
       if (values.endTime) {
-        payload.endTime = values.endTime.format("YYYY-MM-DD");
+        payload.endTime = values.endTime.format('YYYY-MM-DD');
       }
       addEC({ talentId: talentId, ...payload }).then((data) => {
         console.log(data);
@@ -47,14 +50,13 @@ const ModalCompany = ({ visible, onSubmit, onCancel, record, talentId }) => {
       onOk={handleOk}
       confirmLoading={confirmLoading}
     >
-      <Form
-        form={form}
-        labelCol={{ span: 6 }}
-        wrapperCol={{ span: 16 }}
-        labelAlign="right"
-      >
+      <Form form={form} labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} labelAlign="right">
         <Form.Item name="startTime" label="工作时间">
-          <RangePicker style={{ width: "100%" }}></RangePicker>
+          <SelfDate
+            fieldProps={{ picker: 'month' }}
+            returnType={'moment'}
+            style={{ width: '328px' }}
+          ></SelfDate>
         </Form.Item>
         <Form.Item
           name="name"
@@ -62,7 +64,7 @@ const ModalCompany = ({ visible, onSubmit, onCancel, record, talentId }) => {
           rules={[
             {
               required: true,
-              message: "必填",
+              message: '必填',
             },
           ]}
         >
@@ -74,7 +76,7 @@ const ModalCompany = ({ visible, onSubmit, onCancel, record, talentId }) => {
           rules={[
             {
               required: true,
-              message: "必填",
+              message: '必填',
             },
           ]}
         >

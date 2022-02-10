@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Form,
   Row,
@@ -13,15 +13,15 @@ import {
   Cascader,
   Divider,
   Space,
-} from "antd";
-import CustomerSearch from "../../../components/CustomerSearch";
-import { addProject, getProjectId } from "../../../services/project";
-import { cityList } from "../../../utils/CityList";
-import { industryList } from "../../../utils/Industry";
-import { positionList } from "../../../utils/Position";
-import styles from "./index.less";
-import { PageContainer } from "@ant-design/pro-layout";
-import ProForm, { ProFormText, ProFormSelect, ProFormTextArea } from '@ant-design/pro-form'
+} from 'antd';
+import CustomerSearch from '../../../components/CustomerSearch';
+import { addProject, getProjectId } from '../../../services/project';
+import { cityList } from '../../../utils/CityList';
+import { industryList } from '../../../utils/Industry';
+import { positionList } from '../../../utils/Position';
+import styles from './index.less';
+import { PageContainer } from '@ant-design/pro-layout';
+import ProForm, { ProFormText, ProFormSelect, ProFormTextArea } from '@ant-design/pro-form';
 const { TextArea } = Input;
 const PCreation = () => {
   const history = useHistory();
@@ -34,18 +34,16 @@ const PCreation = () => {
     form.setFieldsValue({ industryChild: data.children[0].value });
   };
   const onSubmit = (params) => {
-
     form.validateFields().then((values) => {
-
       let payload = Object.assign({}, values);
       if (values.job) {
         payload.job = `${values.job[0]}/${values.job[1]}/${values.job[2]}`;
       }
       if (values.startTime) {
-        payload.startTime = values.startTime.format("YYYY-MM-DD");
+        payload.startTime = values.startTime.format('YYYY-MM-DD');
       }
       if (values.endTime) {
-        payload.endTime = values.endTime.format("YYYY-MM-DD");
+        payload.endTime = values.endTime.format('YYYY-MM-DD');
       }
       if (values.cityCode) {
         if (values.cityCode[1]) {
@@ -59,15 +57,14 @@ const PCreation = () => {
       payload.customerName = values.customer.customerName;
       console.log(payload);
       getProjectId().then((res) => {
-        const { data } = res
+        const { data } = res;
         jobForm.validateFields().then((values) => {
           addProject({ projectId: data, ...payload, ...values, ...params }).then((data) => {
             // console.log(data);
-            message.success("新增职位成功");
-            history.push("/project/p-list");
-          })
-        })
-          ;
+            message.success('新增职位成功');
+            history.push('/project/p-list');
+          });
+        });
       });
     });
   };
@@ -78,21 +75,20 @@ const PCreation = () => {
     xs: 24,
     sm: 12,
     lg: 8,
-    xl: 6
-  }
+    xl: 6,
+  };
   const wrapTimeCol = {
     xs: 24,
     sm: 24,
     lg: 16,
-    xl: 12
-  }
+    xl: 12,
+  };
   return (
     <PageContainer>
-
-      <div className={styles["info-container"]}>
+      <div className={styles['info-container']}>
         <Row justify="space-between" align="middle">
           <Row>
-            <div className={styles["page-title"]}>职位基本信息</div>
+            <div className={styles['page-title']}>职位基本信息</div>
           </Row>
           <Col>
             <Space>
@@ -115,18 +111,17 @@ const PCreation = () => {
             wrapperCol={{ style: { width: '328px' } }}
             submitter={{
               render: (props, dom) => {
-                return null
+                return null;
               },
-
             }}
-            labelAlign="right">
-
+            labelAlign="right"
+          >
             <Form.Item
               name="customer"
               rules={[
                 {
                   required: true,
-                  message: "必填",
+                  message: '必填',
                 },
               ]}
               label="客户选择"
@@ -139,7 +134,7 @@ const PCreation = () => {
               rules={[
                 {
                   required: true,
-                  message: "必填",
+                  message: '必填',
                 },
               ]}
             >
@@ -152,15 +147,11 @@ const PCreation = () => {
               rules={[
                 {
                   required: true,
-                  message: "必填",
+                  message: '必填',
                 },
               ]}
             >
-              <Cascader
-                style={{ width: '328px' }}
-                options={positionList}
-                placeholder=""
-              ></Cascader>
+              <Cascader style={{ width: '328px' }} options={positionList} placeholder=""></Cascader>
             </Form.Item>
             <Form.Item
               name="cityCode"
@@ -168,15 +159,11 @@ const PCreation = () => {
               rules={[
                 {
                   required: true,
-                  message: "必填",
+                  message: '必填',
                 },
               ]}
             >
-              <Cascader
-                style={{ width: '328px' }}
-                options={cityList}
-                placeholder=""
-              ></Cascader>
+              <Cascader style={{ width: '328px' }} options={cityList} placeholder=""></Cascader>
             </Form.Item>
             {/* <Form.Item
               name="RJob"
@@ -186,40 +173,22 @@ const PCreation = () => {
               <Input style={{ width: '328px' }}></Input>
             </Form.Item> */}
             <ProForm.Group>
-              <Form.Item
-                name="salaryStart"
-                label="职位年薪"
-                style={{ width: '222px' }}
-              >
+              <Form.Item name="salaryStart" label="职位年薪" style={{ width: '222px' }}>
                 <Input style={{ width: '122px' }} suffix="万"></Input>
               </Form.Item>
-                至
-              <Form.Item
-                name="salaryEnd"
-              >
+              至
+              <Form.Item name="salaryEnd">
                 <Input style={{ width: '122px' }} suffix="万"></Input>
               </Form.Item>
             </ProForm.Group>
-            <Form.Item
-              name="department"
-              label="所属部门"
-
-            >
+            <Form.Item name="department" label="所属部门">
               <Input style={{ width: '328px' }}></Input>
             </Form.Item>
-            <Form.Item
-              name="RJob"
-              label="招聘人数"
-              help="备注：0为若干"
-            >
+            <Form.Item name="RJob" label="招聘人数" help="备注：0为若干">
               <Input style={{ width: '130px' }}></Input>
             </Form.Item>
             <ProForm.Group>
-              <Form.Item
-                name="reportName"
-                label="汇报对象"
-                style={{ width: '230px' }}
-              >
+              <Form.Item name="reportName" label="汇报对象" style={{ width: '230px' }}>
                 <Input style={{ width: '130px' }}></Input>
               </Form.Item>
               <Form.Item
@@ -232,9 +201,8 @@ const PCreation = () => {
               </Form.Item>
             </ProForm.Group>
           </ProForm>
-
         </div>
-        <div className={styles["page-title"]}>职位要求</div>
+        <div className={styles['page-title']}>职位要求</div>
         <Divider></Divider>
         <ProForm
           form={jobForm}
@@ -243,50 +211,45 @@ const PCreation = () => {
           wrapperCol={{ style: { width: '328px' } }}
           submitter={{
             render: (props, dom) => {
-              return null
+              return null;
             },
-
           }}
-          labelAlign="right">
-
-          <Form.Item
-            name="requireEdu"
-
-            label="学历要求"
-          >
+          labelAlign="right"
+        >
+          <Form.Item name="requireEdu" label="学历要求">
             <Select
               style={{ width: '328px' }}
               options={[
                 {
-                  label: "不限",
+                  label: '不限',
                   value: 0,
                 },
                 {
-                  label: "初中以上",
+                  label: '初中以上',
                   value: 1,
                 },
                 {
-                  label: "中专以上",
+                  label: '中专以上',
                   value: 2,
                 },
                 {
-                  label: "高中以上",
+                  label: '高中以上',
                   value: 3,
                 },
                 {
-                  label: "大专以上",
+                  label: '大专以上',
                   value: 4,
                 },
                 {
-                  label: "本科以上",
+                  label: '本科以上',
                   value: 5,
                 },
                 {
-                  label: "硕士以上",
+                  label: '硕士以上',
                   value: 6,
                 },
                 {
-                  label: "博士以上",
+                  label: '博士以上',
                   value: 7,
                 },
               ]}
@@ -295,7 +258,8 @@ const PCreation = () => {
           <ProForm.Group>
             <Form.Item label="年龄要求" name="requireAgeS" style={{ width: '200px' }}>
               <Input style={{ width: '100px' }}></Input>
-            </Form.Item>-
+            </Form.Item>
+            -
             <Form.Item name="requireAgeE" style={{ width: '100px' }}>
               <Input></Input>
             </Form.Item>
@@ -304,59 +268,58 @@ const PCreation = () => {
             </Form.Item>
           </ProForm.Group>
 
-          <Form.Item
-            name="experience"
-            label="工作年限"
-
-          >
-            <Select style={{ width: '328px' }} options={[
-              {
-                label: "3年以下",
-                value: "3年以下",
-              },
-              {
-                label: "3-5年",
-                value: "3-5年",
-              },
-              {
-                label: "5-10年",
-                value: "5-10年",
-              },
-              {
-                label: "10年以上",
-                value: "10年以上",
-              },
-            ]}></Select>
+          <Form.Item name="experience" label="工作年限">
+            <Select
+              style={{ width: '328px' }}
+              options={[
+                {
+                  label: '3年以下',
+                  value: '3年以下',
+                },
+                {
+                  label: '3-5年',
+                  value: '3-5年',
+                },
+                {
+                  label: '5-10年',
+                  value: '5-10年',
+                },
+                {
+                  label: '10年以上',
+                  value: '10年以上',
+                },
+              ]}
+            ></Select>
           </Form.Item>
-          <Form.Item
-            name="requireGender"
-            label="性别要求"
-
-          >
+          <Form.Item name="requireGender" label="性别要求">
             <Radio.Group>
               <Radio value={1}>男</Radio>
               <Radio value={0}>女</Radio>
               <Radio value={2}>不限</Radio>
             </Radio.Group>
           </Form.Item>
-          <Form.Item
-            name="requireAllTime"
-            label="是否统招"
-
-          >
+          <Form.Item name="requireAllTime" label="是否统招">
             <Radio.Group>
               <Radio value={1}>是</Radio>
               <Radio value={2}>不限</Radio>
             </Radio.Group>
           </Form.Item>
-          <Form.Item
-            name="details"
-            label="职位描述"
-
-          >
+          <Form.Item name="details" label="职位描述">
             <TextArea style={{ width: '328px' }}></TextArea>
           </Form.Item>
         </ProForm>
+        <Space>
+          <Button
+            style={{ marginLeft: '95px' }}
+            type="primary"
+            onClick={() => onSubmit({ state: 1 })}
+          >
+            发布
+          </Button>
+          <Button type="primary" onClick={() => onSubmit({ state: 0 })}>
+            保存草稿
+          </Button>
+        </Space>
       </div>
     </PageContainer>
   );

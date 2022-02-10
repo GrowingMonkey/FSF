@@ -287,7 +287,7 @@ const TalentDetail = () => {
                           {item.job}
                         </Descriptions.Item>
                         <Descriptions.Item label="所在行业">
-                          {item.industry}({item.industryChild})
+                          {item.industry} {item.industryChild}
                         </Descriptions.Item>
 
                         <Descriptions.Item label="工作职责">

@@ -100,8 +100,8 @@ const TCreation = () => {
                     // console.log(education.startTime.format("YYYY-MM-DD"));
                     let payload = Object.assign({}, education);
                     if (education.startTime) {
-                      payload.startTime = education.startTime.startTime.format('YYYY-MM-DD');
-                      payload.endTime = education.startTime.endTime.format('YYYY-MM-DD');
+                      payload.startTime = education.startTime.startTime;
+                      payload.endTime = education.startTime.endTime;
                       payload.isNow = education.startTime.isNow;
                     }
                     if (education.endTime) {
@@ -118,8 +118,8 @@ const TCreation = () => {
                   item['project'].forEach((project) => {
                     let payload = Object.assign({}, project);
                     if (project.startTime) {
-                      payload.startTime = project.startTime.startTime.format('YYYY-MM-DD');
-                      payload.endTime = project.startTime.endTime.format('YYYY-MM-DD');
+                      payload.startTime = project.startTime.startTime;
+                      payload.endTime = project.startTime.endTime;
                       payload.isNow = project.startTime.isNow;
                     }
                     if (project.endTime) {
@@ -136,8 +136,8 @@ const TCreation = () => {
                   item['experience'].forEach((experience) => {
                     let payload = Object.assign({}, experience);
                     if (experience.startTime) {
-                      payload.startTime = experience.startTime.startTime.format('YYYY-MM-DD');
-                      payload.endTime = experience.startTime.endTime.format('YYYY-MM-DD');
+                      payload.startTime = experience.startTime.startTime;
+                      payload.endTime = experience.startTime.endTime;
                       payload.isNow = experience.startTime.isNow;
                     }
                     if (experience.endTime) {
@@ -398,6 +398,9 @@ const TCreation = () => {
                 { label: '失业', value: 2 },
               ]}
             />
+            <ProFormText label="用户年龄" name="age" />
+          </ProForm.Group>
+          <ProForm.Group>
             <ProFormSelect
               width="sm"
               name="source"
@@ -442,8 +445,8 @@ const TCreation = () => {
                 imageUrl ? (
                   <img src={imageUrl} alt="avatar" style={{ width: '100%' }} />
                 ) : (
-                  uploadButton
-                )
+                    uploadButton
+                  )
               }
             />
           </div>
@@ -459,7 +462,7 @@ const TCreation = () => {
           labelAlign="right"
         >
           <Form.Item name="introduce">
-            <TextArea style={{ width: '604px' }}></TextArea>
+            <TextArea style={{ width: '740px' }} autoSize={{ minRows: 5, maxRows: 15 }}></TextArea>
           </Form.Item>
         </Form>
       </div>
@@ -516,7 +519,7 @@ const TCreation = () => {
                       {/* <RangePicker picker="month" style={{ width: "328px" }}></RangePicker> */}
                       <SelfDate
                         fieldProps={{ picker: 'month' }}
-                        returnType={'moment'}
+                        returnType={'string'}
                         style={{ width: '328px' }}
                       ></SelfDate>
                     </Form.Item>
@@ -570,7 +573,7 @@ const TCreation = () => {
                                                 </Form.Item> */}
                     <Form.Item name={[name, 'duty']} fieldKey={[fieldKey, 'duty']} label="工作职责">
                       <TextArea
-                        style={{ width: '328px' }}
+                        style={{ width: '358px' }}
                         autoSize={{ minRows: 5, maxRows: 15 }}
                       ></TextArea>
                     </Form.Item>
@@ -608,7 +611,7 @@ const TCreation = () => {
                     >
                       <SelfDate
                         fieldProps={{ picker: 'month' }}
-                        returnType={'moment'}
+                        returnType={'string'}
                         style={{ width: '328px' }}
                       ></SelfDate>
                     </Form.Item>
@@ -681,7 +684,7 @@ const TCreation = () => {
                     >
                       <SelfDate
                         fieldProps={{ picker: 'month' }}
-                        retrunType={'moment'}
+                        returnType={'string'}
                         style={{ width: '328px' }}
                       ></SelfDate>
                     </Form.Item>

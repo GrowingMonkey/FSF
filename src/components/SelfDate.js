@@ -68,11 +68,13 @@ const SelfDate = ({
         <DatePicker
           ref={startElement}
           picker="month"
+          placeholder="请选择"
           onChange={(e) => onCustomerChange(e, 'startTime')}
         ></DatePicker>
         至
         <DatePicker
           picker="month"
+          placeholder="请选择"
           ref={endTimeElement}
           onChange={(e) => onCustomerChange(e, 'endTime')}
         ></DatePicker>

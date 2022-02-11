@@ -228,6 +228,13 @@ export default [
         component: "./Employ/ColleagueList",
       },
       {
+
+        path: "/employ/colleague-detail",
+        name: "简介详情",
+        hideInMenu: true,
+        component: "./Employ/ColleagueList/Detail",
+      },
+      {
         path: "/employ/password-manager",
         name: "修改密码",
         component: "./Employ/PasswordManager",

@@ -15,7 +15,7 @@ import styles from "./index.less";
 import { PageContainer } from "@ant-design/pro-layout";
 import { useEffect, useState } from "react";
 import { selectEmployList } from '@/services/employ'
-import { useRequest, history } from 'umi'
+import { useRequest, history, Link } from 'umi'
 
 const ColleagueList = () => {
 
@@ -71,6 +71,11 @@ const ColleagueList = () => {
       title: "邮箱",
       dataIndex: "email",
       key: "email",
+    },
+    {
+      title: "操作",
+      key: "action",
+      render: (text, record) => <Link to={`/employ/colleague-detail?userId=${record.userId}`}>查看</Link>
     },
   ];
   const handleSearch = () => {

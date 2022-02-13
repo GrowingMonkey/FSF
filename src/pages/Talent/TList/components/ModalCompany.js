@@ -50,8 +50,13 @@ const ModalCompany = ({ visible, onSubmit, onCancel, record, talentId }) => {
       onOk={handleOk}
       confirmLoading={confirmLoading}
     >
-      <Form form={form} labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} labelAlign="right">
-        <Form.Item name="startTime" label="工作时间">
+      <Form form={form} labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} labelAlign="left">
+        <Form.Item name="startTime" label="工作时间" rules={[
+          {
+            required: true,
+            message: '必填',
+          },
+        ]}>
           <SelfDate
             fieldProps={{ picker: 'month' }}
             returnType={'moment'}
@@ -86,7 +91,12 @@ const ModalCompany = ({ visible, onSubmit, onCancel, record, talentId }) => {
           <Select options={industryList} onChange={onIndustryChange}></Select>
         </Form.Item>
 
-        <Form.Item name="duty" label="工作职责">
+        <Form.Item name="duty" label="工作职责" rules={[
+          {
+            required: true,
+            message: '必填',
+          },
+        ]}>
           <TextArea></TextArea>
         </Form.Item>
       </Form>

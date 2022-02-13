@@ -8,6 +8,7 @@ import {
   Select,
   Divider,
   Pagination,
+  Cascader,
   Space,
   Table,
   Descriptions,
@@ -21,6 +22,7 @@ import {
   delEP,
   checkTalentPhone,
 } from "../../../../services/talent";
+import { industryList } from "@/utils/Industry";
 import ModalEducation from "./ModalEducation";
 import ModalProject from "./ModalProject";
 import ModalCompany from "./ModalCompany";
@@ -149,7 +151,7 @@ const TalentDetail = () => {
               <div className={styles["basic-container"]}>
                 <div className={styles["page-title"]}>联系方式</div>
                 <Divider></Divider>
-                <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', justifyContent: 'flex-end' }} column={2}>
+                <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', fontWeight: 'bold', justifyContent: 'flex-start' }} column={2}>
                   <Descriptions.Item label="电话">
                     <Space>
                       <span>{phone}</span>
@@ -184,12 +186,15 @@ const TalentDetail = () => {
               <div className={styles["project-container"]} style={{ position: 'relative' }}>
                 <div className={styles["page-title"]}>基本信息<span style={{ paddingLeft: '24px', fontSize: '14px', color: '#1890ff' }}>简历编号#：{talentId}</span></div>
                 <Divider></Divider>
-                <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', justifyContent: 'flex-end' }} column={2}>
+                <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', fontWeight: 'bold', justifyContent: 'flex-start' }} column={2}>
                   <Descriptions.Item label="姓名">
                     {detail.name}
                   </Descriptions.Item>
                   <Descriptions.Item label="学历">
                     {detail.education}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="年龄">
+                    {detail.age}
                   </Descriptions.Item>
                   <Descriptions.Item label="性别">
                     {genderTypes[detail.gender]}
@@ -216,7 +221,7 @@ const TalentDetail = () => {
                   </Descriptions.Item>
                   <div style={{ position: 'absolute', top: 95, right: 28, width: '100px', height: '100px', borderRadius: '5px', background: '#ddd' }}>{detail.headUrl ? <PlusOutlined /> : <img src={detail.headUrl} />}</div>
                 </Descriptions>
-                <Descriptions labelStyle={{ width: '95.33px', display: 'flex', justifyContent: 'flex-end' }}>
+                <Descriptions labelStyle={{ width: '95.33px', display: 'flex', fontWeight: 'bold', justifyContent: 'flex-start' }}>
                   <Descriptions.Item label="个人介绍">
                     {detail.introduce}
                   </Descriptions.Item>
@@ -225,18 +230,18 @@ const TalentDetail = () => {
               <div className={styles["project-container"]}>
                 <div className={styles["page-title"]}>求职意向</div>
                 <Divider></Divider>
-                <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', justifyContent: 'flex-end' }} column={1}>
+                <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', fontWeight: 'bold', justifyContent: 'flex-start' }} column={1}>
                   <Descriptions.Item label="期望地点">
-                    {detail.RCity}
+                    {detail.rcity}
                   </Descriptions.Item>
                   <Descriptions.Item label="期望行业">
                     {detail.rindustry}({detail.rindustryChild})
                   </Descriptions.Item>
                   <Descriptions.Item label="期望岗位">
-                    {detail.job}
+                    {detail.job || detail.rjob}
                   </Descriptions.Item>
                   <Descriptions.Item label="期望薪资">
-                    {detail.salary}
+                    {detail.rsalary || detail.salary}
                   </Descriptions.Item>
                 </Descriptions>
               </div>
@@ -276,7 +281,7 @@ const TalentDetail = () => {
                           <Button type="text">删除</Button>
                         </Popconfirm>
                       </Divider>
-                      <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', justifyContent: 'flex-end' }} column={1}>
+                      <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', fontWeight: 'bold', justifyContent: 'flex-start' }} column={1}>
                         <Descriptions.Item label="工作时间">
                           {formatDateStr(item)}
                         </Descriptions.Item>
@@ -290,7 +295,7 @@ const TalentDetail = () => {
                           {item.industry} {item.industryChild}
                         </Descriptions.Item>
 
-                        <Descriptions.Item label="工作职责">
+                        <Descriptions.Item label="工作职责" style={{ whiteSpace: 'pre-line' }}>
                           {item.duty}
                         </Descriptions.Item>
                       </Descriptions>
@@ -334,7 +339,7 @@ const TalentDetail = () => {
                           <Button type="text">删除</Button>
                         </Popconfirm>
                       </Divider>
-                      <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', justifyContent: 'flex-end' }} column={1}>
+                      <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', fontWeight: 'bold', justifyContent: 'flex-start' }} column={1}>
                         <Descriptions.Item label="项目时间">
                           {formatDateStr(item)}
                         </Descriptions.Item>
@@ -344,7 +349,7 @@ const TalentDetail = () => {
                         <Descriptions.Item label="项目职务">
                           {item.job}
                         </Descriptions.Item>
-                        <Descriptions.Item label="项目职责">
+                        <Descriptions.Item label="项目职责" style={{ whiteSpace: 'pre-line' }}>
                           {item.duty}
                         </Descriptions.Item>
                       </Descriptions>
@@ -386,7 +391,7 @@ const TalentDetail = () => {
                           <Button type="text">删除</Button>
                         </Popconfirm>
                       </Divider>
-                      <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', justifyContent: 'flex-end' }} column={1}>
+                      <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', fontWeight: 'bold', justifyContent: 'flex-start' }} column={1}>
                         <Descriptions.Item label="学习时间">
                           {formatDateStr(item)}
                         </Descriptions.Item>

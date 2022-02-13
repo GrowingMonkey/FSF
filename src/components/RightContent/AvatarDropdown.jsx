@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+import { LogoutOutlined, SettingOutlined, UserOutlined, EditOutlined } from '@ant-design/icons';
 import { Avatar, Menu, Spin } from 'antd';
 import { history, useModel } from 'umi';
 import { stringify } from 'querystring';
@@ -41,6 +41,10 @@ const AvatarDropdown = ({ menu }) => {
         history.push(`/employ/password-manager`);
         return;
       }
+      if (key == 'self') {
+        history.push(`/employ/colleague-detail?userId=${currentUser.userId}`);
+        return
+      }
 
       history.push(`/account/${key}`);
     },
@@ -71,10 +75,13 @@ const AvatarDropdown = ({ menu }) => {
   const menuHeaderDropdown = (
     <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
       <Menu.Item key="center">
-        <UserOutlined />
+        <EditOutlined />
           修改密码
         </Menu.Item>
-
+      <Menu.Item key="self">
+        <UserOutlined />
+          个人中心
+        </Menu.Item>
       {menu && (
         <Menu.Item key="settings">
           <SettingOutlined />

@@ -47,8 +47,13 @@ const ModalProject = ({ visible, onSubmit, onCancel, record, talentId }) => {
       onOk={handleOk}
       confirmLoading={confirmLoading}
     >
-      <Form form={form} labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} labelAlign="right">
-        <Form.Item name="startTime" label="项目时间">
+      <Form form={form} labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} labelAlign="left">
+        <Form.Item name="startTime" label="项目时间" rules={[
+          {
+            required: true,
+            message: '必填',
+          },
+        ]}>
           <SelfDate
             fieldProps={{ picker: 'month' }}
             returnType={'moment'}
@@ -79,7 +84,12 @@ const ModalProject = ({ visible, onSubmit, onCancel, record, talentId }) => {
         >
           <Input></Input>
         </Form.Item>
-        <Form.Item name="duty" label="项目职责">
+        <Form.Item name="duty" label="项目职责" rules={[
+          {
+            required: true,
+            message: '必填',
+          },
+        ]}>
           <TextArea></TextArea>
         </Form.Item>
       </Form>

@@ -44,8 +44,13 @@ const ModalEducation = ({ visible, onSubmit, onCancel, talentId }) => {
       onOk={handleOk}
       confirmLoading={confirmLoading}
     >
-      <Form form={form} labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} labelAlign="right">
-        <Form.Item name="startTime" label="学习日期">
+      <Form form={form} labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} labelAlign="left">
+        <Form.Item name="startTime" label="学习日期" rules={[
+          {
+            required: true,
+            message: '必填',
+          },
+        ]}>
           <SelfDate
             fieldProps={{ picker: 'month' }}
             returnType={'moment'}
@@ -75,6 +80,48 @@ const ModalEducation = ({ visible, onSubmit, onCancel, talentId }) => {
           ]}
         >
           <Input></Input>
+        </Form.Item>
+        <Form.Item
+          name={'education'}
+          fieldKey={'education'}
+          label="学历"
+        >
+          <Select
+            options={[
+              {
+                label: '不限',
+                value: 0,
+              },
+              {
+                label: '初中',
+                value: 1,
+              },
+              {
+                label: '中专',
+                value: 2,
+              },
+              {
+                label: '高中',
+                value: 3,
+              },
+              {
+                label: '大专',
+                value: 4,
+              },
+              {
+                label: '本科',
+                value: 5,
+              },
+              {
+                label: '硕士',
+                value: 6,
+              },
+              {
+                label: '博士',
+                value: 7,
+              },
+            ]}
+          />
         </Form.Item>
         <Form.Item
           name="isAllTime"

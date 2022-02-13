@@ -35,7 +35,7 @@ export async function upload(file, callback) {
   let fileFormat = file.name.substring(temporary + 1, fileNameLength); //png
   let fileName = callbackObj && callbackObj.fileName ? callbackObj.fileName + '.' + fileFormat : file.name;//在callback获取文件名
   return new Promise((resolve, reject) => {
-    multipartUploadWithSts('/static/' + fileName, file).then(res => {
+    multipartUploadWithSts('/head/' + fileName, file).then(res => {
       resolve(res);
     }).catch(function (err) {
       reject(err);

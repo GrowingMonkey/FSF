@@ -61,9 +61,9 @@ const TCreation = () => {
           { ...basicValues, birthday: basicValues?.birthday?.format('YYYY-MM-DD') },
         );
 
-        // if (basicValues.birthday) {
-        //     payload.birthday = basicValues.birthday.format("YYYY-MM-DD");
-        // }
+        if (basicValues.headUrl?.length > 0) {
+          payload.headUrl = basicValues.headUrl[0];
+        }
         let contactFormResult = await contactForm.validateFields();
         let inFormResult = await infoForm.validateFields();
         let jobFormResult = await jobForm.validateFields();
@@ -77,6 +77,7 @@ const TCreation = () => {
         if (jobFormResult.RJob) {
           jobFormResult.RJob = jobFormResult.RJob[jobFormResult.RJob.length - 1];
         }
+
         addTalent({
           talentId: data,
           ...payload,
@@ -212,6 +213,7 @@ const TCreation = () => {
         <Divider></Divider>
         <ProForm
           labelCol={{ span: 8 }}
+          labelAlign="left"
           wrapperCol={{ span: 16 }}
           layout={'horizontal'}
           form={contactForm}
@@ -251,6 +253,7 @@ const TCreation = () => {
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
           layout={'horizontal'}
+          labelAlign="left"
           submitter={{
             render: (props, dom) => {
               return null;
@@ -433,10 +436,10 @@ const TCreation = () => {
                 showUploadList: false,
                 customRequest: async (options) => {
                   let result = await upload(options.file, () => {
-                    console.log(11);
                   });
                   console.log(result.res.requestUrls[0]);
-                  basicForm.setFieldsValue({ headUrl: [result.res.requestUrls[0]] });
+                  basicForm.setFieldsValue({ headUrl: [result.name] });
+                  setImageUrl(result.res.requestUrls[0].split('?')[0] + '?x-oss-process=image/resize,w_100,h_100/quality,q_50');
                   options.onSuccess(result.res.requestUrls[0], result.res.requestUrls[0]);
                 },
               }}
@@ -457,9 +460,9 @@ const TCreation = () => {
         <Divider></Divider>
         <Form
           form={infoForm}
+          labelAlign="left"
           labelCol={{ style: { width: '95.33px' } }}
           wrapperCol={{ style: { width: '328px' } }}
-          labelAlign="right"
         >
           <Form.Item name="introduce">
             <TextArea style={{ width: '740px' }} autoSize={{ minRows: 5, maxRows: 15 }}></TextArea>
@@ -473,7 +476,7 @@ const TCreation = () => {
           form={jobForm}
           labelCol={{ style: { width: '95.33px' } }}
           wrapperCol={{ style: { width: '328px' } }}
-          labelAlign="right"
+          labelAlign="left"
         >
           <Form.Item name="RIndustry" label="期望行业">
             <Select
@@ -500,7 +503,7 @@ const TCreation = () => {
           form={experienceForm}
           labelCol={{ style: { width: '95.33px' } }}
           wrapperCol={{ style: { width: '328px' } }}
-          labelAlign="right"
+          labelAlign="left"
         >
           <Form.List name="experience">
             {(fields, { add, remove }) => (
@@ -515,6 +518,12 @@ const TCreation = () => {
                       name={[name, 'startTime']}
                       fieldKey={[fieldKey, 'startTime']}
                       label="工作时间"
+                      rules={[
+                        {
+                          required: true,
+                          message: '必填',
+                        },
+                      ]}
                     >
                       {/* <RangePicker picker="month" style={{ width: "328px" }}></RangePicker> */}
                       <SelfDate
@@ -560,7 +569,14 @@ const TCreation = () => {
                       </Form.Item>
                     </ProForm.Group>
 
-                    <Form.Item name={[name, 'job']} fieldKey={[fieldKey, 'job']} label="工作岗位">
+                    <Form.Item name={[name, 'job']}
+                      rules={[
+                        {
+                          required: true,
+                          message: '必填',
+                        },
+                      ]}
+                      fieldKey={[fieldKey, 'job']} label="工作岗位">
                       <Input style={{ width: '328px' }}></Input>
                     </Form.Item>
 
@@ -571,7 +587,12 @@ const TCreation = () => {
                                                 >
                                                     <DatePicker style={{ width: "100%" }}></DatePicker>
                                                 </Form.Item> */}
-                    <Form.Item name={[name, 'duty']} fieldKey={[fieldKey, 'duty']} label="工作职责">
+                    <Form.Item name={[name, 'duty']} fieldKey={[fieldKey, 'duty']} label="工作职责" rules={[
+                      {
+                        required: true,
+                        message: '必填',
+                      },
+                    ]}>
                       <TextArea
                         style={{ width: '358px' }}
                         autoSize={{ minRows: 5, maxRows: 15 }}
@@ -593,7 +614,7 @@ const TCreation = () => {
           form={projectForm}
           labelCol={{ style: { width: '95.33px' } }}
           wrapperCol={{ style: { width: '328px' } }}
-          labelAlign="right"
+          labelAlign="left"
         >
           <Form.List name="project">
             {(fields, { add, remove }) => (
@@ -665,7 +686,7 @@ const TCreation = () => {
           form={educationForm}
           labelCol={{ style: { width: '95.33px' } }}
           wrapperCol={{ style: { width: '328px' } }}
-          labelAlign="right"
+          labelAlign="left"
         >
           <Form.List name="education">
             {(fields, { add, remove }) => (
@@ -681,6 +702,12 @@ const TCreation = () => {
                       name={[name, 'startTime']}
                       fieldKey={[fieldKey, 'startTime']}
                       label="学习时间"
+                      rules={[
+                        {
+                          required: true,
+                          message: '必填',
+                        },
+                      ]}
                     >
                       <SelfDate
                         fieldProps={{ picker: 'month' }}
@@ -702,7 +729,50 @@ const TCreation = () => {
                     >
                       <Input style={{ width: '328px' }}></Input>
                     </Form.Item>
-
+                    <Form.Item
+                      name={[name, 'education']}
+                      fieldKey={[fieldKey, 'education']}
+                      label="学历"
+                    >
+                      <Select
+                        width="sm"
+                        style={{ width: '328px' }}
+                        options={[
+                          {
+                            label: '不限',
+                            value: 0,
+                          },
+                          {
+                            label: '初中',
+                            value: 1,
+                          },
+                          {
+                            label: '中专',
+                            value: 2,
+                          },
+                          {
+                            label: '高中',
+                            value: 3,
+                          },
+                          {
+                            label: '大专',
+                            value: 4,
+                          },
+                          {
+                            label: '本科',
+                            value: 5,
+                          },
+                          {
+                            label: '硕士',
+                            value: 6,
+                          },
+                          {
+                            label: '博士',
+                            value: 7,
+                          },
+                        ]}
+                      />
+                    </Form.Item>
                     <Form.Item
                       name={[name, 'classes']}
                       fieldKey={[fieldKey, 'classes']}

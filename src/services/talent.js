@@ -264,3 +264,16 @@ export const myRZList = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+
+//新增人选之号码邮箱查重复
+export const talentCheck = (payload) => {
+  // return new Promise((resolve, reject) => {
+  //   request.post("/talent/updateTalent", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/talent/talentCheck', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};

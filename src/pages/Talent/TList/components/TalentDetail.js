@@ -23,12 +23,38 @@ import {
   checkTalentPhone,
 } from "../../../../services/talent";
 import { industryList } from "@/utils/Industry";
+import { cityList } from "@/utils/CityList";
 import ModalEducation from "./ModalEducation";
 import ModalProject from "./ModalProject";
 import ModalCompany from "./ModalCompany";
 import styles from "./TalentDetail.less";
 import { useLocation } from "umi";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+const findAreaText = (location) => {
+  console.log(location, cityList)
+  let result = []
+  for (let i = 0; i < cityList.length; i++) {
+    if (cityList[i].value === location[0] + '') {
+      result.push(cityList[i].label)
+    }
+    for (let j = 0; j < cityList[i].children.length; j++) {
+      if (cityList[i].children[j].value === location[1] + '') {
+        result.push(cityList[i].children[j].label)
+      }
+      if (Array.isArray(cityList[i].children[j].children)) {
+        for (let z = 0; z < cityList[i].children[j].children.length; z++) {
+          if (
+            cityList[i].children[j].children[z].value ===
+            location[2] + ''
+          ) {
+            result.push(cityList[i].children[j].children[z].label)
+          }
+        }
+      }
+    }
+  }
+  return result
+}
 const TalentDetail = () => {
 
   const { query: { talentId } } = useLocation();
@@ -123,6 +149,13 @@ const TalentDetail = () => {
       str += item.endTime.split(" ")[0];
     }
     return str
+  }
+  const formatAddress = (addressCode) => {
+    let addressArrays = []
+    if (addressCode) {
+      addressArrays = addressCode.split('/')
+    }
+    return addressArrays;
   }
   return (
     <div className={styles["talent-detail"]}>
@@ -232,10 +265,10 @@ const TalentDetail = () => {
                 <Divider></Divider>
                 <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', fontWeight: 'bold', justifyContent: 'flex-start' }} column={1}>
                   <Descriptions.Item label="期望地点">
-                    {detail.rcity}
+                    {findAreaText(formatAddress(detail.rcity))}
                   </Descriptions.Item>
                   <Descriptions.Item label="期望行业">
-                    {detail.rindustry}({detail.rindustryChild})
+                    {`${detail.rindustry ? detail.rindustry : ''}` + `${detail?.rindustryChild ? '/' + detail?.rindustryChild : ''}`}
                   </Descriptions.Item>
                   <Descriptions.Item label="期望岗位">
                     {detail.job || detail.rjob}

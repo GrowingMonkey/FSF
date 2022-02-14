@@ -164,6 +164,18 @@ const ModalForm = ({
               <Input />
             </Form.Item>
             <Form.Item
+              label="所属大区"
+              name="areaName"
+              rules={[
+                {
+                  required: true,
+                  message: "必填",
+                },
+              ]}
+            >
+              <Select options={areaTypes} onChange={onAreaChange} />
+            </Form.Item>
+            <Form.Item
               name="comId"
               label="所属公司"
               rules={[
@@ -175,17 +187,7 @@ const ModalForm = ({
             >
               <Select options={companyTypes} onChange={onComanyChange} />
             </Form.Item>
-            <Form.Item
-              label="所属大区"
-              rules={[
-                {
-                  required: true,
-                  message: "必填",
-                },
-              ]}
-            >
-              <Select options={areaTypes} onChange={onAreaChange} />
-            </Form.Item>
+
           </Col>
           <Col
             span={2}
@@ -200,7 +202,12 @@ const ModalForm = ({
             <Form.Item label="上岗日期">
               <DatePicker value={date} onChange={onDateChange}></DatePicker>
             </Form.Item>
-            <Form.Item name="roleId" label="角色">
+            <Form.Item name="roleId" label="角色" rules={[
+              {
+                required: true,
+                message: "必填",
+              },
+            ]}>
               <Select options={roleTypes}></Select>
             </Form.Item>
             <Form.Item name="recruitmentChannel" label="招聘渠道">

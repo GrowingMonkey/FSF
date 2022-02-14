@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { PageContainer } from '@ant-design/pro-layout';
-import { Row, Col } from "antd";
+import { Row, Col, Card } from "antd";
 import { selectWorkFlow } from "../../services/home";
 import InfoCard from "./components/InfoCard";
 import DataCard from "./components/DataCard";
@@ -40,13 +40,13 @@ const Home = () => {
         },
         middle: {
             xs: 24,
-            md: 9,
-            lg: 9
+            md: 10,
+            lg: 10
         },
         right: {
             xs: 24,
-            md: 11,
-            lg: 11
+            md: 10,
+            lg: 10
         },
     }
     return (
@@ -80,8 +80,26 @@ const Home = () => {
                         </div>
                     </Col>
                     <Col {...warpBottomCol.right}>
-                        <div className={styles["data-tracker-card"]}></div>
+                        <div className={styles["data-tracker-card"]}>
+                            <Card title="公司大事"></Card>
+                        </div>
                     </Col>
+                </Row>
+
+            </div>
+            <div className={styles["bottom-container"]}>
+                <Row gutter={16} style={{ height: "100%" }}>
+                    <Col span={12}>
+                        <div className={styles["rank-data-card"]}>
+                            <Card title="实时推荐榜"></Card>
+                        </div>
+                    </Col>
+                    <Col span={12}>
+                        <div className={styles["rank-data-card"]}>
+                            <Card title="实时回款榜"></Card>
+                        </div>
+                    </Col>
+
                 </Row>
 
             </div>

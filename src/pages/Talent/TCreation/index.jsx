@@ -30,7 +30,7 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { cityList } from '../../../utils/CityList';
 import { industryList } from '../../../utils/Industry';
 import { positionList } from '../../../utils/Position';
-import { getTalentId, addTalent, addEP, addEdu, addEC } from '../../../services/talent';
+import { getTalentId, addTalent, addEP, addEdu, addEC, talentCheck } from '../../../services/talent';
 import styles from './index.less';
 import { PageContainer } from '@ant-design/pro-layout';
 import { upload } from '@/utils/lib/upload';
@@ -180,6 +180,23 @@ const TCreation = () => {
     });
     experienceForm.setFieldsValue({ experience });
   };
+  const cnkiPhoneAndEmail = (value) => {
+    console.log(value);
+    //检查手机号或邮箱是否重复
+    if (value.phone && value.phone.length == 11) {
+      talentCheck(value).then(res => {
+        if (res.data == 1) {
+          message.error('该号码已经被注册');
+        }
+      })
+    } else if (value.email && value.email.indexOf('@') > -1) {
+      talentCheck(value).then(res => {
+        if (res.data == 1) {
+          message.error('该邮箱已经被注册');
+        }
+      })
+    }
+  }
   const formItemLayout = {
     labelCol: {
       //label占比 当屏幕为xs最小像素时 当屏幕为sm大于小像素时
@@ -217,6 +234,7 @@ const TCreation = () => {
           wrapperCol={{ span: 16 }}
           layout={'horizontal'}
           form={contactForm}
+          onValuesChange={(changeValues) => cnkiPhoneAndEmail(changeValues)}
           submitter={{
             render: (props, dom) => {
               return null;

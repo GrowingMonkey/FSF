@@ -7,27 +7,42 @@ const DataCard = ({ dataState }) => {
     {
       value: "1213",
       unit: "人",
-      label: "offer人数",
+      label: "新增人选",
     },
     {
       value: "88",
       unit: "次",
-      label: "客户面试数",
+      label: "新增职位",
     },
     {
       value: "22",
       unit: "人",
-      label: "签约客户数",
+      label: "年度签约",
     },
     {
       value: "10",
       unit: "个",
-      label: "新增项目数量",
+      label: "年度回款",
     },
     {
       value: "102",
       unit: "人",
-      label: "新增人才数量",
+      label: "年度推荐",
+    },
+    {
+      value: "103",
+      unit: "人",
+      label: "年度面试",
+    },
+    {
+      value: "104",
+      unit: "人",
+      label: "年度offer",
+    },
+    {
+      value: "105",
+      unit: "人",
+      label: "年度入职",
     },
   ];
   const wrapCol = {
@@ -96,6 +111,34 @@ const DataCard = ({ dataState }) => {
             <div className={styles.data_info}>{dataList[4].label}</div>
           </div>
         </Col>
+        <Col {...wrapCol}>
+          <div className={styles["data-item"]}>
+            <div>
+              <span className={styles["value"]}>{dataState[5] || 0}</span>
+              <span>{dataList[5].unit}</span>
+            </div>
+            <div className={styles.data_info}>{dataList[5].label}</div>
+          </div>
+        </Col>
+        <Col {...wrapCol}>
+          <div className={styles["data-item"]}>
+            <div>
+              <span className={styles["value"]}>{dataState[6] || 0}</span>
+              <span>{dataList[6].unit}</span>
+            </div>
+            <div className={styles.data_info}>{dataList[6].label}</div>
+          </div>
+        </Col>
+        <Col {...wrapCol}>
+          <div className={styles["data-item"]}>
+            <div>
+              <span className={styles["value"]}>{dataState[7] || 0}</span>
+              <span>{dataList[7].unit}</span>
+            </div>
+            <div className={styles.data_info}>{dataList[7].label}</div>
+          </div>
+        </Col>
+
       </Row>
     </div>
   );

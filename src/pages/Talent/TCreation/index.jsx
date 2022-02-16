@@ -30,7 +30,14 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { cityList } from '../../../utils/CityList';
 import { industryList } from '../../../utils/Industry';
 import { positionList } from '../../../utils/Position';
-import { getTalentId, addTalent, addEP, addEdu, addEC, talentCheck } from '../../../services/talent';
+import {
+  getTalentId,
+  addTalent,
+  addEP,
+  addEdu,
+  addEC,
+  talentCheck,
+} from '../../../services/talent';
 import styles from './index.less';
 import { PageContainer } from '@ant-design/pro-layout';
 import { upload } from '@/utils/lib/upload';
@@ -77,84 +84,174 @@ const TCreation = () => {
         if (jobFormResult.RJob) {
           jobFormResult.RJob = jobFormResult.RJob[jobFormResult.RJob.length - 1];
         }
+        Promise.all([
+          educationForm.validateFields(),
+          projectForm.validateFields(),
+          experienceForm.validateFields(),
+        ]).then((values) => {
+          // console.log(values);
+          let gzjl = [];
+          let xmjl = [];
+          let jyjl = [];
+          values.forEach((item) => {
+            if (Object.keys(item)[0] === 'education') {
+              // console.log(item["education"], 1, item["education"].length);
+              debugger;
+              if (item['education']) {
+                item['education'].forEach((education) => {
+                  // console.log(education.startTime.format("YYYY-MM-DD"));
+                  let payload = Object.assign({}, education);
+                  if (education.startTime) {
+                    payload.startTime = education.startTime.startTime;
+                    payload.endTime = education.startTime.endTime;
+                    payload.isNow = education.startTime.isNow;
+                  }
+                  if (education.endTime) {
+                    payload.endTime = education.startTime[1].format('YYYY-MM-DD');
+                  }
+                  // extraInfo.push(addEdu({ talentId: id, ...payload }));
+                  console.log('education');
+                  console.log(payload);
+                  jyjl.push(payload);
+                });
+              }
+            }
+            if (Object.keys(item)[0] === 'project') {
+              debugger;
+              // console.log(item["project"], 2, item["project"].length);
+              if (item['project']) {
+                item['project'].forEach((project) => {
+                  let payload = Object.assign({}, project);
+                  if (project.startTime) {
+                    payload.startTime = project.startTime.startTime;
+                    payload.endTime = project.startTime.endTime;
+                    payload.isNow = project.startTime.isNow;
+                  }
+                  if (project.endTime) {
+                    payload.endTime = project.startTime[1].format('YYYY-MM-DD');
+                  }
+                  // extraInfo.push(addEP({ talentId: id, ...payload }));
+                  console.log('project');
+                  console.log(payload);
+                  xmjl.push(payload);
+                });
+              }
+            }
+            if (Object.keys(item)[0] === 'experience') {
+              // console.log(item["experience"], 3, item["experience"].length);
+              debugger;
+              if (item['experience']) {
+                item['experience'].forEach((experience) => {
+                  let payload = Object.assign({}, experience);
+                  if (experience.startTime) {
+                    payload.startTime = experience.startTime.startTime;
+                    payload.endTime = experience.startTime.endTime;
+                    payload.isNow = experience.startTime.isNow;
+                  }
+                  if (experience.endTime) {
+                    payload.endTime = experience.startTime[1].format('YYYY-MM-DD')[1];
+                  }
 
-        addTalent({
-          talentId: data,
-          ...payload,
-          ...jobFormResult,
-          ...inFormResult,
-          ...contactFormResult,
-        }).then((data) => {
-          Promise.all([
-            educationForm.validateFields(),
-            projectForm.validateFields(),
-            experienceForm.validateFields(),
-          ]).then((values) => {
-            // console.log(values);
-            let extraInfo = [];
-            values.forEach((item) => {
-              if (Object.keys(item)[0] === 'education') {
-                // console.log(item["education"], 1, item["education"].length);
-                debugger;
-                if (item['education']) {
-                  item['education'].forEach((education) => {
-                    // console.log(education.startTime.format("YYYY-MM-DD"));
-                    let payload = Object.assign({}, education);
-                    if (education.startTime) {
-                      payload.startTime = education.startTime.startTime;
-                      payload.endTime = education.startTime.endTime;
-                      payload.isNow = education.startTime.isNow;
-                    }
-                    if (education.endTime) {
-                      payload.endTime = education.startTime[1].format('YYYY-MM-DD');
-                    }
-                    extraInfo.push(addEdu({ talentId: id, ...payload }));
-                  });
-                }
+                  console.log('experience');
+                  console.log(payload);
+                  // extraInfo.push(addEC({ talentId: id, ...payload }));
+                  gzjl.push(payload);
+                });
               }
-              if (Object.keys(item)[0] === 'project') {
-                debugger;
-                // console.log(item["project"], 2, item["project"].length);
-                if (item['project']) {
-                  item['project'].forEach((project) => {
-                    let payload = Object.assign({}, project);
-                    if (project.startTime) {
-                      payload.startTime = project.startTime.startTime;
-                      payload.endTime = project.startTime.endTime;
-                      payload.isNow = project.startTime.isNow;
-                    }
-                    if (project.endTime) {
-                      payload.endTime = project.startTime[1].format('YYYY-MM-DD');
-                    }
-                    extraInfo.push(addEP({ talentId: id, ...payload }));
-                  });
-                }
-              }
-              if (Object.keys(item)[0] === 'experience') {
-                // console.log(item["experience"], 3, item["experience"].length);
-                debugger;
-                if (item['experience']) {
-                  item['experience'].forEach((experience) => {
-                    let payload = Object.assign({}, experience);
-                    if (experience.startTime) {
-                      payload.startTime = experience.startTime.startTime;
-                      payload.endTime = experience.startTime.endTime;
-                      payload.isNow = experience.startTime.isNow;
-                    }
-                    if (experience.endTime) {
-                      payload.endTime = experience.startTime[1].format('YYYY-MM-DD')[1];
-                    }
-                    extraInfo.push(addEC({ talentId: id, ...payload }));
-                  });
-                }
-              }
-            });
-            Promise.all(extraInfo).then((datas) => {
-              message.success('新增人选成功');
-              history.push('/talent/t-list');
-            });
+            }
+          });
+          console.log(gzjl, xmjl, jyjl);
+          addTalent({
+            talentId: data,
+            ...payload,
+            ...jobFormResult,
+            ...inFormResult,
+            ...contactFormResult,
+            gzjl: gzjl,
+            xmjl: xmjl,
+            jyjl: jyjl,
+          }).then((data) => {
+            message.success('新增人选成功');
+            history.push('/talent/t-list');
           });
         });
+        // addTalent({
+        //   talentId: data,
+        //   ...payload,
+        //   ...jobFormResult,
+        //   ...inFormResult,
+        //   ...contactFormResult,
+        // }).then((data) => {
+        //   Promise.all([
+        //     educationForm.validateFields(),
+        //     projectForm.validateFields(),
+        //     experienceForm.validateFields(),
+        //   ]).then((values) => {
+        //     // console.log(values);
+        //     let extraInfo = [];
+        //     values.forEach((item) => {
+        //       if (Object.keys(item)[0] === 'education') {
+        //         // console.log(item["education"], 1, item["education"].length);
+        //         debugger;
+        //         if (item['education']) {
+        //           item['education'].forEach((education) => {
+        //             // console.log(education.startTime.format("YYYY-MM-DD"));
+        //             let payload = Object.assign({}, education);
+        //             if (education.startTime) {
+        //               payload.startTime = education.startTime.startTime;
+        //               payload.endTime = education.startTime.endTime;
+        //               payload.isNow = education.startTime.isNow;
+        //             }
+        //             if (education.endTime) {
+        //               payload.endTime = education.startTime[1].format('YYYY-MM-DD');
+        //             }
+        //             extraInfo.push(addEdu({ talentId: id, ...payload }));
+        //           });
+        //         }
+        //       }
+        //       if (Object.keys(item)[0] === 'project') {
+        //         debugger;
+        //         // console.log(item["project"], 2, item["project"].length);
+        //         if (item['project']) {
+        //           item['project'].forEach((project) => {
+        //             let payload = Object.assign({}, project);
+        //             if (project.startTime) {
+        //               payload.startTime = project.startTime.startTime;
+        //               payload.endTime = project.startTime.endTime;
+        //               payload.isNow = project.startTime.isNow;
+        //             }
+        //             if (project.endTime) {
+        //               payload.endTime = project.startTime[1].format('YYYY-MM-DD');
+        //             }
+        //             extraInfo.push(addEP({ talentId: id, ...payload }));
+        //           });
+        //         }
+        //       }
+        //       if (Object.keys(item)[0] === 'experience') {
+        //         // console.log(item["experience"], 3, item["experience"].length);
+        //         debugger;
+        //         if (item['experience']) {
+        //           item['experience'].forEach((experience) => {
+        //             let payload = Object.assign({}, experience);
+        //             if (experience.startTime) {
+        //               payload.startTime = experience.startTime.startTime;
+        //               payload.endTime = experience.startTime.endTime;
+        //               payload.isNow = experience.startTime.isNow;
+        //             }
+        //             if (experience.endTime) {
+        //               payload.endTime = experience.startTime[1].format('YYYY-MM-DD')[1];
+        //             }
+        //             extraInfo.push(addEC({ talentId: id, ...payload }));
+        //           });
+        //         }
+        //       }
+        //     });
+        //     Promise.all(extraInfo).then((datas) => {
+        //       message.success('新增人选成功');
+        //       history.push('/talent/t-list');
+        //     });
+        //   });
+        // });
       });
     });
   };
@@ -184,19 +281,19 @@ const TCreation = () => {
     console.log(value);
     //检查手机号或邮箱是否重复
     if (value.phone && value.phone.length == 11) {
-      talentCheck(value).then(res => {
+      talentCheck(value).then((res) => {
         if (res.data == 1) {
           message.error('该号码已经被注册');
         }
-      })
+      });
     } else if (value.email && value.email.indexOf('@') > -1) {
-      talentCheck(value).then(res => {
+      talentCheck(value).then((res) => {
         if (res.data == 1) {
           message.error('该邮箱已经被注册');
         }
-      })
+      });
     }
-  }
+  };
   const formItemLayout = {
     labelCol: {
       //label占比 当屏幕为xs最小像素时 当屏幕为sm大于小像素时
@@ -453,11 +550,13 @@ const TCreation = () => {
                 className: 'avatar-uploader',
                 showUploadList: false,
                 customRequest: async (options) => {
-                  let result = await upload(options.file, () => {
-                  });
+                  let result = await upload(options.file, () => {});
                   console.log(result.res.requestUrls[0]);
                   basicForm.setFieldsValue({ headUrl: [result.name] });
-                  setImageUrl(result.res.requestUrls[0].split('?')[0] + '?x-oss-process=image/resize,w_100,h_100/quality,q_50');
+                  setImageUrl(
+                    result.res.requestUrls[0].split('?')[0] +
+                      '?x-oss-process=image/resize,w_100,h_100/quality,q_50',
+                  );
                   options.onSuccess(result.res.requestUrls[0], result.res.requestUrls[0]);
                 },
               }}
@@ -466,8 +565,8 @@ const TCreation = () => {
                 imageUrl ? (
                   <img src={imageUrl} alt="avatar" style={{ width: '100%' }} />
                 ) : (
-                    uploadButton
-                  )
+                  uploadButton
+                )
               }
             />
           </div>
@@ -587,14 +686,17 @@ const TCreation = () => {
                       </Form.Item>
                     </ProForm.Group>
 
-                    <Form.Item name={[name, 'job']}
+                    <Form.Item
+                      name={[name, 'job']}
                       rules={[
                         {
                           required: true,
                           message: '必填',
                         },
                       ]}
-                      fieldKey={[fieldKey, 'job']} label="工作岗位">
+                      fieldKey={[fieldKey, 'job']}
+                      label="工作岗位"
+                    >
                       <Input style={{ width: '328px' }}></Input>
                     </Form.Item>
 
@@ -605,12 +707,17 @@ const TCreation = () => {
                                                 >
                                                     <DatePicker style={{ width: "100%" }}></DatePicker>
                                                 </Form.Item> */}
-                    <Form.Item name={[name, 'duty']} fieldKey={[fieldKey, 'duty']} label="工作职责" rules={[
-                      {
-                        required: true,
-                        message: '必填',
-                      },
-                    ]}>
+                    <Form.Item
+                      name={[name, 'duty']}
+                      fieldKey={[fieldKey, 'duty']}
+                      label="工作职责"
+                      rules={[
+                        {
+                          required: true,
+                          message: '必填',
+                        },
+                      ]}
+                    >
                       <TextArea
                         style={{ width: '358px' }}
                         autoSize={{ minRows: 5, maxRows: 15 }}

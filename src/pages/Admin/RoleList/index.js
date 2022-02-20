@@ -107,9 +107,9 @@ const RoleList = () => {
     setCurrentPage(page);
   };
   const onSubmit = () => {
-    roleList({ pageNo: currentPage, pageSize: 10 }).then((res) => {
+    roleList({ pageNo: currentPage, pageSize: 20 }).then((res) => {
       setList(
-        res.list.map((item) => {
+        res.data.list.map((item) => {
           return Object.assign(item, {
             key: item.id,
           });

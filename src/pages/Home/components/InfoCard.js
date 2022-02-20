@@ -10,7 +10,7 @@ const InfoCard = () => {
       <div className={styles["line-2"]}>{currentUser?.name}</div>
       <div className={styles["line-3"]}>({currentUser?.comName})</div>
       <Divider></Divider>
-      <div className={styles["line-4"]}>{currentUser.introduce}</div>
+      <div className={styles["line-4"]}>{currentUser?.introduce}</div>
     </div>
   );
 };

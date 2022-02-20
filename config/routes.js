@@ -22,6 +22,7 @@ export default [
     path: '/welcome',
     name: '首页',
     icon: 'home',
+    access: 'canHome',
     component: './Home',
   },
   // 客户管理
@@ -29,16 +30,19 @@ export default [
     icon: 'idcard',
     path: "/customer",
     name: "客户管理",
+    access: 'canCustorm',
     routes: [
       {
         path: "/customer/list",
         name: "客户列表",
+        access: 'canCustormList',
         component: "./Customer/CList/index",
       },
       {
 
         path: "/customer/my-list",
         name: "我的客户",
+        access: 'canMyCustomList',
         component: "./Customer/CList/MyCustomer",
         target: true
       },
@@ -46,23 +50,27 @@ export default [
 
         path: "/customer/team-list",
         name: "合作客户",
+        access: 'canCustomTeamList',
         component: "./Customer/CList/TeamCustomer",
       },
       {
 
         path: "/customer/public-list",
         name: "公共客户",
+        access: 'canCustomPublic',
         component: "./Customer/CList/PublicCustomer",
       },
       {
         hideInMenu: true,
         path: "/customer/detail",
         name: "客户详情",
+        // access:'canCustomDetail',
         component: "./Customer/Detail",
       },
       {
         path: "/customer/add",
         name: "新增客户",
+        access: 'canCustomAdd',
         component: "./Customer/Add",
       },
     ],
@@ -72,10 +80,12 @@ export default [
     path: "/project",
     name: "职位管理",
     icon: 'project',
+    access: 'canProject',
     routes: [
       {
         path: "/project/p-list",
         name: "职位列表",
+        access: 'canProjectList',
         component: "./Project/PList/index",
       },
       {
@@ -112,16 +122,19 @@ export default [
       {
         path: "/project/pm-list",
         name: "我的职位",
+        access: 'canMyProject',
         component: "./Project/PList/MyProject",
       },
       {
         path: "/project/team-list",
         name: "合作职位",
+        access: 'canTeamProject',
         component: "./Project/PList/TeamProject",
       },
       {
         path: "/project/p-creation",
         name: "创建职位",
+        access: 'canProjectAdd',
         component: "./Project/PCreation/index",
       },
     ],
@@ -131,12 +144,13 @@ export default [
     icon: 'team',
     path: "/talent",
     name: "人才管理",
+    access: 'cantalent',
     routes: [
       {
 
         path: "/talent/t-list",
         name: "人才库",
-
+        access: 'canTalentList',
         component: "./Talent/TList/index",
       },
       {
@@ -149,27 +163,31 @@ export default [
 
         path: "/talent/my-list",
         name: "我的简历",
-
+        access: 'canMyTalent',
         component: "./Talent/TList/resume",
       },
       {
         path: "/talent/tp-list",
         name: "我的推荐",
+        access: 'canTalentTp',
         component: "./Talent/TPList/index",
       },
       {
         path: "/talent/my-offer",
         name: "我的offer",
+        access: 'canTalentOffer',
         component: "./Talent/TPList/offer",
       },
       {
         path: "/talent/my-talented",
         name: "入职人选",
+        access: 'canTalented',
         component: "./Talent/TPList/talented",
       },
       {
         path: "/talent/t-creatiion",
         name: "新增人选",
+        access: 'canTalentAdd',
         component: "./Talent/TCreation/index",
       },
     ],
@@ -177,13 +195,14 @@ export default [
   {
     path: "/employ",
     name: "信息管理",
+    access: 'canEmploy',
     icon: 'bell',
     routes: [
       {
 
         path: "/employ/trip-list",
         name: "我的日程",
-
+        access: 'canEmployTrip',
         component: "./Employ/TripList",
       },
       {
@@ -197,6 +216,7 @@ export default [
 
         path: "/employ/publish-list",
         name: "系统公告",
+        access: 'canEmployPublish',
         component: "./Employ/PublishList",
       },
       {
@@ -210,7 +230,7 @@ export default [
 
         path: "/employ/message-list",
         name: "我的通知",
-
+        access: 'canEmployMsg',
         component: "./Employ/MessageList",
       },
       {
@@ -224,7 +244,7 @@ export default [
 
         path: "/employ/colleague-list",
         name: "我的同事",
-
+        access: 'canEmployColleague',
         component: "./Employ/ColleagueList",
       },
       {
@@ -237,6 +257,7 @@ export default [
       {
         path: "/employ/password-manager",
         name: "修改密码",
+        access: 'canEmployPsd',
         component: "./Employ/PasswordManager",
       },
     ],
@@ -246,25 +267,30 @@ export default [
     icon: 'setting',
     path: "/admin",
     name: "后台管理",
+    access: 'canAdmin',
     routes: [
       {
         path: "/admin/user-list",
         name: "员工列表",
+        access: 'canAdminUser',
         component: "./Admin/UserList/index",
       },
       {
         path: "/admin/tca-list",
         name: "架构列表",
+        access: 'canAdminTca',
         component: "./Admin/TCAList/index",
       },
       {
         path: "/admin/role-list",
         name: "角色列表",
+        access: 'canAdminRole',
         component: "./Admin/RoleList/index",
       },
       {
         path: "/admin/permission-list",
         name: "权限列表",
+        access: 'canAdminPermission',
         component: "./Admin/PermissionList/index",
       },
     ],
@@ -275,25 +301,30 @@ export default [
     icon: 'solution',
     path: "/office",
     name: "行政管理",
+    access: 'canOffice',
     routes: [
       {
         path: "/office/attendance-list",
         name: "考勤管理",
+        access: 'canOfficeList',
         component: "./Office/AttendanceList/index",
       },
       {
         path: "/office/added-attendance-list",
         name: "申请补卡",
+        access: 'canOfficeApply',
         component: "./Office/AttendanceList/AddedAttendanceList",
       },
       {
         path: "/office/leave-list",
         name: "请假管理",
+        access: 'canOfficeLeave',
         component: "./Office/LeaveList/index",
       },
       {
         path: "/office/onfield-list",
         name: "外出管理",
+        access: 'canOfficeOnfield',
         component: "./Office/OnFieldList/index",
       },
     ],
@@ -352,25 +383,26 @@ export default [
     icon: 'moneyCollect',
     path: "/kpi",
     name: "绩效管理",
-
-
+    access: 'canKpi',
     routes: [
       {
 
         path: "/kpi/sign-rank",
         name: "签约排行",
-
+        access: 'canKpiSign',
         component: "./KPI/SignRank/index",
       },
       {
         path: "/kpi/pay-rank",
         name: "回款排行",
+        access: 'canKpiPay',
         component: "./KPI/PayRank/index",
       },
       {
 
         path: "/kpi/commission-rank",
         name: "提成排行",
+        access: 'canKpiCommission',
         component: "./KPI/CommissionRank/index",
       },
     ],

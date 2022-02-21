@@ -4,6 +4,7 @@
  * */
 const RouterConfig = require('../config/routes').default;
 export default function access(initialState) {
+  debugger
   const { currentUser } = initialState || {};
   function flatRoutes(routesConfig, selectPath) {
     function flat(routesConfig, pushCallback) {
@@ -46,7 +47,7 @@ export default function access(initialState) {
     return new Set(flat(routesConfig, selectPathFunc))
   }
   let serviceRoute;
-  if (currentUser.permissionSet && currentUser.permissionSet.length > 0) {
+  if (currentUser && currentUser.permissionSet && currentUser.permissionSet.length > 0) {
     let menuList = [];
     currentUser.permissionSet.forEach((item) => {
       if (item.url.startsWith("route")) {
@@ -56,7 +57,7 @@ export default function access(initialState) {
     console.log(menuList);
     serviceRoute = flatRoutes(menuList, ['url']);
   }
-  const RouteUrl = serviceRoute.map(item => item.url);
+  const RouteUrl = serviceRoute?.map(item => item.url) || new Set([]);
   console.log(RouteUrl)
   return {
     canHome: RouteUrl.has('route/home'),

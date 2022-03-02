@@ -13,7 +13,7 @@ import {
 import { twffq } from "../../../../services/customer";
 import styles from "./InfoCandidate.less";
 
-const InfoCandidate = ({ record }) => {
+const InfoCandidate = ({ record = {} }) => {
   const [candidateList, setCandidateList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [listLength, setListLength] = useState(0);

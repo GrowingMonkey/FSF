@@ -6,7 +6,7 @@ import { selectTalentList } from "../services/talent";
  * 人选查询select组件
  * @param {props} param0 
  */
-const TalentSearch = ({ value = {}, onChange }) => {
+const TalentSearch = ({ value = {}, onChange, filedProps = {} }) => {
   const { Option } = Select;
   const [talentId, setTalentId] = useState(null);
   const [name, setName] = useState(null);
@@ -20,19 +20,35 @@ const TalentSearch = ({ value = {}, onChange }) => {
     });
   };
   const onCustomerChange = (newValue) => {
-    let list = newValue.split("/");
-    let talentId = list[0];
-    let name = list[1];
-    if (!("talentId" in value)) {
-      setTalentId(talentId);
+    debugger
+    if (Array.isArray(newValue)) {
+      let newArray = [];
+      newValue.map((item) => {
+        let list = item.split("/");
+        let talentId = list[0];
+        let name = list[1];
+        newArray.push({
+          talentId, name
+        })
+      })
+      triggerChange({
+        talents: newArray
+      });
+    } else {
+      let list = newValue.split("/");
+      let talentId = list[0];
+      let name = list[1];
+      if (!("talentId" in value)) {
+        setTalentId(talentId);
+      }
+      if (!("name" in value)) {
+        setName(name);
+      }
+      triggerChange({
+        talentId: talentId,
+        name: name,
+      });
     }
-    if (!("name" in value)) {
-      setName(name);
-    }
-    triggerChange({
-      talentId: talentId,
-      name: name,
-    });
   };
   const handleSearch = (value) => {
     if (value) {
@@ -58,6 +74,7 @@ const TalentSearch = ({ value = {}, onChange }) => {
   const debouncedSeach = debounce(handleSearch, 250);
   return (
     <Select
+      {...filedProps}
       showSearch
       placeholder=""
       defaultActiveFirstOption={false}

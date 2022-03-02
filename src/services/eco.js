@@ -25,10 +25,10 @@ export const querySalaryList = (payload) => {
 };
 
 // 发票管理
-export const queryInvoiceList = (payload) => {
+export const selectInvoiceList = (payload) => {
   return request('/eco/selectInvoiceList', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -61,5 +61,45 @@ export const queryAFList = (payload) => {
   return request('/eco/selectAFList', {
     method: 'POST',
     ...(payload || {}),
+  });
+};
+export const addServiceFee = (payload) => {
+  return request('/eco/addServiceFee', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+
+export const addInvoice = (payload) => {
+  return request('/eco/addInvoice', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+export const selectServiceFeeList = (payload) => {
+  return request('/eco/selectServiceFeeList', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+
+export const abandonInvoice = (payload) => {
+  return request('/eco/abandonInvoice', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+
+export const relevancePay = (payload) => {
+  return request('/eco/relevancePay', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+
+export const selectTPListForInvoice = (payload) => {
+  return request('/eco/selectTPListForInvoice', {
+    method: 'POST',
+    data: { ...(payload || {}) },
   });
 };

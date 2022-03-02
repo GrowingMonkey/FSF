@@ -7,33 +7,40 @@ import {
   Button,
   Select,
   Table,
+  Modal,
   Divider,
   Space,
   DatePicker,
+  Popconfirm,
+  message,
   Cascader,
 } from 'antd';
 import styles from './index.less';
 import { PageContainer } from '@ant-design/pro-layout';
 import { useState, useEffect } from 'react';
-import { queryBFList } from '../../../services/eco';
-
+import { selectServiceFeeList, relevancePay, selectInvoiceList, abandonInvoice } from '../../../services/eco';
+import { history } from 'umi'
 const BFList = () => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectItem, setSelectItem] = useState(null);
+  const [BFSelectItem, setBFSelectItem] = useState(null);
   const [form] = Form.useForm();
   const [searchValues, setSearchValues] = useState(null);
+  const [searchModalValues, setSearchModalValues] = useState(null);
   const [bfList, setBfList] = useState([]);
-
+  const [ModelData, setModelData] = useState([]);
   const formList = [
     {
       name: 'comId',
-      label: '公司ID',
+      label: '支付方式',
       type: 'input',
-      span: 6,
+      span: 8,
     },
     {
       name: 'inductionState',
-      label: '入职状态',
+      label: '业务类型',
       type: 'select',
-      span: 6,
+      span: 8,
       options: [
         { label: '首次上岗', value: 0 },
         { label: '替补上岗', value: 1 },
@@ -41,9 +48,9 @@ const BFList = () => {
     },
     {
       name: 'state',
-      label: '费用审核状态',
+      label: '关联发票',
       type: 'select',
-      span: 6,
+      span: 8,
       options: [
         { label: '待审核', value: 0 },
         { label: '已通过', value: 1 },
@@ -52,69 +59,126 @@ const BFList = () => {
     },
     {
       name: 'userId',
-      label: '推荐人',
+      label: '服务顾问',
       type: 'input',
-      span: 6,
+      span: 8,
+    },
+    {
+      name: 'userId',
+      label: '回款时间',
+      type: 'input',
+      span: 8,
     },
   ];
   const bfColumns = [
     {
-      title: '客户名称',
+      title: '回款编号',
       dataIndex: 'type0',
       key: 'type0',
     },
     {
-      title: '职位',
+      title: '服务顾问',
       dataIndex: 'job',
       key: 'job',
     },
     {
-      title: '推荐人',
+      title: '归属公司',
       dataIndex: 'userName',
       key: 'userName',
     },
     {
-      title: '上岗人选',
+      title: '客户名称',
       dataIndex: 'talentName',
       key: 'talentName',
     },
     {
-      title: '年薪',
+      title: '回款金额',
       dataIndex: 'salary',
       key: 'salary',
     },
     {
-      title: '入职状态',
+      title: '添加人',
       dataIndex: 'inductionState',
       key: 'inductionState',
     },
     {
-      title: '入职时间',
+      title: '关联发票',
       dataIndex: 'inductionTime',
       key: 'inductionTime',
     },
     {
-      title: '应收服务',
+      title: '回款时间',
       dataIndex: 'fee',
       key: 'fee',
     },
     {
-      title: '议价服务',
+      title: '备注',
       dataIndex: 'balanceFee',
       key: 'balanceFee',
-    },
-    {
-      title: '差额',
-      dataIndex: 'marginFee',
-      key: 'marginFee',
     },
     {
       title: '操作',
       dataIndex: 'type10',
       key: 'type10',
+      render: (text, record) => {
+        return <>
+          <Button type="link" size="small" onClick={() => showModal(record)}>关联回款</Button>
+          <Button type="link" size="small" onClick={() => history.push(`/eco/bf-detail?serviceFeeId=${record.id}`)}>查看详情</Button>
+          {/* <Popconfirm placement="topLeft" title={'作废'} onConfirm={() => confirm(record)} okText="确定" cancelText="取消">
+            <Button type="link" danger size="small" >作废</Button>
+          </Popconfirm> */}
+        </>
+      }
     },
   ];
+  const ModelColumns = [
+    {
+      title: '发票编号',
+      dataIndex: 'id',
+      key: 'id',
+    },
+    {
+      title: '客户名称',
+      dataIndex: 'type3',
+      key: 'type3',
+    },
+    {
+      title: '发票类型',
+      dataIndex: 'type',
+      key: 'type',
+    },
+    {
+      title: '发票状态',
+      dataIndex: 'state',
+      key: 'state',
+    },
+    {
+      title: '开票时间',
+      dataIndex: 'time',
+      key: 'time',
+    },
+  ];
+  const showModal = (record) => {
+    setBFSelectItem(record);
+    setIsModalVisible(true);
+  };
+  const handleOk = () => {
+    relevancePay({ invoiceId: selectItem.id, serviceFeeId: BFSelectItem.id }).then(res => {
+      message.success('关联成功')
+      setIsModalVisible(false);
+    })
+  };
 
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+  const confirm = (record) => {
+    console.log(record);
+    abandonInvoice({ invoiceId: record.id }).then(res => {
+      message.success('作废成功');
+      setSearchValues('');
+    })
+  }
   const handleSearchClear = () => {
     form.resetFields();
     setSearchValues(null);
@@ -140,7 +204,7 @@ const BFList = () => {
   };
 
   useEffect(() => {
-    queryBFList(searchValues).then((res) => {
+    selectServiceFeeList(searchValues).then((res) => {
       const { data } = res;
       setBfList(
         data.list &&
@@ -150,16 +214,35 @@ const BFList = () => {
       );
     });
   }, [searchValues]);
-
+  useEffect(() => {
+    selectInvoiceList(searchValues).then((res) => {
+      console.log(res);
+      setModelData(
+        res?.data?.list || []
+      );
+    });
+  }, [searchModalValues]);
+  const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+      setSelectItem(selectedRows[0]);
+    },
+    getCheckboxProps: (record) => ({
+      disabled: record.name === 'Disabled User',
+      // Column configuration not to be checked
+      name: record.name,
+    }),
+  };
   return (
     <PageContainer>
       <div className={styles['search-container']}>
         <Row justify="space-between" align="middle">
           <Col>
-            <div className={styles['page-title']}>议价服务费审核</div>
+            <div className={styles['page-title']}>回款列表</div>
           </Col>
           <Col>
             <Space size={8}>
+              <Button type="primary" onClick={() => history.push(`/eco/bf-add`)}>新增</Button>
               <Button onClick={handleSearchClear}>清空</Button>
               <Button type="primary" onClick={handleSearch}>
                 搜索
@@ -229,7 +312,16 @@ const BFList = () => {
       <div className={styles['list-container']}>
         <Table columns={bfColumns} dataSource={bfList} pagination={false} size="small" />
       </div>
-      <div style={{ width: '100%', minHeight: '15px' }} />
+      <Modal title="请选择关联的发票" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+        <Table
+          rowSelection={{
+            type: 'radio',
+            ...rowSelection,
+          }}
+          columns={ModelColumns}
+          dataSource={ModelData}
+        />
+      </Modal>
     </PageContainer>
   );
 };

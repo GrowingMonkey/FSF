@@ -168,10 +168,10 @@ const InfoBasic = ({ record }) => {
       pageNo: 1,
       pageSize: 100,
       customerId: record.customerId,
-    }).then((data) => {
-      console.log(data);
+    }).then((res) => {
+      console.log(res);
       setCustomerContacts(
-        data.list.map((item) => {
+        res?.data?.list.map((item) => {
           return { ...item, key: item.id };
         })
       );
@@ -347,7 +347,7 @@ const InfoBasic = ({ record }) => {
             {record.recommenderName}
           </Descriptions.Item>
           <Descriptions.Item label="客户来源">
-            {sourceTypeOptions[record.sourceType].label}
+            {sourceTypeOptions[record.sourceType]?.label}
           </Descriptions.Item>
           <Descriptions.Item label="录入人名">
             {record.userName}
@@ -368,7 +368,7 @@ const InfoBasic = ({ record }) => {
       <div className={styles["contacts"]}>
         <Row justify="space-between" align="middle">
           <Col flex="auto" className={styles["contacts-title"]}>
-            {record.name}
+            客户联系人
           </Col>
           <Col>
             <Button

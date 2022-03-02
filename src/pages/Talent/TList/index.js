@@ -40,8 +40,8 @@ const TList = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentTarent, setCurrentTarent] = useState('');
-
   const [form] = Form.useForm();
+
   const formList = [
     [
       {
@@ -224,6 +224,7 @@ const TList = () => {
   };
   const handleSearchConfirm = () => {
     form.validateFields().then((values) => {
+      console.log(values)
       setSearchValues(values);
       setCurrentPage(1);
     });
@@ -238,12 +239,8 @@ const TList = () => {
   };
 
   useEffect(() => {
-    console.log(history)
     const { location } = history
-    console.log(location.state?.keyWord);
     form.setFieldsValue({ keyWord: location.state?.keyword || '' })
-    console.log(searchValues);
-
     // console.log(currentPage, searchValues);
     selectTalentList({
       pageNo: currentPage,
@@ -358,7 +355,7 @@ const TList = () => {
             })}
 
           </Form>
-          <Divider>{!isOpen ? <DownCircleOutlined onClick={() => setIsOpen(true)} /> : <UpCircleOutlined onClick={() => setIsOpen(false)} />}</Divider>
+          <Divider>{!isOpen ? <>展开<DownCircleOutlined onClick={() => setIsOpen(true)} /></> : <>收起<UpCircleOutlined onClick={() => setIsOpen(false)} /></>}</Divider>
         </div>
         <div className={styles["list-container"]}>
           <div className={styles["list-title"]}>

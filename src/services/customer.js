@@ -376,3 +376,10 @@ export const selectCstById = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+//新增沟通记录
+export const addcc = (payload) => {
+  return request('/customer/addcc', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};

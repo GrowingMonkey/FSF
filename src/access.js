@@ -4,7 +4,6 @@
  * */
 const RouterConfig = require('../config/routes').default;
 export default function access(initialState) {
-  debugger
   const { currentUser } = initialState || {};
   function flatRoutes(routesConfig, selectPath) {
     function flat(routesConfig, pushCallback) {

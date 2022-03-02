@@ -355,6 +355,13 @@ const PList = () => {
                 disabled: true,
             },
         ],
+        4: [
+            {
+                label: "关闭",
+                value: 4,
+                disabled: true,
+            },
+        ]
     };
     const handleStateChange = (value, projectId) => {
 

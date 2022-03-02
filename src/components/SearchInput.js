@@ -15,6 +15,7 @@ const SearchInput = ({ value = {}, onChange, filedProps = {} }) => {
   const [options, setOptions] = useState([]);
 
   const triggerChange = (changedValue) => {
+    debugger
     onChange?.({
       recommenderName,
       recommenderUserId,

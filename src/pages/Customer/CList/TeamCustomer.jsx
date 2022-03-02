@@ -337,7 +337,7 @@ const CustomerList = () => {
           </Button> */}
                     <Link to={{
                         pathname: '/customer/detail',
-                        search: '?customerId=' + record.id,
+                        search: '?id=' + record.id + '&customerId=' + record.customerId,
                         state: { record: record },
                     }}>查看</Link>
                     <Button type="link" style={{ padding: 0 }}>

@@ -62,6 +62,7 @@ const Search = () => {
                                 <Descriptions title="基本信息" column={2}>
                                     <Descriptions.Item label="职位类别">{project.job}</Descriptions.Item>
                                     <Descriptions.Item label="招聘人数">{project.recruitNum}</Descriptions.Item>
+                                    <Descriptions.Item label="薪资范围">{project.salary}</Descriptions.Item>
                                     <Descriptions.Item label="所属部门">{project.job}</Descriptions.Item>
                                 </Descriptions>
                                 <Descriptions title="岗位描述" column={1}>

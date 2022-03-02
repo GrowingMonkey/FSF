@@ -19,7 +19,7 @@ import { industryList } from "../../../../utils/Industry";
 import { positionList } from "../../../../utils/Position";
 import styles from "./InfoProject.less";
 
-const InfoProject = ({ record }) => {
+const InfoProject = ({ record = {} }) => {
   const [form] = Form.useForm();
   const [currentPage, setCurrentPage] = useState(1);
   const [listLength, setListLength] = useState(0);

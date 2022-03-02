@@ -22,5 +22,7 @@ export const request = async (url, payload) => {
         history.push(`/user/login`);
     } else if (result.code == 0) {
         return result
+    } else if (result.code == 3) {
+        return result;
     }
 }

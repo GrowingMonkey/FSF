@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Col, Row, Avatar, Typography, Button, Space } from "antd";
+import { Col, Row, Avatar, Typography, Button, Space, Modal, Input, Form, Radio, message } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import InfoBasic from "../CList/components/InfoBasic";
 import InfoFile from "../CList/components/InfoFile";
@@ -12,12 +12,18 @@ import interview from "@/assets/images/interview.png";
 import position from "@/assets/images/position.png";
 import recommand from "@/assets/images/recommand.png";
 import styles from "../CList/components/CustomerDetail.less";
-import { useLocation } from "umi";
+import { useLocation, history } from "umi";
 import { PageContainer } from "@ant-design/pro-layout";
+import { selectCstById, cclfq, addcc } from "@/services/customer"
+
 
 const CustomerDetail = () => {
+    const [cclfqForm] = Form.useForm();
+    const [detail, setDetail] = useState([]);
+    const [isModalVisible, setIsModalVisible] = useState(false);
     const [tab, setTab] = useState("");
-    const { state: { record } } = useLocation();
+    // const { state: { record } } = useLocation();
+    const [record, setRecord] = useState({})
     const { Paragraph } = Typography;
     const cardList = [
         {
@@ -98,8 +104,26 @@ const CustomerDetail = () => {
     ];
     useEffect(() => {
         // console.clear();
-        // console.log(record);
-    }, []);
+        const { location: { query } } = history
+        selectCstById({ customerId: query.customerId }).then(res => {
+            console.log(res);
+            setRecord(res?.data || {});
+        })
+        cclfq({ customerId: query.customerId }).then(res => {
+            console.log(res);
+            setDetail(res?.data?.list || []);
+        })
+    }, [isModalVisible]);
+    const handlerSubmit = () => {
+        const { location: { query } } = history
+        cclfqForm.validateFields().then((contactValues) => {
+            console.log(contactValues)
+            addcc({ customerId: query.customerId, ...contactValues }).then(res => {
+                message.info(res?.message);
+                setIsModalVisible(false);
+            })
+        })
+    }
     const wrapCol = {
         xs: 24,
         sm: 12,
@@ -184,16 +208,40 @@ const CustomerDetail = () => {
                 </Col>
                 <Col span={8}>
                     <div className={styles["revisit-record"]}>
-                        <div className={styles["revisit-record-title"]}>沟通记录</div>
+                        <div className={styles["revisit-record-title"]}>沟通记录<Button style={{ float: 'right' }} type="primary" size="small" onClick={() => setIsModalVisible(true)}>添加</Button></div>
                         <div className={styles["record-item"]}>
-                            <Row gutter={16} align="middle">
+                            {detail.map(item => {
+                                return <>
+                                    <Row gutter={16} align="middle" >
+                                        <Col span={2}>
+                                            <Avatar>U</Avatar>
+                                        </Col>
+                                        <Col span={14}>
+                                            <div className={styles["record-owner"]}>
+                                                {item.customerName}-{item.contactName}（{item.userName}）
+                                            </div>
+                                        </Col>
+                                        <Col span={8}>
+                                            <div className={styles["record-time"]}>{item.updateTime}</div>
+                                        </Col>
+                                    </Row>
+                                    <Typography className={styles["record-description"]}>
+                                        <Paragraph style={{ marginBottom: "0" }}>
+                                            {item.content}
+                                        </Paragraph>
+                                    </Typography>
+                                </>
+                            })}
+                            {/* <Row gutter={16} align="middle" >
                                 <Col span={2}>
                                     <Avatar>U</Avatar>
                                 </Col>
                                 <Col span={14}>
                                     <div className={styles["record-owner"]}>
-                                        南京公司-淘严明（Allen）
-                  </div>
+
+                                        南京公司-淘严明（Allensss）
+                                        {data.cust}
+                                    </div>
                                 </Col>
                                 <Col span={8}>
                                     <div className={styles["record-time"]}>2021.06.17 10:43</div>
@@ -202,14 +250,63 @@ const CustomerDetail = () => {
                             <Typography className={styles["record-description"]}>
                                 <Paragraph style={{ marginBottom: "0" }}>
                                     第三代半导体龙头公司,第三代化合物半导体,宽带隙半导体,电信配件,碳化硅充电器,串口转换器,牵引电源,创新服务器电源,变速电机驱动器,业界优秀品牌,系统稳定,效率高,性能..
-                </Paragraph>
-                            </Typography>
+                                </Paragraph>
+                            </Typography> */}
                         </div>
                     </div>
                 </Col>
             </Row>
             <div style={{ width: "100%", minHeight: "15px" }}></div>
-        </PageContainer>
+            <Modal title="添加沟通记录" visible={isModalVisible} onOk={handlerSubmit} onCancel={() => setIsModalVisible(false)}>
+                <Form
+                    name="basic"
+                    autoComplete="off"
+                    form={cclfqForm}
+                >
+                    <Form.Item
+                        label="客户名称"
+                        name="customerName"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your username!',
+                            },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        label="沟通类型"
+                        name="state"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your username!',
+                            },
+                        ]}
+                    >
+                        <Radio.Group>
+                            <Radio value={1}>面试沟通</Radio>
+                            <Radio value={2}>合同沟通</Radio>
+                            <Radio value={3}>请款沟通</Radio>
+                            <Radio value={0}>其他</Radio>
+                        </Radio.Group>
+                    </Form.Item>
+                    <Form.Item
+                        label="沟通内容"
+                        name="content"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your username!',
+                            },
+                        ]}
+                    >
+                        <Input.TextArea />
+                    </Form.Item>
+                </Form>
+            </Modal>
+        </PageContainer >
 
     );
 };

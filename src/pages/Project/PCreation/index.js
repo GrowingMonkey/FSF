@@ -11,6 +11,7 @@ import {
   Select,
   DatePicker,
   Cascader,
+  message,
   Divider,
   Space,
 } from 'antd';
@@ -37,7 +38,7 @@ const PCreation = () => {
     form.validateFields().then((values) => {
       let payload = Object.assign({}, values);
       if (values.job) {
-        payload.job = `${values.job[0]}/${values.job[1]}/${values.job[2]}`;
+        payload.job = `${values.job[0]}` + `${values.job[1] ? `/${values.job[1]}` : ''}` + `${values.job[2] ? `/${values.job[2]}` : ''}`;
       }
       if (values.startTime) {
         payload.startTime = values.startTime.format('YYYY-MM-DD');
@@ -62,7 +63,7 @@ const PCreation = () => {
           addProject({ projectId: data, ...payload, ...values, ...params }).then((data) => {
             // console.log(data);
             message.success('新增职位成功');
-            history.push('/project/p-list');
+            history.push('/project/pm-list');
           });
         });
       });
@@ -126,7 +127,7 @@ const PCreation = () => {
               ]}
               label="客户选择"
             >
-              <CustomerSearch CustomerStyle={{ width: '328px' }}></CustomerSearch>
+              <CustomerSearch url={1} CustomerStyle={{ width: '328px' }}></CustomerSearch>
             </Form.Item>
             <Form.Item
               name="name"
@@ -187,19 +188,19 @@ const PCreation = () => {
             <Form.Item name="RJob" label="招聘人数" help="备注：0为若干">
               <Input style={{ width: '130px' }}></Input>
             </Form.Item>
-            <ProForm.Group>
-              <Form.Item name="reportName" label="汇报对象" style={{ width: '230px' }}>
-                <Input style={{ width: '130px' }}></Input>
-              </Form.Item>
-              <Form.Item
+            {/* <ProForm.Group> */}
+            <Form.Item name="reportName" label="汇报对象">
+              <Input style={{ width: '328px' }}></Input>
+            </Form.Item>
+            {/* <Form.Item
                 name="reportTel"
                 label="tel"
                 labelCol={{ width: '50px' }}
                 style={{ width: '212px', justifyContent: 'start' }}
               >
                 <Input style={{ width: '131px' }}></Input>
-              </Form.Item>
-            </ProForm.Group>
+              </Form.Item> */}
+            {/* </ProForm.Group> */}
           </ProForm>
         </div>
         <div className={styles['page-title']}>职位要求</div>
@@ -225,31 +226,31 @@ const PCreation = () => {
                   value: 0,
                 },
                 {
-                  label: '初中以上',
+                  label: '初中及以上',
                   value: 1,
                 },
                 {
-                  label: '中专以上',
+                  label: '中专及以上',
                   value: 2,
                 },
                 {
-                  label: '高中以上',
+                  label: '高中及以上',
                   value: 3,
                 },
                 {
-                  label: '大专以上',
+                  label: '大专及以上',
                   value: 4,
                 },
                 {
-                  label: '本科以上',
+                  label: '本科及以上',
                   value: 5,
                 },
                 {
-                  label: '硕士以上',
+                  label: '硕士及以上',
                   value: 6,
                 },
                 {
-                  label: '博士以上',
+                  label: '博士及以上',
                   value: 7,
                 },
               ]}
@@ -272,6 +273,10 @@ const PCreation = () => {
             <Select
               style={{ width: '328px' }}
               options={[
+                {
+                  label: '不限',
+                  value: '不限',
+                },
                 {
                   label: '3年以下',
                   value: '3年以下',

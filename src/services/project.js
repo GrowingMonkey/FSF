@@ -299,3 +299,9 @@ export const talentGiveUp = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export const selectCustomerListForProject = (payload) => {
+  return request('/project/selectCustomerListForProject', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};

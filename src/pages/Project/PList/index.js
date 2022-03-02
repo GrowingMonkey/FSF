@@ -111,7 +111,7 @@ const PList = () => {
           <Button type="link" style={{ padding: 0 }} onClick={() => history.push(
             `/project/p-detail/detail?projectId=${record.projectId}&customerId=${record.customerId}&id=${record.id}`,
           )}>
-            查看详情11
+            查看详情
           </Button>
         </Space>
       ),
@@ -352,6 +352,13 @@ const PList = () => {
         disabled: true,
       },
     ],
+    4: [
+      {
+        label: "关闭",
+        value: 4,
+        disabled: true,
+      },
+    ]
   };
   const handleStateChange = (value, projectId) => {
 

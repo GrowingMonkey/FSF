@@ -29,7 +29,7 @@ import CustomerDetail from "./components/CustomerDetail";
 import styles from "./index.less";
 import { PageContainer } from "@ant-design/pro-layout";
 import { Link } from "umi";
-import CompanySearch from "@/components/companySearch";
+import CompanySearch from "@/components/CompanySearch";
 
 const CustomerList = () => {
   console.clear()

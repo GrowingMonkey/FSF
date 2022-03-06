@@ -1,13 +1,17 @@
 import { useState, useEffect } from "react";
-import { Table, Button, Space, Row, Col, Pagination, Divider } from "antd";
+import { Table, Button, Space, Row, Col, Pagination, Divider, message, Modal } from "antd";
 import ModalForm from "./components/ModalForm";
 import { userList, tcaList, roleList } from "../../../services/admin";
 import styles from "./index.less";
 import { PageContainer } from "@ant-design/pro-layout";
+import { updateUser } from '@/services/admin';
+import ProForm, { ProFormDatePicker } from "@ant-design/pro-form";
 
 const UserList = () => {
   const [visible, setVisible] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isRemarkModalVisible, setIsRemarkModalVisible] = useState(false);
+  const [currentUserId, setCurrentUserId] = useState('');
   const [listLength, setListLength] = useState(0);
   const [list, setList] = useState([]);
   const [companyTypes, setCompanyTypes] = useState([]);
@@ -83,12 +87,35 @@ const UserList = () => {
       setListLength(data.count);
     });
   };
+  const showModal = (userId = '') => {
+    setIsRemarkModalVisible(true)
+    setCurrentUserId(userId);
+  }
   const onCancel = () => {
     setVisible(false);
   };
   const onPageChange = (page) => {
     setCurrentPage(page);
   };
+  const onFinishRemark = (values) => {
+    debugger
+    updateUser({ userId: currentUserId, workState: 1, leaveDate: values.date }).then(res => {
+      message.info(res.message);
+      setCurrentUserId('');
+      setIsRemarkModalVisible(false);
+      userList({ pageNo: currentPage, pageSize: 10 }).then((res) => {
+        const { data } = res;
+        setList(
+          data.list.map((item) => {
+            return Object.assign(item, {
+              key: item.id,
+            });
+          })
+        );
+        setListLength(data.count);
+      });
+    })
+  }
   const userColumns = [
     {
       title: "名称",
@@ -107,6 +134,16 @@ const UserList = () => {
       dataIndex: "cityCode",
       key: "cityCode",
       width: "10%",
+    },
+    {
+      title: "在岗状态",
+      dataIndex: "workState",
+      key: "workState",
+      width: "10%",
+      render: (text) => {
+        let str = text == 0 ? '在职' : text == 1 ? '离职' : '其他'
+        return str;
+      }
     },
     {
       title: "角色",
@@ -144,6 +181,37 @@ const UserList = () => {
           >
             编辑
           </Button>
+          <Button
+            type="link"
+            style={{ padding: 0 }}
+            onClick={() => showModal(record.userId)}
+          >
+            离职
+          </Button>
+          {
+            record.accountState == 0 ? <Button
+              type="link"
+              danger
+              style={{ padding: 0 }}
+              onClick={() => updateUser({ userId: record.userId, accountState: 1 }).then(res => {
+                message.info(res.message);
+                setCurrentPage('')
+              })}
+            >
+              停用
+          </Button> : record.accountState == 1 ? <Button
+                type="link"
+                style={{ padding: 0 }}
+                onClick={() => updateUser({ userId: record.userId, accountState: 0 }).then(res => {
+
+                  message.info(res.message);
+                  setCurrentPage('')
+                })}
+              >
+                启用
+          </Button> : null
+          }
+
         </Space>
       ),
       width: "10%",
@@ -196,6 +264,24 @@ const UserList = () => {
           </Col>
         </Row>
       </div>
+      <Modal title="离职" visible={isRemarkModalVisible} footer={null} onCancel={() => setIsRemarkModalVisible(false)}>
+        <ProForm
+          hideRequiredMark
+          style={{
+            margin: 'auto',
+            marginTop: 8,
+            maxWidth: 600,
+          }}
+          name="basic"
+          layout="horizontal"
+          initialValues={{
+            public: '1',
+          }}
+          onFinish={onFinishRemark}
+        >
+          <ProFormDatePicker name='date' label="离职时间" />
+        </ProForm>
+      </Modal>
 
     </PageContainer>
   );

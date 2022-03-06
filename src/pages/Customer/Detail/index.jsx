@@ -14,39 +14,43 @@ import recommand from "@/assets/images/recommand.png";
 import styles from "../CList/components/CustomerDetail.less";
 import { useLocation, history } from "umi";
 import { PageContainer } from "@ant-design/pro-layout";
-import { selectCstById, cclfq, addcc } from "@/services/customer"
-
+import { selectCstById, cclfq, addcc, selectCustomerCompany, getCustomerNumber } from "@/services/customer"
 
 const CustomerDetail = () => {
     const [cclfqForm] = Form.useForm();
     const [detail, setDetail] = useState([]);
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [cardList, setCardList] = useState([]);
     const [tab, setTab] = useState("");
     // const { state: { record } } = useLocation();
     const [record, setRecord] = useState({})
     const { Paragraph } = Typography;
-    const cardList = [
+    let initCardList = [
         {
             unit: "万",
             image: coin,
+            name: 'hkje',
             description: "回款金额",
             enDescription: "Refund amount",
         },
         {
             unit: "个",
             image: position,
+            name: 'yzzw',
             description: "运作职位",
             enDescription: "Operational position",
         },
         {
             unit: "个",
             image: recommand,
+            name: 'tjrs',
             description: "推荐人数",
             enDescription: "Recommended number",
         },
         {
             unit: "人",
             image: checkin,
+            name: 'rzrs',
             description: "入职人数",
             enDescription: "Enrollment amount",
         },
@@ -54,6 +58,7 @@ const CustomerDetail = () => {
         {
             unit: "人",
             image: interview,
+            name: 'yyms',
             description: "预约面试",
             enDescription: "Scheduled interviews",
         },
@@ -113,14 +118,20 @@ const CustomerDetail = () => {
             console.log(res);
             setDetail(res?.data?.list || []);
         })
+        getCustomerNumber({ customerId: query.customerId }).then(res => {
+            console.log(res);
+            let cardListi = initCardList.map(item => ({ ...item, num: res.data[`${item.name}`] }));
+            setCardList(cardListi);
+        })
     }, [isModalVisible]);
     const handlerSubmit = () => {
         const { location: { query } } = history
         cclfqForm.validateFields().then((contactValues) => {
             console.log(contactValues)
-            addcc({ customerId: query.customerId, ...contactValues }).then(res => {
+            addcc({ customerName: query.customerName, customerId: query.customerId, ...contactValues }).then(res => {
                 message.info(res?.message);
                 setIsModalVisible(false);
+                cclfqForm.resetFields()
             })
         })
     }
@@ -136,7 +147,7 @@ const CustomerDetail = () => {
                     return (
                         <Col {...wrapCol} key={card.description}>
                             <div className={styles["customer-detail-card"]}>
-                                <div className={styles["card-title"]}>0{card.unit}</div>
+                                <div className={styles["card-title"]}>{card.num || 0}{card.unit}</div>
                                 <div className={styles["card-content"]}>
                                     <img src={card.image} alt="card" width="46" height="46"></img>
                                     <div>
@@ -263,18 +274,6 @@ const CustomerDetail = () => {
                     autoComplete="off"
                     form={cclfqForm}
                 >
-                    <Form.Item
-                        label="客户名称"
-                        name="customerName"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please input your username!',
-                            },
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
                     <Form.Item
                         label="沟通类型"
                         name="state"

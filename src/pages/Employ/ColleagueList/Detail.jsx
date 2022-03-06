@@ -30,7 +30,7 @@ const Detail = () => {
             setEmploy(res?.data || {})
         })
     }, [])
-    const { headUrl, name, roleName, comName, phone, email, hrLevel, domicile, birthday, details } = employ;
+    const { headUrl, name, roleName, comName, phone, email, hrLevel, flowerName, domicile, birthday, details } = employ;
     return (
         <PageContainer>
             <div className={styles["input-container"]}>
@@ -47,6 +47,7 @@ const Detail = () => {
                             <Descriptions.Item label="邮箱">{email}</Descriptions.Item>
                             <Descriptions.Item label="级别">{hrLevel}</Descriptions.Item>
                             <Descriptions.Item label="籍贯">{domicile}</Descriptions.Item>
+                            <Descriptions.Item label="花名">{flowerName}</Descriptions.Item>
                             <Descriptions.Item label="生日">{birthday}</Descriptions.Item>
                             <Descriptions.Item label="简介" contentStyle={{ border: '1px solid #ddd', padding: '16px 10px', minHeight: '150px' }}>
                                 {details}

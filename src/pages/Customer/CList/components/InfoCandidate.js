@@ -19,24 +19,40 @@ const InfoCandidate = ({ record = {} }) => {
   const [listLength, setListLength] = useState(0);
   const candidateStateTypes = [
     {
-      label: "推荐",
+      label: "加入项目",
       value: 0,
     },
     {
-      label: "面试",
+      label: "推给客户",
       value: 1,
     },
     {
-      label: "发放offer",
+      label: "否决人选",
       value: 2,
     },
     {
-      label: "确认入职",
-      value: 3,
+      label: "预约面试",
+      value: 5,
     },
     {
-      label: "其他",
+      label: "客户否决",
+      value: 7,
+    },
+    {
+      label: "人选放弃",
+      value: 4,
+    },
+    {
+      label: "确认Offer",
+      value: 8,
+    },
+    {
+      label: "确认入职",
       value: 9,
+    },
+    {
+      label: "人选离职",
+      value: 10,
     },
   ];
   const candidateColumn = [

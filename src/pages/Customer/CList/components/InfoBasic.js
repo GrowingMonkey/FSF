@@ -14,7 +14,7 @@ import {
   selectContactList,
   deleteContact,
 } from "../../../../services/customer";
-import { useRequest } from 'umi'
+import { useRequest, history } from 'umi'
 import ModalCustomerContact from "./ModalCustomerContact";
 import ModalCustomerSubsidiary from "./ModalCustomerSubsidiary";
 import { signCustomer } from '@/services/customer'
@@ -43,7 +43,7 @@ const InfoBasic = ({ record }) => {
     //   wechatId: "",
     // },
   ]);
-
+  const { location: { query } } = history;
   const tagList1 = ["北京", "半导体芯片", "民营企业", "50-2000人"];
   const contactColumns = [
     {
@@ -167,7 +167,7 @@ const InfoBasic = ({ record }) => {
     selectContactList({
       pageNo: 1,
       pageSize: 100,
-      customerId: record.customerId,
+      customerId: query.customerId,
     }).then((res) => {
       console.log(res);
       setCustomerContacts(
@@ -182,10 +182,11 @@ const InfoBasic = ({ record }) => {
     setContactVisible(false);
   };
   const onSubsidiarySubmit = () => {
+    console.log(query);
     selectCustomerCompany({
       pageNo: 1,
       pageSize: 100,
-      customerId: record.customerId,
+      customerId: query.customerId,
     }).then((data) => {
       console.log(data);
       setSubsidiaryList(
@@ -200,10 +201,11 @@ const InfoBasic = ({ record }) => {
     setSubsidiaryVisible(false);
   };
   useEffect(() => {
+    console.log(query);
     selectCustomerCompany({
       pageNo: 1,
       pageSize: 100,
-      customerId: record.customerId,
+      customerId: query.customerId,
     }).then((res) => {
       console.log(data);
       const { data } = res;
@@ -213,10 +215,11 @@ const InfoBasic = ({ record }) => {
         })
       );
     });
+    console.log(112);
     selectContactList({
       pageNo: 1,
       pageSize: 100,
-      customerId: record.customerId,
+      customerId: query.customerId,
     }).then((res) => {
       console.log(data);
       const { data } = res;
@@ -230,11 +233,11 @@ const InfoBasic = ({ record }) => {
   const onContactDeleteConfirm = (record) => {
 
     console.log(record);
-    deleteContact({ customerId: record.customerId, id: record.id }).then(() => {
+    deleteContact({ customerId: query.customerId, id: record.id }).then(() => {
       selectContactList({
         pageNo: 1,
         pageSize: 100,
-        customerId: record.customerId,
+        customerId: query.customerId,
       }).then((data) => {
         console.log(data);
         setCustomerContacts(
@@ -293,6 +296,12 @@ const InfoBasic = ({ record }) => {
             return <span key={tag}>{tag}</span>;
           })} */}
         </Space>
+
+        <div style={{ float: 'right' }}><Button type="primary" onClick={() => history.push(`/project/p-creation`)}>新增职位</Button></div>
+        {/* {tagList1.map((tag) => {
+            return <span key={tag}>{tag}</span>;
+          })} */}
+
         {/* hide when no data is provided */}
         {/* <Row className="margin-top-15px">
           <Col span={3}>

@@ -383,3 +383,24 @@ export const addcc = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+
+export const TCAList = (payload) => {
+  return request('/customer/TCAList', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+export const getCustomerNumber = (payload) => {
+  return request('/customer/getCustomerNumber', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+export const selectPList = (payload) => {
+  return request('/customer/selectPList', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+
+

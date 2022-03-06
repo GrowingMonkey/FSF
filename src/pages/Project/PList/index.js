@@ -34,6 +34,7 @@ const PList = () => {
   const [listData, setListData] = useState([]);
   const [searchValues, setSearchValues] = useState(null);
   const [industryChildList, setIndustryChildList] = useState([]);
+  const [total, setTotal] = useState(0);
   const stateTypes = ["草稿", "发布"];
   const listColumns = [
     {
@@ -136,15 +137,15 @@ const PList = () => {
       label: "客户名",
       type: "input",
       span: 6,
-      render: () => {
-        return (
-          <Col span={6} key="customer" {...wrapCol}>
-            <Form.Item name="customer" label="客户">
-              <CustomerSearch></CustomerSearch>
-            </Form.Item>
-          </Col>
-        );
-      },
+      // render: () => {
+      //   return (
+      //     <Col span={6} key="customer" {...wrapCol}>
+      //       <Form.Item name="customer" label="客户">
+      //         <CustomerSearch></CustomerSearch>
+      //       </Form.Item>
+      //     </Col>
+      //   );
+      // },
     },
     {
       name: "industry",
@@ -470,6 +471,7 @@ const PList = () => {
             return Object.assign(item, { key: item.id });
           })
         );
+        setTotal(data?.count || 0)
       }
     );
   }, [currentPage, searchValues]);
@@ -555,6 +557,11 @@ const PList = () => {
           dataSource={listData}
           pagination={false}
           size="small"
+          pagination={{
+            total: total,
+            pageSize: 10,
+            onChange: e => { setCurrentPage(e) }
+          }}
         />
       </div>
       <div style={{ width: "100%", minHeight: "15px" }}></div>

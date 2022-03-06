@@ -37,7 +37,7 @@ const TalentSearchForEco = ({ value = {}, onChange, filedProps = {}, applyUser =
         } else {
             let list = newValue.split("/");
             let talentId = list[0];
-            let name = list[1];
+            let needPayment = list[1];
             if (!("talentId" in value)) {
                 setTalentId(talentId);
             }
@@ -46,7 +46,7 @@ const TalentSearchForEco = ({ value = {}, onChange, filedProps = {}, applyUser =
             }
             triggerChange({
                 talentId: talentId,
-                name: name,
+                needPayment: needPayment
             });
         }
     };
@@ -59,8 +59,8 @@ const TalentSearchForEco = ({ value = {}, onChange, filedProps = {}, applyUser =
                 setOptions(
                     data.list.map((item) => {
                         return (
-                            <Option key={`${item.talentId}/${item.name}`}>
-                                {item.name}
+                            <Option key={`${item.id}/${item.needPayment}`}>
+                                {item.talentName}/{item.job}
                             </Option>
                         );
                     })

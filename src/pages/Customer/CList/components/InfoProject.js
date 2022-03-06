@@ -13,11 +13,12 @@ import {
   Pagination,
 } from "antd";
 import { info } from "china-region";
-import { selectPList } from "../../../../services/project";
+import { selectPList } from "@/services/customer";
 import { cityList } from "../../../../utils/CityList";
 import { industryList } from "../../../../utils/Industry";
 import { positionList } from "../../../../utils/Position";
 import styles from "./InfoProject.less";
+import { history } from 'umi'
 
 const InfoProject = ({ record = {} }) => {
   const [form] = Form.useForm();
@@ -376,10 +377,11 @@ const InfoProject = ({ record = {} }) => {
     });
   };
   useEffect(() => {
+    const { location: { query } } = history;
     selectPList({
       pageNo: currentPage,
       pageSize: 10,
-      customerName: record.name,
+      customerId: query.customerId,
       ...searchValues,
     }).then((res) => {
       const { data } = res;

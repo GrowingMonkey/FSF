@@ -12,6 +12,7 @@ import interview from "../../../../assets/images/interview.png";
 import position from "../../../../assets/images/position.png";
 import recommand from "../../../../assets/images/recommand.png";
 import styles from "./CustomerDetail.less";
+import { getCustomerNumber } from '@/services/customer'
 
 const CustomerDetail = ({ setDetailVisible, record }) => {
   const [tab, setTab] = useState("");
@@ -94,7 +95,11 @@ const CustomerDetail = ({ setDetailVisible, record }) => {
     },
   ];
   useEffect(() => {
-    console.log(record);
+    debugger
+    const { location: { query } } = history;
+    getCustomerNumber({ customerId: query.customerId }).then(res => {
+      console.log(res);
+    })
   }, []);
   return (
     <div className={styles["customer-detail"]}>

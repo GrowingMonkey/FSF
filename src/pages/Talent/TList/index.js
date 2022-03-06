@@ -239,8 +239,10 @@ const TList = () => {
   };
 
   useEffect(() => {
-    const { location } = history
-    form.setFieldsValue({ keyWord: location.state?.keyword || '' })
+    const { location } = history;
+    if (location.state?.keyword) {
+      form.setFieldsValue({ keyWord: location.state?.keyword })
+    }
     // console.log(currentPage, searchValues);
     selectTalentList({
       pageNo: currentPage,
@@ -262,7 +264,7 @@ const TList = () => {
     console.log(values);
     // run(values);
     talentJoinProject({ projectId: values.customer.projectId, talentId: currentTarent }).then(res => {
-      message.success('加入项目成功');
+      message.info(res?.message || '加入成功');
     })
     setIsModalVisible(false)
   }
@@ -463,7 +465,7 @@ const TList = () => {
             }}
             onFinish={onFinish}
           >
-            <Form.Item name={'customer'} label={"选择客户"} >
+            <Form.Item name={'customer'} label={"选择职位"} >
               <ProjectSearch />
             </Form.Item>
 

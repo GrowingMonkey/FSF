@@ -29,7 +29,7 @@ import CustomerDetail from "./components/CustomerDetail";
 import styles from "./index.less";
 import { PageContainer } from "@ant-design/pro-layout";
 import { Link } from "umi";
-
+import CompanySearch from "@/components/companySearch";
 const CustomerList = () => {
     console.clear()
     const [form] = Form.useForm();
@@ -64,8 +64,8 @@ const CustomerList = () => {
         },
         {
             name: "comId",
-            label: "归属公司ID",
-            type: "input",
+            label: "归属公司",
+            type: "CompanySearch",
             span: 6,
         },
         {
@@ -337,7 +337,7 @@ const CustomerList = () => {
           </Button> */}
                     <Link to={{
                         pathname: '/customer/detail',
-                        search: '?id=' + record.id + '&customerId=' + record.customerId,
+                        search: '?id=' + record.id + '&customerId=' + record.customerId + '&customerName=' + record.name,
                         state: { record: record },
                     }}>查看</Link>
                     <Button type="link" style={{ padding: 0 }}>
@@ -386,8 +386,8 @@ const CustomerList = () => {
     ];
     const onSearch = () => {
         form.validateFields().then((values) => {
-            // // console.log(values);
-            setSearchValues(values);
+            console.log(values);
+            setSearchValues({ ...values, comId: values?.comId?.recommenderUserId });
             setCurrentPage(1);
             // hzCustomerList({ ...values, pageNo: currentPage, pageSize: 10 }).then((data) => {
             //   // console.log(data);
@@ -566,6 +566,13 @@ const CustomerList = () => {
                                             </Form.Item>
                                         </Col>
                                     );
+                                }
+                                if (col.type === 'CompanySearch') {
+                                    return (<Col span={col.span} {...wrapCol} key={col.name}>
+                                        <Form.Item name={col.name} label={col.label}>
+                                            <CompanySearch />
+                                        </Form.Item>
+                                    </Col>);
                                 }
                                 return null;
                             })}

@@ -151,6 +151,7 @@ export default [
         path: "/talent/t-list",
         name: "人才库",
         access: 'canTalentList',
+        target: true,
         component: "./Talent/TList/index",
       },
       {

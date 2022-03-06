@@ -1,13 +1,18 @@
 import { useState, useEffect } from 'react';
-import { Modal, Form, Input, DatePicker, Select, Row, Col, Divider } from 'antd';
+import { Modal, Form, Input, DatePicker, Select, Upload, Row, Col, Divider } from 'antd';
 import moment from 'moment';
 import { addUser, updateUser } from '../../../../services/admin';
-
+import { upload } from '@/utils/lib/upload';
+import { PlusOutlined } from '@ant-design/icons';
+import ProForm, {
+  ProFormUploadButton,
+} from '@ant-design/pro-form';
 const ModalForm = ({ visible, onSubmit, onCancel, record, areaTypes, companyTypes, roleTypes }) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalTitle, setModalTitle] = useState('新增角色');
   const [date, setDate] = useState(null);
   const [comName, setComName] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
   const [areaName, setAreaName] = useState('');
   const [form] = Form.useForm();
   useEffect(() => {
@@ -21,6 +26,12 @@ const ModalForm = ({ visible, onSubmit, onCancel, record, areaTypes, companyType
       }
     }
   }, [visible]);
+  const uploadButton = (
+    <div>
+      {<PlusOutlined />}
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </div>
+  );
   // TODO
   const recruitmentChannels = [
     {
@@ -44,6 +55,7 @@ const ModalForm = ({ visible, onSubmit, onCancel, record, areaTypes, companyType
             hireDate: date?.format('YYYY-MM-DD'),
             comName: comName,
             areaName: areaName,
+            headUrl: values.headUrl[0]
           }).then(() => {
             onSubmit();
             setConfirmLoading(false);
@@ -58,6 +70,7 @@ const ModalForm = ({ visible, onSubmit, onCancel, record, areaTypes, companyType
             hireDate: date?.format('YYYY-MM-DD'),
             comName: comName,
             areaName: areaName,
+            headUrl: values.headUrl[0]
           }).then(() => {
             onSubmit();
             setConfirmLoading(false);
@@ -102,9 +115,47 @@ const ModalForm = ({ visible, onSubmit, onCancel, record, areaTypes, companyType
       confirmLoading={confirmLoading}
       width={1000}
     >
-      <Form form={form} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} labelAlign="left">
+      <ProForm form={form} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} labelAlign="left" layout={'horizontal'} submitter={{
+        render: (props, dom) => {
+          return null;
+        },
+      }}>
         <Row gutter={16}>
           <Col span={11}>
+            <ProFormUploadButton
+              name="headUrl"
+              label="头像"
+              rules={[
+                {
+                  required: true,
+                  message: '必填',
+                },
+              ]}
+              icon={null}
+              fieldProps={{
+                listType: 'picture-card',
+                className: 'avatar-uploader',
+                showUploadList: false,
+                customRequest: async (options) => {
+                  let result = await upload(options.file, () => { });
+                  console.log(result.res.requestUrls[0]);
+                  form.setFieldsValue({ headUrl: [result.name] });
+                  setImageUrl(
+                    result.res.requestUrls[0].split('?')[0] +
+                    '?x-oss-process=image/resize,w_100,h_100/quality,q_50',
+                  );
+                  options.onSuccess(result.res.requestUrls[0], result.res.requestUrls[0]);
+                },
+              }}
+              name="headUrl"
+              title={
+                imageUrl ? (
+                  <img src={imageUrl} alt="avatar" style={{ width: '100%' }} />
+                ) : (
+                    uploadButton
+                  )
+              }
+            />
             <Form.Item
               name="account"
               label="账户"
@@ -153,6 +204,11 @@ const ModalForm = ({ visible, onSubmit, onCancel, record, areaTypes, companyType
             >
               <Select options={areaTypes} onChange={onAreaChange} />
             </Form.Item>
+          </Col>
+          <Col span={2} style={{ display: 'flex', justifyContent: 'space-around' }}>
+            <Divider type="vertical" style={{ height: '100%' }} />
+          </Col>
+          <Col span={11}>
             <Form.Item
               name="comId"
               label="所属公司"
@@ -165,11 +221,18 @@ const ModalForm = ({ visible, onSubmit, onCancel, record, areaTypes, companyType
             >
               <Select options={companyTypes} onChange={onComanyChange} />
             </Form.Item>
-          </Col>
-          <Col span={2} style={{ display: 'flex', justifyContent: 'space-around' }}>
-            <Divider type="vertical" style={{ height: '100%' }} />
-          </Col>
-          <Col span={11}>
+            <Form.Item
+              name="flowerName"
+              label="员工花名"
+              rules={[
+                {
+                  required: true,
+                  message: '必填',
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
             <Form.Item name="email" label="Email">
               <Input />
             </Form.Item>
@@ -196,7 +259,7 @@ const ModalForm = ({ visible, onSubmit, onCancel, record, areaTypes, companyType
             </Form.Item>
           </Col>
         </Row>
-      </Form>
+      </ProForm>
     </Modal>
   );
 };

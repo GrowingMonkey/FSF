@@ -216,8 +216,9 @@ const TList = () => {
     useEffect(() => {
         console.log(history)
         const { location } = history
-        console.log(location.state?.keyWord);
-        form.setFieldsValue({ keyWord: location.state?.keyword || '' })
+        if (location.state?.keyword) {
+            form.setFieldsValue({ keyWord: location.state?.keyword })
+        }
         console.log(searchValues);
 
         // console.log(currentPage, searchValues);

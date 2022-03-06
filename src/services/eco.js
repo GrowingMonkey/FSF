@@ -103,3 +103,16 @@ export const selectTPListForInvoice = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export const getAlreadyFee = (payload) => {
+  return request('/eco/getAlreadyFee', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+export const sejsq = (payload) => {
+  return request('/eco/sejsq', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+

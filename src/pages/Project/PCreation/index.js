@@ -34,6 +34,7 @@ const PCreation = () => {
     setIndustryChildList(data.children);
     form.setFieldsValue({ industryChild: data.children[0].value });
   };
+
   const onSubmit = (params) => {
     form.validateFields().then((values) => {
       let payload = Object.assign({}, values);
@@ -164,7 +165,7 @@ const PCreation = () => {
                 },
               ]}
             >
-              <Cascader style={{ width: '328px' }} options={cityList} placeholder=""></Cascader>
+              <Cascader style={{ width: '328px' }} options={cityList} placeholder=""></Cascader><Cascader style={{ width: '328px' }} options={cityList} placeholder=""></Cascader><Button>+</Button>
             </Form.Item>
             {/* <Form.Item
               name="RJob"

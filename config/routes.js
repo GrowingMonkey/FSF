@@ -321,7 +321,7 @@ export default [
     path: '/eco',
     name: '财务管理',
     icon: 'wallet',
-    access: canEco,
+    access: 'canEco',
     routes: [
       // {
       //   path: "/eco/kpi-list",
@@ -336,20 +336,20 @@ export default [
       {
         path: '/eco/invioce-list',
         name: '发票管理',
-        access: canEcoInvioce,
+        access: 'canEcoInvioce',
         component: './ECO/InvoiceList/index',
       },
       {
         path: '/eco/invioce-detail',
         name: '发票详情',
-        access: canEcoInvioceDetail,
+        access: 'canEcoInvioceDetail',
         hideInMenu: true,
         component: './ECO/InvoiceList/DetailInvoice',
       },
       {
         path: '/eco/invioce-add',
         name: '申请发票',
-        access: canEcoInvioceAdd,
+        access: 'canEcoInvioceAdd',
         hideInMenu: true,
         component: './ECO/InvoiceList/AddInvoice',
       },
@@ -366,20 +366,20 @@ export default [
       {
         path: '/eco/bf-list',
         name: '回款列表',
-        access: canEcoBF,
+        access: 'canEcoBF',
         component: './ECO/BFList/index',
       },
       {
         path: '/eco/bf-add',
         name: '新增回款',
-        access: canEcoBFAdd,
+        access: 'canEcoBFAdd',
         hideInMenu: true,
         component: './ECO/BFList/AddBF',
       },
       {
         path: '/eco/bf-detail',
         name: '回款详情',
-        access: canEcoBFDetail,
+        access: 'canEcoBFDetail',
         hideInMenu: true,
         component: './ECO/BFList/DetailBF',
       },

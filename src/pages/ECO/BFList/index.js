@@ -18,8 +18,13 @@ import {
 import styles from './index.less';
 import { PageContainer } from '@ant-design/pro-layout';
 import { useState, useEffect } from 'react';
-import { selectServiceFeeList, relevancePay, selectInvoiceList, abandonInvoice } from '../../../services/eco';
-import { history } from 'umi'
+import {
+  selectServiceFeeList,
+  relevancePay,
+  selectInvoiceList,
+  abandonInvoice,
+} from '../../../services/eco';
+import { history } from 'umi';
 const BFList = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectItem, setSelectItem] = useState(null);
@@ -121,14 +126,18 @@ const BFList = () => {
       dataIndex: 'type10',
       key: 'type10',
       render: (text, record) => {
-        return <>
-          <Button type="link" size="small" onClick={() => showModal(record)}>关联回款</Button>
-          <Button type="link" size="small" onClick={() => history.push(`/eco/bf-detail?serviceFeeId=${record.id}`)}>查看详情</Button>
-          {/* <Popconfirm placement="topLeft" title={'作废'} onConfirm={() => confirm(record)} okText="确定" cancelText="取消">
+        return (
+          <>
+            <Button type="link" size="small" onClick={() => showModal(record)}>
+              关联回款
+            </Button>
+            {/* <Button type="link" size="small" onClick={() => history.push(`/eco/bf-detail?serviceFeeId=${record.id}`)}>查看详情</Button> */}
+            {/* <Popconfirm placement="topLeft" title={'作废'} onConfirm={() => confirm(record)} okText="确定" cancelText="取消">
             <Button type="link" danger size="small" >作废</Button>
           </Popconfirm> */}
-        </>
-      }
+          </>
+        );
+      },
     },
   ];
   const ModelColumns = [
@@ -163,10 +172,10 @@ const BFList = () => {
     setIsModalVisible(true);
   };
   const handleOk = () => {
-    relevancePay({ invoiceId: selectItem.id, serviceFeeId: BFSelectItem.id }).then(res => {
-      message.success('关联成功')
+    relevancePay({ invoiceId: selectItem.id, serviceFeeId: BFSelectItem.id }).then((res) => {
+      message.success('关联成功');
       setIsModalVisible(false);
-    })
+    });
   };
 
   const handleCancel = () => {
@@ -174,11 +183,11 @@ const BFList = () => {
   };
   const confirm = (record) => {
     console.log(record);
-    abandonInvoice({ invoiceId: record.id }).then(res => {
+    abandonInvoice({ invoiceId: record.id }).then((res) => {
       message.success('作废成功');
       setSearchValues('');
-    })
-  }
+    });
+  };
   const handleSearchClear = () => {
     form.resetFields();
     setSearchValues(null);
@@ -208,18 +217,16 @@ const BFList = () => {
       const { data } = res;
       setBfList(
         data.list &&
-        data.list.map((item) => {
-          return Object.assign(item, { key: item.id });
-        }),
+          data.list.map((item) => {
+            return Object.assign(item, { key: item.id });
+          }),
       );
     });
   }, [searchValues]);
   useEffect(() => {
     selectInvoiceList(searchValues).then((res) => {
       console.log(res);
-      setModelData(
-        res?.data?.list || []
-      );
+      setModelData(res?.data?.list || []);
     });
   }, [searchModalValues]);
   const rowSelection = {
@@ -242,7 +249,9 @@ const BFList = () => {
           </Col>
           <Col>
             <Space size={8}>
-              <Button type="primary" onClick={() => history.push(`/eco/bf-add`)}>新增</Button>
+              <Button type="primary" onClick={() => history.push(`/eco/bf-add`)}>
+                新增
+              </Button>
               <Button onClick={handleSearchClear}>清空</Button>
               <Button type="primary" onClick={handleSearch}>
                 搜索
@@ -312,7 +321,12 @@ const BFList = () => {
       <div className={styles['list-container']}>
         <Table columns={bfColumns} dataSource={bfList} pagination={false} size="small" />
       </div>
-      <Modal title="请选择关联的发票" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+      <Modal
+        title="请选择关联的发票"
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
         <Table
           rowSelection={{
             type: 'radio',

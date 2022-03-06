@@ -1,4 +1,3 @@
-
 /**
  * @see https://umijs.org/zh-CN/plugins/plugin-access
  * */
@@ -8,56 +7,56 @@ export default function access(initialState) {
   function flatRoutes(routesConfig, selectPath) {
     function flat(routesConfig, pushCallback) {
       return routesConfig.reduce((prev, current) => {
-        const { routes, ...restConfig } = current
-        const pushContent = pushCallback ? pushCallback(restConfig) : restConfig
+        const { routes, ...restConfig } = current;
+        const pushContent = pushCallback ? pushCallback(restConfig) : restConfig;
         if (pushContent) {
-          prev.push(pushContent)
+          prev.push(pushContent);
         }
         if (routes) {
-          prev = [...prev, ...flat(routes, pushCallback)]
+          prev = [...prev, ...flat(routes, pushCallback)];
         }
-        return prev
-      }, [])
+        return prev;
+      }, []);
     }
 
     function selectPathFunc(config) {
       if (selectPath === undefined) {
-        return config
+        return config;
       }
       if (Array.isArray(selectPath)) {
         const obj = selectPath.reduce((prev, path) => {
           if (config[path]) {
-            prev[path] = config[path]
+            prev[path] = config[path];
           }
 
-          return prev
-        }, {})
+          return prev;
+        }, {});
 
         if (Object.keys(obj).length > 0) {
-          return obj
+          return obj;
         } else {
-          return undefined
+          return undefined;
         }
       } else {
-        return config[selectPath]
+        return config[selectPath];
       }
     }
 
-    return new Set(flat(routesConfig, selectPathFunc))
+    return new Set(flat(routesConfig, selectPathFunc));
   }
   let serviceRoute;
   if (currentUser && currentUser.permissionSet && currentUser.permissionSet.length > 0) {
     let menuList = [];
     currentUser.permissionSet.forEach((item) => {
-      if (item.url.startsWith("route")) {
+      if (item.url.startsWith('route')) {
         menuList.push(item);
       }
-    })
+    });
     console.log(menuList);
     serviceRoute = flatRoutes(menuList, ['url']);
   }
-  const RouteUrl = serviceRoute?.map(item => item.url) || new Set([]);
-  console.log(RouteUrl)
+  const RouteUrl = serviceRoute?.map((item) => item.url) || new Set([]);
+  console.log(RouteUrl);
   return {
     canHome: RouteUrl.has('route/home'),
 
@@ -66,7 +65,6 @@ export default function access(initialState) {
     canAdminTca: RouteUrl.has('route/admin/tca-list'),
     canAdminRole: RouteUrl.has('route/admin/role-list'),
     canAdminPermission: RouteUrl.has('route/admin/permission-list'),
-
 
     canCustorm: RouteUrl.has('route/customer'),
     canCustormList: RouteUrl.has('route/customer/list'),
@@ -81,7 +79,6 @@ export default function access(initialState) {
     canMyProject: RouteUrl.has('route/project/pm-list'),
     canTeamProject: RouteUrl.has('route/project/team-list'),
     canProjectAdd: RouteUrl.has('route/project/p-creation'),
-
 
     cantalent: RouteUrl.has('route/talent'),
     canTalentList: RouteUrl.has('route/talent/t-list'),
@@ -108,5 +105,13 @@ export default function access(initialState) {
     canKpiSign: RouteUrl.has('route/kpi/sign-rank'),
     canKpiPay: RouteUrl.has('route/kpi/pay-rank'),
     canKpiCommission: RouteUrl.has('route/kpi/commission-rank'),
+
+    canEco: RouteUrl.has('route/eco'),
+    canEcoInvioce: RouteUrl.has('route/eco/invioce-list'),
+    canEcoInvioceDetail: RouteUrl.has('route/eco/invioce-detail'),
+    canEcoInvioceAdd: RouteUrl.has('route/eco/invioce-add'),
+    canEcoBF: RouteUrl.has('route/eco/bf-list'),
+    canEcoBFAdd: RouteUrl.has('route/eco/bf-add'),
+    canEcoBFDetail: RouteUrl.has('route/eco/bf-detail'),
   };
 }

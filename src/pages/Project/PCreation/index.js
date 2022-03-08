@@ -158,14 +158,8 @@ const PCreation = () => {
             <Form.Item
               name="cityCode"
               label="工作地点"
-              rules={[
-                {
-                  required: true,
-                  message: '必填',
-                },
-              ]}
             >
-              <Cascader style={{ width: '328px' }} options={cityList} placeholder=""></Cascader><Cascader style={{ width: '328px' }} options={cityList} placeholder=""></Cascader><Button>+</Button>
+              <Cascader style={{ width: '328px' }} options={cityList} placeholder=""></Cascader>
             </Form.Item>
             {/* <Form.Item
               name="RJob"

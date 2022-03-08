@@ -5,9 +5,11 @@ import {
   Col,
   Input,
   Button,
+  Modal,
   Select,
   Divider,
   Pagination,
+  message,
   Cascader,
   Space,
   Table,
@@ -26,9 +28,14 @@ import { industryList } from "@/utils/Industry";
 import { cityList } from "@/utils/CityList";
 import ModalEducation from "./ModalEducation";
 import ModalProject from "./ModalProject";
+import { talentJoinProject } from "@/services/talent";
 import ModalCompany from "./ModalCompany";
 import styles from "./TalentDetail.less";
-import { useLocation } from "umi";
+import ProjectSearch from "@/components/ProjectSearch";
+import { useLocation, history } from "umi";
+import ProForm, {
+  ProFormRadio,
+} from '@ant-design/pro-form';
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 const findAreaText = (location) => {
   console.log(location, cityList)
@@ -58,7 +65,7 @@ const findAreaText = (location) => {
 const TalentDetail = () => {
 
   const { query: { talentId } } = useLocation();
-  const [record, setRecord] = useState(null);
+  // const [record, setRecord] = useState(null);
   const [detail, setDetail] = useState(null);
   const [phone, setPhone] = useState(null);
   const [showBuy, setShowBuy] = useState(false);
@@ -66,31 +73,32 @@ const TalentDetail = () => {
   const [projectVisible, setProjectVisible] = useState(false);
   const [companyVisible, setCompanyVisible] = useState(false);
   const genderTypes = ["未知", "男", "女"];
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const workStateTypes = ["当前在职 ", "已离职", "失业"];
   const isAllTimeTypes = ["是", "否"];
   useEffect(() => {
     selectTalentById({ talentId: talentId }).then(res => {
       const { data } = res;
-      setRecord(data);
+      // setRecord(data);
       setDetail(data);
       setPhone(data?.phone || '暂无号码');
       setShowBuy(data?.phone?.split("")?.indexOf("*") !== -1);
     })
   }, [talentId]);
   const onSubmit = () => {
-    if (record) {
-      debugger
-      // console.log(record.name);
-      selectTalentById({ talentId: talentId }).then((res) => {
-        const { data } = res;
-        // console.log(data);
-        setDetail(data);
-        setPhone(data.phone);
-        setEducationVisible(false);
-        setProjectVisible(false);
-        setCompanyVisible(false);
-      });
-    }
+    // if (record) {
+    debugger
+    // console.log(record.name);
+    selectTalentById({ talentId: talentId }).then((res) => {
+      const { data } = res;
+      // console.log(data);
+      setDetail(data);
+      setPhone(data.phone);
+      setEducationVisible(false);
+      setProjectVisible(false);
+      setCompanyVisible(false);
+    });
+    // }
   };
   const onCancel = () => {
     setEducationVisible(false);
@@ -150,6 +158,15 @@ const TalentDetail = () => {
     }
     return str
   }
+  const onFinish = (values) => {
+    const { location: { query } } = history;
+    console.log(values);
+    // run(values);
+    talentJoinProject({ projectId: values.customer.projectId, talentId: query.talentId }).then(res => {
+      message.info(res?.message || '加入成功');
+    })
+    setIsModalVisible(false)
+  }
   const formatAddress = (addressCode) => {
     let addressArrays = []
     if (addressCode) {
@@ -182,7 +199,7 @@ const TalentDetail = () => {
           <Row gutter={16}>
             <Col span={24}>
               <div className={styles["basic-container"]}>
-                <div className={styles["page-title"]}>联系方式</div>
+                <div className={styles["page-title"]}>联系方式 <Button type="primary" size="small" style={{ marginLeft: '18px' }} onClick={() => setIsModalVisible(true)}>加入项目</Button></div>
                 <Divider></Divider>
                 <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', fontWeight: 'bold', justifyContent: 'flex-start' }} column={2}>
                   <Descriptions.Item label="电话">
@@ -446,6 +463,28 @@ const TalentDetail = () => {
 
             </Col>
           </Row>
+          <Modal title="加入项目" visible={isModalVisible} footer={null} onCancel={() => setIsModalVisible(false)}>
+            <ProForm
+              hideRequiredMark
+              style={{
+                margin: 'auto',
+                marginTop: 8,
+                maxWidth: 600,
+              }}
+              name="basic"
+              layout="horizontal"
+              initialValues={{
+                public: '1',
+              }}
+              onFinish={onFinish}
+            >
+              <Form.Item name={'customer'} label={"选择职位"} >
+                <ProjectSearch />
+              </Form.Item>
+
+            </ProForm>
+          </Modal>
+
           <div style={{ width: "100%", minHeight: "15px" }}></div>
         </>
       )}

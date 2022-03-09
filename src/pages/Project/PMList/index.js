@@ -196,27 +196,27 @@ const PMList = () => {
           value: 0,
         },
         {
-          label: "初中以上",
+          label: "初中及以上",
           value: 1,
         },
         {
-          label: "中专以上",
+          label: "中专及以上",
           value: 2,
         },
         {
-          label: "高中以上",
+          label: "高中及以上",
           value: 3,
         },
         {
-          label: "大专以上",
+          label: "大专及以上",
           value: 4,
         },
         {
-          label: "本科以上",
+          label: "本科及以上",
           value: 5,
         },
         {
-          label: "硕士以上",
+          label: "硕士及以上",
           value: 6,
         },
         {

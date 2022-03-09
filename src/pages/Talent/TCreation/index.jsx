@@ -397,35 +397,35 @@ const TCreation = () => {
               options={[
                 {
                   label: '不限',
-                  value: '不限',
+                  value: 0,
                 },
                 {
-                  label: '初中以上',
-                  value: '初中以上',
+                  label: '初中及以上',
+                  value: 1,
                 },
                 {
-                  label: '中专以上',
-                  value: '中专以上',
+                  label: '中专及以上',
+                  value: 2,
                 },
                 {
-                  label: '高中以上',
-                  value: '高中以上',
+                  label: '高中及以上',
+                  value: 3,
                 },
                 {
-                  label: '大专以上',
-                  value: '大专以上',
+                  label: '大专及以上',
+                  value: 4,
                 },
                 {
-                  label: '本科以上',
-                  value: '本科以上',
+                  label: '本科及以上',
+                  value: 5,
                 },
                 {
-                  label: '硕士以上',
-                  value: '硕士以上',
+                  label: '硕士及以上',
+                  value: 6,
                 },
                 {
-                  label: '博士以上',
-                  value: '博士以上',
+                  label: '博士及以上',
+                  value: 7,
                 },
               ]}
             />

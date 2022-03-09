@@ -153,7 +153,7 @@ const TList = () => {
       key: "age",
       render: (text) => {
         if (text) {
-          <div>{text}岁</div>;
+          return <div>{text}岁</div>;
         }
         return <div>未知</div>;
       },
@@ -162,6 +162,38 @@ const TList = () => {
       title: "学历",
       dataIndex: "education",
       key: "education",
+      render: (text) => {
+        let str = '';
+        switch (text) {
+          case 0:
+            str = '不限';
+            break;
+          case 1:
+            str = '初中及以上';
+            break;
+          case 2:
+            str = '中专及以上';
+            break;
+          case 3:
+            str = '高中及以上';
+            break;
+          case 4:
+            str = '大专及以上';
+            break;
+          case 5:
+            str = '本科及以上';
+            break;
+          case 6:
+            str = '硕士及以上';
+            break;
+          case 7:
+            str = '博士及以上';
+            break;
+          default:
+            str = text;
+        }
+        return str;
+      },
     },
     {
       title: "工作经验",

@@ -164,7 +164,7 @@ const TList = () => {
       key: "education",
       render: (text) => {
         let str = '';
-        switch (text) {
+        switch (+text) {
           case 0:
             str = '不限';
             break;

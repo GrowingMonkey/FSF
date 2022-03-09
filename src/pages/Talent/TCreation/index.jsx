@@ -397,35 +397,35 @@ const TCreation = () => {
               options={[
                 {
                   label: '不限',
-                  value: 0,
+                  value: '不限',
                 },
                 {
                   label: '初中以上',
-                  value: 1,
+                  value: '初中以上',
                 },
                 {
                   label: '中专以上',
-                  value: 2,
+                  value: '中专以上',
                 },
                 {
                   label: '高中以上',
-                  value: 3,
+                  value: '高中以上',
                 },
                 {
                   label: '大专以上',
-                  value: 4,
+                  value: '大专以上',
                 },
                 {
                   label: '本科以上',
-                  value: 5,
+                  value: '本科以上',
                 },
                 {
                   label: '硕士以上',
-                  value: 6,
+                  value: '硕士以上',
                 },
                 {
                   label: '博士以上',
-                  value: 7,
+                  value: '博士以上',
                 },
               ]}
             />
@@ -550,12 +550,12 @@ const TCreation = () => {
                 className: 'avatar-uploader',
                 showUploadList: false,
                 customRequest: async (options) => {
-                  let result = await upload(options.file, () => {});
+                  let result = await upload(options.file, () => { });
                   console.log(result.res.requestUrls[0]);
                   basicForm.setFieldsValue({ headUrl: [result.name] });
                   setImageUrl(
                     result.res.requestUrls[0].split('?')[0] +
-                      '?x-oss-process=image/resize,w_100,h_100/quality,q_50',
+                    '?x-oss-process=image/resize,w_100,h_100/quality,q_50',
                   );
                   options.onSuccess(result.res.requestUrls[0], result.res.requestUrls[0]);
                 },
@@ -565,8 +565,8 @@ const TCreation = () => {
                 imageUrl ? (
                   <img src={imageUrl} alt="avatar" style={{ width: '100%' }} />
                 ) : (
-                  uploadButton
-                )
+                    uploadButton
+                  )
               }
             />
           </div>

@@ -79,7 +79,7 @@ const PList = () => {
         if (cityCode.length === 1) {
           city = cityCode[0];
         }
-        return <span>{info(city).name}</span>;
+        return <span>{info(city)?.name || '不限'}</span>;
       },
     },
 

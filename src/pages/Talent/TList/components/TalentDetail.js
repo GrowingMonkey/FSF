@@ -5,6 +5,8 @@ import {
   Col,
   Input,
   Button,
+  Avatar,
+  List,
   Modal,
   Select,
   Divider,
@@ -12,11 +14,13 @@ import {
   message,
   Cascader,
   Space,
+  Tag,
   Table,
   Descriptions,
   Popconfirm,
 } from "antd";
-import { CloseOutlined } from "@ant-design/icons";
+import { CloseOutlined, LoadingOutlined } from "@ant-design/icons";
+
 import {
   selectTalentById,
   delEDU,
@@ -28,13 +32,14 @@ import { industryList } from "@/utils/Industry";
 import { cityList } from "@/utils/CityList";
 import ModalEducation from "./ModalEducation";
 import ModalProject from "./ModalProject";
-import { talentJoinProject } from "@/services/talent";
+import { talentJoinProject, selectTCList, addTalentC } from "@/services/talent";
 import ModalCompany from "./ModalCompany";
 import styles from "./TalentDetail.less";
+import stylesR from './index.less';
 import ProjectSearch from "@/components/ProjectSearch";
-import { useLocation, history } from "umi";
+import { useLocation, history, useRequest } from "umi";
 import ProForm, {
-  ProFormRadio,
+  ProFormRadio, ProFormTextArea,
 } from '@ant-design/pro-form';
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 const findAreaText = (location) => {
@@ -62,9 +67,33 @@ const findAreaText = (location) => {
   }
   return result
 }
+
+const ArticleListContent = ({ data: { content, updatedAt, userName, updateTime, avatar, owner, href } }) => (
+  <div className={stylesR.listContent}>
+    <div className={stylesR.description}>{content}</div>
+    <div className={stylesR.extra}>
+      <a href={href}>{userName}</a> 在 <a href={href}>{href}</a>
+      <em>{updateTime}</em>创建
+    </div>
+  </div>
+);
+let pageNo = 0;
 const TalentDetail = () => {
 
   const { query: { talentId } } = useLocation();
+  const { data, reload, run, loading, loadMore, loadingMore } = useRequest(
+    () => {
+      pageNo += 1;
+      return selectTCList({
+        pageNo: pageNo,
+        pageSize: 10,
+        talentId: talentId
+      });
+    },
+    {
+      loadMore: true,
+    },
+  );
   // const [record, setRecord] = useState(null);
   const [detail, setDetail] = useState(null);
   const [phone, setPhone] = useState(null);
@@ -74,6 +103,7 @@ const TalentDetail = () => {
   const [companyVisible, setCompanyVisible] = useState(false);
   const genderTypes = ["未知", "男", "女"];
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isRecordModalVisible, setIsRecordModalVisible] = useState(false);
   const workStateTypes = ["当前在职 ", "已离职", "失业"];
   const isAllTimeTypes = ["是", "否"];
   useEffect(() => {
@@ -167,12 +197,77 @@ const TalentDetail = () => {
     })
     setIsModalVisible(false)
   }
+  const onRecordFinish = (values) => {
+    const { location: { query } } = history;
+    addTalentC({ talentId: query.talentId, ...values, talentName: detail.name }).then(res => {
+      message.info(res?.message || '加入成功');
+      setIsRecordModalVisible(false);
+    })
+    pageNo = 0;
+    run();
+  }
   const formatAddress = (addressCode) => {
     let addressArrays = []
     if (addressCode) {
       addressArrays = addressCode.split('/')
     }
     return addressArrays;
+  }
+  const loadMoreDom = data?.list.length > 0 && (
+    <div
+      style={{
+        textAlign: 'center',
+        marginTop: 16,
+      }}
+    >
+      <Button
+        onClick={loadMore}
+        style={{
+          paddingLeft: 48,
+          paddingRight: 48,
+        }}
+      >
+        {loadingMore ? (
+          <span>
+            <LoadingOutlined /> 加载中...
+          </span>
+        ) : (
+            '加载更多'
+          )}
+      </Button>
+    </div>
+  );
+  const formatStr = (it) => {
+    console.log(it);
+    let str = '';
+    switch (+it) {
+      case 0:
+        str = '未接听';
+        break;
+      case 1:
+        str = '愿意接触';
+        break
+      case 2:
+        str = '考虑职位';
+        break
+      case 3:
+        str = '加入项目';
+        break
+      case 4:
+        str = '顾问面试';
+        break
+      case 5:
+        str = '人选放弃';
+        break
+      case 6:
+        str = '不想变动';
+        break
+      case 7:
+        str = '顾问否决';
+        break;
+
+    }
+    return str
   }
   return (
     <div className={styles["talent-detail"]}>
@@ -197,9 +292,9 @@ const TalentDetail = () => {
       {detail && (
         <>
           <Row gutter={16}>
-            <Col span={24}>
+            <Col span={16}>
               <div className={styles["basic-container"]}>
-                <div className={styles["page-title"]}>联系方式 <Button type="primary" size="small" style={{ marginLeft: '18px' }} onClick={() => setIsModalVisible(true)}>加入项目</Button></div>
+                <div className={styles["page-title"]}>联系方式 <Button type="primary" size="small" style={{ marginLeft: '18px' }} onClick={() => setIsModalVisible(true)}>加入项目</Button><Button type="primary" size="small" style={{ marginLeft: '18px' }} onClick={() => setIsRecordModalVisible(true)}>新增沟通</Button></div>
                 <Divider></Divider>
                 <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', fontWeight: 'bold', justifyContent: 'flex-start' }} column={2}>
                   <Descriptions.Item label="电话">
@@ -462,6 +557,42 @@ const TalentDetail = () => {
 
 
             </Col>
+            <Col span={8}>
+              <div className={styles["basic-container"]}>
+                <div className={styles["page-title"]}>沟通记录</div>
+                <List
+                  size="large"
+                  loading={loading}
+                  style={{ width: '100%' }}
+                  rowKey="id"
+                  itemLayout="vertical"
+                  loadMore={loadMoreDom}
+                  dataSource={data?.list || []}
+                  renderItem={(item) => (
+                    <List.Item
+                      style={{ width: '100%' }}
+                      key={item.id}
+                    >
+                      <List.Item.Meta
+                        style={{ width: '100%' }}
+                        title={
+                          <a className={styles.listItemMetaTitle}>
+
+                          </a>
+                        }
+                        description={
+                          <span>
+                            <Tag>{formatStr(item.state)}</Tag>
+                          </span>
+                        }
+                      />
+
+                      <ArticleListContent data={item} />
+                    </List.Item>
+                  )}
+                />
+              </div>
+            </Col>
           </Row>
           <Modal title="加入项目" visible={isModalVisible} footer={null} onCancel={() => setIsModalVisible(false)}>
             <ProForm
@@ -482,6 +613,63 @@ const TalentDetail = () => {
                 <ProjectSearch />
               </Form.Item>
 
+            </ProForm>
+          </Modal>
+          <Modal title="新增沟通" visible={isRecordModalVisible} footer={null} onCancel={() => setIsRecordModalVisible(false)}>
+            <ProForm
+              hideRequiredMark
+              style={{
+                margin: 'auto',
+                marginTop: 8,
+                maxWidth: 600,
+              }}
+              name="basic"
+              layout="horizontal"
+              initialValues={{
+                public: '1',
+              }}
+              onFinish={onRecordFinish}
+            >
+              <ProFormRadio.Group
+                name="state"
+                label="沟通类型"
+                options={[
+                  {
+                    label: '未接听',
+                    value: 0,
+                  },
+                  {
+                    label: '愿意接触',
+                    value: 1,
+                  },
+                  {
+                    label: '考虑职位',
+                    value: 2,
+                  },
+                  {
+                    label: '加入项目',
+                    value: 3,
+                  },
+                  {
+                    label: '顾问面试',
+                    value: 4,
+                  },
+                  {
+                    label: '人选放弃',
+                    value: 5,
+                  },
+                  {
+                    label: '不想变动',
+                    value: 6,
+                  },
+                  {
+                    label: '顾问否决',
+                    value: 7,
+                  },
+                ]}
+              />
+
+              <ProFormTextArea name="content" label="沟通内容" />
             </ProForm>
           </Modal>
 

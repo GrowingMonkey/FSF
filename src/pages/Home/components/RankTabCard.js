@@ -8,18 +8,18 @@ const RankTabCard = ({ activeTab, setActiveTab }) => {
       name: "提成排行",
       value: 0,
     },
-    {
-      name: "回款排行",
-      value: 1,
-    },
+    // {
+    //   name: "回款排行",
+    //   value: 1,
+    // },
     {
       name: "大区业绩",
       value: 2,
     },
-    {
-      name: "签约排行",
-      value: 3,
-    },
+    // {
+    //   name: "签约排行",
+    //   value: 3,
+    // },
   ];
   return (
     <div className={styles["container"]}>

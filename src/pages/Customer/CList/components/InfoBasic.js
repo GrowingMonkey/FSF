@@ -6,7 +6,10 @@ import {
   Divider,
   Descriptions,
   Table,
+  Tag,
   Button,
+  Form,
+  message,
   Popconfirm,
 } from "antd";
 import {
@@ -17,9 +20,13 @@ import {
 import { useRequest, history } from 'umi'
 import ModalCustomerContact from "./ModalCustomerContact";
 import ModalCustomerSubsidiary from "./ModalCustomerSubsidiary";
-import { signCustomer } from '@/services/customer'
+import { signCustomer, selectCTeamList, delTeamPerson, addTeamPerson } from '@/services/customer'
 import styles from "./InfoBasic.less";
 import ModalCustomerSign from "./ModalCustomerSign";
+import { PlusOutlined } from '@ant-design/icons';
+import ProForm from '@ant-design/pro-form';
+import Modal from "antd/lib/modal/Modal";
+import SearchInput from '@/components/SearchInput';
 
 const InfoBasic = ({ record }) => {
   const [contactVisible, setContactVisible] = useState(false);
@@ -28,6 +35,8 @@ const InfoBasic = ({ record }) => {
   const [contactRecord, setContactRecord] = useState(null);
   const [subsidiaryRecord, setSubsidiaryRecord] = useState(null);
   const [subsidiaryList, setSubsidiaryList] = useState([]);
+  const [tags, setTags] = useState([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [customerContacts, setCustomerContacts] = useState([
     // {
     //   key: 0,
@@ -229,7 +238,21 @@ const InfoBasic = ({ record }) => {
         })
       );
     });
+    getTags();
   }, []);
+  const getTags = () => {
+    const { location: { query } } = history;
+    selectCTeamList({ customerId: query.customerId }).then(res => {
+      setTags(res?.data?.list || [])
+    })
+  }
+  const handleDeleteTag = async (removedTag) => {
+    const { location: { query } } = history;
+    await delTeamPerson({ appUserId: removedTag.userId, customerId: query.customerId }).then(ress => {
+      message.info(ress.message || '删除成功');
+    })
+    getTags();
+  }
   const onContactDeleteConfirm = (record) => {
 
     console.log(record);
@@ -248,6 +271,13 @@ const InfoBasic = ({ record }) => {
       });
     });
   };
+  const onFinish = (values) => {
+    const { location: { query } } = history;
+    addTeamPerson({ appUserId: values.project.recommenderUserId, appUserName: values.project.recommenderName, customerId: query.customerId }).then(res => {
+      message.success(res.message);
+      setIsModalVisible(false);
+    })
+  }
   return (
     <div className={styles["info-basic"]}>
       <ModalCustomerContact
@@ -370,7 +400,29 @@ const InfoBasic = ({ record }) => {
             {record.createTime}
           </Descriptions.Item>
           <Descriptions.Item label="">
-            <Button type="primary" onClick={() => setSignVisible(true)}>邀请签约</Button>
+            <Button type="primary" onClick={() => setSignVisible(true)}>申请签约</Button>
+          </Descriptions.Item><br />
+          <Descriptions.Item label="执行团队">
+            {tags.map((tag, index) => {
+              const tagElem = (
+                <Tag
+                  className="edit-tag"
+                  key={tag.id}
+                  closable
+                  color={["#f50", "#87d068", "#2db7f5", "#108ee9"][index % 4]}
+                  onClose={(e) => {
+                    e.preventDefault();
+                    handleDeleteTag(tag)
+                  }}
+                >
+                  {tag.userName}
+                </Tag>
+              );
+              return tagElem
+            })}
+            <Tag className="site-tag-plus" onClick={() => setIsModalVisible(true)}>
+              <PlusOutlined />新增成员
+            </Tag>
           </Descriptions.Item>
         </Descriptions>
       </div>
@@ -486,6 +538,30 @@ const InfoBasic = ({ record }) => {
           </div>
         </Col>
       </Row>
+      <Modal title="加入团队" visible={isModalVisible} footer={null} onCancel={() => setIsModalVisible(false)}>
+        <ProForm
+          hideRequiredMark
+          style={{
+            margin: 'auto',
+            marginTop: 8,
+            maxWidth: 600,
+          }}
+          name="basic"
+          layout="vertical"
+          initialValues={{
+            public: '1',
+          }}
+          onFinish={onFinish}
+        >
+          <Form.Item
+            label="推荐人"
+            name="project"
+          >
+            <SearchInput></SearchInput>
+          </Form.Item>
+        </ProForm>
+      </Modal>
+
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Space, Divider, Col, Row } from "antd";
 import styles from "./RankTabCard.less";
 
@@ -13,7 +13,7 @@ const RankTabCard = ({ activeTab, setActiveTab }) => {
     //   value: 1,
     // },
     {
-      name: "大区业绩",
+      name: "回款排行",
       value: 2,
     },
     {
@@ -29,6 +29,7 @@ const RankTabCard = ({ activeTab, setActiveTab }) => {
           <div
             className={styles["tab-item"]}
             key={tab.value}
+            style={{ padding: '0 10px 0 10px' }}
             onClick={() => {
               setActiveTab(tab.value);
             }}

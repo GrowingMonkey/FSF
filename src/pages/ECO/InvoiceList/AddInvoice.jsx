@@ -18,6 +18,7 @@ import { upload } from '@/utils/lib/upload'
 import SearchInput from '@/components/SearchInput';
 import TalentSearchForEco from '@/components/TalentSearchForEco';
 import { useState } from 'react';
+import CustomerSearch from '@/components/CustomerSearch';
 
 const AddInvoice = () => {
     const [applyForm] = Form.useForm();
@@ -28,7 +29,7 @@ const AddInvoice = () => {
         manual: true,
         onSuccess: () => {
             message.success('提交成功');
-            history.push(`/eco/bf-list`)
+            history.push(`/eco/invioce-list`)
         },
     });
 
@@ -49,7 +50,7 @@ const AddInvoice = () => {
         ]).then((values) => {
             console.log(values);
             console.log({ ...values[0], ...values[1], ...values[2], appUserId: values[0].appUser.recommenderUserId, talentId: values[1].talent.talentId })
-            run({ ...values[0], ...values[1], ...values[2], appUserId: values[0].appUser.recommenderUserId, talentId: values[1].talent.talentId })
+            run({ ...values[0], ...values[1], ...values[2], appUserId: values[0].appUser.recommenderUserId, talentId: values[1]?.talent?.talentId, customerId: values[0].customerOut.customerId, customerName: values[0].customerOut.customerName })
         })
     }
     const changedTalent = (e) => {
@@ -134,12 +135,14 @@ const AddInvoice = () => {
                                     message: '必填',
                                 },
                             ]} />
-                        <ProFormText labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '175px' } }} name="customerName" label="客户名称" rules={[
+                        <Form.Item name="customerOut" labelCol={{ style: { width: '112px' } }} rules={[
                             {
                                 required: true,
                                 message: '必填',
                             },
-                        ]}></ProFormText>
+                        ]} wrapperCol={{ style: { width: '175px' } }} label="客户名称">
+                            <CustomerSearch></CustomerSearch>
+                        </Form.Item>
                     </ProForm.Group>
                     <ProForm.Group>
                         <ProFormText labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '175px' } }} name="name" label="开票名称" rules={[
@@ -241,7 +244,7 @@ const AddInvoice = () => {
                     </ProForm.Group>
                     <ProFormDependency name={['type']}>
                         {({ type }) => {
-                            if (+type == 0) {
+                            if (+type == 1) {
                                 return (
                                     <>
                                         <ProForm.Group>

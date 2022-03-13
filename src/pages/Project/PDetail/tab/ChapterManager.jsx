@@ -25,6 +25,7 @@ const ChapterManager = () => {
     const [currentState, setCurrentState] = useState(0);
     const [currentCustomerId, setCurrentCustomerId] = useState(null);
     const [recordId, setRecordId] = useState(null);
+    const [yuYueForm] = Form.useForm();
 
     const stateChaneTypes = {
         0: [
@@ -322,6 +323,7 @@ const ChapterManager = () => {
     const onFinishYuYue = (values) => {
         Interview({ ...values, id: recordId, projectId: query.projectId }).then(res => {
             message.success(res.data || '更改成功');
+            yuYueForm.resetFields();
             setIsYuYueModalVisible(false);
         })
     }
@@ -404,12 +406,14 @@ const ChapterManager = () => {
                 </Table>
                 <Modal title="预约面试" visible={isYuYueModalVisible} footer={null} onCancel={() => setIsYuYueModalVisible(false)}>
                     <ProForm
+
                         hideRequiredMark
                         style={{
                             margin: 'auto',
                             marginTop: 8,
                             maxWidth: 600,
                         }}
+                        form={yuYueForm}
                         name="basic"
                         layout="horizontal"
                         initialValues={{

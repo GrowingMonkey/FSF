@@ -110,3 +110,36 @@ export const signRank = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export const sysNotice = (payload) => {
+  // return new Promise((resolve, reject) => {
+  //   request.post("home/signRank", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/home/sysNotice', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+export const feeRank = (payload) => {
+  // return new Promise((resolve, reject) => {
+  //   request.post("home/signRank", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/home/feeRank', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+export const recommendRank = (payload) => {
+  // return new Promise((resolve, reject) => {
+  //   request.post("home/signRank", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/home/recommendRank', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};

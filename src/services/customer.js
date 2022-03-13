@@ -402,5 +402,19 @@ export const selectPList = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export const delTeamPerson = (payload) => {
+  return request('/customer/delTeamPerson', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+export const addTeamPerson = (payload) => {
+  return request('/customer/addTeamPerson', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+
+
 
 

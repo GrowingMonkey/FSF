@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Table, Button, Space, Row, Col, Pagination, Divider, message, Modal } from "antd";
+import { Table, Radio, Button, Space, Row, Col, Pagination, Divider, message, Modal } from "antd";
 import ModalForm from "./components/ModalForm";
 import { userList, tcaList, roleList } from "../../../services/admin";
 import styles from "./index.less";
@@ -18,8 +18,9 @@ const UserList = () => {
   const [areaTypes, setAreaTypes] = useState([]);
   const [roleTypes, setRoleTypes] = useState([]);
   const [formValue, setFormValue] = useState(null);
+  const [workState, setWorkState] = useState(0);
   useEffect(() => {
-    userList({ pageNo: currentPage, pageSize: 10 }).then((res) => {
+    userList({ pageNo: currentPage, pageSize: 10, workState: workState }).then((res) => {
       const { data } = res;
       setList(
         data.list.map((item) => {
@@ -30,7 +31,7 @@ const UserList = () => {
       );
       setListLength(data.count);
     });
-  }, [currentPage]);
+  }, [currentPage, workState]);
   useEffect(() => {
     tcaList({ pageNo: 1, pageSize: 1000 }).then((res) => {
       let areaList = [];
@@ -146,6 +147,16 @@ const UserList = () => {
       }
     },
     {
+      title: "入职时间",
+      dataIndex: "hireDate",
+      key: "hireDate",
+    },
+    {
+      title: "离职时间",
+      dataIndex: "leaveDate",
+      key: "leaveDate",
+    },
+    {
       title: "角色",
       dataIndex: "roleId",
       key: "roleId",
@@ -175,6 +186,7 @@ const UserList = () => {
             type="link"
             style={{ padding: 0 }}
             onClick={() => {
+              console.log(record);
               setFormValue(record);
               setVisible(true);
             }}
@@ -229,6 +241,7 @@ const UserList = () => {
         companyTypes={companyTypes}
         roleTypes={roleTypes}
       ></ModalForm>
+
       <div className={styles["list-container"]}>
         <Row justify="space-between" align="middle">
           <Col>
@@ -247,6 +260,11 @@ const UserList = () => {
           </Col>
         </Row>
         <Divider></Divider>
+        <Radio.Group defaultValue={workState} onChange={(e) => setWorkState(e.target.value)}>
+          <Radio.Button value={0}>在职</Radio.Button>
+          <Radio.Button value={1}>离职</Radio.Button>
+          <Radio.Button value={''}>不限</Radio.Button>
+        </Radio.Group>
         <Table
           style={{ marginTop: "25px" }}
           columns={userColumns}

@@ -305,3 +305,16 @@ export const selectCustomerListForProject = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export const delTeamPerson = (payload) => {
+  return request('/project/delTeamPerson', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+
+export const addTeamPerson = (payload) => {
+  return request('/project/addTeamPerson', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};

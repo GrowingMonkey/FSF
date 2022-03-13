@@ -1,8 +1,8 @@
 import { PageContainer } from '@ant-design/pro-layout';
-import { Input, Card, Divider, Descriptions, Row, Col, Tabs, Button, Space, Modal, Form, message } from 'antd';
+import { Input, Card, Divider, Tag, Descriptions, Row, Col, Tabs, Button, Space, Modal, Form, message } from 'antd';
 import { history } from 'umi';
 import StepItem from './components/StepItem';
-import { selectPById, selectTPList, applyForProject } from '@/services/project';
+import { selectPById, selectTPList, selectPTList, applyForProject, delTeamPerson, addTeamPerson } from '@/services/project';
 import { selectCstById } from '@/services/customer';
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -10,11 +10,13 @@ import ProjectSearch from '@/components/ProjectSearch';
 import ProForm, {
     ProFormRadio, ProFormSelect, ProFormText, ProFormDatePicker, ProFormDateTimePicker, ProFormTextArea,
 } from '@ant-design/pro-form';
+import SearchInput from '@/components/SearchInput';
 const { TabPane } = Tabs;
 const Search = () => {
     const [project, setProject] = useState({});
     const [custom, setCustom] = useState(null);
     const [team, setTeam] = useState([]);
+    const [tags, setTags] = useState([]);
     const [isModalVisible, setIsModalVisible] = useState(false);
     console.clear();
     console.log(history);
@@ -30,13 +32,30 @@ const Search = () => {
         selectTPList({ projectId: query.projectId }).then(res => {
             setTeam(res?.data || {});
         })
+        getTags();
     }, [history])
-    const onFinish = () => {
+    const getTags = () => {
         const { location: { query } } = history;
-        applyForProject({ projectId: query.projectId }).then(res => {
-            message.success("加入团队成功");
+        selectPTList({ projectId: query.projectId }).then(res => {
+            setTags(res?.data?.list || [])
+        })
+    }
+    const onFinish = (values) => {
+        const { location: { query } } = history;
+        addTeamPerson({ appUserId: values.project.recommenderUserId, appUserName: values.project.recommenderName, projectId: query.projectId }).then(res => {
+            message.success(res.message);
             setIsModalVisible(false);
         })
+    }
+    const handleDeleteTag = async (removedTag) => {
+        const { location: { query } } = history;
+        await delTeamPerson({ appUserId: removedTag.userId, projectId: query.projectId }).then(ress => {
+            message.info(ress.message || '删除成功');
+
+        })
+        getTages();
+
+
     }
     return (
         <>
@@ -78,11 +97,27 @@ const Search = () => {
                     </Card>
                 </Col>
                 <Col span="7">
-                    <Card title="执行团队" extra={<Button type="primary" onClick={onFinish}>申请加入</Button>}>
-                        {team.length > 0 ? team.map(item => <span>{item?.userName}</span>) : '暂无人员'}
+                    <Card title="执行团队" extra={<Button type="primary" onClick={() => setIsModalVisible(true)}>新增成员</Button>}>
+                        {tags && tags.map((tag, index) => {
+                            const tagElem = (
+                                <Tag
+                                    className="edit-tag"
+                                    key={tag.id}
+                                    closable
+                                    color={["#f50", "#87d068", "#2db7f5", "#108ee9"][index % 4]}
+                                    onClose={(e) => {
+                                        e.preventDefault();
+                                        handleDeleteTag(tag)
+                                    }}
+                                >
+                                    {tag.userName}
+                                </Tag>
+                            );
+                            return tagElem
+                        })}
                     </Card>
                 </Col>
-                {/* <Modal title="加入团队" visible={isModalVisible} footer={null} onCancel={() => setIsModalVisible(false)}>
+                <Modal title="加入团队" visible={isModalVisible} footer={null} onCancel={() => setIsModalVisible(false)}>
                     <ProForm
                         hideRequiredMark
                         style={{
@@ -101,11 +136,10 @@ const Search = () => {
                             label="推荐人"
                             name="project"
                         >
-                            <ProjectSearch />
+                            <SearchInput></SearchInput>
                         </Form.Item>
-
                     </ProForm>
-                </Modal> */}
+                </Modal>
             </Row>
         </>
 

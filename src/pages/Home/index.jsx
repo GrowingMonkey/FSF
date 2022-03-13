@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react";
 
 import { PageContainer } from '@ant-design/pro-layout';
-import { Row, Col, Card } from "antd";
+import { Row, Col, Card, List, Table, Typography, Button } from "antd";
 import { selectWorkFlow } from "../../services/home";
 import InfoCard from "./components/InfoCard";
 import DataCard from "./components/DataCard";
 import RankTabCard from "./components/RankTabCard";
 import RankListCard from "./components/RankListCard";
 import styles from "./index.less";
+import { sysNotice, feeRank, recommendRank } from "@/services/home";
+import { history } from 'umi';
 const Home = () => {
-
-    const [activeTab, setActiveTab] = useState(0);
+    const [activeTab, setActiveTab] = useState(2);
     const [dataState, setDataState] = useState([0, 0, 0, 0, 0]);
+    const [noticeData, setNoticeData] = useState([]);
+    const [feeRankData, setFeeRankData] = useState([]);
+    const [recommendRankData, setRecommendRankData] = useState([]);
     useEffect(() => {
         selectWorkFlow().then((res) => {
             const { data } = res;
@@ -21,7 +25,88 @@ const Home = () => {
             dataState[3] = data[14] ? data[14].num : 0;
             dataState[4] = data[12] ? data[12].num : 0;
         });
+        sysNotice().then(res => {
+            setNoticeData(res?.data?.list || []);
+        });
+        feeRank().then(res => {
+            setFeeRankData(res?.data?.list || []);
+        });
+        recommendRank().then(res => {
+            setRecommendRankData(res?.data?.list || []);
+        });
     }, []);
+    const feeRankColumns = [
+        {
+            title: '',
+            dataIndex: 'stateName',
+            key: 'stateName',
+            ellipsis: true,
+            width: 75,
+            render: text => <span style={{ color: 'red' }}>{text}</span>,
+        },
+        {
+            title: '所在公司',
+            dataIndex: 'comName',
+            key: 'comName',
+            ellipsis: true,
+        }, {
+            title: '推荐人',
+            dataIndex: 'userName',
+            key: 'userName',
+            ellipsis: true,
+        },
+        {
+            title: '人选名称',
+            dataIndex: 'talentName',
+            key: 'talentName',
+            ellipsis: true,
+        },
+        {
+            title: '人选职位',
+            dataIndex: 'job',
+            key: 'job',
+            ellipsis: true,
+        },
+        {
+            title: '人选年薪',
+            dataIndex: 'salary',
+            key: 'salary',
+            render: text => <span style={{ color: 'red' }}>{text || 0}万</span>,
+            ellipsis: true,
+        },
+    ]
+    const recommendRankColums = [
+        {
+            title: '所在公司',
+            dataIndex: 'comName',
+            key: 'comName',
+            ellipsis: true,
+        }, {
+            title: '服务顾问',
+            dataIndex: 'userName',
+            key: 'userName',
+            ellipsis: true,
+        },
+        {
+            title: '客户名称',
+            dataIndex: 'customerName',
+            key: 'customerName',
+            ellipsis: true,
+        },
+        {
+            title: '回款金额',
+            dataIndex: 'fee',
+            key: 'fee',
+            ellipsis: true,
+            render: text => <span style={{ color: 'red' }}>{text || 0}元</span>,
+        },
+        {
+            title: '回款时间',
+            dataIndex: 'time',
+            key: 'time',
+            ellipsis: true,
+        },
+    ]
     const wrapLeftCol = {
         xs: 24,
         md: 8,
@@ -63,6 +148,26 @@ const Home = () => {
                     </div>
                 </Col>
             </Row>
+            <div className={styles["bottom-container"]}>
+                <Row gutter={16} style={{ height: "100%" }}>
+                    <Col span={12}>
+                        <div className={styles["rank-data-card"]}>
+                            <Card title="实时推荐榜">
+
+                                <Table size="small" dataSource={recommendRankData} bordered columns={feeRankColumns} pagination={false} scroll={{ x: 550, }}></Table>
+                            </Card>
+                        </div>
+                    </Col>
+                    <Col span={12}>
+                        <div className={styles["rank-data-card"]}>
+                            <Card title="实时回款榜">
+                                <Table size="small" dataSource={feeRankData} bordered columns={recommendRankColums} pagination={false} scroll={{ x: 500, }}></Table>
+                            </Card>
+                        </div>
+                    </Col>
+                </Row>
+            </div>
+
             {/* </div> */}
             <div className={styles["bottom-container"]}>
                 <Row gutter={16} style={{ height: "100%" }}>
@@ -81,25 +186,19 @@ const Home = () => {
                     </Col>
                     <Col {...warpBottomCol.right}>
                         <div className={styles["data-tracker-card"]}>
-                            <Card title="公司大事"></Card>
+                            <List
+                                header={<Button type="link" onClick={() => history.push(`/employ/publish-list`)}>更多公告</Button>}
+                                bordered
+                                size="small"
+                                dataSource={noticeData}
+                                renderItem={item => (
+                                    <List.Item>
+                                        <Typography.Text mark>[{item.title}]</Typography.Text> {`${item.userName}在${item.publishTime}发布${item.content}`}
+                                    </List.Item>
+                                )}
+                            />
                         </div>
                     </Col>
-                </Row>
-
-            </div>
-            <div className={styles["bottom-container"]}>
-                <Row gutter={16} style={{ height: "100%" }}>
-                    <Col span={12}>
-                        <div className={styles["rank-data-card"]}>
-                            <Card title="实时推荐榜"></Card>
-                        </div>
-                    </Col>
-                    <Col span={12}>
-                        <div className={styles["rank-data-card"]}>
-                            <Card title="实时回款榜"></Card>
-                        </div>
-                    </Col>
-
                 </Row>
 
             </div>

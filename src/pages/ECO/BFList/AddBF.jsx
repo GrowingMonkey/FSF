@@ -17,6 +17,8 @@ import { addServiceFee } from '@/services/eco'
 import { upload } from '@/utils/lib/upload'
 import SearchInput from '@/components/SearchInput';
 import TalentSearch from '@/components/TalentSearch';
+import CustomerSearch from '@/components/CustomerSearch';
+
 
 const AddInvoice = () => {
     const [applyForm] = Form.useForm();
@@ -46,7 +48,7 @@ const AddInvoice = () => {
             noteForm.validateFields(),
         ]).then((values) => {
             console.log(values)
-            run({ ...values[0], ...values[1], ...values[2], appUserId: values[0].appUser.recommenderUserId, talentProjectId: values[1].talents.talents.map(i => i.talentId).join(',') })
+            run({ ...values[0], customerId: values[0].customerOut.customerId, customerName: values[0].customerOut.customerName, ...values[1], ...values[2], appUserId: values[0].appUser.recommenderUserId, talentProjectId: values[1]?.talent?.talentId })
         })
     }
 
@@ -116,12 +118,14 @@ const AddInvoice = () => {
                                 message: '必填',
                             },
                         ]} />
-                        <ProFormText labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="customerName" label="客户名称" rules={[
+                        <Form.Item name="customerOut" labelCol={{ style: { width: '112px' } }} rules={[
                             {
                                 required: true,
                                 message: '必填',
                             },
-                        ]}></ProFormText>
+                        ]} wrapperCol={{ style: { width: '175px' } }} label="客户名称">
+                            <CustomerSearch></CustomerSearch>
+                        </Form.Item>
                     </ProForm.Group>
                     <ProForm.Group>
                         <ProFormSelect options={[

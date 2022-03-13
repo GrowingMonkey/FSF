@@ -77,17 +77,17 @@ const ArticleListContent = ({ data: { content, updatedAt, userName, updateTime, 
     </div>
   </div>
 );
-let pageNo = 0;
+let pageNo = 1;
 const TalentDetail = () => {
 
   const { query: { talentId } } = useLocation();
   const { data, reload, run, loading, loadMore, loadingMore } = useRequest(
-    () => {
-      pageNo += 1;
+    (values) => {
       return selectTCList({
         pageNo: pageNo,
         pageSize: 10,
-        talentId: talentId
+        talentId: talentId,
+        ...values
       });
     },
     {
@@ -203,8 +203,7 @@ const TalentDetail = () => {
       message.info(res?.message || '加入成功');
       setIsRecordModalVisible(false);
     })
-    pageNo = 0;
-    run();
+    run({ pageNo: 1 });
   }
   const formatAddress = (addressCode) => {
     let addressArrays = []
@@ -221,7 +220,10 @@ const TalentDetail = () => {
       }}
     >
       <Button
-        onClick={loadMore}
+        onClick={() => {
+          pageNo = pageNo + 1;
+          loadMore();
+        }}
         style={{
           paddingLeft: 48,
           paddingRight: 48,
@@ -268,6 +270,38 @@ const TalentDetail = () => {
 
     }
     return str
+  }
+  const formatEducation = (value) => {
+    let str = '';
+    switch (+value) {
+      case 0:
+        str = '不限';
+        break;
+      case 1:
+        str = '初中以上';
+        break;
+      case 2:
+        str = '中专以上';
+        break;
+      case 3:
+        str = '高中以上';
+        break;
+      case 4:
+        str = '大专以上';
+        break;
+      case 5:
+        str = '本科以上';
+        break;
+      case 6:
+        str = '硕士以上';
+        break;
+      case 7:
+        str = '博士及以上';
+        break;
+      default:
+        str = text;
+    }
+    return str;
   }
   return (
     <div className={styles["talent-detail"]}>
@@ -336,7 +370,7 @@ const TalentDetail = () => {
                     {detail.name}
                   </Descriptions.Item>
                   <Descriptions.Item label="学历">
-                    {detail.education}
+                    {formatEducation(detail.education)}
                   </Descriptions.Item>
                   <Descriptions.Item label="年龄">
                     {detail.age}

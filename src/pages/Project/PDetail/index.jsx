@@ -55,22 +55,6 @@ const Search = (props) => {
             header={{
                 title: '职位详情',
                 ghost: true,
-                // breadcrumb: {
-                //   routes: [
-                //     {
-                //       path: '',
-                //       breadcrumbName: '一级页面',
-                //     },
-                //     {
-                //       path: '',
-                //       breadcrumbName: '二级页面',
-                //     },
-                //     {
-                //       path: '',
-                //       breadcrumbName: '当前页面',
-                //     },
-                //   ],
-                // },
                 extra: [
                     <Dropdown
                         key="dropdown"

@@ -18,7 +18,10 @@ const ModalForm = ({ visible, onSubmit, onCancel, record, areaTypes, companyType
   useEffect(() => {
     if (visible) {
       if (record) {
+        console.log(record);
         form.setFieldsValue(record);
+        form.setFieldsValue({ headUrl: [record.headUrl] });
+        setImageUrl(record.headUrl);
         setDate(moment(record.hireDate));
         setModalTitle('编辑角色');
       } else {

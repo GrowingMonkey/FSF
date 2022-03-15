@@ -21,7 +21,7 @@ const DataCard = ({ dataState }) => {
     },
     {
       value: "10",
-      unit: "个",
+      unit: "元",
       label: "年度回款",
     },
     {
@@ -52,6 +52,7 @@ const DataCard = ({ dataState }) => {
     lg: 6,
     xl: 6
   }
+  console.log(dataState)
   return (
     <div className={styles["container"]}>
       <div className={styles["title"]}>个人数据</div>
@@ -59,7 +60,7 @@ const DataCard = ({ dataState }) => {
         <Col {...wrapCol}>
           <div className={styles["data-item"]}>
             <div>
-              <span className={styles["value"]}>{dataState[0]}</span>
+              <span className={styles["value"]}>{dataState?.addTalentNum || 0}</span>
               <span>{dataList[0].unit}</span>
             </div>
             <div className={styles.data_info}>{dataList[0].label}</div>
@@ -69,7 +70,7 @@ const DataCard = ({ dataState }) => {
         <Col {...wrapCol}>
           <div className={styles["data-item"]}>
             <div>
-              <span className={styles["value"]}>{dataState[1]}</span>
+              <span className={styles["value"]}>{dataState?.addJobNum || 0}</span>
               <span>{dataList[1].unit}</span>
             </div>
             <div className={styles.data_info}>{dataList[1].label}</div>
@@ -81,7 +82,7 @@ const DataCard = ({ dataState }) => {
         <Col {...wrapCol}>
           <div className={styles["data-item"]}>
             <div>
-              <span className={styles["value"]}>{dataState[2]}</span>
+              <span className={styles["value"]}>{dataState?.addSignNum || 0}</span>
               <span>{dataList[2].unit}</span>
             </div>
             <div className={styles.data_info}>{dataList[2].label}</div>
@@ -93,7 +94,7 @@ const DataCard = ({ dataState }) => {
         <Col {...wrapCol}>
           <div className={styles["data-item"]}>
             <div>
-              <span className={styles["value"]}>{dataState[3]}</span>
+              <span className={styles["value"]}>{dataState?.addServiceFee || 0}</span>
               <span>{dataList[3].unit}</span>
             </div>
             <div className={styles.data_info}>{dataList[3].label}</div>
@@ -105,7 +106,7 @@ const DataCard = ({ dataState }) => {
         <Col {...wrapCol}>
           <div className={styles["data-item"]}>
             <div>
-              <span className={styles["value"]}>{dataState[4]}</span>
+              <span className={styles["value"]}>{dataState?.addRecommendNum || 0}</span>
               <span>{dataList[4].unit}</span>
             </div>
             <div className={styles.data_info}>{dataList[4].label}</div>
@@ -114,7 +115,7 @@ const DataCard = ({ dataState }) => {
         <Col {...wrapCol}>
           <div className={styles["data-item"]}>
             <div>
-              <span className={styles["value"]}>{dataState[5] || 0}</span>
+              <span className={styles["value"]}>{dataState?.addFaceNum || 0}</span>
               <span>{dataList[5].unit}</span>
             </div>
             <div className={styles.data_info}>{dataList[5].label}</div>
@@ -123,7 +124,7 @@ const DataCard = ({ dataState }) => {
         <Col {...wrapCol}>
           <div className={styles["data-item"]}>
             <div>
-              <span className={styles["value"]}>{dataState[6] || 0}</span>
+              <span className={styles["value"]}>{dataState?.addOfferNum || 0}</span>
               <span>{dataList[6].unit}</span>
             </div>
             <div className={styles.data_info}>{dataList[6].label}</div>
@@ -132,7 +133,7 @@ const DataCard = ({ dataState }) => {
         <Col {...wrapCol}>
           <div className={styles["data-item"]}>
             <div>
-              <span className={styles["value"]}>{dataState[7] || 0}</span>
+              <span className={styles["value"]}>{dataState?.addWorkNum || 0}</span>
               <span>{dataList[7].unit}</span>
             </div>
             <div className={styles.data_info}>{dataList[7].label}</div>

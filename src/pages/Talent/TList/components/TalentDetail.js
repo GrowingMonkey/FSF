@@ -299,7 +299,7 @@ const TalentDetail = () => {
         str = '博士及以上';
         break;
       default:
-        str = text;
+        str = value;
     }
     return str;
   }
@@ -328,7 +328,7 @@ const TalentDetail = () => {
           <Row gutter={16}>
             <Col span={16}>
               <div className={styles["basic-container"]}>
-                <div className={styles["page-title"]}>联系方式 <Button type="primary" size="small" style={{ marginLeft: '18px' }} onClick={() => setIsModalVisible(true)}>加入项目</Button><Button type="primary" size="small" style={{ marginLeft: '18px' }} onClick={() => setIsRecordModalVisible(true)}>新增沟通</Button></div>
+                <div className={styles["page-title"]}>联系方式 <Button type="primary" size="small" style={{ marginLeft: '18px' }} onClick={() => setIsModalVisible(true)}>加入项目</Button></div>
                 <Divider></Divider>
                 <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', fontWeight: 'bold', justifyContent: 'flex-start' }} column={2}>
                   <Descriptions.Item label="电话">
@@ -593,7 +593,7 @@ const TalentDetail = () => {
             </Col>
             <Col span={8}>
               <div className={styles["basic-container"]}>
-                <div className={styles["page-title"]}>沟通记录</div>
+                <div className={styles["page-title"]}>沟通记录<Button type="primary" size="small" style={{ marginLeft: '18px', float: 'right' }} onClick={() => setIsRecordModalVisible(true)}>新增沟通</Button></div>
                 <List
                   size="large"
                   loading={loading}

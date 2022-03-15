@@ -11,7 +11,7 @@ import {
     Space,
     Table,
 } from "antd";
-import { history } from 'umi'
+import { history, Link } from 'umi'
 import { selectTalentList, selectTalentById } from "../../../services/talent";
 import CardTableExpand from "./components/CardTableExpand";
 import TalentDetail from "./components/TalentDetail";
@@ -209,16 +209,11 @@ const TList = () => {
             key: "action",
             render: (text, record) => (
                 <Space size={16}>
-                    <Button
-                        type="link"
-                        style={{ padding: 0 }}
-                        onClick={() => {
-                            setDetailVisible(true);
-                            setDetailRecord(record);
-                        }}
-                    >
-                        查看详情
-          </Button>
+                    <Link to={{
+                        pathname: '/talent/detail',
+                        search: '?talentId=' + record.talentId,
+                        state: { record: record },
+                    }}>查看</Link>
                 </Space>
             ),
             width: 100,

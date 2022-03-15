@@ -12,18 +12,14 @@ import { sysNotice, feeRank, recommendRank } from "@/services/home";
 import { history } from 'umi';
 const Home = () => {
     const [activeTab, setActiveTab] = useState(2);
-    const [dataState, setDataState] = useState([0, 0, 0, 0, 0]);
+    const [dataState, setDataState] = useState(null);
     const [noticeData, setNoticeData] = useState([]);
     const [feeRankData, setFeeRankData] = useState([]);
     const [recommendRankData, setRecommendRankData] = useState([]);
     useEffect(() => {
         selectWorkFlow().then((res) => {
             const { data } = res;
-            dataState[0] = data[8] ? data[8].num : 0;
-            dataState[1] = data[6] ? data[8].num : 0;
-            dataState[2] = data[13] ? data[13].num : 0;
-            dataState[3] = data[14] ? data[14].num : 0;
-            dataState[4] = data[12] ? data[12].num : 0;
+            setDataState(data)
         });
         sysNotice().then(res => {
             setNoticeData(res?.data?.list || []);

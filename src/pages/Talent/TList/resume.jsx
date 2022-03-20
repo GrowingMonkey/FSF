@@ -12,7 +12,7 @@ import {
     Table,
 } from "antd";
 import { history, Link } from 'umi'
-import { selectTalentList, selectTalentById } from "../../../services/talent";
+import { selectTalentList, myTalentList, selectTalentById } from "../../../services/talent";
 import CardTableExpand from "./components/CardTableExpand";
 import TalentDetail from "./components/TalentDetail";
 import styles from "./index.less";
@@ -126,7 +126,8 @@ const TList = () => {
             title: "姓名",
             dataIndex: "name",
             key: "name",
-            width: 150,
+            width: 80,
+            ellipsis: true,
             render: (text, record) => {
                 return record.gender == 2 ? (<span><WomanOutlined twoToneColor="#eb2f96" style={{ color: '#eb2f96' }} />{record.name}</span>) : record.gender == 1 ? (<span><ManOutlined style={{ color: '#1890ff' }} />{record.name}</span>) : (<span><UserOutlined />{record.name}</span>)
             }
@@ -135,6 +136,7 @@ const TList = () => {
             title: "年龄",
             dataIndex: "age",
             key: "age",
+            ellipsis: true,
             render: (text) => {
                 if (text) {
                     return <div>{text}岁</div>;
@@ -146,6 +148,7 @@ const TList = () => {
             title: "学历",
             dataIndex: "education",
             key: "education",
+            ellipsis: true,
             render: (text) => {
                 let str = '';
                 switch (+text) {
@@ -182,30 +185,36 @@ const TList = () => {
         {
             title: "工作经验",
             dataIndex: "experience",
+            ellipsis: true,
             key: "experience",
         },
         {
             title: "所在地",
             dataIndex: "location",
+            ellipsis: true,
             key: "location",
         },
         {
             title: "公司",
             dataIndex: "lastCompany",
+            ellipsis: true,
             key: "lastCompany",
         },
         {
             title: "职位",
             dataIndex: "job",
+            ellipsis: true,
             key: "job",
         },
         {
             title: "更新时间",
             dataIndex: "updateTime",
+            ellipsis: true,
             key: "updateTime",
         },
         {
             title: "操作",
+            fixed: 'right',
             key: "action",
             render: (text, record) => (
                 <Space size={16}>
@@ -249,7 +258,7 @@ const TList = () => {
         console.log(searchValues);
 
         // console.log(currentPage, searchValues);
-        selectTalentList({
+        myTalentList({
             pageNo: currentPage,
             pageSize: 10,
             keyWord: location.state?.keyword,
@@ -392,6 +401,8 @@ const TList = () => {
                                     rowExpandable: (record) => true,
                                 }}
                                 size="small"
+                                bordered
+                                scroll={{ x: 900 }}
                             />
                             <Row justify="end" style={{ marginTop: "15px" }}>
                                 <Col>

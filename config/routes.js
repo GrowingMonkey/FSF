@@ -249,39 +249,6 @@ export default [
       },
     ],
   },
-  //后台管理
-  {
-    icon: 'setting',
-    path: '/admin',
-    name: '后台管理',
-    access: 'canAdmin',
-    routes: [
-      {
-        path: '/admin/user-list',
-        name: '员工列表',
-        access: 'canAdminUser',
-        component: './Admin/UserList/index',
-      },
-      {
-        path: '/admin/tca-list',
-        name: '架构列表',
-        access: 'canAdminTca',
-        component: './Admin/TCAList/index',
-      },
-      {
-        path: '/admin/role-list',
-        name: '角色列表',
-        access: 'canAdminRole',
-        component: './Admin/RoleList/index',
-      },
-      {
-        path: '/admin/permission-list',
-        name: '权限列表',
-        access: 'canAdminPermission',
-        component: './Admin/PermissionList/index',
-      },
-    ],
-  },
 
   //行政管理
   {
@@ -423,7 +390,39 @@ export default [
       },
     ],
   },
-
+  //后台管理
+  {
+    icon: 'setting',
+    path: '/admin',
+    name: '后台管理',
+    access: 'canAdmin',
+    routes: [
+      {
+        path: '/admin/user-list',
+        name: '员工列表',
+        access: 'canAdminUser',
+        component: './Admin/UserList/index',
+      },
+      {
+        path: '/admin/tca-list',
+        name: '架构列表',
+        access: 'canAdminTca',
+        component: './Admin/TCAList/index',
+      },
+      {
+        path: '/admin/role-list',
+        name: '角色列表',
+        access: 'canAdminRole',
+        component: './Admin/RoleList/index',
+      },
+      {
+        path: '/admin/permission-list',
+        name: '权限列表',
+        access: 'canAdminPermission',
+        component: './Admin/PermissionList/index',
+      },
+    ],
+  },
   {
     path: '/',
     redirect: '/welcome',

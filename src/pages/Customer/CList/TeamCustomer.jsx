@@ -225,6 +225,8 @@ const CustomerList = () => {
             title: "来源",
             dataIndex: "sourceType",
             key: "sourceType",
+            width: 70,
+            ellipsis: true,
             render: (text) => {
                 return <span>{sourceTypeOptions[text].label}</span>;
             },
@@ -232,6 +234,7 @@ const CustomerList = () => {
         {
             title: "客户名称",
             dataIndex: "name",
+            ellipsis: true,
             key: "name",
             render: (text, record) => {
                 return (
@@ -262,6 +265,8 @@ const CustomerList = () => {
             title: "认证",
             dataIndex: "certification",
             key: "certification",
+            width: 70,
+            ellipsis: true,
             render: (text) => {
                 return text ? (
                     <Tag color="green">已认证</Tag>
@@ -272,22 +277,29 @@ const CustomerList = () => {
         },
         {
             title: "职位",
+            ellipsis: true,
             dataIndex: "jobBeansNum",
             key: "jobBeansNum",
         },
         {
             title: "执行团队",
             dataIndex: "comId",
+            ellipsis: true,
+            width: 80,
             key: "comId",
         },
         {
             title: "归属公司",
             dataIndex: "comName",
+            width: 80,
+            ellipsis: true,
             key: "comName",
         },
         {
             title: "客户状态",
             dataIndex: "state",
+            width: 80,
+            ellipsis: true,
             key: "state",
             render: (text) => {
                 return <span>{stateOptions[text].label}</span>;
@@ -296,11 +308,14 @@ const CustomerList = () => {
         {
             title: "最后沟通",
             dataIndex: "updateTime",
+            ellipsis: true,
             key: "updateTime",
         },
         {
             title: "记录",
             dataIndex: "customerCommunicateBeansNum",
+            ellipsis: true,
+            width: 40,
             key: "customerCommunicateBeansNum",
             render: (text) => {
                 return (
@@ -326,15 +341,15 @@ const CustomerList = () => {
             render: (text, record) => (
                 <Space size="middle">
                     {/* <Button
-            type="link"
-            style={{ padding: 0 }}
-            onClick={() => {
-              setCustomerRecord(record);
-              setDetailVisible(true);
-            }}
-          >
-            查看
-          </Button> */}
+                type="link"
+                style={{ padding: 0 }}
+                onClick={() => {
+                  setCustomerRecord(record);
+                  setDetailVisible(true);
+                }}
+              >
+                查看
+              </Button> */}
                     <Link to={{
                         pathname: '/customer/detail',
                         search: '?id=' + record.id + '&customerId=' + record.customerId + '&customerName=' + record.name,
@@ -342,7 +357,7 @@ const CustomerList = () => {
                     }}>查看</Link>
                     <Button type="link" style={{ padding: 0 }}>
                         转移
-          </Button>
+              </Button>
                 </Space>
             ),
         },
@@ -586,6 +601,8 @@ const CustomerList = () => {
                     dataSource={customerList}
                     pagination={false}
                     size="small"
+                    scroll={{ x: 550 }}
+                    bordered
                 />
                 <Row justify="end" style={{ marginTop: "15px" }}>
                     <Col>

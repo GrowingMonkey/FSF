@@ -121,13 +121,13 @@ const Home = () => {
         },
         middle: {
             xs: 24,
-            md: 10,
-            lg: 10
+            md: 8,
+            lg: 8
         },
         right: {
             xs: 24,
-            md: 10,
-            lg: 10
+            md: 12,
+            lg: 12
         },
     }
     return (
@@ -148,7 +148,7 @@ const Home = () => {
                 <Row gutter={16} style={{ height: "100%" }}>
                     <Col span={12}>
                         <div className={styles["rank-data-card"]}>
-                            <Card title="实时推荐榜">
+                            <Card title="实时推荐榜" extra={<Button type="link" onClick={() => history.push(`/kpi/sign-rank`)}>查看更多</Button>}>
 
                                 <Table size="small" dataSource={recommendRankData} bordered columns={feeRankColumns} pagination={false} scroll={{ x: 550, }}></Table>
                             </Card>
@@ -156,7 +156,7 @@ const Home = () => {
                     </Col>
                     <Col span={12}>
                         <div className={styles["rank-data-card"]}>
-                            <Card title="实时回款榜">
+                            <Card title="实时回款榜" extra={<Button type="link" onClick={() => history.push(`/kpi/pay-rank`)}>查看更多</Button>}>
                                 <Table size="small" dataSource={feeRankData} bordered columns={recommendRankColums} pagination={false} scroll={{ x: 500, }}></Table>
                             </Card>
                         </div>
@@ -166,7 +166,7 @@ const Home = () => {
 
             {/* </div> */}
             <div className={styles["bottom-container"]}>
-                <Row gutter={16} style={{ height: "100%" }}>
+                <Row style={{ height: "100%" }} gutter={16}>
                     <Col {...warpBottomCol.left}>
                         <div className={styles["rank-tab-card"]}>
                             <RankTabCard
@@ -182,17 +182,18 @@ const Home = () => {
                     </Col>
                     <Col {...warpBottomCol.right}>
                         <div className={styles["data-tracker-card"]}>
-                            <List
-                                header={<Button type="link" onClick={() => history.push(`/employ/publish-list`)}>更多公告</Button>}
-                                bordered
-                                size="small"
-                                dataSource={noticeData}
-                                renderItem={item => (
-                                    <List.Item>
-                                        <Typography.Text mark>[{item.title}]</Typography.Text> {`${item.userName}在${item.publishTime}发布${item.content}`}
-                                    </List.Item>
-                                )}
-                            />
+                            <Card extra={<Button type="link" onClick={() => history.push(`/employ/publish-list`)}>查看更多</Button>}>
+                                <List
+                                    bordered
+                                    size="small"
+                                    dataSource={noticeData}
+                                    renderItem={item => (
+                                        <List.Item>
+                                            <Typography.Text mark>[{item.title}]</Typography.Text> {`${item.userName}在${item.publishTime}发布${item.content}`}
+                                        </List.Item>
+                                    )}
+                                />
+                            </Card>
                         </div>
                     </Col>
                 </Row>

@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { Select, DatePicker, Checkbox, Space } from 'antd';
+import moment from 'moment'
 import debounce from 'lodash/debounce';
 import { cstList } from '../services/customer';
 import ProForm, { ProFormCheckbox } from '@ant-design/pro-form';
@@ -13,6 +14,7 @@ const SelfDate = ({
   CustomerStyle = {},
   returnType = 'string',
   onChange,
+  defaultValue = null,
   filedProps,
 }) => {
   const startElement = useRef();
@@ -61,7 +63,33 @@ const SelfDate = ({
       isNow: isNows,
     });
   };
-
+  const formatDefault = (type) => {
+    if (type == 'start') {
+      if (defaultValue) {
+        if (defaultValue.startTime) {
+          return moment(defaultValue.startTime, 'YYYY/MM');
+        } else {
+          return;
+        }
+      } else {
+        return;
+      }
+    } else {
+      if (defaultValue) {
+        if (defaultValue && defaultValue.endTime != '至今' && defaultValue.endTime != null) {
+          console.log('end', defaultValue.endTime)
+          let str = defaultValue.endTime.split('.').join('-');
+          console.log(moment(str, 'YYYY/MM'))
+          return moment('2005-2', 'YYYY/MM');
+        } else {
+          return;
+        }
+      }
+    }
+  }
+  const startT = formatDefault('start');
+  const endT = formatDefault('endT');
+  console.log('start', defaultValue);
   return (
     <>
       <Space>
@@ -69,22 +97,27 @@ const SelfDate = ({
           ref={startElement}
           picker="month"
           placeholder="请选择"
+          // defaultValue={startT}
           onChange={(e) => onCustomerChange(e, 'startTime')}
         ></DatePicker>
         至
         <DatePicker
           picker="month"
           placeholder="请选择"
+          // defaultValue={endT}
           ref={endTimeElement}
+          // defaultValue={moment(defaultValue?.endTime || null, 'YYYY/MM')}
           onChange={(e) => onCustomerChange(e, 'endTime')}
         ></DatePicker>
-        <input
-          ref={isNowElement}
-          type="checkbox"
-          style={{ lineHeight: '22px', width: '18px', height: '18px', marginTop: '4px' }}
-          onChange={(e) => onCustomerChange(e, 'isNow')}
-        />
+        <div style={{ display: 'inline-block', width: '50px', verticalAlign: 'sub' }}>
+          <input
+            ref={isNowElement}
+            type="checkbox"
+            style={{ lineHeight: '22px', width: '18px', height: '18px', marginTop: '4px' }}
+            onChange={(e) => onCustomerChange(e, 'isNow')}
+          />
         至今
+        </div>
       </Space>
     </>
   );

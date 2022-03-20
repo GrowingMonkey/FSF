@@ -24,6 +24,7 @@ const CustomerDetail = () => {
     const [tab, setTab] = useState("");
     // const { state: { record } } = useLocation();
     const [record, setRecord] = useState({})
+    const [isRefresh, setIsRefresh] = useState(false);
     const { Paragraph } = Typography;
     let initCardList = [
         {
@@ -123,7 +124,15 @@ const CustomerDetail = () => {
             let cardListi = initCardList.map(item => ({ ...item, num: res.data[`${item.name}`] }));
             setCardList(cardListi);
         })
-    }, [isModalVisible]);
+    }, [isModalVisible, isRefresh]);
+    const updateCustomer = () => {
+        if (isRefresh) {
+            setIsRefresh(false);
+        } else {
+            setIsRefresh(true);
+        }
+
+    }
     const handlerSubmit = () => {
         const { location: { query } } = history
         cclfqForm.validateFields().then((contactValues) => {
@@ -204,7 +213,7 @@ const CustomerDetail = () => {
                         ></Button>
                     </Space>
                     <div className={styles["info-content"]}>
-                        {tab === "" ? <InfoBasic record={record}></InfoBasic> : null}
+                        {tab === "" ? <InfoBasic record={record} update={updateCustomer}></InfoBasic> : null}
                         {tab === "file" ? <InfoFile record={record}></InfoFile> : null}
                         {tab === "position" ? (
                             <InfoProject record={record}></InfoProject>

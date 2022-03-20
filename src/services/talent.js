@@ -277,3 +277,48 @@ export const talentCheck = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export const updateEdu = (payload) => {
+  // return new Promise((resolve, reject) => {
+  //   request.post("/talent/updateTalent", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/talent/updateEdu', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+export const updateEC = (payload) => {
+  // return new Promise((resolve, reject) => {
+  //   request.post("/talent/updateTalent", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/talent/updateEC', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+export const updateEP = (payload) => {
+  // return new Promise((resolve, reject) => {
+  //   request.post("/talent/updateTalent", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/talent/updateEP', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+export const myTalentList = (payload) => {
+  // return new Promise((resolve, reject) => {
+  //   request.post("/talent/updateTalent", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/talent/myTalentList', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+

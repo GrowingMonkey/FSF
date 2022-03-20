@@ -80,6 +80,7 @@ const TripList = () => {
         {
             title: "行为类型",
             dataIndex: "type",
+            ellipsis: true,
             key: "type",
             render: (text, record) => {
                 return text == 0 ? '公司大事' : text == 1 ? '大元宝' : text == 2 ? '入职周年' : '大钻石'
@@ -88,22 +89,26 @@ const TripList = () => {
         {
             title: "公告时间",
             dataIndex: "publishTime",
+            ellipsis: true,
             key: "publishTime",
         },
         {
             title: "提醒内容",
             dataIndex: "content",
+            ellipsis: true,
             key: "content",
         },
         {
             title: "创建者",
             dataIndex: "userName",
+            ellipsis: true,
             key: "userName",
         },
         {
             title: "状态",
             dataIndex: "state",
             key: "state",
+            ellipsis: true,
             render: (text, record) => {
                 return text == 0 ? '全部' : text == 1 ? '已发布' : '未发布'
             }
@@ -112,6 +117,9 @@ const TripList = () => {
             title: "操作",
             dataIndex: "action",
             key: "action",
+            ellipsis: true,
+            width: 200,
+            fixed: 'right',
             render: (text, record) => {
                 return (
                     <Space size="middle">
@@ -208,6 +216,8 @@ const TripList = () => {
                         onChange: e => { run({ pageNo: e }) }
                     }}
                     size="small"
+                    bordered
+                    scroll={{ x: 900 }}
                 />
             </div>
             <div style={{ width: "100%", minHeight: "15px" }}></div>

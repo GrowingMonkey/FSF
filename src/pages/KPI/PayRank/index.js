@@ -51,22 +51,26 @@ const PayRank = () => {
     {
       title: "姓名",
       dataIndex: "name",
+      ellipsis: true,
       key: "name",
     },
     {
       title: "归属公司",
       dataIndex: "comName",
       key: "comName",
+      ellipsis: true,
     },
     {
       title: "担任职务",
       dataIndex: "roleName",
       key: "roleName",
+      ellipsis: true,
     },
     {
       title: "团队人数",
       dataIndex: "teamNum",
       key: "teamNum",
+      ellipsis: true,
     },
 
 
@@ -75,11 +79,13 @@ const PayRank = () => {
       title: "回款金额",
       dataIndex: "money",
       key: "money",
+      ellipsis: true,
     },
     {
       title: "回款月份",
       dataIndex: "month",
       key: "month",
+      ellipsis: true,
     },
   ];
   const handleSearch = () => {
@@ -213,6 +219,8 @@ const PayRank = () => {
             onChange: e => { HKRun({ pageNo: e }) }
           }}
           size="small"
+          bordered
+          scroll={{ x: 900 }}
         />
       </div>
       <div style={{ width: "100%", minHeight: "15px" }}></div>

@@ -70,18 +70,18 @@ const NoticeIconView = () => {
   const [msgList, setMsgList] = useState([]);
   const [tripList, setTripList] = useState([]);
   //消息列表
-  const msgResult = useRequest(selectMsgList);
   useEffect(() => {
-    setMsgList(msgResult?.data?.list || [])
-  }, [msgResult])
+    selectMsgList().then(res => {
+      setMsgList(res?.data?.list || []);
+    })
+    selectTripList().then(res => {
+      setTripList(res?.data?.list || [])
+    })
+  }, [])
   //代办事务列表
-  const tripResult = useRequest(selectTripList);
-  useEffect(() => {
-    setTripList(tripResult?.data?.list || [])
-  }, [tripResult])
-  const noticeData = getNoticeData(tripResult);//通知
+  const noticeData = getNoticeData(tripList);//通知
   // const unreadMsg = getUnreadData(noticeData || {});//消息
-  const unreadMsg = getUnreadData(msgResult || []);
+  const unreadMsg = getUnreadData(msgList || []);
   const changeReadState = (id) => {
     setNotices(
       notices.map((item) => {

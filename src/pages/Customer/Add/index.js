@@ -172,6 +172,9 @@ const Add = () => {
               return null;
             },
           }}
+          initialValues={{
+            operatingStatus: 0
+          }}
         >
           <Form.Item
             name="name"
@@ -293,7 +296,12 @@ const Add = () => {
             <Input style={{ width: '422px' }} />
           </Form.Item>
           <Form.Item name="operatingStatus" label="客户状态">
-            <Radio defaultChecked>潜在客户</Radio>
+            <Radio.Group options={[
+              { label: '潜在客户', value: 0 },
+              { label: '签约运作', value: 1 },
+              { label: '签约终止', value: 2 },
+            ]}>
+            </Radio.Group>
           </Form.Item>
         </ProForm>
       </div>

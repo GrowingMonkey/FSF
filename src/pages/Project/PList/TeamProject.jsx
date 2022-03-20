@@ -42,6 +42,7 @@ const PList = () => {
             dataIndex: "state",
             key: "state",
             width: "10%",
+            ellipsis: true,
             render: (text, record) => {
                 return (
                     <Select
@@ -56,19 +57,21 @@ const PList = () => {
             },
         },
         {
+            title: "客户",
+            dataIndex: "customerName",
+            key: "customerName",
+            ellipsis: true,
+        },
+        {
             title: "职位名称",
             dataIndex: "name",
+            ellipsis: true,
             key: "name",
         },
         {
-            title: "职位年薪",
-            dataIndex: "salary",
-            key: "salary",
-            render: (text, record) => `${text} 万`
-        },
-        {
-            title: "地点",
+            title: "工作地点",
             dataIndex: "cityCode",
+            ellipsis: true,
             key: "cityCode",
             render: (text) => {
                 let cityCode = text.split("/");
@@ -83,11 +86,7 @@ const PList = () => {
                 return <span>{info(city)?.name || '不限'}</span>;
             },
         },
-        {
-            title: "客户",
-            dataIndex: "customerName",
-            key: "customerName",
-        },
+
         // {
         //   title: "执行团队",
         //   dataIndex: "k6",
@@ -101,6 +100,7 @@ const PList = () => {
         {
             title: "更新时间",
             dataIndex: "updateTime",
+            ellipsis: true,
             key: "updateTime",
             render: (text) => {
                 if (text) {
@@ -114,13 +114,11 @@ const PList = () => {
             key: "action",
             render: (text, record) => (
                 <Space size={16}>
-                    <Button type="link" style={{ padding: 0 }} onClick={() => history.push({
-                        pathname: `/project/p-detail`, state: {
-                            id: record.id
-                        }
-                    })}>
+                    <Button type="link" style={{ padding: 0 }} onClick={() => history.push(
+                        `/project/p-detail/detail?projectId=${record.projectId}&customerId=${record.customerId}&id=${record.id}`,
+                    )}>
                         查看详情
-          </Button>
+              </Button>
                 </Space>
             ),
             width: 100,
@@ -564,6 +562,8 @@ const PList = () => {
                     dataSource={listData}
                     pagination={false}
                     size="small"
+                    scroll={{ x: 550 }}
+                    bordered
                     pagination={{
                         total: total,
                         pageSize: 10,

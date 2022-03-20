@@ -42,6 +42,7 @@ const PList = () => {
       dataIndex: "state",
       key: "state",
       width: "10%",
+      ellipsis: true,
       render: (text, record) => {
         return (
           <Select
@@ -59,15 +60,18 @@ const PList = () => {
       title: "客户",
       dataIndex: "customerName",
       key: "customerName",
+      ellipsis: true,
     },
     {
       title: "职位名称",
       dataIndex: "name",
+      ellipsis: true,
       key: "name",
     },
     {
       title: "工作地点",
       dataIndex: "cityCode",
+      ellipsis: true,
       key: "cityCode",
       render: (text) => {
         let cityCode = text.split("/");
@@ -96,6 +100,7 @@ const PList = () => {
     {
       title: "更新时间",
       dataIndex: "updateTime",
+      ellipsis: true,
       key: "updateTime",
       render: (text) => {
         if (text) {
@@ -557,6 +562,8 @@ const PList = () => {
           dataSource={listData}
           pagination={false}
           size="small"
+          scroll={{ x: 550 }}
+          bordered
           pagination={{
             total: total,
             pageSize: 10,

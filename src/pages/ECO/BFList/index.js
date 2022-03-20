@@ -79,51 +79,71 @@ const BFList = () => {
     {
       title: '回款编号',
       dataIndex: 'type0',
+      ellipsis: true,
+
       key: 'type0',
     },
     {
       title: '服务顾问',
       dataIndex: 'job',
+      ellipsis: true,
+
       key: 'job',
     },
     {
       title: '归属公司',
       dataIndex: 'userName',
+      ellipsis: true,
+
       key: 'userName',
     },
     {
       title: '客户名称',
       dataIndex: 'talentName',
+      ellipsis: true,
+
       key: 'talentName',
     },
     {
       title: '回款金额',
       dataIndex: 'salary',
+      ellipsis: true,
+
       key: 'salary',
     },
     {
       title: '添加人',
       dataIndex: 'inductionState',
+      ellipsis: true,
+
       key: 'inductionState',
     },
     {
       title: '关联发票',
       dataIndex: 'inductionTime',
+      ellipsis: true,
+
       key: 'inductionTime',
     },
     {
       title: '回款时间',
       dataIndex: 'fee',
+      ellipsis: true,
+
       key: 'fee',
     },
     {
       title: '备注',
       dataIndex: 'balanceFee',
+      ellipsis: true,
+
       key: 'balanceFee',
     },
     {
       title: '操作',
       dataIndex: 'type10',
+      ellipsis: true,
+      fixed: 'right',
       key: 'type10',
       render: (text, record) => {
         return (
@@ -145,26 +165,36 @@ const BFList = () => {
       title: '发票编号',
       dataIndex: 'id',
       key: 'id',
+      ellipsis: true,
+
     },
     {
       title: '客户名称',
       dataIndex: 'type3',
       key: 'type3',
+      ellipsis: true,
+
     },
     {
       title: '发票类型',
       dataIndex: 'type',
       key: 'type',
+      ellipsis: true,
+
     },
     {
       title: '发票状态',
       dataIndex: 'state',
       key: 'state',
+      ellipsis: true,
+
     },
     {
       title: '开票时间',
       dataIndex: 'time',
       key: 'time',
+      ellipsis: true,
+
     },
   ];
   const showModal = (record) => {
@@ -217,9 +247,9 @@ const BFList = () => {
       const { data } = res;
       setBfList(
         data.list &&
-          data.list.map((item) => {
-            return Object.assign(item, { key: item.id });
-          }),
+        data.list.map((item) => {
+          return Object.assign(item, { key: item.id });
+        }),
       );
     });
   }, [searchValues]);
@@ -319,7 +349,7 @@ const BFList = () => {
         </Form>
       </div>
       <div className={styles['list-container']}>
-        <Table columns={bfColumns} dataSource={bfList} pagination={false} size="small" />
+        <Table columns={bfColumns} dataSource={bfList} pagination={false} size="small" bordered scroll={{ x: 900 }} />
       </div>
       <Modal
         title="请选择关联的发票"
@@ -334,6 +364,9 @@ const BFList = () => {
           }}
           columns={ModelColumns}
           dataSource={ModelData}
+          size="small"
+          bordered
+          scroll={{ x: 900 }}
         />
       </Modal>
     </PageContainer>

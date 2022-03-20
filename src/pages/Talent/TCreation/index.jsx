@@ -15,6 +15,7 @@ import {
   message,
   Upload,
 } from 'antd';
+import CascaderMul from '@/components/CascaderMul'
 import ProForm, {
   ProFormText,
   ProFormRadio,
@@ -294,17 +295,6 @@ const TCreation = () => {
       });
     }
   };
-  const formItemLayout = {
-    labelCol: {
-      //label占比 当屏幕为xs最小像素时 当屏幕为sm大于小像素时
-      span: 4,
-    },
-    wrapperCol: {
-      //input框占比
-      xs: 24,
-      sm: 4,
-    },
-  };
   const uploadButton = (
     <div>
       {<PlusOutlined />}
@@ -326,9 +316,9 @@ const TCreation = () => {
         </Row>
         <Divider></Divider>
         <ProForm
-          labelCol={{ span: 8 }}
+
           labelAlign="left"
-          wrapperCol={{ span: 16 }}
+
           layout={'horizontal'}
           form={contactForm}
           onValuesChange={(changeValues) => cnkiPhoneAndEmail(changeValues)}
@@ -365,8 +355,8 @@ const TCreation = () => {
         <ProForm
           form={basicForm}
           style={{ position: 'relative' }}
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
+
+
           layout={'horizontal'}
           labelAlign="left"
           submitter={{
@@ -377,9 +367,6 @@ const TCreation = () => {
         >
           <ProForm.Group>
             <ProFormText
-              fieldProps={{
-                ...formItemLayout,
-              }}
               width="sm"
               rules={[
                 {
@@ -609,7 +596,15 @@ const TCreation = () => {
             <Input style={{ width: '328px' }}></Input>
           </Form.Item>
           <Form.Item name="RCity" label="期望地点">
-            <Cascader style={{ width: '328px' }} options={cityList} placeholder=""></Cascader>
+            {/* <Cascader
+              style={{ width: '328px' }}
+              options={cityList}
+              onChange={() => { }}
+              multiple
+            /> */}
+            <CascaderMul
+              style={{ width: '328px' }}
+              options={cityList} />
           </Form.Item>
         </Form>
       </div>

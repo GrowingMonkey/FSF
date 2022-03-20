@@ -121,66 +121,92 @@ const InvoiceList = () => {
       title: '发票编号',
       dataIndex: 'id',
       key: 'id',
+      ellipsis: true,
+
     },
     {
       title: '申请人',
       dataIndex: 'userName',
       key: 'userName',
+      ellipsis: true,
+
     },
     {
       title: '归属公司',
       dataIndex: 'comName',
       key: 'comName',
+      ellipsis: true,
+
     },
     {
       title: '客户名称',
       dataIndex: 'type3',
       key: 'type3',
+      ellipsis: true,
+
     },
     {
       title: '发票类型',
       dataIndex: 'type',
       key: 'type',
+      ellipsis: true,
+
     },
     {
       title: '发票金额',
       dataIndex: 'type5',
       key: 'type5',
+      ellipsis: true,
+
     },
     {
       title: '发票状态',
       dataIndex: 'state',
       key: 'state',
+      ellipsis: true,
+
     },
     {
       title: '开票人',
       dataIndex: 'userName',
       key: 'userName',
+      ellipsis: true,
+
     },
     {
       title: '回款状态',
       dataIndex: 'type8',
       key: 'type8',
+      ellipsis: true,
+
     },
     {
       title: '开票时间',
       dataIndex: 'time',
       key: 'time',
+      ellipsis: true,
+
     },
     {
       title: '到账时间',
       dataIndex: 'type10',
       key: 'type10',
+      ellipsis: true,
+
     },
     {
       title: '备注',
       dataIndex: 'remark',
       key: 'remark',
+      ellipsis: true,
+
     },
     {
       title: '操作',
       dataIndex: 'type13',
       key: 'type13',
+      ellipsis: true,
+      fixed: 'right',
       render: (text, record) => {
         return <>
           <Button type="link" size="small" onClick={() => showModal(record)}>关联回款</Button>
@@ -396,7 +422,7 @@ const InvoiceList = () => {
         </Form>
       </div>
       <div className={styles['list-container']}>
-        <Table columns={invoiceColumns} dataSource={invoiceList} pagination={false} size="small" />
+        <Table columns={invoiceColumns} dataSource={invoiceList} pagination={false} size="small" bordered scroll={{ x: 900 }} />
       </div>
       <Modal title="请选择关联的发票" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
         <Table
@@ -406,6 +432,9 @@ const InvoiceList = () => {
           }}
           columns={ModelColumns}
           dataSource={ModelData}
+          size="small"
+          bordered
+          scroll={{ x: 900 }}
         />
       </Modal>
     </PageContainer>

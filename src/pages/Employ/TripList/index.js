@@ -100,6 +100,9 @@ const TripList = () => {
       title: "行为类型",
       dataIndex: "type",
       key: "type",
+      width: 80,
+      ellipsis: true,
+
       render: (text, record) => {
         return +text == 0 ? '客户提醒' : +text == 1 ? '职位提醒' : +text == 2 ? '人选提醒' : +text == 3 ? '面试提醒' : +text == 4 ? '待办事项' : '其他提醒'
       }
@@ -107,26 +110,36 @@ const TripList = () => {
     {
       title: "提醒时间",
       dataIndex: "time",
+      ellipsis: true,
+
       key: "time",
     },
     {
       title: "提醒内容",
       dataIndex: "details",
+      ellipsis: true,
+
       key: "details",
     },
     {
       title: "创建时间",
       dataIndex: "createTime",
+      ellipsis: true,
+
       key: "createTime",
     },
     {
       title: "客户名/职位名字/简历人选名",
       dataIndex: "name",
+      ellipsis: true,
+
       key: "name",
     },
     {
       title: "状态",
       dataIndex: "state",
+      ellipsis: true,
+      width: 50,
       key: "state",
       render: (text, record) => {
         return +text == 0 ? '未读' : '已读'
@@ -135,6 +148,9 @@ const TripList = () => {
     {
       title: "操作",
       dataIndex: "action",
+      ellipsis: true,
+      fixed: 'right',
+      width: 300,
       key: "action",
       render: (text, record) => {
         return (
@@ -233,6 +249,8 @@ const TripList = () => {
             onChange: e => { run({ pageNo: e }) }
           }}
           size="small"
+          bordered
+          scroll={{ x: 900 }}
         />
       </div>
       <div style={{ width: "100%", minHeight: "15px" }}></div>

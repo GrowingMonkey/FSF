@@ -127,16 +127,20 @@ const RoleList = () => {
       title: '名称',
       dataIndex: 'name',
       key: 'name',
+      ellipsis: true,
       width: 200,
     },
     {
       title: '角色说明',
       dataIndex: 'detail',
       key: 'detail',
+      ellipsis: true,
     },
     {
       title: '操作',
       key: 'action',
+      fixed: 'right',
+      ellipsis: true,
       render: (text, record) => (
         <Space size={16}>
           <Button
@@ -188,6 +192,8 @@ const RoleList = () => {
           dataSource={list}
           pagination={false}
           size="small"
+          bordered
+          scroll={{ x: 900 }}
         />
         <Row justify="end" style={{ marginTop: '15px' }}>
           <Col>

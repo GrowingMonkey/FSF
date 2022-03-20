@@ -7,10 +7,10 @@ import {
   Input,
   Radio,
   InputNumber,
+  Cascader,
   Button,
   Select,
   DatePicker,
-  Cascader,
   message,
   Divider,
   Space,
@@ -180,7 +180,7 @@ const PCreation = () => {
             <Form.Item name="department" label="所属部门">
               <Input style={{ width: '328px' }}></Input>
             </Form.Item>
-            <Form.Item name="RJob" label="招聘人数" help="备注：0为若干">
+            <Form.Item name="recruitNum" label="招聘人数" help="备注：0为若干">
               <Input style={{ width: '130px' }}></Input>
             </Form.Item>
             {/* <ProForm.Group> */}

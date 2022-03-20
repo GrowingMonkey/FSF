@@ -62,10 +62,14 @@ const AttendanceList = () => {
       title: '姓名',
       dataIndex: 'userName',
       key: 'userName',
+      ellipsis: true,
+
     },
     {
       title: '状态',
       dataIndex: 'checkType',
+      ellipsis: true,
+
       key: 'checkType',
       render: (text, record) => {
         return +text == 0 ? "上班(正常)" : +text == 1 ? '迟到' : +text == 2 ? '早退' : '下班(正常)'
@@ -74,6 +78,8 @@ const AttendanceList = () => {
     {
       title: '打卡类型',
       dataIndex: 'type',
+      ellipsis: true,
+
       key: 'type',
       render: (text, record) => {
         return +text == 0 ? "上班打卡" : '下班打卡'
@@ -82,6 +88,8 @@ const AttendanceList = () => {
     {
       title: '日期',
       dataIndex: 'createTime',
+      ellipsis: true,
+
       key: 'createTime',
     },
   ];
@@ -196,6 +204,8 @@ const AttendanceList = () => {
             onChange: e => setSearchValues({ pageNo: e })
           }}
           size="small"
+          bordered
+          scroll={{ x: 900 }}
         />
       </div>
       <div style={{ width: '100%', minHeight: '15px' }} />

@@ -16,6 +16,7 @@ import CustomerSearch from "../../../components/CustomerSearch";
 import TalentSearch from "../../../components/TalentSearch";
 import styles from "./index.less";
 import { PageContainer } from "@ant-design/pro-layout";
+import { Link } from "umi";
 
 const TPList = () => {
     const [form] = Form.useForm();
@@ -45,26 +46,31 @@ const TPList = () => {
         {
             title: "人选",
             dataIndex: "talentName",
+            ellipsis: true,
             key: "talentName",
         },
         {
             title: "归属公司",
+            ellipsis: true,
             dataIndex: "comName",
             key: "comName",
         },
         {
             title: "客户",
             dataIndex: "customerName",
+            ellipsis: true,
             key: "customerName",
         },
         {
             title: "项目",
             dataIndex: "projectName",
+            ellipsis: true,
             key: "projectName",
         },
         {
             title: "人选状态",
             dataIndex: "state",
+            ellipsis: true,
             key: "state",
             render: (text) => {
                 return <div>{stateTypes[text].label}</div>;
@@ -73,11 +79,13 @@ const TPList = () => {
         {
             title: "替补人姓名",
             dataIndex: "alternateTalentName",
+            ellipsis: true,
             key: "alternateTalentName",
         },
         {
             title: "是否替补",
             dataIndex: "isNeedAlternate",
+            ellipsis: true,
             key: "isNeedAlternate",
             render: (text) => {
                 return <div>{alternateTypes[text].label}</div>;
@@ -112,11 +120,15 @@ const TPList = () => {
             title: "操作",
             dataIndex: "action",
             key: "action",
+            fixed: 'right',
             width: 150,
-            render: () => {
-                <Space size={8}>
-                    <Button type="link">查看详情</Button>
-                    <Button type="link">编辑</Button>
+            render: (text, record) => {
+                return <Space size={8}>
+                    <Link type="link" to={{
+                        pathname: '/talent/detail',
+                        search: '?talentId=' + record.talentId,
+                        state: { record: record },
+                    }}>查看详情</Link>
                 </Space>;
             },
         },
@@ -209,6 +221,8 @@ const TPList = () => {
                         pageSize: 10,
                         onChange: onPageChange
                     }}
+                    bordered
+                    scroll={{ x: 900 }}
                     size="small"
                 />
             </div>

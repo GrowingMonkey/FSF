@@ -29,43 +29,50 @@ const ColleagueList = () => {
       title: '头像',
       dataIndex: 'headUrl',
       key: 'headUrl',
+      ellipsis: true,
     },
     {
       title: '姓名',
       dataIndex: 'name',
       key: 'name',
+      ellipsis: true,
     },
     {
       title: '职务',
       dataIndex: 'type',
       key: 'type',
+      ellipsis: true,
     },
     {
       title: '在职状态',
       dataIndex: 'workState',
       key: 'workState',
+      ellipsis: true,
     },
     {
       title: '电话',
       dataIndex: 'phone',
       key: 'phone',
+      ellipsis: true,
     },
     {
       title: '座机',
       dataIndex: 'telphone',
       key: 'telphone',
+      ellipsis: true,
     },
     {
       title: '邮箱',
       dataIndex: 'email',
       key: 'email',
+      ellipsis: true,
     },
     {
       title: '操作',
       key: 'action',
-      render: (text, record) => (
-        <Link to={`/employ/colleague-detail?userId=${record.userId}`}>查看</Link>
-      ),
+      render: (text, record) => (< Link to={`/employ/colleague-detail?userId=${record.userId}`}> 查看</Link >
+      )
+
     },
   ];
   const handleSearch = () => {
@@ -152,6 +159,8 @@ const ColleagueList = () => {
             },
           }}
           size="small"
+          bordered
+          scroll={{ x: 900 }}
         />
       </div>
       <div style={{ width: '100%', minHeight: '15px' }}></div>

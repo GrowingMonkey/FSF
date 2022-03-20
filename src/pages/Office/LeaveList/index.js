@@ -43,56 +43,78 @@ const LeaveList = () => {
       title: '编号',
       dataIndex: 'id',
       key: 'id',
+      ellipsis: true,
+
     },
     {
       title: '编号',
       dataIndex: 'type1',
       key: 'type1',
+      ellipsis: true,
+
     },
     {
       title: '请假用户',
       dataIndex: 'userName',
       key: 'userName',
+      ellipsis: true,
+
     },
     {
       title: '分类',
       dataIndex: 'type',
       key: 'type',
+      ellipsis: true,
+
     },
     {
       title: '归属公司',
       dataIndex: 'type4',
       key: 'type4',
+      ellipsis: true,
+
     },
     {
       title: '请假时间',
       dataIndex: 'startTime',
       key: 'startTime',
+      ellipsis: true,
+
     },
     {
       title: '时长',
       dataIndex: 'type6',
       key: 'type6',
+      ellipsis: true,
+
     },
     {
       title: '请假状态',
       dataIndex: 'state',
       key: 'state',
+      ellipsis: true,
+
     },
     {
       title: '批假用户',
       dataIndex: 'leaderName',
       key: 'leaderName',
+      ellipsis: true,
+
     },
     {
       title: '请假事由',
       dataIndex: 'reason',
       key: 'reason',
+      ellipsis: true,
+
     },
     {
       title: '操作',
       dataIndex: 'action',
       key: 'action',
+      ellipsis: true,
+      fixed: 'right',
       render: (text, record) => {
         return (
           <Space size="middle">
@@ -234,7 +256,7 @@ const LeaveList = () => {
           total: total,
           pageSize: 10,
           onChange: e => setSearchValues({ pageNo: e })
-        }} size="small" />
+        }} size="small" bordered scroll={{ x: 900 }} />
       </div>
       <div style={{ width: '100%', minHeight: '15px' }}></div>
     </PageContainer>

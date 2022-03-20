@@ -1,15 +1,32 @@
 import { useState, useEffect } from 'react';
-import { Modal, Form, Input, DatePicker, Select } from 'antd';
-import { addEC } from '../../../../services/talent';
+import { Modal, Form, Input, DatePicker, message, Select } from 'antd';
+import { addEC, updateEC } from '../../../../services/talent';
 import { industryList } from '../../../../utils/Industry';
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 import SelfDate from '@/components/SelfDate';
-const ModalCompany = ({ visible, onSubmit, onCancel, record, talentId }) => {
+const ModalCompany = ({ visible, onSubmit, onCancel, record, talentId, data = null }) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalTitle, setModalTitle] = useState('新增工作经历');
   const [industryChildList, setIndustryChildList] = useState([]);
   const [form] = Form.useForm();
+  useEffect(() => {
+    if (data && data.id) {
+      setModalTitle(`修改工作经历`);
+      let isNow = data.endTime == '至今' ? true : false;
+
+      form.setFieldsValue(Object.assign({}, {
+        name: data?.name,
+        job: data?.job,
+        startTime: [data?.startTime, isNow ? null : data?.endTime],
+        industry: data?.industry ? +data.industry : '',
+        duty: data?.duty,
+      }))
+    } else {
+      setModalTitle(`新增工作经历`);
+      form.resetFields();
+    }
+  }, [data])
   const handleOk = () => {
     setConfirmLoading(true);
     form.validateFields().then((values) => {
@@ -22,12 +39,21 @@ const ModalCompany = ({ visible, onSubmit, onCancel, record, talentId }) => {
       if (values.endTime) {
         payload.endTime = values.endTime.format('YYYY-MM-DD');
       }
-      addEC({ talentId: talentId, ...payload }).then((data) => {
-        console.log(data);
-        onSubmit();
-        form.resetFields();
-        setConfirmLoading(false);
-      });
+      if (data.id) {
+        updateEC({ talentId: talentId, id: data.id, ...payload }).then(res => {
+          message.info(res.message);
+          onSubmit();
+          form.resetFields();
+          setConfirmLoading(false);
+        })
+      } else {
+        addEC({ talentId: talentId, ...payload }).then((data) => {
+          console.log(data);
+          onSubmit();
+          form.resetFields();
+          setConfirmLoading(false);
+        });
+      }
     });
   };
   const handleCancel = () => {

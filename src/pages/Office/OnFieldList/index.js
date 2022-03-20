@@ -42,51 +42,72 @@ const OnFieldList = () => {
       title: '外出分类',
       dataIndex: 'type',
       key: 'type',
+      ellipsis: true,
+
     },
     {
       title: '外出用户',
       dataIndex: 'userName',
       key: 'userName',
+      ellipsis: true,
+
     },
     {
       title: '审批用户',
       dataIndex: 'leaderName',
       key: 'leaderName',
+      ellipsis: true,
+
     },
     {
       title: ' 归属公司',
       dataIndex: 'type3',
+      ellipsis: true,
+
       key: 'type3',
     },
     {
       title: '办事单位',
       dataIndex: 'type4',
+      ellipsis: true,
+
       key: 'type4',
     },
     {
       title: '外出地址',
       dataIndex: 'type5',
+      ellipsis: true,
+
       key: 'type5',
     },
     {
       title: '外出时间',
       dataIndex: 'startTime',
       key: 'startTime',
+      ellipsis: true,
+
     },
     {
       title: '返回时间',
       dataIndex: 'endTime',
+      ellipsis: true,
+
       key: 'endTime',
     },
     {
       title: '事由',
       dataIndex: 'reason',
+      ellipsis: true,
+
       key: 'reason',
     },
     {
       title: '操作',
       dataIndex: 'action',
       key: 'action',
+      ellipsis: true,
+      fixed: 'right',
+
       render: (text, record) => {
         return (
           <Space size="middle">
@@ -217,7 +238,7 @@ const OnFieldList = () => {
           total: total,
           pageSize: 10,
           onChange: e => setSearchValues({ pageNo: e })
-        }} size="small" />
+        }} size="small" bordered scroll={{ x: 900 }} />
       </div>
       <div style={{ width: '100%', minHeight: '15px' }}></div>
     </PageContainer >

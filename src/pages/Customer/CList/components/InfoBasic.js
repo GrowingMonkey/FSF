@@ -8,6 +8,8 @@ import {
   Table,
   Tag,
   Button,
+  Input,
+  Select,
   Form,
   message,
   Popconfirm,
@@ -16,19 +18,22 @@ import {
   selectCustomerCompany,
   selectContactList,
   deleteContact,
+  checkCustomer,
+  updateCustomer
 } from "../../../../services/customer";
+import { industryList } from '@/utils/Industry';
 import { useRequest, history } from 'umi'
 import ModalCustomerContact from "./ModalCustomerContact";
 import ModalCustomerSubsidiary from "./ModalCustomerSubsidiary";
 import { signCustomer, selectCTeamList, delTeamPerson, addTeamPerson } from '@/services/customer'
 import styles from "./InfoBasic.less";
 import ModalCustomerSign from "./ModalCustomerSign";
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, EditOutlined } from '@ant-design/icons';
 import ProForm from '@ant-design/pro-form';
 import Modal from "antd/lib/modal/Modal";
 import SearchInput from '@/components/SearchInput';
 
-const InfoBasic = ({ record }) => {
+const InfoBasic = ({ record, update }) => {
   const [contactVisible, setContactVisible] = useState(false);
   const [signVisible, setSignVisible] = useState(false);
   const [subsidiaryVisible, setSubsidiaryVisible] = useState(false);
@@ -37,6 +42,7 @@ const InfoBasic = ({ record }) => {
   const [subsidiaryList, setSubsidiaryList] = useState([]);
   const [tags, setTags] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [editModalVisible, setEditModalVisible] = useState(false);
   const [customerContacts, setCustomerContacts] = useState([
     // {
     //   key: 0,
@@ -278,6 +284,15 @@ const InfoBasic = ({ record }) => {
       setIsModalVisible(false);
     })
   }
+  const onEditBasicFinish = (values) => {
+    console.log(values);
+    const { location: { query } } = history;
+    updateCustomer({ ...values, customerId: query.customerId }).then(res => {
+      message.info(res.message);
+      update();
+    })
+  }
+  console.log(record);
   return (
     <div className={styles["info-basic"]}>
       <ModalCustomerContact
@@ -378,6 +393,7 @@ const InfoBasic = ({ record }) => {
             marginTop: "34px",
             marginLeft: "18px",
           }}
+          extra={<Button type="primary" size="small" onClick={() => setEditModalVisible(true)}><EditOutlined /></Button>}
         >
           <Descriptions.Item label="归属公司">
             {record.comName}
@@ -558,6 +574,148 @@ const InfoBasic = ({ record }) => {
             name="project"
           >
             <SearchInput></SearchInput>
+          </Form.Item>
+        </ProForm>
+      </Modal>
+      <Modal title="编辑" visible={editModalVisible} footer={null} onCancel={() => setEditModalVisible(false)}>
+        <ProForm
+          hideRequiredMark
+          style={{
+            margin: 'auto',
+            marginTop: 8,
+            maxWidth: 600,
+          }}
+          name="basic"
+          layout={'horizontal'}
+          initialValues={{
+            name: record.name || '',
+            industryType: record.industryType || '',
+            sourceType: +record.sourceType || '',
+            outName: record.outName || '',
+            customerSize: +record.customerSize || '',
+            customerNature: +record.customerNature,
+          }}
+          onFinish={onEditBasicFinish}
+        >
+          <Form.Item
+            name="name"
+            label="客户名称"
+            rules={[
+              ({ getFieldValue }) => ({
+                async validator(_, value) {
+                  if (value.length == 0) {
+                    return Promise.reject(new Error('请输入客户名'));
+                  }
+                  let result = await checkCustomer({ customerName: value });
+                  if (result.data == 1) {
+                    return Promise.reject(new Error('客户名重复,请重新输入'));
+                  }
+                  return Promise.resolve();
+                },
+              }),
+            ]}
+          >
+            <Input placeholder="请输入客户全称"></Input>
+          </Form.Item>
+
+          <Form.Item
+            name="industryType"
+            label="所属行业"
+
+            rules={[
+              {
+                required: true,
+                message: '必填',
+              },
+            ]}
+          >
+            <Select options={industryList} ></Select>
+          </Form.Item>
+          <Form.Item name="sourceType" label="客户来源" >
+            <Select
+              options={[
+                {
+                  label: '公共池',
+                  value: 0,
+                },
+                {
+                  label: '广告呼入',
+                  value: 1,
+                },
+                {
+                  label: '主动BD',
+                  value: 2,
+                },
+                {
+                  label: '电销开发',
+                  value: 3,
+                },
+              ]}
+
+            ></Select>
+          </Form.Item>
+          <Form.Item
+            name="outName"
+            label="对外名称"
+            rules={[
+              {
+                required: true,
+                message: '必填',
+              },
+            ]}
+          >
+            <Input ></Input>
+          </Form.Item>
+
+          <Form.Item name="customerSize" label="客户规模" >
+            <Select
+              options={[
+                {
+                  label: ' 0-15人',
+                  value: 0,
+                },
+                {
+                  label: '15-50人',
+                  value: 1,
+                },
+                {
+                  label: '50-100人',
+                  value: 2,
+                },
+                {
+                  label: '100-500人',
+                  value: 3,
+                },
+                {
+                  label: '500-1000人',
+                  value: 4,
+                },
+                {
+                  label: '1000-10000人',
+                  value: 5,
+                },
+                {
+                  label: '10000人以上',
+                  value: 6,
+                },
+              ]}
+
+            ></Select>
+          </Form.Item>
+          <Form.Item name="customerNature" label="公司性质" >
+            <Select
+              options={[
+                { label: '国企', value: 0 },
+                { label: '民营企业', value: 1 },
+                { label: '合资', value: 2 },
+                { label: '外资（欧美）', value: 3 },
+                { label: '外资（非欧美）', value: 4 },
+                { label: '外企代表处', value: 5 },
+                { label: '政府机关', value: 6 },
+                { label: '事业单位', value: 7 },
+                { label: '非营利组织', value: 8 },
+              ]}
+            ></Select>
           </Form.Item>
         </ProForm>
       </Modal>

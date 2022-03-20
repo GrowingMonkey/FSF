@@ -122,25 +122,29 @@ const UserList = () => {
       title: "名称",
       dataIndex: "name",
       key: "name",
-      width: "10%",
+      ellipsis: true,
+
     },
     {
       title: "电话",
       dataIndex: "phone",
+      ellipsis: true,
       key: "phone",
-      width: "20%",
+
     },
     {
       title: "城市",
       dataIndex: "cityCode",
       key: "cityCode",
-      width: "10%",
+      ellipsis: true,
+
     },
     {
       title: "在岗状态",
       dataIndex: "workState",
+      ellipsis: true,
       key: "workState",
-      width: "10%",
+
       render: (text) => {
         let str = text == 0 ? '在职' : text == 1 ? '离职' : '其他'
         return str;
@@ -149,18 +153,21 @@ const UserList = () => {
     {
       title: "入职时间",
       dataIndex: "hireDate",
+      ellipsis: true,
       key: "hireDate",
     },
     {
       title: "离职时间",
       dataIndex: "leaveDate",
+      ellipsis: true,
       key: "leaveDate",
     },
     {
       title: "角色",
       dataIndex: "roleId",
+      ellipsis: true,
       key: "roleId",
-      width: "10%",
+
       render: (text) => {
         let list = roleTypes.filter((item) => {
           return item.value === text;
@@ -174,12 +181,15 @@ const UserList = () => {
     {
       title: "归属公司",
       dataIndex: "comName",
+      ellipsis: true,
       key: "comName",
-      width: "40%",
+
     },
     {
       title: "操作",
       key: "action",
+      ellipsis: true,
+      fixed: 'right',
       render: (text, record) => (
         <Space size={16}>
           <Button
@@ -226,7 +236,7 @@ const UserList = () => {
 
         </Space>
       ),
-      width: "10%",
+      width: 140,
     },
   ];
   return (
@@ -271,6 +281,8 @@ const UserList = () => {
           dataSource={list}
           pagination={false}
           size="small"
+          bordered
+          scroll={{ x: 900 }}
         />
         <Row justify="end" style={{ marginTop: "15px" }}>
           <Col>

@@ -44,7 +44,6 @@ const GlobalHeaderRight = () => {
       </span> */}
       <NoticeIconView />
       <Avatar />
-      {/* <SelectLang className={styles.action} /> */}
     </Space>
   );
 };

@@ -19,7 +19,7 @@ import {
   Descriptions,
   Popconfirm,
 } from "antd";
-import { CloseOutlined, LoadingOutlined } from "@ant-design/icons";
+import { CloseOutlined, LoadingOutlined, EditOutlined } from "@ant-design/icons";
 
 import {
   selectTalentById,
@@ -32,14 +32,14 @@ import { industryList } from "@/utils/Industry";
 import { cityList } from "@/utils/CityList";
 import ModalEducation from "./ModalEducation";
 import ModalProject from "./ModalProject";
-import { talentJoinProject, selectTCList, addTalentC } from "@/services/talent";
+import { talentJoinProject, selectTCList, addTalentC, talentCheck, updateTalent } from "@/services/talent";
 import ModalCompany from "./ModalCompany";
 import styles from "./TalentDetail.less";
 import stylesR from './index.less';
 import ProjectSearch from "@/components/ProjectSearch";
 import { useLocation, history, useRequest } from "umi";
 import ProForm, {
-  ProFormRadio, ProFormTextArea,
+  ProFormRadio, ProFormTextArea, ProFormText, ProFormSelect, ProFormDatePicker, ProFormUploadButton
 } from '@ant-design/pro-form';
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 const findAreaText = (location) => {
@@ -79,7 +79,8 @@ const ArticleListContent = ({ data: { content, updatedAt, userName, updateTime, 
 );
 let pageNo = 1;
 const TalentDetail = () => {
-
+  const [isRefresh, setIsRefresh] = useState(false);
+  const [imageUrl, setImageUrl] = useState('');
   const { query: { talentId } } = useLocation();
   const { data, reload, run, loading, loadMore, loadingMore } = useRequest(
     (values) => {
@@ -94,7 +95,12 @@ const TalentDetail = () => {
       loadMore: true,
     },
   );
-  // const [record, setRecord] = useState(null);
+  const [contactForm, basicForm] = Form.useForm();
+  const [EducationData, setEducationData] = useState(null);
+  const [companyData, setCompanyData] = useState(null);
+  const [projectData, setProjectData] = useState(null);
+  const [contactModalVisible, setContactModalVisible] = useState(false);
+  const [basicModalVisible, setBasicModalVisible] = useState(false);
   const [detail, setDetail] = useState(null);
   const [phone, setPhone] = useState(null);
   const [showBuy, setShowBuy] = useState(false);
@@ -111,6 +117,7 @@ const TalentDetail = () => {
       const { data } = res;
       // setRecord(data);
       setDetail(data);
+      setImageUrl(data?.headUrl || '');
       setPhone(data?.phone || '暂无号码');
       setShowBuy(data?.phone?.split("")?.indexOf("*") !== -1);
     })
@@ -303,11 +310,48 @@ const TalentDetail = () => {
     }
     return str;
   }
+  const cnkiPhoneAndEmail = (value) => {
+    console.log(value);
+    //检查手机号或邮箱是否重复
+    if (value.phone && value.phone.length == 11) {
+      talentCheck(value).then((res) => {
+        if (res.data == 1) {
+          message.error('该号码已经被注册');
+        }
+      });
+    } else if (value.email && value.email.indexOf('@') > -1) {
+      talentCheck(value).then((res) => {
+        if (res.data == 1) {
+          message.error('该邮箱已经被注册');
+        }
+      });
+    }
+  }
+  const updateData = () => {
+    isRefresh ? setIsRefresh(false) : setIsRefresh(true);
+  }
+  const basicModalOk = (value) => {
+    console.log(value);
+    const { location: { query } } = history;
+    updateTalent({ ...value, talentId: query.talentId }).then(res => {
+      message.info(res?.message || '修改失败');
+      updateData();
+      setBasicModalVisible(false);
+      setContactModalVisible(false);
+    })
+  }
+  const uploadButton = (
+    <div>
+      {<PlusOutlined />}
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </div>
+  );
   return (
     <div className={styles["talent-detail"]}>
       <ModalEducation
         visible={educationVisible}
         onSubmit={onSubmit}
+        data={EducationData}
         onCancel={onCancel}
         talentId={talentId}
       ></ModalEducation>
@@ -315,12 +359,14 @@ const TalentDetail = () => {
         visible={projectVisible}
         onSubmit={onSubmit}
         onCancel={onCancel}
+        data={projectData}
         talentId={talentId}
       ></ModalProject>
       <ModalCompany
         visible={companyVisible}
         onSubmit={onSubmit}
         onCancel={onCancel}
+        data={companyData}
         talentId={talentId}
       ></ModalCompany>
       {detail && (
@@ -328,7 +374,7 @@ const TalentDetail = () => {
           <Row gutter={16}>
             <Col span={16}>
               <div className={styles["basic-container"]}>
-                <div className={styles["page-title"]}>联系方式 <Button type="primary" size="small" style={{ marginLeft: '18px' }} onClick={() => setIsModalVisible(true)}>加入项目</Button></div>
+                <div className={styles["page-title"]}>联系方式 <Button type="primary" size="small" style={{ marginLeft: '18px' }} onClick={() => setIsModalVisible(true)}>加入项目</Button><EditOutlined style={{ float: 'right' }} onClick={() => setContactModalVisible(true)}></EditOutlined></div>
                 <Divider></Divider>
                 <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', fontWeight: 'bold', justifyContent: 'flex-start' }} column={2}>
                   <Descriptions.Item label="电话">
@@ -361,9 +407,32 @@ const TalentDetail = () => {
                     {detail.email}
                   </Descriptions.Item>
                 </Descriptions>
+                <Modal title="联系方式" visible={contactModalVisible} footer={null} onCancel={() => setContactModalVisible(false)}>
+                  <ProForm
+                    onFinish={basicModalOk}
+                    form={contactForm}
+                    initialValues={{ phone: detail.phone, email: detail.email }}
+                    onValuesChange={(changeValues) => cnkiPhoneAndEmail(changeValues)}
+                    layout="horizontal">
+                    <ProForm.Group>
+                      <ProFormText
+                        rules={[
+                          {
+                            required: true,
+                            message: '请输入手机号',
+                          },
+                        ]}
+                        width="sm"
+                        name="phone"
+                        label="手机号码"
+                      />
+                      <ProFormText width="sm" name="email" label="邮箱地址" />
+                    </ProForm.Group>
+                  </ProForm>
+                </Modal>
               </div>
               <div className={styles["project-container"]} style={{ position: 'relative' }}>
-                <div className={styles["page-title"]}>基本信息<span style={{ paddingLeft: '24px', fontSize: '14px', color: '#1890ff' }}>简历编号#：{talentId}</span></div>
+                <div className={styles["page-title"]}>基本信息<span style={{ paddingLeft: '24px', fontSize: '14px', color: '#1890ff' }}>简历编号#：{talentId}</span><EditOutlined style={{ float: 'right' }} onClick={() => setBasicModalVisible(true)}></EditOutlined></div>
                 <Divider></Divider>
                 <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', fontWeight: 'bold', justifyContent: 'flex-start' }} column={2}>
                   <Descriptions.Item label="姓名">
@@ -405,6 +474,217 @@ const TalentDetail = () => {
                     {detail.introduce}
                   </Descriptions.Item>
                 </Descriptions>
+                <Modal width={680} title="基本信息" visible={basicModalVisible} footer={null} onCancel={() => setBasicModalVisible(false)} >
+                  <ProForm
+                    onFinish={basicModalOk}
+                    form={basicForm}
+                    initialValues={{
+                      name: detail.name,
+                      education: detail.education,
+                      age: detail.age,
+                      gender: '' + detail.gender,
+                      birthday: detail.birthday,
+                      experience: detail.experience,
+                      salary: detail.salary,
+                      domicile: detail.domicile,
+                      location: detail.location,
+                      workState: detail.workState,
+                      introduce: detail.introduce,
+                      headUrl: detail.headUrl,
+                    }}
+                    layout="horizontal">
+                    <ProForm.Group>
+                      <ProFormText
+                        fieldProps={{
+                          // ...formItemLayout,
+                        }}
+                        width="sm"
+                        rules={[
+                          {
+                            required: true,
+                            message: '请输入人选姓名',
+                          },
+                        ]}
+                        name="name"
+                        label="人选姓名"
+                      />
+                      <ProFormSelect
+                        width="sm"
+                        name="education"
+                        label="最高学历"
+                        options={[
+                          {
+                            label: '不限',
+                            value: 0,
+                          },
+                          {
+                            label: '初中及以上',
+                            value: 1,
+                          },
+                          {
+                            label: '中专及以上',
+                            value: 2,
+                          },
+                          {
+                            label: '高中及以上',
+                            value: 3,
+                          },
+                          {
+                            label: '大专及以上',
+                            value: 4,
+                          },
+                          {
+                            label: '本科及以上',
+                            value: 5,
+                          },
+                          {
+                            label: '硕士及以上',
+                            value: 6,
+                          },
+                          {
+                            label: '博士及以上',
+                            value: 7,
+                          },
+                        ]}
+                      />
+                    </ProForm.Group>
+                    <ProForm.Group>
+                      <ProFormText
+                        fieldProps={{
+                          // ...formItemLayout,
+                        }}
+                        width="sm"
+                        rules={[
+                          {
+                            required: true,
+                            message: '请输入人选年龄',
+                          },
+                        ]}
+                        name="age"
+                        label="人选年龄"
+                      />
+                      <ProFormRadio.Group
+                        label="人选性别"
+                        name="gender"
+
+                        labelCol={{
+                          style: { textAlign: 'left' },
+
+                        }}
+                        options={[
+                          {
+                            value: '1',
+                            label: '男',
+                          },
+                          {
+                            value: '2',
+                            label: '女',
+                          },
+                        ]}
+                      />
+                    </ProForm.Group>
+                    <ProForm.Group>
+                      <ProFormDatePicker
+                        format={'YYYY-MM-DD'}
+                        label="出生日期"
+                        width="sm"
+                        help="" //备注
+                        name="birthday"
+                      />
+                      <ProFormSelect
+                        width="sm"
+                        name="experience"
+                        label="工作经验"
+                        options={[
+                          {
+                            label: '3年以下',
+                            value: '3年以下',
+                          },
+                          {
+                            label: '3-5年',
+                            value: '3-5年',
+                          },
+                          {
+                            label: '5-10年',
+                            value: '5-10年',
+                          },
+                          {
+                            label: '10年以上',
+                            value: '10年以上',
+                          },
+                        ]}
+                      />
+                    </ProForm.Group>
+                    <ProForm.Group>
+                      <ProFormText
+                        label="目前年薪"
+                        help="" //备注
+                        fieldProps={{
+                          prefix: '￥',
+                          suffix: '万元',
+                        }}
+                        width="sm"
+                        name="salary"
+                      />
+                      <ProFormText
+                        label="户籍地址"
+                        help="" //备注
+                        width="sm"
+                        name="domicile"
+                      />
+                    </ProForm.Group>
+                    <ProForm.Group>
+                      <ProFormText
+                        label="现居地址"
+                        help="" //备注
+                        width="sm"
+                        name="location"
+                      />
+                      <ProFormSelect
+                        width="sm"
+                        name="workState"
+                        label="工作状态"
+                        options={[
+                          { label: '当前在职', value: 0 },
+                          { label: '已离职', value: 1 },
+                          { label: '失业', value: 2 },
+                        ]}
+                      />
+                    </ProForm.Group>
+                    <ProForm.Group>
+                      <ProFormTextArea width="sm"
+                        name="introduce"
+                        label="人选备注" />
+                      <ProFormUploadButton
+                        icon={null}
+                        fieldProps={{
+                          listType: 'picture-card',
+                          className: 'avatar-uploader',
+                          showUploadList: false,
+                          customRequest: async (options) => {
+                            let result = await upload(options.file, () => { });
+                            console.log(result.res.requestUrls[0]);
+                            basicForm.setFieldsValue({ headUrl: [result.name] });
+                            setImageUrl(
+                              result.res.requestUrls[0].split('?')[0] +
+                              '?x-oss-process=image/resize,w_100,h_100/quality,q_50',
+                            );
+                            options.onSuccess(result.res.requestUrls[0], result.res.requestUrls[0]);
+                          },
+                        }}
+                        name="headUrl"
+                        label="人选头像"
+                        title={
+                          imageUrl ? (
+                            <img src={imageUrl} alt="avatar" style={{ width: '100%' }} />
+                          ) : (
+                              uploadButton
+                            )
+                        }
+                      />
+                    </ProForm.Group>
+                  </ProForm>
+                </Modal>
               </div>
               <div className={styles["project-container"]}>
                 <div className={styles["page-title"]}>求职意向</div>
@@ -434,6 +714,7 @@ const TalentDetail = () => {
                       <Button
                         onClick={() => {
                           setCompanyVisible(true);
+                          setCompanyData(null);
                         }}
                       >
                         添加
@@ -458,7 +739,12 @@ const TalentDetail = () => {
                           cancelText="No"
                         >
                           <Button type="text">删除</Button>
+
                         </Popconfirm>
+                        <Button type="link" onClick={() => {
+                          setCompanyData(item);
+                          setCompanyVisible(true);
+                        }}>修改</Button>
                       </Divider>
                       <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', fontWeight: 'bold', justifyContent: 'flex-start' }} column={1}>
                         <Descriptions.Item label="工作时间">
@@ -482,6 +768,9 @@ const TalentDetail = () => {
                   );
                 })}
               </div>
+              <Modal footer={null}>
+
+              </Modal>
               <div className={styles["company-container"]}>
                 <Row justify="space-between" align="middle">
                   <Col>
@@ -492,6 +781,7 @@ const TalentDetail = () => {
                       <Button
                         onClick={() => {
                           setProjectVisible(true);
+                          setProjectData(null)
                         }}
                       >
                         添加
@@ -516,7 +806,12 @@ const TalentDetail = () => {
                           cancelText="No"
                         >
                           <Button type="text">删除</Button>
+
                         </Popconfirm>
+                        <Button type="link" onClick={() => {
+                          setProjectData(item);
+                          setProjectVisible(true);
+                        }}>修改</Button>
                       </Divider>
                       <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', fontWeight: 'bold', justifyContent: 'flex-start' }} column={1}>
                         <Descriptions.Item label="项目时间">
@@ -546,6 +841,7 @@ const TalentDetail = () => {
                       <Button
                         onClick={() => {
                           setEducationVisible(true);
+                          setEducationData(null)
                         }}
                       >
                         添加
@@ -569,6 +865,11 @@ const TalentDetail = () => {
                         >
                           <Button type="text">删除</Button>
                         </Popconfirm>
+                        <Button type="link" onClick={() => {
+                          setEducationData(item);
+                          setEducationVisible(true);
+
+                        }}>修改</Button>
                       </Divider>
                       <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', fontWeight: 'bold', justifyContent: 'flex-start' }} column={1}>
                         <Descriptions.Item label="学习时间">

@@ -1,16 +1,37 @@
 import { useState, useEffect } from 'react';
-import { Modal, Form, Input, Tree, Row, Col, Divider, DatePicker, Select } from 'antd';
+import { Modal, Form, Input, Tree, message, Row, Col, Divider, DatePicker, Select } from 'antd';
 import moment from 'moment';
-import { addEdu } from '../../../../services/talent';
+import { addEdu, updateEdu } from '../../../../services/talent';
 const { RangePicker } = DatePicker;
 import SelfDate from '@/components/SelfDate';
-const ModalEducation = ({ visible, onSubmit, onCancel, talentId }) => {
+const ModalEducation = ({ visible, onSubmit, onCancel, talentId, data = null }) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [modalTitle, setModalTitle] = useState('新增教育经历');
+  const [modalTitle, setModalTitle] = useState('新增');
+  console.log(data);
+  useEffect(() => {
+    if (data && data.id) {
+      setModalTitle(`修改教育经历`);
+      let isNow = data.endTime == '至今' ? true : false;
+
+      form.setFieldsValue(Object.assign({}, {
+        name: data?.name,
+        isAllTime: data?.isAllTime,
+        startTime: [data?.startTime, isNow ? null : data?.endTime],
+        education: data?.education ? +data.education : '',
+        classes: data?.classes,
+        isNow: isNow
+      }))
+    } else {
+      setModalTitle(`新增教育经历`);
+      form.resetFields();
+    }
+  }, [data])
   const [form] = Form.useForm();
   const handleOk = () => {
+
     setConfirmLoading(true);
     form.validateFields().then((values) => {
+      debugger
       let payload = Object.assign({}, values);
       if (values.startTime) {
         payload.startTime = values.startTime.startTime.format('YYYY-MM-DD');
@@ -20,12 +41,22 @@ const ModalEducation = ({ visible, onSubmit, onCancel, talentId }) => {
       if (values.endTime) {
         payload.endTime = values.endTime.format('YYYY-MM-DD');
       }
-      addEdu({ talentId: talentId, ...payload }).then((data) => {
-        console.log(data);
-        onSubmit();
-        form.resetFields();
-        setConfirmLoading(false);
-      });
+      if (data.id) {
+        updateEdu({ talentId: talentId, id: data.id, ...payload }).then(res => {
+          message.info(res.message);
+          onSubmit();
+          form.resetFields();
+          setConfirmLoading(false);
+        })
+      } else {
+        addEdu({ talentId: talentId, ...payload }).then((data) => {
+          console.log(data);
+          onSubmit();
+          form.resetFields();
+          setConfirmLoading(false);
+        });
+      }
+
     });
   };
   const handleCancel = () => {
@@ -52,7 +83,9 @@ const ModalEducation = ({ visible, onSubmit, onCancel, talentId }) => {
           },
         ]}>
           <SelfDate
+            defaultValue={{ startTime: data?.id ? data.startTime : null, endTime: data?.id ? data.endTime : null }}
             fieldProps={{ picker: 'month' }}
+            data
             returnType={'moment'}
             style={{ width: '328px' }}
           ></SelfDate>

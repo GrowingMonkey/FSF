@@ -48,11 +48,13 @@ const TCAList = () => {
       dataIndex: "name",
       key: "name",
       width: "15%",
+      ellipsis: true,
     },
     {
       title: "领导",
       dataIndex: "leaderName",
       key: "leaderName",
+      ellipsis: true,
       render: (text, record) => {
         return (
           <Space split={<Divider type="vertical" />}>
@@ -68,11 +70,13 @@ const TCAList = () => {
       dataIndex: "superiorId",
       key: "superiorId",
       width: "20%",
+      ellipsis: true,
     },
     {
       title: "城市",
       dataIndex: "cityCode",
       key: "cityCode",
+      ellipsis: true,
       width: "15%",
       render: (text) => {
         if (`${text}`.length === 6) {
@@ -84,6 +88,8 @@ const TCAList = () => {
     {
       title: "操作",
       key: "action",
+      ellipsis: true,
+      fixed: 'right',
       render: (text, record) => (
         <Space size={16}>
           <Button
@@ -174,6 +180,8 @@ const TCAList = () => {
           dataSource={list}
           pagination={false}
           size="small"
+          bordered
+          scroll={{ x: 900 }}
         />
         <Row justify="end" style={{ marginTop: "15px" }}>
           <Col>

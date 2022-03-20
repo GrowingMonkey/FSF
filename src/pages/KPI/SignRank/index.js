@@ -52,41 +52,49 @@ const SignRank = () => {
     {
       title: "姓名",
       dataIndex: "name",
+      ellipsis: true,
       key: "name",
     },
     {
       title: "归属公司",
       dataIndex: "comName",
+      ellipsis: true,
       key: "comName",
     },
     {
       title: "担任职务",
       dataIndex: "roleName",
+      ellipsis: true,
       key: "roleName",
     },
     {
       title: "团队人数",
       dataIndex: "teamNum",
+      ellipsis: true,
       key: "teamNum",
     },
     {
       title: "签约客户数",
       dataIndex: "signNum",
+      ellipsis: true,
       key: "signNum",
     },
     {
       title: "平均比例",
       dataIndex: "avg",
+      ellipsis: true,
       key: "avg",
     },
     {
       title: "首付金额",
       dataIndex: "money",
+      ellipsis: true,
       key: "money",
     },
     {
       title: "月份",
       dataIndex: "month",
+      ellipsis: true,
       key: "month",
     },
   ];
@@ -222,6 +230,8 @@ const SignRank = () => {
             onChange: e => { signRun({ pageNo: e }) }
           }}
           size="small"
+          bordered
+          scroll={{ x: 900 }}
         />
       </div>
       <div style={{ width: "100%", minHeight: "15px" }}></div>

@@ -87,6 +87,7 @@ const MessageList = () => {
       title: "信息分类",
       dataIndex: "type",
       key: "type",
+      ellipsis: true,
       render: (text, record) => {
         return text == 0 ? '客户交流' : +text == 1 ? "职位交流" : +text == 2 ? '人选交流' : +text == 5 ? '其他文本' : '喜报'
       }
@@ -94,22 +95,28 @@ const MessageList = () => {
     {
       title: "发件人",
       dataIndex: "sendName",
+      ellipsis: true,
       key: "sendName",
     },
     {
       title: "内容",
       dataIndex: "details",
+      ellipsis: true,
       key: "details",
       width: "50%",
     },
     {
       title: "发送时间",
       dataIndex: "updateTime",
+      ellipsis: true,
       key: "updateTime",
     },
     {
       title: "操作",
       dataIndex: "action",
+      ellipsis: true,
+      fixed: 'right',
+      width: 180,
       key: "action",
       render: (text, record) => {
         return (
@@ -208,6 +215,8 @@ const MessageList = () => {
             onChange: e => { run({ pageNo: e }) }
           }}
           size="small"
+          bordered
+          scroll={{ x: 900 }}
         />
       </div>
       <div style={{ width: "100%", minHeight: "15px" }}></div>

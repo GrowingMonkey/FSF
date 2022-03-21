@@ -61,7 +61,7 @@ const Search = () => {
             message.info(ress.message || '删除成功');
 
         })
-        getTages();
+        // getTages();
 
 
     }
@@ -222,7 +222,7 @@ const Search = () => {
                         form={basicForm}
                         initialValues={{
                             name: project.name || '',
-                            cityCode: ('' + project?.cityCode).indexOf('/') > 0 ? project?.cityCode.split('/') : '不限',
+                            cityCode: ('' + project?.cityCode).indexOf('/') > 0 ? project?.cityCode.split('/') : '',
                             experience: +project.experience || '不限',
                             requireEdu: project.requireEdu || '不限'
                         }}

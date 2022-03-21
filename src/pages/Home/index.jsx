@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { PageContainer } from '@ant-design/pro-layout';
-import { Row, Col, Card, List, Table, Typography, Button } from "antd";
+import { Row, Col, Card, List, Table, Typography, Button, Collapse } from "antd";
 import { selectWorkFlow } from "../../services/home";
 import InfoCard from "./components/InfoCard";
 import DataCard from "./components/DataCard";
@@ -16,6 +16,7 @@ const Home = () => {
     const [noticeData, setNoticeData] = useState([]);
     const [feeRankData, setFeeRankData] = useState([]);
     const [recommendRankData, setRecommendRankData] = useState([]);
+    const [Ic, setIc] = useState(0);
     useEffect(() => {
         selectWorkFlow().then((res) => {
             const { data } = res;
@@ -130,6 +131,24 @@ const Home = () => {
             lg: 12
         },
     }
+    const formatNotice = (item) => {
+        let str = '';
+        switch (+(item.type)) {
+            case 0:
+                str = '公司大事';
+                break;
+            case 1:
+                str = '大元宝';
+                break;
+            case 2:
+                str = '入职周年';
+                break;
+            case 3:
+                str = '大钻石';
+                break;
+        }
+        return str;
+    }
     return (
         <PageContainer>
             <Row gutter={24} style={{ height: "100%", display: 'flex' }} wrap={true}>
@@ -182,14 +201,24 @@ const Home = () => {
                     </Col>
                     <Col {...warpBottomCol.right}>
                         <div className={styles["data-tracker-card"]}>
-                            <Card extra={<Button type="link" onClick={() => history.push(`/employ/publish-list`)}>查看更多</Button>}>
+                            <Card title={'新闻公告'} extra={<Button type="link" onClick={() => history.push(`/employ/publish-list`)}>查看更多</Button>}>
                                 <List
                                     bordered
                                     size="small"
                                     dataSource={noticeData}
                                     renderItem={item => (
-                                        <List.Item>
-                                            <Typography.Text mark>[{item.title}]</Typography.Text> {`${item.userName}在${item.publishTime}发布${item.content}`}
+                                        <List.Item data={Ic} onClick={
+                                            () => {
+                                                noticeData.map((itemss, index) => {
+                                                    if (itemss.id == item.id) {
+                                                        noticeData[index] = { ...item, show: item.show ? false : true }
+                                                    }
+                                                })
+                                                setNoticeData([].concat(noticeData));
+                                                console.log(noticeData)
+                                            }}>
+                                            <Typography.Text mark style={{ width: '72px', display: 'inline-block' }}>[{formatNotice(item)}]</Typography.Text> <Typography.Text style={{ width: "30%", display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.title}</Typography.Text><Typography.Text style={{ display: "inline-block", paddingRight: '5px', width: '70px' }}>{item.userName}</Typography.Text><Typography.Text style={{ width: '85px', display: 'inline-block' }}>{item.publishTime}</Typography.Text>
+                                            <div style={{ display: item.show == undefined || item.show == false ? 'none' : 'block' }}>{item.content}</div>
                                         </List.Item>
                                     )}
                                 />

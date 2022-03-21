@@ -47,6 +47,7 @@ const InfoProject = ({ record = {} }) => {
       title: "状态",
       dataIndex: "state",
       key: "state",
+      ellipsis: true,
       render: (text) => {
         return stateTypes[text];
       },
@@ -54,17 +55,20 @@ const InfoProject = ({ record = {} }) => {
     {
       title: "职位名称",
       dataIndex: "name",
+      ellipsis: true,
       key: "name",
     },
     {
       title: "职位年薪",
       dataIndex: "salary",
       key: "salary",
+      ellipsis: true,
     },
     {
       title: "地点",
       dataIndex: "cityCode",
       key: "cityCode",
+      ellipsis: true,
       render: (text) => {
         let cityCode = text.split("/");
         // console.log(cityCode);
@@ -80,6 +84,7 @@ const InfoProject = ({ record = {} }) => {
     },
     {
       title: "客户",
+      ellipsis: true,
       dataIndex: "customerName",
       key: "customerName",
     },
@@ -97,6 +102,7 @@ const InfoProject = ({ record = {} }) => {
       title: "更新时间",
       dataIndex: "updateTime",
       key: "updateTime",
+      ellipsis: true,
       render: (text) => {
         if (text) {
           return <span>{text.split(" ")[0]}</span>;
@@ -107,9 +113,10 @@ const InfoProject = ({ record = {} }) => {
     {
       title: "操作",
       key: "action",
+      ellipsis: true,
       render: (text, record) => (
         <Space size={16}>
-          <Button type="link" style={{ padding: 0 }}>
+          <Button type="link" onClick={() => { history.push(`/project/p-detail/detail?projectId=${record.projectId}&customerId=${record.customerId}&id=${record.id}`) }} style={{ padding: 0 }}>
             查看详情
           </Button>
         </Space>
@@ -184,169 +191,17 @@ const InfoProject = ({ record = {} }) => {
   // ];
   const formList = [
     {
-      name: "cityCode",
-      label: "城市",
-      type: "cascader",
-      options: cityList,
-      span: 12,
-    },
-    {
-      name: "industry",
-      label: "行业",
-      type: "select",
-      span: 12,
-      render: () => {
-        return (
-          <Col span={12} key="industry">
-            <Form.Item name="industry" label="行业">
-              <Select
-                options={industryList}
-                onChange={onIndustryChange}
-              ></Select>
-            </Form.Item>
-          </Col>
-        );
-      },
-    },
-    {
-      name: "industryChild",
-      label: "子行业",
-      type: "select",
-      span: 12,
-      render: () => {
-        return (
-          <Col span={12} key="industryChild">
-            <Form.Item name="industryChild" label="子行业">
-              <Select options={industryChildList}></Select>
-            </Form.Item>
-          </Col>
-        );
-      },
-    },
-    {
-      name: "job",
-      label: "岗位",
-      type: "cascader",
-      span: 12,
-      options: positionList,
-    },
-    {
-      name: "level",
-      label: "紧急程度",
-      type: "select",
-      options: [
-        { label: "一般", value: 0 },
-        { label: "紧急", value: 1 },
-        { label: "特急", value: 2 },
-      ],
-      span: 12,
-    },
-    {
       name: "name",
       label: "职位名",
       type: "input",
       span: 12,
-    },
-    {
-      name: "quotTime",
-      label: "所保用期限",
-      type: "select",
-      options: [
-        { label: "无期限", value: 0 },
-        { label: "一个月", value: 1 },
-        { label: "二个月", value: 2 },
-        { label: "三个月", value: 3 },
-        { label: "四个月", value: 4 },
-        { label: "五个月", value: 5 },
-        { label: "六个月", value: 6 },
-        { label: "七个月", value: 7 },
-        { label: "八个月", value: 8 },
-        { label: "九个月", value: 9 },
-        { label: "十个月", value: 10 },
-        { label: "十一个月", value: 11 },
-        { label: "十二个月", value: 12 },
-      ],
-      span: 12,
-    },
-    {
-      name: "requireAgeS",
-      label: "年龄要求, 不小于",
+    }, {
+      name: "name",
+      label: "服务顾问",
       type: "input",
       span: 12,
     },
-    {
-      name: "requireAgeE",
-      label: "年龄要求, 不大于",
-      type: "input",
-      span: 12,
-    },
-    {
-      name: "requireAllTime",
-      label: "是否统招",
-      type: "select",
-      options: [
-        { label: "不是", value: 0 },
-        { label: "是", value: 1 },
-      ],
-      span: 12,
-    },
-    {
-      name: "requireEdu",
-      label: "学历要求",
-      type: "select",
-      options: [
-        {
-          label: "不限",
-          value: 0,
-        },
-        {
-          label: "初中及以上",
-          value: 1,
-        },
-        {
-          label: "中专及以上",
-          value: 2,
-        },
-        {
-          label: "高中及以上",
-          value: 3,
-        },
-        {
-          label: "大专及以上",
-          value: 4,
-        },
-        {
-          label: "本科及以上",
-          value: 5,
-        },
-        {
-          label: "硕士及以上",
-          value: 6,
-        },
-        {
-          label: "博士及以上",
-          value: 7,
-        },
-      ],
-      span: 12,
-    },
-    {
-      name: "requireGender",
-      label: "性别要求",
-      type: "select",
-      options: [
-        { label: "不限", value: 0 },
-        { label: "男", value: 1 },
-        { label: "女", value: 2 },
-      ],
-      span: 12,
-    },
-    {
-      name: "salary",
-      label: "年薪",
-      type: "input",
-      span: 12,
-    },
+
   ];
   const onIndustryChange = (value, data) => {
     setIndustryChildList(data.children);
@@ -459,6 +314,8 @@ const InfoProject = ({ record = {} }) => {
           dataSource={listData}
           pagination={false}
           size="small"
+          bordered
+          scroll={{ x: 500 }}
         />
         <Row justify="end" style={{ marginTop: "15px" }}>
           <Col>

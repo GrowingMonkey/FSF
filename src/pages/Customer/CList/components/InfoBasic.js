@@ -65,6 +65,7 @@ const InfoBasic = ({ record, update }) => {
       title: "联系人",
       dataIndex: "name",
       key: "name",
+      ellipsis: true,
       render: (text, record) => {
         return (
           <div>
@@ -83,36 +84,44 @@ const InfoBasic = ({ record, update }) => {
       title: "手机",
       dataIndex: "phone",
       key: "phone",
+      ellipsis: true,
     },
     {
       title: "微信",
       dataIndex: "wechatId",
       key: "wechatId",
+      ellipsis: true,
     },
     {
       title: "职位",
       dataIndex: "job",
       key: "job",
+      ellipsis: true,
     },
     {
       title: "QQ",
       dataIndex: "qq",
       key: "qq",
+      ellipsis: true,
     },
     {
       title: "邮箱地址",
       dataIndex: "email",
       key: "email",
+      ellipsis: true,
     },
     {
       title: "备注",
       dataIndex: "remark",
       key: "remark",
+      ellipsis: true,
     },
     {
       title: "操作",
       key: "action",
+      ellipsis: true,
       width: "10%",
+      fixed: 'right',
       render: (text, record) => (
         <Space size={1}>
           <Button
@@ -465,6 +474,8 @@ const InfoBasic = ({ record, update }) => {
           dataSource={customerContacts}
           size="small"
           pagination={false}
+          bordered
+          scroll={{ x: 500 }}
         />
       </div>
       <Row gutter={16} style={{ marginTop: "15px" }}>

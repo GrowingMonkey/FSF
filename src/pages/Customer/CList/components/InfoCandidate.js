@@ -12,7 +12,7 @@ import {
 } from "antd";
 import { twffq } from "../../../../services/customer";
 import styles from "./InfoCandidate.less";
-
+import { history } from 'umi';
 const InfoCandidate = ({ record = {} }) => {
   const [candidateList, setCandidateList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -60,52 +60,62 @@ const InfoCandidate = ({ record = {} }) => {
       title: "项目名称",
       dataIndex: "projectName",
       key: "projectName",
+      ellipsis: true,
     },
     {
       title: "推荐人",
       dataIndex: "recommender",
       key: "recommender",
+      ellipsis: true,
       render: (text) => <Badge text={text} color="red"></Badge>,
     },
     {
       title: "人选姓名",
       dataIndex: "candidateName",
       key: "candidateName",
+      ellipsis: true,
     },
     {
       title: "当前公司",
       dataIndex: "currentCompany",
       key: "currentCompany",
+      ellipsis: true,
     },
     {
       title: "当前职位",
       dataIndex: "currentPosition",
       key: "currentPosition",
+      ellipsis: true,
     },
     {
       title: "联系方式",
       dataIndex: "contact",
       key: "phone",
+      ellipsis: true,
     },
     {
       title: "推荐状态",
       dataIndex: "recommandState",
       key: "recommandState",
+      ellipsis: true,
     },
     {
       title: "推荐时间",
       dataIndex: "recommandTime",
       key: "recommandTime",
+      ellipsis: true,
     },
     {
       title: "更新时间",
       dataIndex: "updatedTime",
       key: "updatedTime",
+      ellipsis: true,
     },
     {
       title: "沟通记录",
       dataIndex: "contactRecord",
       key: "contactRecord",
+      ellipsis: true,
       render: (text) => (
         <Row justify="space-around">
           <Col>
@@ -119,9 +129,11 @@ const InfoCandidate = ({ record = {} }) => {
     {
       title: "操作",
       key: "action",
+      ellipsis: true,
+      fixed: 'right',
       render: (text, record) => (
         <Space size="middle">
-          <Button type="text" className="color-68A6CA">
+          <Button type="text" onClick={() => history.push(`/talent/detail?talentId=${record.talentId}`)} className="color-68A6CA">
             查看
           </Button>
         </Space>
@@ -242,6 +254,8 @@ const InfoCandidate = ({ record = {} }) => {
         columns={candidateColumn}
         dataSource={candidateList}
         size="small"
+        bordered
+        scroll={{ x: 900 }}
       />
       <Row justify="end" style={{ marginTop: "15px" }}>
         <Col>

@@ -12,12 +12,11 @@ const getOssClient = () => {
  * file上传文件
  * callback  回调函数(该会掉函数需要返回oss的bucket,endpoint,和filename)
  */
-export async function upload(file, callback) {
+export async function upload(file, callback, path = '/head/') {
   //获取签名
   let sign = await getOssSign();
   let { data } = sign;
   let dataObj = JSON.parse(data).credentials;
-  debugger
   console.log(OSS_END_POINT, OSS_BURKET)
   let callbackObj = callback();
   let clientOss = new OSS({
@@ -35,7 +34,7 @@ export async function upload(file, callback) {
   let fileFormat = file.name.substring(temporary + 1, fileNameLength); //png
   let fileName = callbackObj && callbackObj.fileName ? callbackObj.fileName + '.' + fileFormat : file.name;//在callback获取文件名
   return new Promise((resolve, reject) => {
-    multipartUploadWithSts('/head/' + fileName, file).then(res => {
+    multipartUploadWithSts(path + fileName, file).then(res => {
       resolve(res);
     }).catch(function (err) {
       reject(err);

@@ -100,13 +100,13 @@ const CustomerDetail = () => {
             disable: false,
             span: 2,
         },
-        {
-            value: "withdraw",
-            label: "回款",
-            count: 0,
-            disable: false,
-            span: 2,
-        },
+        // {
+        //     value: "withdraw",
+        //     label: "回款",
+        //     count: 0,
+        //     disable: false,
+        //     span: 2,
+        // },
     ];
     useEffect(() => {
         // console.clear();
@@ -175,42 +175,40 @@ const CustomerDetail = () => {
             </Row>
             <Row gutter={16} style={{ marginTop: "15px" }}>
                 <Col span={16}>
-                    <Space className={styles["info-switcher-bar"]}>
+
+                    <Space className={styles["info-switcher-bar"]} style={{ width: '100%', overflow: 'hidden', overflowX: 'scroll' }}>
+
                         <Button
                             type="text"
                             onClick={() => {
                                 setTab("");
                             }}
+                            style={{ color: tab == '' ? '#1890ff' : '' }}
                         >
                             <span>基本信息</span>
                         </Button>
-                        {tabList.map((tab) => {
-                            if (!tab.disable) {
+                        {tabList.map((tabItem) => {
+                            if (!tabItem.disable) {
                                 return (
                                     <Button
-                                        key={tab.label}
+                                        key={tabItem.label}
                                         type="text"
                                         onClick={() => {
-                                            setTab(tab.value);
+                                            setTab(tabItem.value);
                                         }}
+                                        style={{ color: tab == tabItem.value ? '#1890ff' : '' }}
                                     >
-                                        <span>{tab.label}</span>
-                                        {tab.count > 0 ? (
-                                            <span className={styles["color-red"]}>({tab.count})</span>
+                                        <span>{tabItem.label}</span>
+                                        {tabItem.count > 0 ? (
+                                            <span className={styles["color-red"]}>({tabItem.count})</span>
                                         ) : (
-                                                <span>({tab.count})</span>
+                                                <span>({tabItem.count})</span>
                                             )}
                                     </Button>
                                 );
                             }
                             return null;
                         })}
-                        <Button
-                            type="text"
-                            style={{ position: "absolute", top: "8px", right: "20px" }}
-                            shape="circle"
-                            icon={<CloseOutlined />}
-                        ></Button>
                     </Space>
                     <div className={styles["info-content"]}>
                         {tab === "" ? <InfoBasic record={record} update={updateCustomer}></InfoBasic> : null}

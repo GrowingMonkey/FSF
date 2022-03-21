@@ -11,7 +11,17 @@ export const abandonCustomer = (payload) => {
     data: { ...(payload || {}) },
   });
 };
-
+export const addContract = (payload) => {
+  // return new Promise((resolve, reject) => {
+  //   request.post("/customer/abandonCustomer", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/customer/addContract', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
 export const checkCustomer = (payload) => {
   // return new Promise((resolve, reject) => {
   //   request.post("/customer/acceptWorkOrder", payload).then((data) => {

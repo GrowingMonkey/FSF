@@ -14,7 +14,8 @@ export default {
         // OSS_IN_ADDRESS: 'https://aiyuin.oss-cn-shenzhen.aliyuncs.com',
         OSS_BURKET: 'faithful',
         OSS_END_POINT: 'oss-cn-shanghai.aliyuncs.com',
-        STACK_NUM: ''
+        STACK_NUM: '',
+        OSS_READ_ADDRESS: 'http://faithful.oss-cn-shanghai.aliyuncs.com'
     },
     test: {
         // API_ADDRESS: 'http://www.aiyu2019.com',
@@ -22,7 +23,8 @@ export default {
         // OSS_IN_ADDRESS: 'https://aiyuin.oss-cn-shenzhen.aliyuncs.com',
         OSS_BURKET: 'faithful',
         OSS_END_POINT: 'oss-cn-shanghai.aliyuncs.com',
-        STACK_NUM: ''
+        STACK_NUM: '',
+        OSS_READ_ADDRESS: 'http://faithful.oss-cn-shanghai.aliyuncs.com'
     },
     pre: {
         // API_ADDRESS: 'http://www.aiyu2019.com',
@@ -30,6 +32,7 @@ export default {
         // OSS_IN_ADDRESS: 'https://aiyuin.oss-cn-shenzhen.aliyuncs.com',
         OSS_BURKET: 'faithful',
         OSS_END_POINT: 'oss-cn-shanghai.aliyuncs.com',
-        STACK_NUM: ''
+        STACK_NUM: '',
+        OSS_READ_ADDRESS: 'http://faithful.oss-cn-shanghai.aliyuncs.com'
     },
 };

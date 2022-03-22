@@ -617,11 +617,13 @@ const InfoBasic = ({ record, update }) => {
                   if (value.length == 0) {
                     return Promise.reject(new Error('请输入客户名'));
                   }
-                  let result = await checkCustomer({ customerName: value });
-                  if (result.data == 1) {
-                    return Promise.reject(new Error('客户名重复,请重新输入'));
+                  if (value.replace(/\s+/g, "") != record.name) {
+                    let result = await checkCustomer({ customerName: value });
+                    if (result.data == 1) {
+                      return Promise.reject(new Error('客户名重复,请重新输入'));
+                    }
+                    return Promise.resolve();
                   }
-                  return Promise.resolve();
                 },
               }),
             ]}

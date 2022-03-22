@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { PageContainer } from '@ant-design/pro-layout';
-import { Row, Col, Card, List, Table, Typography, Button, Collapse } from "antd";
+import { Row, Col, Card, List, Table, Typography, Button, Modal, Collapse } from "antd";
 import { selectWorkFlow } from "../../services/home";
 import InfoCard from "./components/InfoCard";
 import DataCard from "./components/DataCard";
@@ -16,6 +16,8 @@ const Home = () => {
     const [noticeData, setNoticeData] = useState([]);
     const [feeRankData, setFeeRankData] = useState([]);
     const [recommendRankData, setRecommendRankData] = useState([]);
+    const [NoticeVisible, setNoticeVisible] = useState(false);
+    const [NoticeContent, setNoticeContent] = useState({})
     const [Ic, setIc] = useState(0);
     useEffect(() => {
         selectWorkFlow().then((res) => {
@@ -207,18 +209,20 @@ const Home = () => {
                                     size="small"
                                     dataSource={noticeData}
                                     renderItem={item => (
-                                        <List.Item data={Ic} onClick={
-                                            () => {
-                                                noticeData.map((itemss, index) => {
-                                                    if (itemss.id == item.id) {
-                                                        noticeData[index] = { ...item, show: item.show ? false : true }
-                                                    }
-                                                })
-                                                setNoticeData([].concat(noticeData));
-                                                console.log(noticeData)
-                                            }}>
-                                            <Typography.Text mark style={{ width: '72px', display: 'inline-block' }}>[{formatNotice(item)}]</Typography.Text> <Typography.Text style={{ width: "30%", display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.title}</Typography.Text><Typography.Text style={{ display: "inline-block", paddingRight: '5px', width: '70px' }}>{item.userName}</Typography.Text><Typography.Text style={{ width: '85px', display: 'inline-block' }}>{item.publishTime}</Typography.Text>
-                                            <div style={{ display: item.show == undefined || item.show == false ? 'none' : 'block' }}>{item.content}</div>
+                                        <List.Item data={Ic}
+                                            onClick={() => {
+                                                //         noticeData.map((itemss, index) => {
+                                                //             if (itemss.id == item.id) {
+                                                //                 noticeData[index] = { ...item, show: item.show ? false : true }
+                                                //             }
+                                                //         })
+                                                //         setNoticeData([].concat(noticeData));
+                                                //         console.log(noticeData)
+                                                setNoticeContent(item);
+                                                setNoticeVisible(true)
+                                            }}
+                                        >
+                                            <Typography.Text mark style={{ width: '72px', display: 'inline-block' }}>[{formatNotice(item)}]</Typography.Text> <Typography.Text style={{ width: "44%", display: 'inline-flex', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontWeight: 'bold' }}>{item.title}</Typography.Text><Typography.Text style={{ display: "inline-block", paddingRight: '5px', width: '70px', float: 'right' }}>{item.userName}</Typography.Text><Typography.Text style={{ width: '85px', display: 'inline-block', float: 'right' }}>{item.publishTime}</Typography.Text>
                                         </List.Item>
                                     )}
                                 />
@@ -226,7 +230,9 @@ const Home = () => {
                         </div>
                     </Col>
                 </Row>
-
+                <Modal title="公告内容" visible={NoticeVisible} footer={null} onCancel={() => setNoticeVisible(false)}>
+                    <p>{NoticeContent.content}</p>
+                </Modal>
             </div>
         </PageContainer>
     );

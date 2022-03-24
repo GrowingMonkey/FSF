@@ -270,7 +270,7 @@ const UserList = () => {
           </Col>
         </Row>
         <Divider></Divider>
-        <Radio.Group defaultValue={workState} onChange={(e) => setWorkState(e.target.value)}>
+        <Radio.Group defaultValue={workState} onChange={(e) => { setCurrentPage(1); setWorkState(e.target.value); }}>
           <Radio.Button value={0}>在职</Radio.Button>
           <Radio.Button value={1}>离职</Radio.Button>
           <Radio.Button value={''}>不限</Radio.Button>

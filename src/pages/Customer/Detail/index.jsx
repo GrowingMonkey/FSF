@@ -20,12 +20,14 @@ const CustomerDetail = () => {
     const [cclfqForm] = Form.useForm();
     const [detail, setDetail] = useState([]);
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [tabNumber, setTabNumber] = useState({})
     const [cardList, setCardList] = useState([]);
     const [tab, setTab] = useState("");
     // const { state: { record } } = useLocation();
     const [record, setRecord] = useState({})
     const [isRefresh, setIsRefresh] = useState(false);
     const { Paragraph } = Typography;
+
     let initCardList = [
         {
             unit: "万",
@@ -68,42 +70,43 @@ const CustomerDetail = () => {
         {
             value: "candidate",
             label: "人选信息",
-            count: 0,
+            countIndex: 'rxxx',
             disable: false,
             span: 3,
+
         },
         {
             value: "position",
             label: "职位",
-            count: 0,
+            countIndex: 'yzzw',
             disable: false,
             span: 2,
         },
         {
             value: "contact",
             label: "通话",
-            count: 0,
+            countIndex: 'rxxx',
             disable: true,
             span: 2,
         },
         {
             value: "file",
             label: "文件",
-            count: 0,
+            countIndex: 'fileCount',
             disable: false,
             span: 2,
         },
         {
             value: "timeline",
             label: "转移",
-            count: 0,
+            countIndex: 'zycs',
             disable: false,
             span: 2,
         },
         // {
         //     value: "withdraw",
         //     label: "回款",
-        //     count: 0,
+        // countIndex: 'hkcs',
         //     disable: false,
         //     span: 2,
         // },
@@ -123,6 +126,7 @@ const CustomerDetail = () => {
             console.log(res);
             let cardListi = initCardList.map(item => ({ ...item, num: res.data[`${item.name}`] }));
             setCardList(cardListi);
+
         })
     }, [isModalVisible, isRefresh]);
     const updateCustomer = () => {
@@ -149,6 +153,7 @@ const CustomerDetail = () => {
         sm: 12,
         lg: 5
     }
+    console.log(cardList);
     return (
         <PageContainer>
             <Row gutter={12} >
@@ -200,9 +205,9 @@ const CustomerDetail = () => {
                                     >
                                         <span>{tabItem.label}</span>
                                         {tabItem.count > 0 ? (
-                                            <span className={styles["color-red"]}>({tabItem.count})</span>
+                                            <span className={styles["color-red"]}>({cardList.filter(item => item == tabItem.countIndex)[0]?.num || 0})</span>
                                         ) : (
-                                                <span>({tabItem.count})</span>
+                                                <span>({cardList.filter(item => item.name == tabItem.countIndex)[0]?.num || 0})</span>
                                             )}
                                     </Button>
                                 );

@@ -33,13 +33,13 @@ const ModalCompany = ({ visible, onSubmit, onCancel, record, talentId, data = nu
       let payload = Object.assign({}, values);
       if (values.startTime) {
         payload.startTime = values.startTime.startTime.format('YYYY-MM-DD');
-        payload.endTime = values.startTime.endTime.format('YYYY-MM-DD');
+        // payload.endTime = values.startTime.endTime.format('YYYY-MM-DD');
         payload.isNow = values.startTime.isNow;
       }
       if (values.endTime) {
         payload.endTime = values.endTime.format('YYYY-MM-DD');
       }
-      if (data.id) {
+      if (data?.id) {
         updateEC({ talentId: talentId, id: data.id, ...payload }).then(res => {
           message.info(res.message);
           onSubmit();
@@ -63,7 +63,9 @@ const ModalCompany = ({ visible, onSubmit, onCancel, record, talentId, data = nu
   };
   const onIndustryChange = (value, data) => {
     setIndustryChildList(data.children);
-    form.setFieldsValue({ industryChild: data.children[0].value });
+    const industryChild = data.children && data.children.length > 0 ? data?.children[0]?.value : '不限';
+
+    form.setFieldsValue({ industryChild: industryChild });
   };
   return (
     <Modal

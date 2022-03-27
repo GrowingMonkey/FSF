@@ -119,6 +119,13 @@ const UserList = () => {
   }
   const userColumns = [
     {
+      title: "账户名",
+      dataIndex: "account",
+      key: "account",
+      ellipsis: true,
+
+    },
+    {
       title: "名称",
       dataIndex: "name",
       key: "name",

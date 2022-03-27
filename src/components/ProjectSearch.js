@@ -45,7 +45,7 @@ const ProjectSearch = ({ value = {}, CustomerStyle = {}, onChange }) => {
                     data.list.map((item) => {
                         return (
                             <Option key={`${item.projectId}/${item.name}`}>
-                                {item.name}
+                                {item.name}/{item.customerName}
                             </Option>
                         );
                     })

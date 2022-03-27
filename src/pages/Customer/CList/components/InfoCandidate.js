@@ -64,68 +64,68 @@ const InfoCandidate = ({ record = {} }) => {
     },
     {
       title: "推荐人",
-      dataIndex: "recommender",
-      key: "recommender",
+      dataIndex: "userName",
+      key: "userName",
       ellipsis: true,
       render: (text) => <Badge text={text} color="red"></Badge>,
     },
     {
       title: "人选姓名",
-      dataIndex: "candidateName",
-      key: "candidateName",
+      dataIndex: "talentName",
+      key: "talentName",
       ellipsis: true,
     },
     {
       title: "当前公司",
-      dataIndex: "currentCompany",
-      key: "currentCompany",
+      dataIndex: "company",
+      key: "company",
       ellipsis: true,
     },
     {
       title: "当前职位",
-      dataIndex: "currentPosition",
-      key: "currentPosition",
+      dataIndex: "job",
+      key: "job",
       ellipsis: true,
     },
     {
       title: "联系方式",
-      dataIndex: "contact",
+      dataIndex: "phone",
       key: "phone",
       ellipsis: true,
     },
-    {
-      title: "推荐状态",
-      dataIndex: "recommandState",
-      key: "recommandState",
-      ellipsis: true,
-    },
+    // {
+    //   title: "推荐状态",
+    //   dataIndex: "state",
+    //   key: "state",
+    //   ellipsis: true,
+    // },
     {
       title: "推荐时间",
-      dataIndex: "recommandTime",
-      key: "recommandTime",
+      dataIndex: "createTime",
+      key: "createTime ",
       ellipsis: true,
     },
     {
       title: "更新时间",
-      dataIndex: "updatedTime",
-      key: "updatedTime",
+      dataIndex: "updateTime",
+      key: "updateTime",
       ellipsis: true,
     },
-    {
-      title: "沟通记录",
-      dataIndex: "contactRecord",
-      key: "contactRecord",
-      ellipsis: true,
-      render: (text) => (
-        <Row justify="space-around">
-          <Col>
-            <Button type="primary" shape="circle" size="small">
-              {text}
-            </Button>
-          </Col>
-        </Row>
-      ),
-    },
+    // {
+    //   title: "沟通记录",
+    //   dataIndex: "contactRecord",
+    //   key: "contactRecord",
+    //   ellipsis: true,
+    //   render: (text) => (
+    //     <Row justify="space-around">
+    //       <Col>
+    //         <Button type="primary" shape="circle" size="small">
+    //           {text}
+    //         </Button>
+    //       </Col>
+    //     </Row>
+    //   ),
+    // },
     {
       title: "操作",
       key: "action",
@@ -133,7 +133,7 @@ const InfoCandidate = ({ record = {} }) => {
       fixed: 'right',
       render: (text, record) => (
         <Space size="middle">
-          <Button type="text" onClick={() => history.push(`/talent/detail?talentId=${record.talentId}`)} className="color-68A6CA">
+          <Button type="link" onClick={() => history.push(`/talent/detail?talentId=${record.talentId}`)} className="color-68A6CA">
             查看
           </Button>
         </Space>
@@ -163,10 +163,9 @@ const InfoCandidate = ({ record = {} }) => {
       pageSize: 10,
       customerId: record.customerId,
       state: 0,
-    }).then((data) => {
-      console.log(data);
-      setCandidateList(data.list);
-      setListLength(data.count);
+    }).then((res) => {
+      setCandidateList(res.data.list);
+      setListLength(res.data.count);
     });
   }, [currentPage]);
   // const candidateData = [

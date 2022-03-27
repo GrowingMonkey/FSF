@@ -88,12 +88,10 @@ const ModalForm = ({
     setAutoExpandParent(false);
   };
   const onFunctionCheck = (checkedKeysValue, info) => {
-    debugger
     if (info.checked) {
       let parentKey = info.node.parentKey;
       console.log(info.node.key, parentKey);
       if (parentKey) {
-
         if (checkedKeysValue?.checked?.indexOf(parentKey) === -1) {
           checkedKeysValue.checked.push(parentKey);
         }

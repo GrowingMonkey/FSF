@@ -35,13 +35,13 @@ const ModalEducation = ({ visible, onSubmit, onCancel, talentId, data = null }) 
       let payload = Object.assign({}, values);
       if (values.startTime) {
         payload.startTime = values.startTime.startTime.format('YYYY-MM-DD');
-        payload.endTime = values.startTime.endTime.format('YYYY-MM-DD');
+        // payload.endTime = values.startTime.endTime.format('YYYY-MM-DD');
         payload.isNow = values.startTime.isNow;
       }
       if (values.endTime) {
         payload.endTime = values.endTime.format('YYYY-MM-DD');
       }
-      if (data.id) {
+      if (data?.id) {
         updateEdu({ talentId: talentId, id: data.id, ...payload }).then(res => {
           message.info(res.message);
           onSubmit();

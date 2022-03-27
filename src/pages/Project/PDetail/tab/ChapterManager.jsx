@@ -8,7 +8,7 @@ import {
 } from '@/services/project'
 import { useState } from 'react';
 import ProForm, {
-    ProFormRadio, ProFormSelect, ProFormText, ProFormDatePicker, ProFormDateTimePicker, ProFormTextArea,
+    ProFormRadio, ProFormSelect, ProFormDependency, ProFormText, ProFormDatePicker, ProFormDateTimePicker, ProFormTextArea,
 } from '@ant-design/pro-form';
 import CustomerSearch from '@/components/CustomerSearch';
 const { TabPane } = Tabs;
@@ -184,22 +184,26 @@ const ChapterManager = () => {
             title: '人选姓名',
             dataIndex: 'talentName',
             key: 'name',
+            ellipsis: true,
             render: (text, record) => <Link to={`/project/talent?talentId=${record.talentId}&id=${record.id}`}>{text}</Link>,
         },
 
         {
             title: '所在公司',
             dataIndex: 'company',
+            ellipsis: true,
             key: 'company',
         },
         {
             title: '当前职位',
             dataIndex: 'job',
+            ellipsis: true,
             key: 'job',
         },
         {
             title: '联系电话',
             dataIndex: 'phone',
+            ellipsis: true,
             key: 'phone',
         },
 
@@ -207,21 +211,26 @@ const ChapterManager = () => {
             title: '推荐人',
             dataIndex: 'userName',
             key: 'userName',
+            ellipsis: true,
         },
         {
             title: '推荐人时间',
             dataIndex: 'createTime',
             key: 'createTime',
+            ellipsis: true,
         },
-        // {
-        //     title: '沟通记录',
-        //     dataIndex: 'tpFlowList',
-        //     key: 'tpFlowList',
-        // },
+        {
+            title: '沟通记录',
+            dataIndex: 'tpFlowList',
+            key: 'tpFlowList',
+            ellipsis: true,
+            render: (text, record) => <Link to={`/project/talent?talentId=${record.talentId}&id=${record.id}`}>查看</Link>
+        },
         {
             title: '操作',
             dataIndex: 'address',
             key: 'address',
+            flexd: 'right',
             render: (text, record) => {
                 return <Select
                     value={record.state == 5 ? '' : record.state}
@@ -251,9 +260,9 @@ const ChapterManager = () => {
             case 5:
                 return '预约面试';
                 break;
-            case 6:
-                return '客户面试';
-                break;
+            // case 6:
+            //     return '客户面试';
+            //     break;
             case 7:
                 return '客户否决';
                 break;
@@ -293,9 +302,9 @@ const ChapterManager = () => {
             case 5://约面试
                 setIsYuYueModalVisible(true);
                 break;
-            case 6://客户面试
-                setIsRemarkModalVisible(true);
-                break;
+            // case 6://客户面试
+            //     setIsRemarkModalVisible(true);
+            //     break;
             case 7://客户否决
                 setIsRemarkModalVisible(true);
                 break;
@@ -395,13 +404,13 @@ const ChapterManager = () => {
                     <TabPane tab="否决人选" key="2"></TabPane>
                     <TabPane tab="人选放弃" key="4"></TabPane>
                     <TabPane tab="约面试" key="5"></TabPane>
-                    <TabPane tab="客户面试" key="6"></TabPane>
+                    {/* <TabPane tab="客户面试" key="6"></TabPane> */}
                     <TabPane tab="客户否决" key="7"></TabPane>
                     <TabPane tab="收offer" key="8"></TabPane>
                     <TabPane tab="已入职" key="9"></TabPane>
                     <TabPane tab="人选离职" key="10"></TabPane>
                 </Tabs>
-                <Table columns={columns} dataSource={TPList}>
+                <Table columns={columns} dataSource={TPList} size="small" bordered scroll={{ x: 600 }}>
 
                 </Table>
                 <Modal title="预约面试" visible={isYuYueModalVisible} footer={null} onCancel={() => setIsYuYueModalVisible(false)}>
@@ -507,6 +516,10 @@ const ChapterManager = () => {
                                     value: '0',
                                     label: '按固定比例收费',
                                 },
+                                {
+                                    value: '1',
+                                    label: '按固定额收费',
+                                },
                             ]}
                             rules={[
                                 {
@@ -538,7 +551,19 @@ const ChapterManager = () => {
                             },
 
                         ]} label="税率" name="feeRate" />
+                        <ProFormDependency name={['chargeWay']}>
+                            {
+                                ({ chargeWay }) => {
+                                    if (+chargeWay == 0) {
+                                        return (<ProFormText name="rate" label="固定比例"></ProFormText>)
+                                    } else if (+chargeWay == 1) {
+                                        return (<ProFormText name="ration" label="固定金额"></ProFormText>)
+                                    }
+                                }
+                            }
+                        </ProFormDependency>
                         <ProFormTextArea label="备注" name="remark" />
+
                     </ProForm>
                 </Modal>
                 <Modal title="人选离职" visible={isLeaveModalVisible} footer={null} onCancel={() => setIsLeaveModalVisible(false)}>

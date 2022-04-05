@@ -67,8 +67,8 @@ const TCAList = () => {
     },
     {
       title: "归属",
-      dataIndex: "superiorId",
-      key: "superiorId",
+      dataIndex: "superiorName",
+      key: "superiorName",
       width: "20%",
       ellipsis: true,
     },

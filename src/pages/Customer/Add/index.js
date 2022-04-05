@@ -295,7 +295,7 @@ const Add = () => {
             ></Cascader> */}
             <Input style={{ width: '422px' }} />
           </Form.Item>
-          <Form.Item name="operatingStatus" label="客户状态">
+          <Form.Item name="state" label="客户状态">
             <Radio.Group options={[
               { label: '潜在客户', value: 0 },
               { label: '签约运作', value: 1 },
@@ -347,8 +347,8 @@ const Add = () => {
                         <Input style={{ width: '145px' }}></Input>
                       </Form.Item>
                       <Form.Item
-                        name={[name, 'fax']}
-                        fieldKey={[fieldKey, 'fax']}
+                        name={[name, 'job']}
+                        fieldKey={[fieldKey, 'job']}
                         label="职务"
                         style={{ width: '245px' }}
                       >

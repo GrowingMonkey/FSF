@@ -47,6 +47,12 @@ const ModalCustomerContact = ({
       ],
     },
     {
+      name: "job",
+      label: "职务",
+      type: "input",
+      span: 24,
+    },
+    {
       name: "email",
       label: "邮箱",
       type: "input",
@@ -114,6 +120,7 @@ const ModalCustomerContact = ({
         });
       } else {
         addContact({ ...values, customerId: customerId }).then((data) => {
+          message.info(data.message);
           form.resetFields();
           setConfirmLoading(false);
           onSubmit();

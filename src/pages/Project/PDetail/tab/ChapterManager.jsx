@@ -4,13 +4,14 @@ import { history, Link } from 'umi';
 import { useEffect } from 'react';
 import {
     selectTPList, recommendTalent, updateTP, Interview, rejectTalent, talentGiveUp, sendOffer, confirmOffer,
-    customerReject, quitWork
+    customerReject, quitWork, changeTPOwner
 } from '@/services/project'
 import { useState } from 'react';
 import ProForm, {
     ProFormRadio, ProFormSelect, ProFormDependency, ProFormText, ProFormDatePicker, ProFormDateTimePicker, ProFormTextArea,
 } from '@ant-design/pro-form';
 import CustomerSearch from '@/components/CustomerSearch';
+import SearchInput from '@/components/SearchInput'
 const { TabPane } = Tabs;
 const ChapterManager = () => {
     const [searchForm] = Form.useForm();
@@ -26,6 +27,11 @@ const ChapterManager = () => {
     const [currentCustomerId, setCurrentCustomerId] = useState(null);
     const [recordId, setRecordId] = useState(null);
     const [yuYueForm] = Form.useForm();
+    const [isfresh, setIsfresh] = useState(false);
+    const [ModalVisible, setModalVisible] = useState({
+        state: false,
+        current: null,
+    });
 
     const stateChaneTypes = {
         0: [
@@ -177,8 +183,18 @@ const ChapterManager = () => {
             // setTPList([{ address: '111', username: 'hh' }])
             console.log(TPList);
         })
-    }, [pageNo, pageSize, state, customId])
-
+    }, [pageNo, pageSize, state, customId, isfresh])
+    const changeUserName = (record) => {
+        console.log(record)
+        setModalVisible({ state: true, current: record });
+    }
+    const updatePage = () => {
+        if (isfresh) {
+            setIsfresh(false)
+        } else {
+            setIsfresh(true)
+        }
+    }
     const columns = [
         {
             title: '人选姓名',
@@ -212,6 +228,7 @@ const ChapterManager = () => {
             dataIndex: 'userName',
             key: 'userName',
             ellipsis: true,
+            render: (text, record) => [text, <Button type="link" onClick={() => changeUserName(record)}>变更顾问</Button>]
         },
         {
             title: '推荐人时间',
@@ -281,6 +298,14 @@ const ChapterManager = () => {
     const TabChange = (e) => {
         console.log(e)
         setState(e);
+    }
+    const updateGuWen = (values) => {
+        console.log(ModalVisible.current.id)
+        changeTPOwner({ appUserId: values.talent.recommenderName, appUserName: values.talent.recommenderUserId, tpId: ModalVisible.current.id }).then(res => {
+            message.info(res.message);
+            setModalVisible({ ...ModalVisible, state: false });
+            updatePage();
+        })
     }
     const handleStateChange = async (value, record) => {
         console.log(value, record.projectId);
@@ -623,6 +648,29 @@ const ChapterManager = () => {
                     >
                         <ProFormTextArea label="备注信息" name="remark" />
 
+                    </ProForm>
+                </Modal>
+                <Modal title="更改顾问" visible={ModalVisible.state} footer={null} onCancel={() => setModalVisible({ ...ModalVisible, state: false })}>
+                    <ProForm
+                        hideRequiredMark
+                        style={{
+                            margin: 'auto',
+                            marginTop: 8,
+                            maxWidth: 600,
+                        }}
+                        name="basic"
+                        layout="vertical"
+                        initialValues={{
+                            public: '1',
+                        }}
+                        onFinish={updateGuWen}
+                    >
+                        <Form.Item
+                            label="推荐人"
+                            name="talent"
+                        >
+                            <SearchInput></SearchInput>
+                        </Form.Item>
                     </ProForm>
                 </Modal>
             </Card>

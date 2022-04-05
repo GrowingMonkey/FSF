@@ -209,14 +209,16 @@ const UserList = () => {
             }}
           >
             编辑
+          </Button>{
+            workState != 1 && <Button
+              type="link"
+              style={{ padding: 0 }}
+              onClick={() => showModal(record.userId)}
+            >
+              离职
           </Button>
-          <Button
-            type="link"
-            style={{ padding: 0 }}
-            onClick={() => showModal(record.userId)}
-          >
-            离职
-          </Button>
+          }
+
           {
             record.accountState == 0 ? <Button
               type="link"

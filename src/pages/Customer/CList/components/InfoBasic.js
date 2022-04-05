@@ -41,6 +41,7 @@ const InfoBasic = ({ record, update }) => {
   const [subsidiaryRecord, setSubsidiaryRecord] = useState(null);
   const [subsidiaryList, setSubsidiaryList] = useState([]);
   const [tags, setTags] = useState([]);
+  const [isfresh, setIsfresh] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [customerContacts, setCustomerContacts] = useState([
@@ -93,7 +94,7 @@ const InfoBasic = ({ record, update }) => {
       ellipsis: true,
     },
     {
-      title: "职位",
+      title: "职务",
       dataIndex: "job",
       key: "job",
       ellipsis: true,
@@ -254,7 +255,7 @@ const InfoBasic = ({ record, update }) => {
       );
     });
     getTags();
-  }, []);
+  }, [isfresh]);
   const getTags = () => {
     const { location: { query } } = history;
     selectCTeamList({ customerId: query.customerId }).then(res => {
@@ -265,8 +266,8 @@ const InfoBasic = ({ record, update }) => {
     const { location: { query } } = history;
     await delTeamPerson({ appUserId: removedTag.userId, customerId: query.customerId }).then(ress => {
       message.info(ress.message || '删除成功');
+      updateFresh();
     })
-    getTags();
   }
   const onContactDeleteConfirm = (record) => {
 
@@ -283,14 +284,23 @@ const InfoBasic = ({ record, update }) => {
             return { ...item, key: item.id };
           })
         );
+        updateFresh();
       });
     });
   };
+  const updateFresh = () => {
+    if (isfresh) {
+      setIsfresh(false)
+    } else {
+      setIsfresh(true)
+    }
+  }
   const onFinish = (values) => {
     const { location: { query } } = history;
     addTeamPerson({ appUserId: values.project.recommenderUserId, appUserName: values.project.recommenderName, customerId: query.customerId }).then(res => {
       message.success(res.message);
       setIsModalVisible(false);
+      updateFresh();
     })
   }
   const onEditBasicFinish = (values) => {
@@ -425,7 +435,7 @@ const InfoBasic = ({ record, update }) => {
             {record.createTime}
           </Descriptions.Item>
           <Descriptions.Item label="">
-            <Button type="primary" onClick={() => setSignVisible(true)}>申请签约</Button>
+            {record.state == 0 ? <Button type="primary" onClick={() => setSignVisible(true)}>申请签约</Button> : ''}
           </Descriptions.Item><br />
           <Descriptions.Item label="执行团队">
             {tags.map((tag, index) => {
@@ -438,6 +448,7 @@ const InfoBasic = ({ record, update }) => {
                   onClose={(e) => {
                     e.preventDefault();
                     handleDeleteTag(tag)
+
                   }}
                 >
                   {tag.userName}

@@ -179,6 +179,10 @@ const AddInvoice = () => {
                             {
                                 label: '三期',
                                 value: '三期',
+                            },
+                            {
+                                label: '全款',
+                                value: '全款',
                             }]} name="dateType" label="回款期限" rules={[
                                 {
                                     required: true,

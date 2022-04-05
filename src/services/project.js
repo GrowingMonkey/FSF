@@ -318,4 +318,10 @@ export const addTeamPerson = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export const changeTPOwner = (payload) => {
+  return request('/project/changeTPOwner', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
 

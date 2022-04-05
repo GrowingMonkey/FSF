@@ -137,7 +137,7 @@ const ModalCustomerSign = ({
                 <ProFormDependency name={['isDownPayment']}>
                     {({ isDownPayment }) => {
                         if (+isDownPayment != 1) {
-                            return (<ProFormText label="服务费"
+                            return (<ProFormText label="预付款"
                                 name="serviceCharge" fieldProps={{
                                     suffix: '元'
                                 }} />)

@@ -53,13 +53,14 @@ const Search = () => {
         addTeamPerson({ appUserId: values.project.recommenderUserId, appUserName: values.project.recommenderName, projectId: query.projectId }).then(res => {
             message.success(res?.message);
             setIsModalVisible(false);
+            updateData();
         })
     }
     const handleDeleteTag = async (removedTag) => {
         const { location: { query } } = history;
         await delTeamPerson({ appUserId: removedTag.userId, projectId: query.projectId }).then(ress => {
             message.info(ress.message || '删除成功');
-
+            updateData();
         })
         // getTages();
 

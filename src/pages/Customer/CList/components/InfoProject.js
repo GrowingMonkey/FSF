@@ -197,7 +197,7 @@ const InfoProject = ({ record = {} }) => {
       span: 12,
     }, {
       name: "name",
-      label: "服务顾问",
+      label: "录入人",
       type: "input",
       span: 12,
     },

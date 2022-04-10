@@ -91,6 +91,7 @@ const TPList = () => {
                 return <div>{alternateTypes[text].label}</div>;
             },
         },
+
         // {
         //   title: "职位",
         //   dataIndex: "k8",

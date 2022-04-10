@@ -64,7 +64,7 @@ const BFList = () => {
     },
     {
       name: 'userId',
-      label: '服务顾问',
+      label: '录入人',
       type: 'input',
       span: 8,
     },
@@ -84,7 +84,7 @@ const BFList = () => {
       key: 'type0',
     },
     {
-      title: '服务顾问',
+      title: '录入人',
       dataIndex: 'job',
       ellipsis: true,
 

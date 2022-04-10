@@ -84,7 +84,7 @@ const AddInvoice = () => {
                                 required: true,
                                 message: '必填',
                             },
-                        ]} wrapperCol={{ style: { width: '175px' } }} label="服务顾问">
+                        ]} wrapperCol={{ style: { width: '175px' } }} label="录入人">
                             {/* <SearchInput></SearchInput> */}
                             <Descriptions.Item>111</Descriptions.Item>
                         </Form.Item>

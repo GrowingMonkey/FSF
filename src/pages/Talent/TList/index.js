@@ -223,6 +223,18 @@ const TList = () => {
       key: "job",
     },
     {
+      title: "录入人",
+      dataIndex: "userName",
+      ellipsis: true,
+      key: "userName",
+      render: (text, record) => {
+        if (text) {
+          return text;
+        }
+        return "系统"
+      }
+    },
+    {
       title: "更新时间",
       dataIndex: "updateTime",
       ellipsis: true,

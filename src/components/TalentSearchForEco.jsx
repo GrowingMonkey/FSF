@@ -77,7 +77,7 @@ const TalentSearchForEco = ({ value = {}, onChange, filedProps = {}, applyUser =
         if (user && user.recommenderUserId) {
             handleSearch('');
         } else {
-            message.error('请先选择服务顾问或申请人');
+            message.error('请先选择录入人或申请人');
             return;
         }
     }

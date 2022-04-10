@@ -91,6 +91,18 @@ const TPList = () => {
         return <div>{alternateTypes[text].label}</div>;
       },
     },
+    {
+      title: "录入人",
+      dataIndex: "userName",
+      ellipsis: true,
+      key: "userName",
+      render: (text, record) => {
+        if (text) {
+          return text;
+        }
+        return "系统"
+      }
+    },
     // {
     //   title: "职位",
     //   dataIndex: "k8",

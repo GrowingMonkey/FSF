@@ -377,7 +377,7 @@ const TalentDetail = () => {
                 <div className={styles["page-title"]}>联系方式
                   <Button type="primary" size="small" style={{ marginLeft: '18px' }} onClick={() => setIsModalVisible(true)}>加入项目</Button>
                   <EditOutlined style={{ float: 'right' }} onClick={() => setContactModalVisible(true)}></EditOutlined>
-                  <span style={{ marginLeft: '25%', fontSize: '14px', color: '#1890ff' }}>服务顾问:{detail.userName == 0 ? '系统录入' : detail.userName}</span>
+                  <span style={{ marginLeft: '25%', fontSize: '14px', color: '#1890ff' }}>录入人:{detail.userName == 0 ? '系统录入' : detail.userName}</span>
                 </div>
                 <Divider></Divider>
                 <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', fontWeight: 'bold', justifyContent: 'flex-start' }} column={2}>

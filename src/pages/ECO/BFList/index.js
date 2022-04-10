@@ -244,13 +244,14 @@ const BFList = () => {
 
   useEffect(() => {
     selectServiceFeeList(searchValues).then((res) => {
-      const { data } = res;
-      setBfList(
-        data.list &&
-        data.list.map((item) => {
-          return Object.assign(item, { key: item.id });
-        }),
-      );
+      // const { data } = res;
+      // setBfList(
+      //   data.list &&
+      //   data.list.map((item) => {
+      //     return Object.assign(item, { key: item.id });
+      //   }),
+      // );
+      setBfList(res?.data?.list || [])
     });
   }, [searchValues]);
   useEffect(() => {

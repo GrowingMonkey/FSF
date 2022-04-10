@@ -295,6 +295,11 @@ export default [
       //   name: "我的业绩",
       //   component: "./ECO/KpiList/index",
       // },
+      {
+        path: "/eco/kpi-add",
+        name: "新增业绩",
+        component: "./ECO/KpiList/Add/index",
+      },
       // {
       //   path: "/eco/salary-list",
       //   name: "工资管理",

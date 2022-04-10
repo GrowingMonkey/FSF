@@ -115,4 +115,10 @@ export const sejsq = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export const selectMyServiceFeeList = (payload) => {
+  return request('/eco/selectMyServiceFeeList', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
 

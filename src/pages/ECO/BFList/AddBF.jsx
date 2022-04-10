@@ -7,6 +7,8 @@ import ProForm, {
     ProFormSearchSelect,
     ProFormDigit,
     ProFormRadio,
+    ProFormList,
+    Divider,
     ProFormSelect,
     ProFormText,
     ProFormTextArea,
@@ -16,8 +18,10 @@ import { PageContainer } from '@ant-design/pro-layout';
 import { addServiceFee } from '@/services/eco'
 import { upload } from '@/utils/lib/upload'
 import SearchInput from '@/components/SearchInput';
-import TalentSearch from '@/components/TalentSearch';
+import TalentSearch from './TalentSearchBF';
 import CustomerSearch from '@/components/CustomerSearch';
+import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+
 
 
 const AddInvoice = () => {
@@ -44,33 +48,55 @@ const AddInvoice = () => {
         debugger
         Promise.all([
             applyForm.validateFields(),
-            talentForm.validateFields(),
+            // talentForm.validateFields(),
             noteForm.validateFields(),
         ]).then((values) => {
+
             console.log(values)
-            run({ ...values[0], customerId: values[0].customerOut.customerId, customerName: values[0].customerOut.customerName, ...values[1], ...values[2], appUserId: values[0].appUser.recommenderUserId, talentProjectId: values[1]?.talent?.talentId })
+            let realFee = [];
+            if (values[0].isTalent == 1 && values[0].users) {
+
+                values[0].users.map(item => {
+                    realFee.push({ realFee: item.realFee, tpId: item.talents.talents.id })
+                })
+
+            }
+            run({ ...values[0], customerId: values[0].customerOut.customerId, customerName: values[0].customerOut.customerName, ...values[1], appUserId: values[0].appUser.recommenderUserId, tpIds: realFee })
         })
     }
-
+    const changedTalent = (e, index) => {
+        console.log(applyForm.getFieldsValue(true).users);
+        // applyForm.getFieldsValue(true).users;
+        // applyForm.setFieldsValue({
+        //     users: applyForm.getFieldsValue(true).users.splice(index, 1, e),
+        // })
+    }
+    const renderItem = () => {
+        console.log(applyForm.getFieldsValue(true));
+    }
     return (
         <PageContainer content="">
-            <Card bordered={false} title={'新增回款'}>
-                <ProForm
 
-                    style={{
-                        // margin: 'auto',
-                        marginTop: 8,
-                        maxWidth: 600,
-                    }}
-                    form={applyForm}
-                    name="basic"
-                    layout="horizontal"
-                    submitter={{
-                        render: (props, dom) => {
-                            return null;
-                        },
-                    }}
-                >
+            <ProForm
+
+                style={{
+                    // margin: 'auto',
+                    marginTop: 8,
+                    maxWidth: 600,
+                }}
+                form={applyForm}
+                name="basic"
+                layout="horizontal"
+                initialValues={{
+                    isTalent: 0
+                }}
+                submitter={{
+                    render: (props, dom) => {
+                        return null;
+                    },
+                }}
+            >
+                <Card bordered={false} title={'新增回款'} style={{ minWidth: '700px' }}>
                     <Form.Item labelCol={{ style: { width: '113px' } }} name="fee" label="回款金额" rules={[
                         {
                             required: true,
@@ -204,9 +230,120 @@ const AddInvoice = () => {
                                 },
                             ]} />
                     </ProForm.Group>
-                </ProForm>
-            </Card>
-            <Card title="人选信息" bordered={false}>
+                </Card>
+                <ProFormDependency name={['isTalent']}>
+                    {({ isTalent }) => {
+                        if (+isTalent == 1) {
+                            return (
+                                <Card title="人选信息" bordered={false} style={{ minWidth: '700px' }}>
+                                    <ProFormList
+                                        // name="users"
+                                        name={['users']}
+                                        alwaysShowItemLabel={true}
+                                        creatorButtonProps={{
+                                            position: 'bottom',
+                                            style: { marginLeft: '45px', background: '#999', width: '550px', textAlign: 'center', cursor: 'pointer' },
+                                            creatorButtonText: '点击添加人选',
+                                        }}
+                                        itemContainerRender={(doms) => {
+                                            return <ProForm.Group>{doms}</ProForm.Group>;
+                                        }}
+                                    >
+                                        {
+                                            (f, index, action) => {
+                                                console.log(f, index, action);
+                                                return (
+                                                    <>
+                                                        {/* <ProFormText initialValue={index} name="rowKey" label={`第 ${index} 配置`} />*/}
+
+                                                        <Form.Item labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name={[index, 'talents']} label="选择人选" >
+                                                            <TalentSearch style={{ width: '196px' }} applyUserId={() => applyForm.getFieldValue('appUser')} />
+                                                        </Form.Item>
+                                                        <ProFormDependency name={['talents']}>
+                                                            {({ talents }) => {
+                                                                console.log(talents)
+                                                                if (!talents) {
+                                                                    return (
+                                                                        <span
+                                                                            style={{
+                                                                                lineHeight: '32px',
+                                                                            }}
+                                                                        >
+
+                                                                        </span>
+                                                                    );
+                                                                }
+                                                                return <ProFormText name="company" label="公司名" disabled value={talents.talents.company} />;
+                                                            }}
+                                                        </ProFormDependency>
+                                                        <ProForm.Group>
+                                                            <ProFormDependency name={['talents']}>
+                                                                {({ talents }) => {
+                                                                    console.log(talents)
+                                                                    if (!talents) {
+                                                                        return (
+                                                                            <span
+                                                                                style={{
+                                                                                    lineHeight: '32px',
+                                                                                }}
+                                                                            >
+
+                                                                            </span>
+                                                                        );
+                                                                    }
+                                                                    return <ProFormText name="job" label="职位名" disabled value={talents.talents.job} />;
+                                                                }}
+                                                            </ProFormDependency>
+                                                            <ProFormDependency name={['talents']}>
+                                                                {({ talents }) => {
+                                                                    console.log(talents)
+                                                                    if (!talents) {
+                                                                        return (
+                                                                            <span
+                                                                                style={{
+                                                                                    lineHeight: '32px',
+                                                                                }}
+                                                                            >
+
+                                                                            </span>
+                                                                        );
+                                                                    }
+                                                                    return <ProFormText name="refundPayment" label="应付款金额" disabled value={talents.talents.needPayment || 0} />;
+                                                                }}
+                                                            </ProFormDependency>
+                                                            <ProFormDependency name={['talents']}>
+                                                                {({ talents }) => {
+                                                                    console.log(talents)
+                                                                    if (!talents) {
+                                                                        return (
+                                                                            <span
+                                                                                style={{
+                                                                                    lineHeight: '32px',
+                                                                                }}
+                                                                            >
+
+                                                                            </span>
+                                                                        );
+                                                                    }
+                                                                    return <ProFormText name="realFee" label="实际回款金额" />;
+                                                                }}
+                                                            </ProFormDependency>
+                                                        </ProForm.Group>
+                                                    </>
+                                                );
+                                            }
+                                        }
+                                    </ProFormList>
+                                </Card>
+                            );
+                        } else {
+                            return null;
+                        }
+
+                    }}
+                </ProFormDependency>
+            </ProForm>
+            {/* <Card title="人选信息" bordered={false}>
                 <ProForm
                     hideRequiredMark
                     style={{
@@ -231,6 +368,7 @@ const AddInvoice = () => {
                 </ProForm>
 
             </Card>
+            */}
             <Card title="备注" bordered={false}>
                 <ProForm
                     hideRequiredMark
@@ -252,6 +390,7 @@ const AddInvoice = () => {
                 </ProForm>
                 <Button type="primary" onClick={handleSubmit}>提交</Button>
             </Card>
+
         </PageContainer>
     );
 };

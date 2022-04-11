@@ -64,7 +64,7 @@ const BFList = () => {
     },
     {
       name: 'userId',
-      label: '录入人',
+      label: '服务顾问',
       type: 'input',
       span: 8,
     },
@@ -78,52 +78,52 @@ const BFList = () => {
   const bfColumns = [
     {
       title: '回款编号',
-      dataIndex: 'type0',
+      dataIndex: 'id',
       ellipsis: true,
 
-      key: 'type0',
+      key: 'id',
     },
     {
-      title: '录入人',
-      dataIndex: 'job',
-      ellipsis: true,
-
-      key: 'job',
-    },
-    {
-      title: '归属公司',
+      title: '服务顾问',
       dataIndex: 'userName',
       ellipsis: true,
 
       key: 'userName',
     },
     {
-      title: '客户名称',
-      dataIndex: 'talentName',
+      title: '归属公司',
+      dataIndex: 'comName',
       ellipsis: true,
 
-      key: 'talentName',
+      key: 'comName',
+    },
+    {
+      title: '客户名称',
+      dataIndex: 'customerName',
+      ellipsis: true,
+
+      key: 'customerName',
     },
     {
       title: '回款金额',
-      dataIndex: 'salary',
+      dataIndex: 'fee',
       ellipsis: true,
 
-      key: 'salary',
+      key: 'fee',
     },
     {
       title: '添加人',
-      dataIndex: 'inductionState',
+      dataIndex: 'auditorName',
       ellipsis: true,
 
-      key: 'inductionState',
+      key: 'auditorName',
     },
     {
       title: '关联发票',
-      dataIndex: 'inductionTime',
+      dataIndex: 'invoiceSet',
       ellipsis: true,
 
-      key: 'inductionTime',
+      key: 'invoiceSet',
     },
     {
       title: '回款时间',
@@ -134,10 +134,10 @@ const BFList = () => {
     },
     {
       title: '备注',
-      dataIndex: 'balanceFee',
+      dataIndex: 'remark',
       ellipsis: true,
 
-      key: 'balanceFee',
+      key: 'remark',
     },
     {
       title: '操作',

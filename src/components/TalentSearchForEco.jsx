@@ -6,91 +6,85 @@ import { selectTPListForInvoice } from "@/services/eco";
  * 人选查询select组件
  * @param {props} param0 
  */
-const TalentSearchForEco = ({ value = {}, onChange, filedProps = {}, applyUser = '' }) => {
+const TalentSearch = ({ value = {}, onChange, filedProps = {}, applyUserId }) => {
     const { Option } = Select;
-    const [talentId, setTalentId] = useState(null);
-    const [name, setName] = useState(null);
     const [options, setOptions] = useState([]);
+    const [sourceList, setSourceList] = useState([])
     const triggerChange = (changedValue) => {
         onChange?.({
-            talentId,
-            name,
-            ...value,
             ...changedValue,
         });
     };
+
     const onCustomerChange = (newValue) => {
         debugger
         if (Array.isArray(newValue)) {
             let newArray = [];
-            newValue.map((item) => {
-                let list = item.split("/");
-                let talentId = list[0];
-                let name = list[1];
-                newArray.push({
-                    talentId, name
-                })
-            })
-            triggerChange({
-                talents: newArray
+            let id = sourceList.map((item, index) => {
+                if (item.id == newValue) {
+                    console.log(index, newValue)
+                    newArray.push(item);
+                }
             });
+            console.log(id);
+            newArray.push(JSON.parse(newValue));
+            triggerChange([
+                ...newArray
+            ]);
         } else {
-            let list = newValue.split("/");
-            let talentId = list[0];
-            let needPayment = list[1];
-            if (!("talentId" in value)) {
-                setTalentId(talentId);
-            }
-            if (!("name" in value)) {
-                setName(name);
-            }
+            let currentI = null
+            sourceList.map((item, index) => {
+                if (item.id == newValue) {
+                    currentI = item;
+                }
+            });
+
             triggerChange({
-                talentId: talentId,
-                needPayment: needPayment
+                ...currentI
             });
         }
     };
     const handleSearch = (value) => {
-        let user = applyUser();
-        selectTPListForInvoice({ pageNo: 1, pageSize: 1000, name: value, appUserId: user?.recommenderUserId }).then(
-            (res) => {
-                const { data } = res;
-                console.log(data.list);
-                setOptions(
-                    data.list.map((item) => {
-                        return (
-                            <Option key={`${item.id}/${item.needPayment}`}>
-                                {item.talentName}/{item.job}
-                            </Option>
-                        );
-                    })
-                );
+        if (value) {
+
+            let user = applyUserId();
+            console.log(user);
+            if (!user) {
+                message.error('请先选择服务顾问');
+                return;
             }
-        );
-
-        // setOptions([]);
-
-    };
-    const handleFocus = () => {
-        let user = applyUser();
-        console.log(user)
-        if (user && user.recommenderUserId) {
-            handleSearch('');
+            selectTPListForInvoice({ pageNo: 1, pageSize: 10, name: value, appUserId: user.recommenderUserId }).then(
+                (res) => {
+                    const { data } = res;
+                    setOptions(
+                        data.list.map((item) => {
+                            return (
+                                <Option key={item.id}>
+                                    {item.talentName}
+                                </Option>
+                            );
+                        })
+                    );
+                    setSourceList(res.data.list);
+                }
+            );
         } else {
-            message.error('请先选择录入人或申请人');
-            return;
+            setOptions([]);
         }
-    }
+    };
     const debouncedSeach = debounce(handleSearch, 250);
+    console.log('value');
+    console.log(value);
     return (
         <Select
+            style={{ width: "168px" }}
             {...filedProps}
             showSearch
             placeholder=""
+            value={value?.talents?.talentName}
             defaultActiveFirstOption={false}
             showArrow={false}
             filterOption={false}
-            onFocus={handleFocus}
             onSearch={debouncedSeach}
             onChange={onCustomerChange}
             notFoundContent={null}
@@ -100,4 +94,4 @@ const TalentSearchForEco = ({ value = {}, onChange, filedProps = {}, applyUser =
     );
 };
 
-export default TalentSearchForEco;
+export default TalentSearch;

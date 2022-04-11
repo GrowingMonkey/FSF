@@ -74,7 +74,7 @@ const CompanyEarningList = () => {
     },
     {
       name: 'employId',
-      label: '录入人',
+      label: '服务顾问',
       type: 'input',
       span: 6,
     },
@@ -116,7 +116,7 @@ const CompanyEarningList = () => {
       key: 'customerId',
     },
     {
-      title: '录入人',
+      title: '服务顾问',
       dataIndex: 'userName',
       key: 'userName',
     },

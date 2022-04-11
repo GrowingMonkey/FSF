@@ -81,7 +81,7 @@ const Home = () => {
             key: 'comName',
             ellipsis: true,
         }, {
-            title: '录入人',
+            title: '服务顾问',
             dataIndex: 'userName',
             key: 'userName',
             ellipsis: true,

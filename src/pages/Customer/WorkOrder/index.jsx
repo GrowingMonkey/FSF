@@ -49,7 +49,7 @@ const BFList = () => {
             key: 'type0',
         },
         {
-            title: '录入人',
+            title: '服务顾问',
             dataIndex: 'job',
             ellipsis: true,
 

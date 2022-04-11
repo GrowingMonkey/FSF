@@ -111,7 +111,7 @@ const AddInvoice = () => {
                                 required: true,
                                 message: '必填',
                             },
-                        ]} wrapperCol={{ style: { width: '175px' } }} label="录入人">
+                        ]} wrapperCol={{ style: { width: '175px' } }} label="服务顾问">
                             <SearchInput></SearchInput>
                         </Form.Item>
                         <ProFormText labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="appUserCompany" label="归属公司"></ProFormText>

@@ -7,6 +7,7 @@ import ProForm, {
     ProFormSearchSelect,
     ProFormDigit,
     ProFormRadio,
+    ProFormList,
     ProFormSelect,
     ProFormText,
     ProFormTextArea,
@@ -289,9 +290,98 @@ const AddInvoice = () => {
                             message: '必填',
                         },
                     ]} />
+
+                    <ProFormDependency name={['isTalent']}>
+                        {({ isTalent }) => {
+                            if (+isTalent == 1) {
+                                return (
+                                    <Card title="人选信息" bordered={false} style={{ minWidth: '700px' }}>
+                                        <ProFormList
+                                            // name="users"
+                                            name={['users']}
+                                            alwaysShowItemLabel={true}
+                                            creatorButtonProps={{
+                                                position: 'bottom',
+                                                style: { marginLeft: '45px', background: '#999', width: '550px', textAlign: 'center', cursor: 'pointer' },
+                                                creatorButtonText: '点击添加人选',
+                                            }}
+                                            itemContainerRender={(doms) => {
+                                                return <ProForm.Group>{doms}</ProForm.Group>;
+                                            }}
+                                        >
+                                            {
+                                                (f, index, action) => {
+                                                    console.log(f, index, action);
+                                                    return (<>
+                                                        <Form.Item name="basic" name="talent" labelCol={{ style: { width: '112px' } }} label="选择人选" rules={[
+                                                            {
+                                                                required: true,
+                                                                message: '必填',
+                                                            },
+                                                        ]}>
+                                                            <TalentSearchForEco onChange={async (e) => {
+                                                                console.log(e);
+                                                                action.setCurrentRowData({
+                                                                    serviceFee: e.needPayment
+                                                                })
+                                                            }} style={{ width: '196px' }} applyUserId={() => applyForm.getFieldValue('appUser')} />
+                                                        </Form.Item>
+                                                        <ProForm.Group>
+                                                            <ProFormText rules={[
+                                                                {
+                                                                    required: true,
+                                                                    message: '必填',
+                                                                },
+                                                            ]} labelCol={{ style: { width: '112px' } }} wrapperCol={{ style: { width: '168px' } }} disabled name="serviceFee" label="议价服务费" />
+                                                            <ProFormText rules={[
+                                                                {
+                                                                    required: true,
+                                                                    message: '必填',
+                                                                },
+                                                            ]} labelCol={{ style: { width: '112px' } }} wrapperCol={{ style: { width: '168px' } }} disabled name="alreadyFee" label="已开票金额"></ProFormText>
+                                                        </ProForm.Group>
+                                                        <ProForm.Group>
+                                                            <ProFormText rules={[
+                                                                {
+                                                                    required: true,
+                                                                    message: '必填',
+                                                                },
+                                                            ]} fieldProps={{
+                                                                onBlur: blurFee
+                                                            }} labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="fee" label="开票金额" />
+                                                            <ProFormSelect options={[
+                                                                {
+                                                                    label: '0%',
+                                                                    value: 0,
+                                                                },
+                                                                {
+                                                                    label: '1%',
+                                                                    value: 1,
+                                                                },
+                                                                {
+                                                                    label: '3%',
+                                                                    value: 3,
+                                                                }, {
+                                                                    label: '6%',
+                                                                    value: 6,
+                                                                }]} onChange={blurFee} labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="invoiceRate" label="税率" />
+                                                        </ProForm.Group>
+                                                        <ProForm.Group>
+                                                            <ProFormText labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} disabled name="freeFee" label="不含税率金额"></ProFormText>
+                                                            <ProFormText labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} disabled name="invoiceFee" label="税额" />
+                                                        </ProForm.Group>
+
+                                                    </>)
+                                                }}
+                                        </ProFormList>
+                                    </Card>
+                                )
+                            }
+                        }}
+                    </ProFormDependency>
                 </ProForm>
             </Card>
-            <Card title="人选信息" bordered={false}>
+            {/* <Card title="人选信息" bordered={false}>
                 <ProForm
                     style={{
                         marginTop: 8,
@@ -361,9 +451,11 @@ const AddInvoice = () => {
                         <ProFormText labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} disabled name="freeFee" label="不含税率金额"></ProFormText>
                         <ProFormText labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} disabled name="invoiceFee" label="税额" />
                     </ProForm.Group>
+
                 </ProForm>
 
-            </Card>
+            </Card> */}
+
             <Card title="申请发票备注" bordered={false}>
                 <ProForm
                     hideRequiredMark

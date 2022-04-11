@@ -151,7 +151,7 @@ const InfoBasic = () => {
             <div className="box">职位:</div>
           </Col>
           <Col span={6}>
-            <div className="box">录入人: 王杰</div>
+            <div className="box">服务顾问: 王杰</div>
           </Col>
         </Row> */}
         <Divider style={{ marginTop: "38px", marginBottom: "38px" }}></Divider>
@@ -166,7 +166,7 @@ const InfoBasic = () => {
           <Descriptions.Item label="归属公司">成都一分</Descriptions.Item>
           <Descriptions.Item label="推荐人名">无</Descriptions.Item>
           <Descriptions.Item label="客户来源">人脉推荐</Descriptions.Item>
-          <Descriptions.Item label="录入人名">陈静云</Descriptions.Item>
+          <Descriptions.Item label="服务顾问名">陈静云</Descriptions.Item>
           <Descriptions.Item label="回传编号">
             东方网络科技有限公司
           </Descriptions.Item>

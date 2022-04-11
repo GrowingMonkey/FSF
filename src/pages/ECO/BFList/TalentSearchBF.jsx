@@ -50,7 +50,7 @@ const TalentSearch = ({ value = {}, onChange, filedProps = {}, applyUserId }) =>
             let user = applyUserId();
             console.log(user);
             if (!user) {
-                message.error('请先选择录入人');
+                message.error('请先选择服务顾问');
                 return;
             }
             selectTPListForInvoice({ pageNo: 1, pageSize: 10, name: value, appUserId: user.recommenderUserId }).then(

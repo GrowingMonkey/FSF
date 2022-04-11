@@ -401,7 +401,7 @@ const InfoBasic = ({ record, update }) => {
             <div className="box">职位:</div>
           </Col>
           <Col span={6}>
-            <div className="box">录入人: 王杰</div>
+            <div className="box">服务顾问: 王杰</div>
           </Col>
         </Row> */}
         <Divider style={{ marginTop: "38px", marginBottom: "38px" }}></Divider>
@@ -423,7 +423,7 @@ const InfoBasic = ({ record, update }) => {
           <Descriptions.Item label="客户来源">
             {sourceTypeOptions[record.sourceType]?.label}
           </Descriptions.Item>
-          <Descriptions.Item label="录入人名">
+          <Descriptions.Item label="服务顾问名">
             {record.userName}
           </Descriptions.Item>
           {/* <Descriptions.Item label="回传编号">?</Descriptions.Item> */}

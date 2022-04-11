@@ -81,7 +81,7 @@ const CommissionList = () => {
     },
     {
       name: 'userId',
-      label: '录入人',
+      label: '服务顾问',
       type: 'input',
       span: 6,
     },

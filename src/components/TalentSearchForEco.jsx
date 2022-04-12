@@ -81,7 +81,6 @@ const TalentSearch = ({ value = {}, onChange, filedProps = {}, applyUserId }) =>
             {...filedProps}
             showSearch
             placeholder=""
-            value={value?.talents?.talentName}
             defaultActiveFirstOption={false}
             showArrow={false}
             filterOption={false}

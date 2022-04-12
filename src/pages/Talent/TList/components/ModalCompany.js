@@ -71,6 +71,7 @@ const ModalCompany = ({ visible, onSubmit, onCancel, record, talentId, data = nu
     <Modal
       forceRender
       visible={visible}
+      maskClosable={false}
       title={modalTitle}
       okText="提交"
       cancelText="取消"

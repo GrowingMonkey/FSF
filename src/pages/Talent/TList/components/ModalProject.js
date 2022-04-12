@@ -66,6 +66,7 @@ const ModalProject = ({ visible, onSubmit, onCancel, record, talentId, data = nu
   return (
     <Modal
       forceRender
+      maskClosable={false}
       visible={visible}
       title={modalTitle}
       okText="提交"

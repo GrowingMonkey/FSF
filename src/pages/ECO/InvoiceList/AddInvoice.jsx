@@ -46,12 +46,12 @@ const AddInvoice = () => {
         debugger
         Promise.all([
             applyForm.validateFields(),
-            talentForm.validateFields(),
+            // talentForm.validateFields(),
             noteForm.validateFields(),
         ]).then((values) => {
             console.log(values);
-            console.log({ ...values[0], ...values[1], ...values[2], appUserId: values[0].appUser.recommenderUserId, talentId: values[1].talent.talentId })
-            run({ ...values[0], ...values[1], ...values[2], appUserId: values[0].appUser.recommenderUserId, talentId: values[1]?.talent?.talentId, customerId: values[0].customerOut.customerId, customerName: values[0].customerOut.customerName })
+
+            run({ ...values[0], ...values[1], appUserId: values[0].appUser.recommenderUserId, customerId: values[0].customerOut.customerId, customerName: values[0].customerOut.customerName })
         })
     }
     const changedTalent = (e) => {
@@ -298,7 +298,7 @@ const AddInvoice = () => {
                                     <Card title="人选信息" bordered={false} style={{ minWidth: '700px' }}>
                                         <ProFormList
                                             // name="users"
-                                            name={['users']}
+                                            name={['talentProjects']}
                                             alwaysShowItemLabel={true}
                                             creatorButtonProps={{
                                                 position: 'bottom',
@@ -313,16 +313,22 @@ const AddInvoice = () => {
                                                 (f, index, action) => {
                                                     console.log(f, index, action);
                                                     return (<>
-                                                        <Form.Item name="basic" name="talent" labelCol={{ style: { width: '112px' } }} label="选择人选" rules={[
-                                                            {
-                                                                required: true,
-                                                                message: '必填',
-                                                            },
+                                                        <Form.Item name="basic" name="talentProject" labelCol={{ style: { width: '112px' } }} label="选择人选" rules={[
+                                                            // {
+                                                            //     required: true,
+                                                            //     message: '必填',
+                                                            // },
                                                         ]}>
                                                             <TalentSearchForEco onChange={async (e) => {
                                                                 console.log(e);
                                                                 action.setCurrentRowData({
-                                                                    serviceFee: e.needPayment
+                                                                    serviceFee: e.needPayment,
+                                                                    talent: { ...e }
+                                                                })
+                                                                await getAlreadyFee({ tpId: e.id }).then(res => {
+                                                                    action.setCurrentRowData({
+                                                                        alreadyFee: res?.data || 0,
+                                                                    })
                                                                 })
                                                             }} style={{ width: '196px' }} applyUserId={() => applyForm.getFieldValue('appUser')} />
                                                         </Form.Item>
@@ -347,7 +353,21 @@ const AddInvoice = () => {
                                                                     message: '必填',
                                                                 },
                                                             ]} fieldProps={{
-                                                                onBlur: blurFee
+                                                                onBlur: () => {
+                                                                    let values = action.getCurrentRowData();
+                                                                    console.log(values);
+                                                                    if (values.fee && values.invoiceRate) {
+                                                                        sejsq({ ...values }).then(res => {
+                                                                            let result = JSON.parse(res.data);
+                                                                            action.setCurrentRowData({
+                                                                                invoiceFee: result?.invoiceFee || 0,
+                                                                                freeFee: result.freeFee
+                                                                            })
+                                                                        })
+                                                                    } else {
+                                                                        return;
+                                                                    }
+                                                                }
                                                             }} labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="fee" label="开票金额" />
                                                             <ProFormSelect options={[
                                                                 {
@@ -364,7 +384,23 @@ const AddInvoice = () => {
                                                                 }, {
                                                                     label: '6%',
                                                                     value: 6,
-                                                                }]} onChange={blurFee} labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="invoiceRate" label="税率" />
+                                                                }]} onChange={() => {
+                                                                    () => {
+                                                                        let values = action.getCurrentRowData();
+                                                                        console.log(values);
+                                                                        if (values.fee && values.invoiceRate) {
+                                                                            sejsq({ ...values }).then(res => {
+                                                                                let result = JSON.parse(res.data);
+                                                                                action.setCurrentRowData({
+                                                                                    invoiceFee: result?.invoiceFee || 0,
+                                                                                    freeFee: result.freeFee
+                                                                                })
+                                                                            })
+                                                                        } else {
+                                                                            return;
+                                                                        }
+                                                                    }
+                                                                }} labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="invoiceRate" label="税率" />
                                                         </ProForm.Group>
                                                         <ProForm.Group>
                                                             <ProFormText labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} disabled name="freeFee" label="不含税率金额"></ProFormText>

@@ -69,6 +69,7 @@ const ModalEducation = ({ visible, onSubmit, onCancel, talentId, data = null }) 
       forceRender
       visible={visible}
       title={modalTitle}
+      maskClosable={false}
       okText="提交"
       cancelText="取消"
       onCancel={handleCancel}

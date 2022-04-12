@@ -954,7 +954,7 @@ const TalentDetail = () => {
 
             </ProForm>
           </Modal>
-          <Modal title="新增沟通" visible={isRecordModalVisible} footer={null} onCancel={() => setIsRecordModalVisible(false)}>
+          <Modal title="新增沟通" visible={isRecordModalVisible} maskClosable={false} footer={null} onCancel={() => setIsRecordModalVisible(false)}>
             <ProForm
               hideRequiredMark
               style={{

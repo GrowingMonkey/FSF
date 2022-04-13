@@ -15,7 +15,7 @@ import {
   message,
   Upload,
 } from 'antd';
-import CascaderMul from '@/components/CascaderMul'
+import CascaderMul from '@/components/CascaderMul';
 import ProForm, {
   ProFormText,
   ProFormRadio,
@@ -316,9 +316,7 @@ const TCreation = () => {
         </Row>
         <Divider></Divider>
         <ProForm
-
           labelAlign="left"
-
           layout={'horizontal'}
           form={contactForm}
           onValuesChange={(changeValues) => cnkiPhoneAndEmail(changeValues)}
@@ -355,8 +353,6 @@ const TCreation = () => {
         <ProForm
           form={basicForm}
           style={{ position: 'relative' }}
-
-
           layout={'horizontal'}
           labelAlign="left"
           submitter={{
@@ -537,12 +533,12 @@ const TCreation = () => {
                 className: 'avatar-uploader',
                 showUploadList: false,
                 customRequest: async (options) => {
-                  let result = await upload(options.file, () => { });
+                  let result = await upload(options.file, () => {});
                   console.log(result.res.requestUrls[0]);
                   basicForm.setFieldsValue({ headUrl: [result.name] });
                   setImageUrl(
                     result.res.requestUrls[0].split('?')[0] +
-                    '?x-oss-process=image/resize,w_100,h_100/quality,q_50',
+                      '?x-oss-process=image/resize,w_100,h_100/quality,q_50',
                   );
                   options.onSuccess(result.res.requestUrls[0], result.res.requestUrls[0]);
                 },
@@ -552,8 +548,8 @@ const TCreation = () => {
                 imageUrl ? (
                   <img src={imageUrl} alt="avatar" style={{ width: '100%' }} />
                 ) : (
-                    uploadButton
-                  )
+                  uploadButton
+                )
               }
             />
           </div>
@@ -602,9 +598,7 @@ const TCreation = () => {
               onChange={() => { }}
               multiple
             /> */}
-            <CascaderMul
-              style={{ width: '328px' }}
-              options={cityList} />
+            <CascaderMul style={{ width: '328px' }} options={cityList} />
           </Form.Item>
         </Form>
       </div>
@@ -710,6 +704,10 @@ const TCreation = () => {
                         {
                           required: true,
                           message: '必填',
+                        },
+                        {
+                          min: 20,
+                          message: '至少20位!!',
                         },
                       ]}
                     >

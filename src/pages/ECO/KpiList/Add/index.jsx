@@ -10,8 +10,11 @@ import ProForm, {
     ProFormSelect,
     ProFormList,
     ProFormText,
+    ModalForm,
     ProFormTextArea,
 } from '@ant-design/pro-form';
+import cloneDeep from "lodash/cloneDeep";
+
 import { useRequest, history } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
 import { addServiceFee } from '@/services/eco'
@@ -20,14 +23,20 @@ import SearchInput from '@/components/SearchInput';
 import TalentSearch from '@/components/TalentSearch';
 import CustomerSearch from '@/components/CustomerSearch';
 import BFSearch from '../components/BFSearch';
+import FenPeiYuanGong from '../components/FenPeiYuanGong'
 import { useState } from 'react';
+import { confirmUserKpi } from '@/services/eco'
 
 
 const AddInvoice = () => {
     const [applyForm] = Form.useForm();
     const [talentForm] = Form.useForm();
     const [noteForm] = Form.useForm();
+    const [bilibili, setBilibili] = useState(null);
+    const [fenPeiList, setFenPeiList] = useState([]);
+    const [sgrxOptions, setSgrxOptions] = useState([]);
     const [options, setOptions] = useState(0)
+    const [noFenPeiMoney, setNoFenPeiMoney] = useState(null);
     const { run } = useRequest(addServiceFee, {
         manual: true,
         onSuccess: () => {
@@ -44,6 +53,32 @@ const AddInvoice = () => {
         console.log(values)
         // run(values);
     };
+    const computedMoney = () => {
+        talentForm.validateFields().then(values => {
+            console.log(values);
+            let param = {
+                serviceFee: values.serviceFee,
+                rate: applyForm.getFieldValue('rate'),
+                kpiUserInfos: []
+            }
+            values.allotPlan.map(item => {
+                param.kpiUserInfos.push({ userId: item.empoylee.id, userName: item.empoylee.name, rate: item.rate });
+            })
+            confirmUserKpi(param).then(res => {
+                console.log(res)
+                let allotPlan = cloneDeep(values.allotPlan);
+                allotPlan.map((item, index) => {
+                    item.kpiFee = res.data[index].kpiFee;
+                    item.commissionFee = res.data[index].commissionFee
+                })
+                console.log(applyForm.getFieldsValue());
+                talentForm.setFieldsValue({
+                    allotPlan: allotPlan
+                })
+
+            })
+        })
+    }
     const handleSubmit = () => {
         debugger
         Promise.all([
@@ -122,8 +157,133 @@ const AddInvoice = () => {
     };
 
     const setOptionsType = (e) => {
-        console.log(e);
-        setOptions(e.isKpi)
+        console.log('111', e);
+        e.tpList.map(item => {
+            item.label = item.talentName;
+            item.value = item.tpId;
+        })
+        console.log('newarr', e.tpList);
+        setSgrxOptions(e.tpList)
+        // talentForm.setFieldsValue({
+
+        // })
+        // setOptions(e.isKpi)
+    }
+    const modalFormss = () => {
+        return (<ModalForm
+            title="选择人员"
+            name="modal"
+            width={'980px'}
+            form={talentForm}
+            trigger={
+                <Button type="primary">+分配方案</Button>
+            }
+            submitter={{
+                render: (props, defaultDoms) => {
+                    return [
+                        ...defaultDoms,
+                        <Button
+                            key="computed"
+                            onClick={computedMoney}
+                        >
+                            计算
+                    </Button>,
+                    ];
+                },
+            }}
+            autoFocusFirstInput
+            // modalProps={{
+            //     onCancel: () => console.log('run'),
+            // }}
+            layout="vertical"
+            onFinish={async (values) => {
+                await waitTime(2000);
+                console.log(values.name);
+                message.success('提交成功');
+                return true;
+            }}
+        >
+            <ProForm.Group >
+                分配金额<ProFormText name="serviceFee" label=""></ProFormText>
+                上岗人选<ProFormSelect name="sgrx" options={sgrxOptions} label=""></ProFormSelect>
+                业绩分类<ProFormSelect name="yjfl" label="" options={[{
+                    value: 1,
+                    label: '独立运作'
+                }, {
+                    value: 2,
+                    label: '组内合作'
+                }, {
+                    value: 3,
+                    label: '同城合作'
+                }, {
+                    value: 4,
+                    label: '跨区合作'
+                }]}></ProFormSelect>
+            </ProForm.Group>
+            <ProFormList
+                layout="inline"
+                name={['allotPlan']}
+                creatorButtonProps={{
+                    position: 'bottom',
+
+                    creatorButtonText: '点击添加提成人员',
+                }}
+
+                initialValue={[
+                    {
+                        name: '1111',
+                    },
+                ]}
+                itemContainerRender={(doms) => {
+                    return <ProForm.Group>{doms}</ProForm.Group>;
+                }}
+            >
+                {(f, index, action) => {
+                    console.log(f, index, action);
+                    return (
+                        <>
+                            {/* <ProFormText name="tarent" label={`提成人`} labelCol={{ style: { width: '100px' } }} wrapperCol={{ style: { width: '100px' } }} /> */}
+                            <Form.Item name="empoylee" labelCol={{ style: { width: '100px' } }} rules={[
+                                // {
+                                //     required: true,
+                                //     message: '必填',
+                                // },
+                            ]} wrapperCol={{ style: { width: '100px' } }} label={`提成人`}>
+                                <FenPeiYuanGong onChange={e => {
+                                    console.log(e)
+                                    action.setCurrentRowData({
+                                        com: e.comName,
+                                        empoylee: { ...e }
+                                    })
+                                }}></FenPeiYuanGong>
+                            </Form.Item>
+
+                            <ProFormText name="com" label="所在公司" labelCol={{ style: { width: '100px' } }} wrapperCol={{ style: { width: '100px' } }} />
+                            <ProFormText onChange={() => {
+                                talentForm.getFieldValue('allotPlan').map(item => item?.rate || 0).reduce(function (prev, curr, idx, arr) {
+                                    return Number(prev) + Number(curr);
+                                })
+                            }} name="rate" label="业绩比例" labelCol={{ style: { width: '100px' } }} wrapperCol={{ style: { width: '100px' } }} />
+
+                            <ProFormText name="kpiFee" disabled label="业绩金额" labelCol={{ style: { width: '100px' } }} wrapperCol={{ style: { width: '100px' } }} />
+                            <ProFormText name="commissionFee" disabled label="提成金额" labelCol={{ style: { width: '100px' } }} wrapperCol={{ style: { width: '100px' } }} />
+                        </>
+                    );
+                }}
+            </ProFormList>
+        </ModalForm>)
+    }
+    const renderModalForm = () => {
+        console.log(applyForm.getFieldValue('rate'))
+        let rate = applyForm.getFieldValue('rate')
+        if (rate == 5) {
+            return null;
+        } else {
+            return <>
+                <Card title={['分配方案', modalFormss()]} >
+                </Card>
+            </>
+        }
     }
     return (
         <PageContainer content="">
@@ -154,7 +314,7 @@ const AddInvoice = () => {
                         ]} wrapperCol={{ style: { width: '175px' } }} label="选择回款">
                             <BFSearch onChange={setOptionsType}></BFSearch>
                         </Form.Item>
-                        <ProFormText labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="appUserCompany" label="归属公司"></ProFormText>
+                        <ProFormText labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="comName" label="归属公司"></ProFormText>
                     </ProForm.Group>
 
 
@@ -162,23 +322,23 @@ const AddInvoice = () => {
                         {({ appUser }) => {
                             console.log(appUser)
                             return <ProForm.Group>
-                                <ProFormSelect options={appUser ? stateChaneTypes[appUser.isKpi] : []} labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="payWay" label="提成分类" rules={[
+                                <ProFormSelect options={appUser ? stateChaneTypes[appUser.isKpi] : []} labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="type" label="提成分类" rules={[
                                     {
                                         required: true,
                                         message: '必填',
                                     },
                                 ]} />
-                                <ProFormDependency name={['payWay']}>
-                                    {({ payWay }) => {
-                                        console.log(payWay);
+                                <ProFormDependency name={['type']}>
+                                    {({ type }) => {
+                                        console.log(type);
                                         let ind = 0;
-                                        if (payWay && appUser) {
-                                            ind = payWay - appUser.isKpi;
+                                        if (type && appUser) {
+                                            ind = type - appUser.isKpi;
                                             console.log(stateChaneTypes[appUser?.isKpi][ind].ch)
                                         }
                                         // console.log(stateChaneTypes[appUser?.isKpi][ind])
-                                        return < ProFormSelect options={appUser ? stateChaneTypes[appUser?.isKpi][ind]?.ch : []} labelCol={{ style: { width: '113px' } }
-                                        } wrapperCol={{ style: { width: '168px' } }} name="payW1ay" label="提成比例" rules={[
+                                        return < ProFormSelect onChange={(e) => { console.log(e); setBilibili(e) }} options={appUser ? stateChaneTypes[appUser?.isKpi][ind]?.ch : []} labelCol={{ style: { width: '113px' } }
+                                        } wrapperCol={{ style: { width: '168px' } }} name="rate" label="提成比例" rules={[
                                             {
                                                 required: true,
                                                 message: '必填',
@@ -191,14 +351,14 @@ const AddInvoice = () => {
                         }}
                     </ProFormDependency>
                     {/* </ProForm.Group> */}
-                    <ProFormDependency name={['payWay', 'payW1ay']}>
-                        {({ payWay, payW1ay }) => {
-                            console.log(payW1ay)
-                            if (payWay && payWay == 1 && payW1ay == 5) {
+                    <ProFormDependency name={['type', 'rate']}>
+                        {({ type, rate }) => {
+                            console.log(rate)
+                            if (type && type == 1 && rate == 5) {
 
 
                                 return <ProForm.Group>
-                                    <ProFormText labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="payType" label="回款金额" rules={[
+                                    <ProFormText labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="serviceFee" label="回款金额" rules={[
                                         {
                                             required: true,
                                             message: '必填',
@@ -227,7 +387,7 @@ const AddInvoice = () => {
                                     }, {
                                         label: '其他',
                                         value: 9,
-                                    },]} labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="payType" label="回款金额" rules={[
+                                    },]} labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="serviceFee" label="回款金额" rules={[
                                         {
                                             required: true,
                                             message: '必填',
@@ -237,62 +397,11 @@ const AddInvoice = () => {
                         }}
                     </ProFormDependency>
                 </Card>
-                <ProFormDependency name={['pay1Way']}>
-                    {({ payW1ay }) => {
-                        console.log(payW1ay)
-                        if (payW1ay && payW1ay == 5) {
-                            return null;
-                        } else {
-                            return (<Card bordered={false} title={'提成分配'} style={{ width: '100%' }}>
-                                <ProForm style={{
-                                    // margin: 'auto',
-                                    marginTop: 8,
-                                }}
-                                    form={applyForm}
-                                    name="basic"
-                                    layout="vertical"
-                                    submitter={{
-                                        render: (props, dom) => {
-                                            return null;
-                                        },
-                                    }}>
-                                    <ProFormList
-                                        name={['default', 'users']}
-                                        creatorButtonProps={{
-                                            position: 'bottom',
-
-                                            creatorButtonText: '点击添加提成人员',
-                                        }}
-                                        initialValue={[
-                                            {
-                                                name: '1111',
-                                            },
-                                        ]}
-                                        itemContainerRender={(doms) => {
-                                            return <ProForm.Group>{doms}</ProForm.Group>;
-                                        }}
-                                    >
-                                        {(f, index, action) => {
-                                            console.log(f, index, action);
-                                            return (
-                                                <>
-                                                    <ProFormText name="rowKey" label={`提成人`} labelCol={{ style: { width: '100px' } }} wrapperCol={{ style: { width: '100px' } }} />
-                                                    <ProFormText name="name" key="name" label="所在公司" labelCol={{ style: { width: '100px' } }} wrapperCol={{ style: { width: '100px' } }} />
-                                                    <ProFormText name="name" key="name" label="业绩比例" labelCol={{ style: { width: '100px' } }} wrapperCol={{ style: { width: '100px' } }} />
-                                                    <ProFormText name="name" key="name" label="业绩金额" labelCol={{ style: { width: '100px' } }} wrapperCol={{ style: { width: '100px' } }} />
-                                                    <ProFormText disabled name="name" key="name" label="提成金额" labelCol={{ style: { width: '100px' } }} wrapperCol={{ style: { width: '100px' } }} />
-                                                </>
-                                            );
-                                        }}
-                                    </ProFormList>
-
-                                </ProForm>
-                            </Card>)
-                        }
-
-                    }}
-                </ProFormDependency>
             </ProForm>
+            {
+                bilibili && bilibili != 5 ? renderModalForm() : ''
+
+            }
         </PageContainer >
     );
 };

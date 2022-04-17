@@ -121,4 +121,10 @@ export const selectMyServiceFeeList = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export const confirmUserKpi = (payload) => {
+  return request('/eco/confirmUserKpi', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
 

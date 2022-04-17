@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Select, message } from "antd";
 import debounce from "lodash/debounce";
-import { selectMyServiceFeeList } from "@/services/eco";
-/**
+import { ulfq } from "@/services/customer";/**
  * 人选查询select组件
  * @param {props} param0 
  */
@@ -17,6 +16,7 @@ const TalentSearch = ({ value = {}, onChange, filedProps = {}, applyUserId }) =>
     };
 
     const onCustomerChange = (newValue) => {
+        debugger
         if (Array.isArray(newValue)) {
             let newArray = [];
             let id = sourceList.map((item, index) => {
@@ -27,9 +27,9 @@ const TalentSearch = ({ value = {}, onChange, filedProps = {}, applyUserId }) =>
             });
             console.log(id);
             newArray.push(JSON.parse(newValue));
-            triggerChange({
+            triggerChange([
                 ...newArray
-            });
+            ]);
         } else {
             let currentI = null
             sourceList.map((item, index) => {
@@ -45,14 +45,14 @@ const TalentSearch = ({ value = {}, onChange, filedProps = {}, applyUserId }) =>
     };
     const handleSearch = (value) => {
         if (value) {
-            selectMyServiceFeeList({ pageNo: 1, pageSize: 10, name: value }).then(
+            ulfq({ pageNo: 1, pageSize: 10, name: value }).then(
                 (res) => {
                     const { data } = res;
                     setOptions(
                         data.list.map((item) => {
                             return (
                                 <Option key={item.id}>
-                                    {item.customerName}
+                                    {item.name}
                                 </Option>
                             );
                         })
@@ -69,10 +69,10 @@ const TalentSearch = ({ value = {}, onChange, filedProps = {}, applyUserId }) =>
     console.log(value);
     return (
         <Select
+            style={{ width: "168px" }}
             {...filedProps}
             showSearch
             placeholder=""
-            value={value?.talents?.talentName}
             defaultActiveFirstOption={false}
             showArrow={false}
             filterOption={false}

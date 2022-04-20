@@ -73,7 +73,7 @@ const AddInvoice = () => {
                     item.kpiFee = res.data[index].kpiFee;
                     item.commissionFee = res.data[index].commissionFee
                 })
-                setComputedRedData(`提成总计金额${res.data[0].allCommissionFee}元 业绩总计金额${res.data[0].allCommissionFee}`)
+                setComputedRedData(`提成总计金额${res.data[0].allCommissionFee}元 业绩总计金额${res.data[0].kpiFee}`)
                 talentForm.setFieldsValue({
                     allotPlan: allotPlan
                 })

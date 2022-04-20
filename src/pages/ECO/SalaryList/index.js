@@ -39,7 +39,7 @@ const Salarylist = () => {
   ];
   const salaryColumns = [
     {
-      title: '姓名',
+      title: '员工名称',
       dataIndex: 'userName',
       key: 'userName',
     },
@@ -137,12 +137,8 @@ const Salarylist = () => {
 
   useEffect(() => {
     querySalaryList({ pageNo: currentPage, pageSize: 10, ...searchValues }).then((res) => {
-      const { data } = res;
       setSalaryList(
-        data.list &&
-        data.list.map((item) => {
-          return Object.assign(item, { key: item.id });
-        }),
+        res?.data?.list || []
       );
     });
   }, [currentPage, searchValues]);

@@ -127,4 +127,15 @@ export const confirmUserKpi = (payload) => {
     data: { ...(payload || {}) },
   });
 };
-
+export const addKpiFee = (payload) => {
+  return request('/eco/addKpiFee', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+export const addSalary = (payload) => {
+  return request('/eco/addSalary', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};

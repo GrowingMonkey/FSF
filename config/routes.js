@@ -300,11 +300,16 @@ export default [
         name: "新增业绩",
         component: "./ECO/KpiList/Add/index",
       },
-      // {
-      //   path: "/eco/salary-list",
-      //   name: "工资管理",
-      //   component: "./ECO/SalaryList/index",
-      // },
+      {
+        path: "/eco/salary-list",
+        name: "工资管理",
+        component: "./ECO/SalaryList/index",
+      },
+      {
+        path: "/eco/salary-add",
+        name: "新增工资",
+        component: "./ECO/SalaryList/Add",
+      },
       {
         path: '/eco/invioce-list',
         name: '发票管理',

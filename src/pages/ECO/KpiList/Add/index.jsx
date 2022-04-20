@@ -1,4 +1,4 @@
-import { Card, message, Form, Input, Button } from 'antd';
+import { Card, message, Form, Input, Button, Space } from 'antd';
 import ProForm, {
     ProFormDatePicker,
     ProFormDateTimePicker,
@@ -25,23 +25,26 @@ import CustomerSearch from '@/components/CustomerSearch';
 import BFSearch from '../components/BFSearch';
 import FenPeiYuanGong from '../components/FenPeiYuanGong'
 import { useState } from 'react';
-import { confirmUserKpi } from '@/services/eco'
-
+import { confirmUserKpi, addKpiFee } from '@/services/eco'
+import { EditableProTable } from '@ant-design/pro-table';
 
 const AddInvoice = () => {
     const [applyForm] = Form.useForm();
+    const [sum, setSum] = useState(100);
+    const [BFData, setBFData] = useState(null);
     const [talentForm] = Form.useForm();
     const [noteForm] = Form.useForm();
     const [bilibili, setBilibili] = useState(null);
     const [fenPeiList, setFenPeiList] = useState([]);
     const [sgrxOptions, setSgrxOptions] = useState([]);
+    const [computedRedData, setComputedRedData] = useState(0)
     const [options, setOptions] = useState(0)
     const [noFenPeiMoney, setNoFenPeiMoney] = useState(null);
-    const { run } = useRequest(addServiceFee, {
+    const { run } = useRequest(addKpiFee, {
         manual: true,
         onSuccess: () => {
             message.success('提交成功');
-            history.push(`/eco/bf-list`)
+            // history.push(`/eco/bf-list`)
         },
     });
 
@@ -65,13 +68,12 @@ const AddInvoice = () => {
                 param.kpiUserInfos.push({ userId: item.empoylee.id, userName: item.empoylee.name, rate: item.rate });
             })
             confirmUserKpi(param).then(res => {
-                console.log(res)
                 let allotPlan = cloneDeep(values.allotPlan);
                 allotPlan.map((item, index) => {
                     item.kpiFee = res.data[index].kpiFee;
                     item.commissionFee = res.data[index].commissionFee
                 })
-                console.log(applyForm.getFieldsValue());
+                setComputedRedData(`提成总计金额${res.data[0].allCommissionFee}元 业绩总计金额${res.data[0].allCommissionFee}`)
                 talentForm.setFieldsValue({
                     allotPlan: allotPlan
                 })
@@ -82,12 +84,13 @@ const AddInvoice = () => {
     const handleSubmit = () => {
         debugger
         Promise.all([
-            applyForm.validateFields(),
-            talentForm.validateFields(),
-            noteForm.validateFields(),
+            applyForm.validateFields()
         ]).then((values) => {
+            debugger
             console.log(values)
-            run({ ...values[0], customerId: values[0].customerOut.customerId, customerName: values[0].customerOut.customerName, ...values[1], ...values[2], appUserId: values[0].appUser.recommenderUserId, talentProjectId: values[1]?.talent?.talentId })
+            console.log(fenPeiList)
+            console.log(BFData)
+            run({ ...values[0], sfId: BFData.sfId, payType: BFData.payType, customerId: BFData.customerId, customerName: BFData.customerName, allotPlan: [...fenPeiList] })
         })
     }
     const stateChaneTypes = {
@@ -155,7 +158,28 @@ const AddInvoice = () => {
             }
         ],
     };
-
+    console.log(fenPeiList)
+    const handleModalSubmit = () => {
+        let fpList = cloneDeep(fenPeiList)
+        let list = cloneDeep(talentForm.getFieldValue('allotPlan'));
+        let otherParams = cloneDeep(talentForm.getFieldsValue(true));
+        list.map(item => {
+            item.serviceFee = otherParams.serviceFee;
+            item.tpId = otherParams?.sgrx;
+            item.talentName = sgrxOptions.filter(item => item.value == otherParams?.sgrx)[0].label || 'ceshi';
+            item.type = otherParams.yjfl;
+            item.userId = item.empoylee.userId;
+            item.userName = item.empoylee.name;
+            item.comId = item.empoylee.comId;
+            item.comName = item.empoylee.comName;
+        })
+        otherParams.kpiUserInfos = list;
+        debugger
+        fpList.push(otherParams)
+        setFenPeiList(fpList);
+        talentForm.resetFields();
+        return true;
+    }
     const setOptionsType = (e) => {
         console.log('111', e);
         e.tpList.map(item => {
@@ -163,7 +187,9 @@ const AddInvoice = () => {
             item.value = item.tpId;
         })
         console.log('newarr', e.tpList);
-        setSgrxOptions(e.tpList)
+        setSgrxOptions(e.tpList);
+        console.log()
+        setBFData(e)
         // talentForm.setFieldsValue({
 
         // })
@@ -173,11 +199,27 @@ const AddInvoice = () => {
         return (<ModalForm
             title="选择人员"
             name="modal"
-            width={'980px'}
+            width={'855px'}
             form={talentForm}
             trigger={
-                <Button type="primary">+分配方案</Button>
+                <Button type="primary" style={{
+                    marginLeft: '50px',
+                    width: '490px'
+                }}>+分配方案</Button>
             }
+            onVisibleChange={e => {
+                console.log('onVisibleChange');
+                console.log(e);
+                if (e) {
+                    let filterArr = fenPeiList.map(item => +(item.sgrx));
+                    let newOp = sgrxOptions.filter((item, i) => {
+                        // 过滤arr
+                        console.log(item);
+                        return (!filterArr.includes(+(item.value)));
+                    })
+                    setSgrxOptions(newOp);
+                }
+            }}
             submitter={{
                 render: (props, defaultDoms) => {
                     return [
@@ -191,34 +233,31 @@ const AddInvoice = () => {
                     ];
                 },
             }}
-            autoFocusFirstInput
+            // autoFocusFirstInput
             // modalProps={{
             //     onCancel: () => console.log('run'),
             // }}
             layout="vertical"
-            onFinish={async (values) => {
-                await waitTime(2000);
-                console.log(values.name);
-                message.success('提交成功');
-                return true;
-            }}
+            onFinish={handleModalSubmit}
         >
             <ProForm.Group >
-                分配金额<ProFormText name="serviceFee" label=""></ProFormText>
-                上岗人选<ProFormSelect name="sgrx" options={sgrxOptions} label=""></ProFormSelect>
-                业绩分类<ProFormSelect name="yjfl" label="" options={[{
-                    value: 1,
-                    label: '独立运作'
-                }, {
-                    value: 2,
-                    label: '组内合作'
-                }, {
-                    value: 3,
-                    label: '同城合作'
-                }, {
-                    value: 4,
-                    label: '跨区合作'
-                }]}></ProFormSelect>
+                <Space align="start">
+                    <span style={{ lineHeight: '30px' }}>分配金额</span><ProFormText name="serviceFee" label="" labelCol={{ style: { width: '125px' } }} wrapperCol={{ style: { width: '125px', marginRight: '50px' } }}></ProFormText>
+                    <span style={{ lineHeight: '30px' }}>上岗人选</span> <ProFormSelect name="sgrx" options={sgrxOptions} label="" labelCol={{ style: { width: '100px' } }} wrapperCol={{ style: { width: '100px', marginRight: '50px' } }}></ProFormSelect>
+                    <span style={{ lineHeight: '30px' }}>业绩分类</span><ProFormSelect name="yjfl" label="" options={[{
+                        value: 1,
+                        label: '独立运作'
+                    }, {
+                        value: 2,
+                        label: '组内合作'
+                    }, {
+                        value: 3,
+                        label: '同城合作'
+                    }, {
+                        value: 4,
+                        label: '跨区合作'
+                    }]} labelCol={{ style: { width: '125px' } }} wrapperCol={{ style: { width: '125px', marginRight: '50px' } }}></ProFormSelect>
+                </Space>
             </ProForm.Group>
             <ProFormList
                 layout="inline"
@@ -243,12 +282,12 @@ const AddInvoice = () => {
                     return (
                         <>
                             {/* <ProFormText name="tarent" label={`提成人`} labelCol={{ style: { width: '100px' } }} wrapperCol={{ style: { width: '100px' } }} /> */}
-                            <Form.Item name="empoylee" labelCol={{ style: { width: '100px' } }} rules={[
+                            <Form.Item name="empoylee" labelCol={{ style: { width: '125px' } }} rules={[
                                 // {
                                 //     required: true,
                                 //     message: '必填',
                                 // },
-                            ]} wrapperCol={{ style: { width: '100px' } }} label={`提成人`}>
+                            ]} wrapperCol={{ style: { width: '125px' } }} label={`提成人`}>
                                 <FenPeiYuanGong onChange={e => {
                                     console.log(e)
                                     action.setCurrentRowData({
@@ -258,21 +297,84 @@ const AddInvoice = () => {
                                 }}></FenPeiYuanGong>
                             </Form.Item>
 
-                            <ProFormText name="com" label="所在公司" labelCol={{ style: { width: '100px' } }} wrapperCol={{ style: { width: '100px' } }} />
+                            <ProFormText name="com" label="所在公司" labelCol={{ style: { width: '125px' } }} wrapperCol={{ style: { width: '125px' } }} />
                             <ProFormText onChange={() => {
-                                talentForm.getFieldValue('allotPlan').map(item => item?.rate || 0).reduce(function (prev, curr, idx, arr) {
+                                let sums = talentForm.getFieldValue('allotPlan').map(item => item?.rate || 0).reduce(function (prev, curr, idx, arr) {
+                                    console.log(Number(prev) + Number(curr))
                                     return Number(prev) + Number(curr);
                                 })
-                            }} name="rate" label="业绩比例" labelCol={{ style: { width: '100px' } }} wrapperCol={{ style: { width: '100px' } }} />
+                                console.log(sums);
+                                setSum(100 - sums)
+                            }} name="rate" label={[`业绩比例`, <span style={{ position: 'absolute', fontSize: '12px', color: 'red', width: '70px', right: '-70px' }}>未分配{sum}%</span>]} labelCol={{ style: { width: '125px', position: 'relative' } }} wrapperCol={{ style: { width: '125px' } }} />
 
-                            <ProFormText name="kpiFee" disabled label="业绩金额" labelCol={{ style: { width: '100px' } }} wrapperCol={{ style: { width: '100px' } }} />
-                            <ProFormText name="commissionFee" disabled label="提成金额" labelCol={{ style: { width: '100px' } }} wrapperCol={{ style: { width: '100px' } }} />
+                            <ProFormText name="kpiFee" disabled label="业绩金额" labelCol={{ style: { width: '125px' } }} wrapperCol={{ style: { width: '125px' } }} />
+                            <ProFormText name="commissionFee" disabled label="提成金额" labelCol={{ style: { width: '125px' } }} wrapperCol={{ style: { width: '125px' } }} />
                         </>
                     );
                 }}
             </ProFormList>
-        </ModalForm>)
+            {
+                computedRedData ? <div style={{ textAlign: 'right', color: 'red' }}>{computedRedData}</div> : null
+            }
+        </ModalForm >)
     }
+    const columns = [
+        {
+            title: '人选名称',
+            dataIndex: 'talentName',
+        },
+        {
+            title: '提成人',
+            render: (text, record) => {
+                return <>{record.empoylee.name}</>
+            },
+            // 第一行不允许编辑
+            editable: (text, record, index) => {
+                return index !== 0;
+            },
+            width: '15%',
+        }, {
+            title: '归属公司',
+            dataIndex: 'com',
+
+
+        }, {
+            title: '业绩比例',
+            dataIndex: 'rate',
+
+
+        }, {
+            title: '业绩金额',
+            dataIndex: 'kpiFee',
+
+
+        }, {
+            title: '提成金额',
+            dataIndex: 'commissionFee',
+        },
+        {
+            title: '操作',
+            valueType: 'option',
+            width: 200,
+            render: (text, record, _, action) => [
+                <a key="delete" onClick={() => {
+                    debugger
+                    console.log(_)
+                    console.log(record);
+                    // let delFenPeiList = cloneDeep(record.allotPlan);
+                    let currRecord = cloneDeep(fenPeiList[_].kpiUserInfos)
+                    let newFenpei = cloneDeep(fenPeiList);
+                    newFenpei[_] = {
+                        ...fenPeiList[_],
+                        kpiUserInfos: currRecord.filter((item) => item.userId !== record.userId)
+                    }
+                    setFenPeiList(newFenpei);
+                }}>
+                    删除
+        </a>,
+            ],
+        },
+    ]
     const renderModalForm = () => {
         console.log(applyForm.getFieldValue('rate'))
         let rate = applyForm.getFieldValue('rate')
@@ -281,6 +383,27 @@ const AddInvoice = () => {
         } else {
             return <>
                 <Card title={['分配方案', modalFormss()]} >
+                    {fenPeiList.map((item, index) =>
+                        <EditableProTable rowKey={index}
+                            // scroll={{
+                            //     x: 960,
+                            // }} 
+                            recordCreatorProps={false} loading={false} toolBarRender={null} columns={columns}
+                            // request={async () => ({
+                            //     data: defaultData,
+                            //     total: 3,
+                            //     success: true,
+                            // })}
+                            value={item.kpiUserInfos || []} onChange={setFenPeiList} editable={{
+                                type: 'multiple',
+                                // editableKeys,
+                                // onSave: async (rowKey, data, row) => {
+                                //     console.log(rowKey, data, row);
+                                //     await waitTime(2000);
+                                // },
+                                // onChange: setEditableRowKeys,
+                            }} />
+                    )}
                 </Card>
             </>
         }
@@ -289,7 +412,6 @@ const AddInvoice = () => {
         <PageContainer content="">
 
             <ProForm
-
                 style={{
                     // margin: 'auto',
                     marginTop: 8,
@@ -373,35 +495,25 @@ const AddInvoice = () => {
 
                                 </ProForm.Group>
                             } else {
-                                return <ProFormSelect options={[
-                                    {
-                                        label: '服务费',
-                                        value: 0,
-                                    },
-                                    {
-                                        label: '咨询费',
-                                        value: 1,
-                                    }, {
-                                        label: '首付款',
-                                        value: 2,
-                                    }, {
-                                        label: '其他',
-                                        value: 9,
-                                    },]} labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="serviceFee" label="回款金额" rules={[
+                                return <ProForm.Group>
+                                    <ProFormText labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="serviceFee" label="回款金额" rules={[
                                         {
                                             required: true,
                                             message: '必填',
                                         },
                                     ]} />
+                                </ProForm.Group>
                             }
                         }}
                     </ProFormDependency>
+
                 </Card>
             </ProForm>
             {
                 bilibili && bilibili != 5 ? renderModalForm() : ''
 
             }
+            <div style={{ background: '#fff', padding: '0 0 24px 24px' }}><Button type="primary" onClick={handleSubmit}>提交</Button></div>
         </PageContainer >
     );
 };

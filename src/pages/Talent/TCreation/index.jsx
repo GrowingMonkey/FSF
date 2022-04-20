@@ -47,6 +47,7 @@ const { TextArea } = Input;
 const { RangePicker } = DatePicker;
 const TCreation = () => {
   const history = useHistory();
+  const [isFirst, setIsFirst] = useState(true);
   const [industryChildList, setIndustryChildList] = useState([]);
   const [imageUrl, setImageUrl] = useState('');
   const [pIndustryChildList, setPIndustryChildList] = useState([]);
@@ -533,12 +534,12 @@ const TCreation = () => {
                 className: 'avatar-uploader',
                 showUploadList: false,
                 customRequest: async (options) => {
-                  let result = await upload(options.file, () => {});
+                  let result = await upload(options.file, () => { });
                   console.log(result.res.requestUrls[0]);
                   basicForm.setFieldsValue({ headUrl: [result.name] });
                   setImageUrl(
                     result.res.requestUrls[0].split('?')[0] +
-                      '?x-oss-process=image/resize,w_100,h_100/quality,q_50',
+                    '?x-oss-process=image/resize,w_100,h_100/quality,q_50',
                   );
                   options.onSuccess(result.res.requestUrls[0], result.res.requestUrls[0]);
                 },
@@ -548,8 +549,8 @@ const TCreation = () => {
                 imageUrl ? (
                   <img src={imageUrl} alt="avatar" style={{ width: '100%' }} />
                 ) : (
-                  uploadButton
-                )
+                    uploadButton
+                  )
               }
             />
           </div>
@@ -610,6 +611,7 @@ const TCreation = () => {
           labelCol={{ style: { width: '95.33px' } }}
           wrapperCol={{ style: { width: '328px' } }}
           labelAlign="left"
+          initialValues={{ experience: [{ name: '' }] }}
         >
           <Form.List name="experience">
             {(fields, { add, remove }) => (
@@ -805,6 +807,7 @@ const TCreation = () => {
           labelCol={{ style: { width: '95.33px' } }}
           wrapperCol={{ style: { width: '328px' } }}
           labelAlign="left"
+          initialValues={{ education: [{ name: '' }] }}
         >
           <Form.List name="education">
             {(fields, { add, remove }) => (
@@ -851,6 +854,12 @@ const TCreation = () => {
                       name={[name, 'education']}
                       fieldKey={[fieldKey, 'education']}
                       label="学历"
+                      rules={[
+                        {
+                          required: true,
+                          message: '必填',
+                        },
+                      ]}
                     >
                       <Select
                         width="sm"

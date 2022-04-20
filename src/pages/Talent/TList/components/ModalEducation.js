@@ -119,6 +119,12 @@ const ModalEducation = ({ visible, onSubmit, onCancel, talentId, data = null }) 
           name={'education'}
           fieldKey={'education'}
           label="学历"
+          rules={[
+            {
+              required: true,
+              message: '必填',
+            },
+          ]}
         >
           <Select
             options={[

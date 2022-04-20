@@ -65,8 +65,6 @@ const TalentSearch = ({ value = {}, onChange, filedProps = {}, applyUserId }) =>
         }
     };
     const debouncedSeach = debounce(handleSearch, 250);
-    console.log('value');
-    console.log(value);
     return (
         <Select
             style={{ width: "100%" }}

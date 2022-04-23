@@ -39,7 +39,7 @@ const Salarylist = () => {
   ];
   const salaryColumns = [
     {
-      title: '员工名称',
+      title: '员工姓名',
       dataIndex: 'userName',
       key: 'userName',
     },

@@ -339,7 +339,12 @@ const TCreation = () => {
               name="phone"
               label="手机号码"
             />
-            <ProFormText width="sm" name="email" label="邮箱地址" />
+            <ProFormText width="sm" name="email" label="邮箱地址" rules={[
+              {
+                required: true,
+                message: '请输入手机号',
+              },
+            ]} />
           </ProForm.Group>
         </ProForm>
       </div>
@@ -374,46 +379,60 @@ const TCreation = () => {
               name="name"
               label="人选姓名"
             />
-            <ProFormSelect
-              width="sm"
-              name="education"
-              label="最高学历"
-              options={[
-                {
-                  label: '不限',
-                  value: 0,
-                },
-                {
-                  label: '初中及以上',
-                  value: 1,
-                },
-                {
-                  label: '中专及以上',
-                  value: 2,
-                },
-                {
-                  label: '高中及以上',
-                  value: 3,
-                },
-                {
-                  label: '大专及以上',
-                  value: 4,
-                },
-                {
-                  label: '本科及以上',
-                  value: 5,
-                },
-                {
-                  label: '硕士及以上',
-                  value: 6,
-                },
-                {
-                  label: '博士及以上',
-                  value: 7,
-                },
-              ]}
-            />
+            <ProFormText label="人选年龄" name="age" rules={[
+              {
+                required: true,
+                message: '请输入人选姓名',
+              },
+            ]} />
           </ProForm.Group>
+          <ProFormRadio.Group
+            label="最高学历"
+            name="education"
+            labelCol={{
+              style: { width: '95.33px' },
+            }}
+            rules={[
+              {
+                required: true,
+                message: '请输入人选姓名',
+              },
+            ]}
+            options={[
+              // {
+              //   label: '不限',
+              //   value: 0,
+              // },
+              // {
+              //   label: '初中及以上',
+              //   value: 1,
+              // },
+              // {
+              //   label: '中专及以上',
+              //   value: 2,
+              // },
+              {
+                label: '大专以下',
+                value: 3,
+              },
+              {
+                label: '大专',
+                value: 4,
+              },
+              {
+                label: '本科',
+                value: 5,
+              },
+              {
+                label: '硕士',
+                value: 6,
+              },
+              {
+                label: '博士',
+                value: 7,
+              },
+            ]}
+          />
           <ProForm.Group>
             <ProFormSelect
               width="sm"
@@ -444,6 +463,12 @@ const TCreation = () => {
               labelCol={{
                 style: { width: '95.33px' },
               }}
+              rules={[
+                {
+                  required: true,
+                  message: '请输入人选姓名',
+                },
+              ]}
               options={[
                 {
                   value: '1',
@@ -487,6 +512,12 @@ const TCreation = () => {
               help="" //备注
               width="sm"
               name="location"
+              rules={[
+                {
+                  required: true,
+                  message: '请输入人选姓名',
+                },
+              ]}
             />
           </ProForm.Group>
           <ProForm.Group>
@@ -500,9 +531,6 @@ const TCreation = () => {
                 { label: '失业', value: 2 },
               ]}
             />
-            <ProFormText label="用户年龄" name="age" />
-          </ProForm.Group>
-          <ProForm.Group>
             <ProFormSelect
               width="sm"
               name="source"
@@ -525,6 +553,9 @@ const TCreation = () => {
                 { label: '公共池', value: 14 },
               ]}
             />
+          </ProForm.Group>
+          <ProForm.Group>
+
           </ProForm.Group>
           <div style={{ position: 'absolute', top: 0, left: 630 }}>
             <ProFormUploadButton
@@ -592,7 +623,12 @@ const TCreation = () => {
           <Form.Item name="RSalary" label="期望薪资">
             <Input style={{ width: '328px' }}></Input>
           </Form.Item>
-          <Form.Item name="RCity" label="期望地点">
+          <Form.Item name="RCity" label="期望地点" rules={[
+            {
+              required: true,
+              message: '请输入人选姓名',
+            },
+          ]}>
             {/* <Cascader
               style={{ width: '328px' }}
               options={cityList}

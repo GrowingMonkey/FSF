@@ -38,6 +38,7 @@ const AddInvoice = () => {
     const [fenPeiList, setFenPeiList] = useState([]);
     const [sgrxOptions, setSgrxOptions] = useState([]);
     const [computedRedData, setComputedRedData] = useState(0)
+    const [modalVisit, setModalVisit] = useState(false);
     const [options, setOptions] = useState(0)
     const [noFenPeiMoney, setNoFenPeiMoney] = useState(null);
     const { run } = useRequest(addKpiFee, {
@@ -82,7 +83,6 @@ const AddInvoice = () => {
         })
     }
     const handleSubmit = () => {
-        debugger
         Promise.all([
             applyForm.validateFields()
         ]).then((values) => {
@@ -158,11 +158,11 @@ const AddInvoice = () => {
             }
         ],
     };
-    console.log(fenPeiList)
     const handleModalSubmit = () => {
         let fpList = cloneDeep(fenPeiList)
         let list = cloneDeep(talentForm.getFieldValue('allotPlan'));
         let otherParams = cloneDeep(talentForm.getFieldsValue(true));
+        debugger
         list.map(item => {
             item.serviceFee = otherParams.serviceFee;
             item.tpId = otherParams?.sgrx;
@@ -178,7 +178,7 @@ const AddInvoice = () => {
         fpList.push(otherParams)
         setFenPeiList(fpList);
         talentForm.resetFields();
-        return true;
+        setModalVisit(false);
     }
     const setOptionsType = (e) => {
         console.log('111', e);
@@ -201,24 +201,8 @@ const AddInvoice = () => {
             name="modal"
             width={'855px'}
             form={talentForm}
-            trigger={
-                <Button type="primary" style={{
-                    marginLeft: '50px',
-                    width: '490px'
-                }}>+分配方案</Button>
-            }
+            visible={modalVisit}
             onVisibleChange={e => {
-                console.log('onVisibleChange');
-                console.log(e);
-                if (e) {
-                    let filterArr = fenPeiList.map(item => +(item.sgrx));
-                    let newOp = sgrxOptions.filter((item, i) => {
-                        // 过滤arr
-                        console.log(item);
-                        return (!filterArr.includes(+(item.value)));
-                    })
-                    setSgrxOptions(newOp);
-                }
             }}
             submitter={{
                 render: (props, defaultDoms) => {
@@ -234,9 +218,10 @@ const AddInvoice = () => {
                 },
             }}
             // autoFocusFirstInput
-            // modalProps={{
-            //     onCancel: () => console.log('run'),
-            // }}
+            modalProps={{
+                onCancel: () => setModalVisit(false),
+                maskClosable: false
+            }}
             layout="vertical"
             onFinish={handleModalSubmit}
         >
@@ -292,7 +277,7 @@ const AddInvoice = () => {
                                     console.log(e)
                                     action.setCurrentRowData({
                                         com: e.comName,
-                                        empoylee: { ...e }
+                                        empoylee: e
                                     })
                                 }}></FenPeiYuanGong>
                             </Form.Item>
@@ -375,6 +360,17 @@ const AddInvoice = () => {
             ],
         },
     ]
+    const updateFenPeiList = (item) => {
+        debugger
+        console.log(item);
+        setModalVisit(true);
+        talentForm.setFieldsValue({
+            allotPlan: item.allotPlan,
+            serviceFee: item.serviceFee,
+            sgrx: item.sgrx,
+            yjfl: item.yjfl
+        })
+    }
     const renderModalForm = () => {
         console.log(applyForm.getFieldValue('rate'))
         let rate = applyForm.getFieldValue('rate')
@@ -382,13 +378,28 @@ const AddInvoice = () => {
             return null;
         } else {
             return <>
-                <Card title={['分配方案', modalFormss()]} >
+                <Card title={['分配方案', <Button type="primary" style={{
+                    marginLeft: '50px',
+                    width: '490px'
+                }} onClick={() => {
+                    let filterArr = fenPeiList.map(item => +(item.sgrx));
+                    let newOp = sgrxOptions.filter((item, i) => {
+                        // 过滤arr
+                        console.log(item);
+                        return (!filterArr.includes(+(item.value)));
+                    })
+                    setSgrxOptions(newOp);
+                    setModalVisit(true);
+                }}>+分配方案</Button>]} >
                     {fenPeiList.map((item, index) =>
                         <EditableProTable rowKey={index}
-                            // scroll={{
-                            //     x: 960,
-                            // }} 
-                            recordCreatorProps={false} loading={false} toolBarRender={null} columns={columns}
+                            toolBarRender={() => [
+                                <Button type="primary" size="small" onClick={() => updateFenPeiList(item)}>修改</Button>,
+                                <Button type="dashed" size="small" onClick={() => {
+                                    setFenPeiList(cloneDeep(fenPeiList).filter(item => item.sgrx != item.sgrx))
+                                }}>删除</Button>
+                            ]}
+                            recordCreatorProps={false} loading={false} columns={columns}
                             // request={async () => ({
                             //     data: defaultData,
                             //     total: 3,
@@ -404,6 +415,7 @@ const AddInvoice = () => {
                                 // onChange: setEditableRowKeys,
                             }} />
                     )}
+                    {modalFormss()}
                 </Card>
             </>
         }

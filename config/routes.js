@@ -290,14 +290,15 @@ export default [
     icon: 'wallet',
     access: 'canEco',
     routes: [
-      // {
-      //   path: "/eco/kpi-list",
-      //   name: "我的业绩",
-      //   component: "./ECO/KpiList/index",
-      // },
+      {
+        path: "/eco/kpi-list",
+        name: "我的业绩",
+        component: "./ECO/KpiList/index",
+      },
       {
         path: "/eco/kpi-add",
         name: "新增业绩",
+        hideInMenu: true,
         component: "./ECO/KpiList/Add/index",
       },
       {

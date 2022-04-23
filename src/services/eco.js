@@ -139,3 +139,15 @@ export const addSalary = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export const confirmKpi = (payload) => {
+  return request('/eco/confirmKpi', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+export const refuseKpi = (payload) => {
+  return request('/eco/refuseKpi', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};

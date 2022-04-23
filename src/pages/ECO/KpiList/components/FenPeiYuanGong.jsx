@@ -5,13 +5,16 @@ import { ulfq } from "@/services/customer";/**
  * 人选查询select组件
  * @param {props} param0 
  */
-const TalentSearch = ({ value = {}, onChange, filedProps = {}, applyUserId }) => {
+const TalentSearch = (props) => {
+    console.log(props)
+    const { value = {}, onChange, filedProps = {}, applyUserId } = props;
     const { Option } = Select;
     const [options, setOptions] = useState([]);
     const [sourceList, setSourceList] = useState([])
     const triggerChange = (changedValue) => {
         onChange?.({
             ...changedValue,
+            value: changedValue
         });
     };
 
@@ -65,7 +68,7 @@ const TalentSearch = ({ value = {}, onChange, filedProps = {}, applyUserId }) =>
         }
     };
     const debouncedSeach = debounce(handleSearch, 250);
-    console.log('value');
+    console.log('value111');
     console.log(value);
     return (
         <Select
@@ -73,6 +76,7 @@ const TalentSearch = ({ value = {}, onChange, filedProps = {}, applyUserId }) =>
             {...filedProps}
             showSearch
             placeholder=""
+            value={value.name}
             defaultActiveFirstOption={false}
             showArrow={false}
             filterOption={false}

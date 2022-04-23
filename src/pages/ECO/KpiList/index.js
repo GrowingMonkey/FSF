@@ -13,10 +13,11 @@ import {
   DatePicker,
   Cascader,
 } from 'antd';
+import { history } from 'umi';
 import styles from './index.less';
 import { PageContainer } from '@ant-design/pro-layout';
 import ModalForm from './components/ModalForm';
-import { queryKpiList } from '../../../services/eco';
+import { queryKpiList, confirmKpi, refuseKpi } from '@/services/eco';
 
 const KpiList = () => {
   const [form] = Form.useForm();
@@ -28,18 +29,14 @@ const KpiList = () => {
 
   const formList = [
     {
-      name: 'classes',
-      label: '业绩分类',
-      type: 'select',
+      name: "kpiFee",
+      label: "年龄",
+      type: "inputRange",
       span: 6,
-      options: [
-        { label: '独立运作', value: 0 },
-        { label: '合作分配', value: 1 },
-      ],
     },
     {
-      name: 'comId',
-      label: '公司ID',
+      name: 'employId',
+      label: '服务顾问',
       type: 'input',
       span: 6,
     },
@@ -50,8 +47,14 @@ const KpiList = () => {
       span: 6,
     },
     {
+      name: 'comId',
+      label: '服务客户',
+      type: 'input',
+      span: 6,
+    },
+    {
       name: 'type',
-      label: '业绩类型',
+      label: '业绩来源',
       type: 'select',
       span: 6,
       options: [
@@ -61,83 +64,92 @@ const KpiList = () => {
       ],
     },
     {
-      name: 'state',
-      label: '审核状态',
-      type: 'select',
+      name: 'applydate',
+      label: '申请日期',
+      type: 'datePicker',
       span: 6,
-      options: [
-        { label: '待审核', value: 0 },
-        { label: '已通过', value: 1 },
-        { label: '已驳回', value: 2 },
-      ],
     },
     {
-      name: 'employId',
-      label: '员工',
-      type: 'input',
+      name: 'applydate',
+      label: '审核日期',
+      type: 'datePicker',
       span: 6,
     },
   ];
   const kpiColumns = [
     {
-      title: '员工姓名',
-      dataIndex: 'userName',
-      key: 'userName',
-    },
-    {
       title: '归属公司',
       dataIndex: 'comName',
       key: 'comName',
+      ellipsis: true,
+    },
+    {
+      title: '服务顾问',
+      dataIndex: 'userName',
+      key: 'userName',
+      ellipsis: true,
     },
     {
       title: '服务客户',
-      dataIndex: 'type0',
-      key: 'type0',
+      dataIndex: 'customerName',
+      key: 'customerName',
+      ellipsis: true,
     },
     {
       title: '回款金额',
-      dataIndex: 'backFee',
-      key: 'backFee',
+      dataIndex: 'serviceFee',
+      key: 'serviceFee',
+      ellipsis: true,
     },
     {
       title: '上岗人选',
       dataIndex: 'talentName',
       key: 'talentName',
+      ellipsis: true,
     },
     {
-      title: '所得业绩',
-      dataIndex: 'fee',
-      key: 'fee',
+      title: '业绩金额',
+      dataIndex: 'kpiFee',
+      key: 'kpiFee',
+      ellipsis: true,
     },
     {
       title: '所占比例',
       dataIndex: 'rate',
       key: 'rate',
-    },
-    {
-      title: '业绩来源',
-      dataIndex: 'source',
-      key: 'source',
-    },
-    {
-      title: '业绩详情',
-      dataIndex: 'type2',
-      key: 'type2',
+      ellipsis: true,
     },
     {
       title: '审核状态',
       dataIndex: 'state',
       key: 'state',
+      ellipsis: true,
+      render: (text, record) => {
+        return text == 0 ? '待审核' : text == 1 ? '已通过' : text == 2 ? '已驳回' : ''
+      }
     },
     {
       title: '申请用户',
-      dataIndex: 'customerId',
-      key: 'customerId',
+      dataIndex: 'ownerName',
+      key: 'ownerName',
+      ellipsis: true,
     },
+
     {
       title: '申请日期',
       dataIndex: 'createTime',
       key: 'createTime',
+      ellipsis: true,
+    },
+    {
+      title: '操作',
+      dataIndex: 'action',
+      ellipsis: true,
+      width: 210,
+      fixed: 'right',
+      render: (text, record) => {
+        return [<Button type="primary" style={{ marginRight: 10 }} size="small" onClick={() => confirmKpi({ kpiId: record.kpiId })} size="small">同意</Button>, <Button style={{ marginRight: 10 }} type="primary" onClick={() => refuseKpi({ kpiId: record.kpiId })} size="small">拒绝</Button>, <Button type="primary" size="small">查看详情</Button>]
+      }
     },
   ];
 
@@ -209,7 +221,7 @@ const KpiList = () => {
           </Col>
           <Col>
             <Space size={8}>
-              <Button type="primary" onClick={handleAddKpi}>
+              <Button type="primary" onClick={() => history.push('/eco/kpi-add')}>
                 新增业绩
               </Button>
               <Button onClick={handleSearchClear}>清空</Button>
@@ -272,6 +284,15 @@ const KpiList = () => {
                     </Col>
                   );
                 }
+                if (col.type === "inputRange") {
+                  return (
+                    <Col span={col.span} key={col.name} >
+                      <Form.Item name={col.name} label={col.label}>
+                        <Input style={{ width: '47%' }}></Input>-<Input style={{ width: '47%' }}></Input>
+                      </Form.Item>
+                    </Col>
+                  );
+                }
                 return null;
               })}
             </Row>
@@ -279,7 +300,9 @@ const KpiList = () => {
         </Form>
       </div>
       <div className={styles['list-container']}>
-        <Table columns={kpiColumns} dataSource={kpiList} pagination={false} size="small" />
+        <Table columns={kpiColumns} dataSource={kpiList} pagination={false} size="small"
+          bordered
+          scroll={{ x: 1200 }} />
       </div>
       <div style={{ width: '100%', minHeight: '15px' }} />
     </PageContainer>

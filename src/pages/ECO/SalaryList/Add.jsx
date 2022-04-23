@@ -313,6 +313,20 @@ const addTripC = () => {
                         />
                         <ProFormText
                             width="sm"
+                            label="公司公积金"
+                            name="companyAccumulation"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: '请输入标题',
+                                },
+                            ]}
+                            placeholder="给目标起个名字"
+                        />
+                    </ProForm.Group>
+                    <ProForm.Group>
+                        <ProFormText
+                            width="sm"
                             label="个税"
                             name="tax"
                             rules={[

@@ -148,7 +148,7 @@ const KpiList = () => {
       width: 210,
       fixed: 'right',
       render: (text, record) => {
-        return [<Button type="primary" style={{ marginRight: 10 }} size="small" onClick={() => confirmKpi({ kpiId: record.kpiId })} size="small">同意</Button>, <Button style={{ marginRight: 10 }} type="primary" onClick={() => refuseKpi({ kpiId: record.kpiId })} size="small">拒绝</Button>, <Button type="primary" size="small">查看详情</Button>]
+        return [<Button type="primary" style={{ marginRight: 10 }} size="small" onClick={() => confirmKpi({ kpiId: record.kpiId })} size="small">同意</Button>, <Button style={{ marginRight: 10 }} type="primary" onClick={() => refuseKpi({ kpiId: record.kpiId })} size="small">拒绝</Button>, <Button type="primary" size="small" onClick={() => history.push(`/eco/kpi-detail?kpiId=${record.kpiId}`)}>查看详情</Button>]
       }
     },
   ];

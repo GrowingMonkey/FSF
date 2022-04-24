@@ -292,8 +292,14 @@ export default [
     routes: [
       {
         path: "/eco/kpi-list",
-        name: "我的业绩",
+        name: "业绩管理",
         component: "./ECO/KpiList/index",
+      },
+      {
+        path: "/eco/kpi-detail",
+        name: "业绩详情",
+        component: "./ECO/KpiList/Detail/index",
+        hideInMenu: true
       },
       {
         path: "/eco/kpi-add",

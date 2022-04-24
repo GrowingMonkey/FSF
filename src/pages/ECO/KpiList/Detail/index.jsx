@@ -15,7 +15,7 @@ const AddInvoice = () => {
     useEffect(() => {
         const { location: { query } } = history;
         console.log(query)
-        selectKpiFeeById({ kpiId: query.kpiId, id: query.kpiId }).then(res => {
+        selectKpiFeeById({ kpiId: query.kpiId, sourceId: query.sourceId }).then(res => {
             console.log(res);
             setDataSource(res?.data || {})
         })
@@ -122,8 +122,8 @@ const AddInvoice = () => {
         <PageContainer content="">
             <Card bordered={false} title={'基本详情'} style={{ width: '100%' }}>
                 <Descriptions column={2}>
-                    <Descriptions.Item label="回款信息">Zhou Maomao</Descriptions.Item>
-                    <Descriptions.Item label="归属公司">{dataSource.customerName}</Descriptions.Item>
+                    <Descriptions.Item label="回款信息">{dataSource.customerName}</Descriptions.Item>
+                    <Descriptions.Item label="归属公司">{dataSource.comName}</Descriptions.Item>
                     <Descriptions.Item label="提成分类">{dataSource.type}</Descriptions.Item>
                     <Descriptions.Item label="提成比例">{dataSource.rate}</Descriptions.Item>
                     <Descriptions.Item label="回款金额">{dataSource.serviceFee}</Descriptions.Item>

@@ -394,7 +394,7 @@ const AddInvoice = () => {
                     {fenPeiList.map((item, index) =>
                         <EditableProTable rowKey={index}
                             toolBarRender={() => [
-                                // <Button type="primary" size="small" onClick={() => updateFenPeiList(item)}>修改</Button>,
+                                <Button type="primary" size="small" onClick={() => updateFenPeiList(item)}>修改</Button>,
                                 <Button type="dashed" size="small" onClick={() => {
                                     setFenPeiList(cloneDeep(fenPeiList).filter(item => item.sgrx != item.sgrx))
                                 }}>删除</Button>

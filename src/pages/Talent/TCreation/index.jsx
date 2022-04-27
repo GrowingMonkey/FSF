@@ -27,7 +27,7 @@ import ProForm, {
   ProFormDateRangePicker,
 } from '@ant-design/pro-form';
 import { FormattedMessage } from 'umi';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { MinusCircleOutlined, PlusOutlined, InboxOutlined } from '@ant-design/icons';
 import { cityList } from '../../../utils/CityList';
 import { industryList } from '../../../utils/Industry';
 import { positionList } from '../../../utils/Position';
@@ -45,6 +45,16 @@ import { upload } from '@/utils/lib/upload';
 import SelfDate from '@/components/SelfDate';
 const { TextArea } = Input;
 const { RangePicker } = DatePicker;
+const { Dragger } = Upload;
+//将文件转换成base64
+const getFileBase64 = (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
+};
 const TCreation = () => {
   const history = useHistory();
   const [isFirst, setIsFirst] = useState(true);
@@ -263,6 +273,36 @@ const TCreation = () => {
       RIndustryChild: data.children ? data.children[0].value : data.value,
     });
   };
+  const fileProps = {
+    name: 'file',
+    multiple: false,
+    showUploadList: false,
+    customRequest: async (options) => {
+      let result = await upload(options.file, () => { });
+      console.log(result.res.requestUrls[0]);
+      // form.setFieldsValue({ headUrl: [result.name] });
+      setImageUrl(
+        result.res.requestUrls[0].split('?')[0] +
+        '?x-oss-process=image/resize,w_100,h_100/quality,q_50',
+      );
+      options.onSuccess(result.res.requestUrls[0], result.res.requestUrls[0]);
+    },
+    // action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+    // onChange(info) {
+    //   const { status } = info.file;
+    //   if (status !== 'uploading') {
+    //     console.log(info.file, info.fileList);
+    //   }
+    //   if (status === 'done') {
+    //     message.success(`${info.file.name} file uploaded successfully.`);
+    //   } else if (status === 'error') {
+    //     message.error(`${info.file.name} file upload failed.`);
+    //   }
+    // },
+    onDrop(e) {
+      console.log('Dropped files', e.dataTransfer.files);
+    },
+  }
   const onPIndustryChange = (value, data, key) => {
     const fields = projectForm.getFieldsValue();
     const { project } = fields;
@@ -345,8 +385,16 @@ const TCreation = () => {
                 message: '请输入手机号',
               },
             ]} />
+            {/* <Dragger {...fileProps} style={{ width: '300px' }}>
+              <p className="ant-upload-drag-icon">
+                <InboxOutlined />
+              </p>
+              <p className="ant-upload-text" >简历解析</p>
+            </Dragger>
+            <Button type="primary" size="small">解析</Button> */}
           </ProForm.Group>
         </ProForm>
+
       </div>
 
       <div className={styles['education-container']}>

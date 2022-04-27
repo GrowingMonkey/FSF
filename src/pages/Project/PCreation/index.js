@@ -212,8 +212,14 @@ const PCreation = () => {
           }}
           labelAlign="right"
         >
-          <Form.Item name="requireEdu" label="学历要求">
+          <Form.Item name="requireEdu" label="学历要求" rules={[
+            {
+              required: true,
+              message: '必填',
+            },
+          ]}>
             <Select
+
               style={{ width: '328px' }}
               options={[
                 {
@@ -266,6 +272,7 @@ const PCreation = () => {
 
           <Form.Item name="experience" label="工作年限">
             <Select
+
               style={{ width: '328px' }}
               options={[
                 {
@@ -291,20 +298,35 @@ const PCreation = () => {
               ]}
             ></Select>
           </Form.Item>
-          <Form.Item name="requireGender" label="性别要求">
+          <Form.Item name="requireGender" label="性别要求" rules={[
+            {
+              required: true,
+              message: '必填',
+            },
+          ]}>
             <Radio.Group>
               <Radio value={1}>男</Radio>
               <Radio value={0}>女</Radio>
               <Radio value={2}>不限</Radio>
             </Radio.Group>
           </Form.Item>
-          <Form.Item name="requireAllTime" label="是否统招">
+          <Form.Item name="requireAllTime" label="是否统招" rules={[
+            {
+              required: true,
+              message: '必填',
+            },
+          ]}>
             <Radio.Group>
               <Radio value={1}>是</Radio>
               <Radio value={2}>不限</Radio>
             </Radio.Group>
           </Form.Item>
-          <Form.Item name="details" label="职位描述">
+          <Form.Item name="details" label="职位描述" rules={[
+            {
+              required: true,
+              message: '必填',
+            },
+          ]}>
             <TextArea style={{ width: '328px' }}></TextArea>
           </Form.Item>
         </ProForm>

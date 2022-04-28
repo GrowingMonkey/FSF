@@ -8,7 +8,6 @@ const CascaderMul = (props) => {
     const [allLabel, setAllLabel] = useState([]);
     const deepLoop = (selectedOptions) => {
         selectedOptions.forEach((item) => {
-            console.log(item);
             if (item.children && item.children.length > 0) {
                 deepLoop(item.children, allLabel);
             } else {

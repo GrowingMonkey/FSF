@@ -53,7 +53,10 @@ const getFileBase64 = (file) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
+    reader.onload = () => {
+      console.log(reader);
+      resolve(reader.result)
+    }
     reader.onerror = (error) => reject(error);
   });
 };
@@ -286,7 +289,7 @@ const TCreation = () => {
   const fileProps = {
     name: 'file',
     multiple: false,
-    showUploadList: false,
+    showUploadList: true,
     customRequest: async (options) => {
       console.log(options);
       setSourceFile(options.file);
@@ -360,36 +363,106 @@ const TCreation = () => {
    * file_name 文件名称
    */
   const jiexiJianLi = async () => {
-    let xhr = null, result = null, json = null;
+    // let xhr = null, result = null, json = null;
     let forms = new FormData();
     let basefile = await getFileBase64(sourceFile)
     forms.append('resume-file', basefile);
     forms.append('file-name', sourceFile.name)
-    if (window.ActiveXObject) {
-      xhr = new ActiveXObject("Microsoft.XMLHTTP");
-    } else if (window.XMLHttpRequest) {
-      xhr = new XMLHttpRequest();
-    }
-    xhr.onreadystatechange = () => {
-      if (xhr.readyState == 4) {
-        if (xhr.status == 200 || xhr.status == 0) {
-          result = xhr.responseText;
-          json = eval("(" + result + ")");
-        }
-      }
-    }
+    // if (window.ActiveXObject) {
+    //   xhr = new ActiveXObject("Microsoft.XMLHTTP");
+    // } else if (window.XMLHttpRequest) {
+    //   xhr = new XMLHttpRequest();
+    // }
+    // xhr.onreadystatechange = () => {
+    //   if (xhr.readyState == 4) {
+    //     if (xhr.status == 200 || xhr.status == 0) {
+    //       result = xhr.responseText;
+    //       json = eval("(" + result + ")");
+    //     }
+    //   }
+    // }
 
-    xhr.open("post", 'http://xiaoxi.market.alicloudapi.com/v1/parser/parse_base', true);
-    xhr.send(forms);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.setRequestHeader('Authorization', 'APPCODE 0b0c24b75da2405d810b21ba17435cfa');
-    // parseBase({
-    //   'Content-Type': 'application/x-www-form-urlencoded',
-    //   'Authorization': 'APPCODE 0b0c24b75da2405d810b21ba17435cfa' //替换为您的密匙
-    // }, forms
-    // ).then(res => {
-    //   console.log(res);
-    // })
+    // xhr.open("post", 'http://xiaoxi.market.alicloudapi.com/v1/parser/parse_base', true);
+    // xhr.send(forms);
+    // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    // xhr.setRequestHeader('Authorization', 'APPCODE 0b0c24b75da2405d810b21ba17435cfa');
+    parseBase({
+      'Content-Type': 'application/json;charset=utf-8',
+      'Authorization': 'APPCODE 0b0c24b75da2405d810b21ba17435cfa' //替换为您的密匙
+    }, {
+      resume_base: basefile.split(';base64,')[1],
+      file_name: sourceFile.name
+    }
+    ).then(res => {
+      console.log(res);
+      if (res.errorcode == 0) {
+        message.success('解析成功');
+        const { parsing_result } = res;
+        contactForm.setFieldsValue({
+          phone: parsing_result.contact_info.phone_number,
+          email: parsing_result.contact_info.email
+        })
+        basicForm.setFieldsValue({
+          name: parsing_result.basic_info.name,
+          age: parsing_result.basic_info.age,
+          education: parsing_result.basic_info.degree,
+          experience: parsing_result.basic_info.num_work_experience,
+          gender: parsing_result.basic_info.gender,
+          birthday: parsing_result.basic_info.date_of_birth,
+          salary: parsing_result.basic_info.current_salary,
+          domicile: parsing_result.basic_info.expect_location,
+          location: parsing_result.basic_info.current_location,
+          workState: parsing_result.basic_info.current_status,
+        })
+        infoForm.setFieldsValue({
+          introduce: parsing_result.others.self_evaluation
+        })
+        jobForm.setFieldsValue({
+          RIndustry: parsing_result.basic_info.desired_industry,
+          RSalary: parsing_result.basic_info.desired_salary,
+          RJob: parsing_result.basic_info.desired_position,
+          RCity: parsing_result.basic_info.detailed_location,
+        })
+        let educationC = parsing_result.education_experience.map(item => {
+          return {
+            startTime: [item.start_time_year, item.end_time_year],
+            name: item.school_name,
+            education: item.degree,
+            classes: item.major,
+            isAllTime: item.still_active
+          }
+        })
+        console.log(educationC);
+        educationForm.setFieldsValue({
+          education: educationC
+        })
+        let projectC = parsing_result.project_experience.map(item => {
+          return {
+            job: item.job_function,
+            duty: item.description,
+            startTime: [item.start_time_year, item.end_time_year],
+            name: item.project_name
+          }
+        })
+        projectForm.setFieldsValue({
+          project: projectC
+        })
+        let experienceC = parsing_result.work_experience.map(item => {
+          return {
+            startTime: [item.start_time_year, item.end_time_year],
+            name: item.company_name,
+            duty: item.description,
+            industry: item.job_function
+          }
+        })
+        experienceForm.setFieldsValue({
+          experience: experienceC
+        })
+        //解析成功
+      } else {
+        message.error('解析失败')
+      }
+    })
   }
   return (
     <PageContainer style={{ background: '#fff' }}>
@@ -434,13 +507,13 @@ const TCreation = () => {
                 message: '请输入邮箱地址',
               },
             ]} />
-            {/* <Dragger {...fileProps} style={{ width: '300px' }}>
+            <Dragger {...fileProps} style={{ width: '300px' }}>
               <p className="ant-upload-drag-icon">
                 <InboxOutlined />
               </p>
               <p className="ant-upload-text" >简历解析</p>
             </Dragger>
-            <Button type="primary" size="small" onClick={jiexiJianLi}>解析</Button> */}
+            <Button type="primary" size="small" onClick={jiexiJianLi}>解析</Button>
           </ProForm.Group>
         </ProForm>
 

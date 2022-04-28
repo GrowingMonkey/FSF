@@ -42,13 +42,5 @@ export const requestOther = async (url, headers = {}, payload) => {
     //     },
     //     ...(payload || {}),
     // });
-    if (result.code == 0) {
-        return result;
-    } else if (result.code == -2) {
-        history.push(`/user/login`);
-    } else if (result.code == 0) {
-        return result
-    } else if (result.code == 3) {
-        return result;
-    }
+    return result;
 }

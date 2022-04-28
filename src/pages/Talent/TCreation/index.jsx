@@ -38,6 +38,8 @@ import {
   addEdu,
   addEC,
   talentCheck,
+  upFileLimit,
+  parseBase
 } from '../../../services/talent';
 import styles from './index.less';
 import { PageContainer } from '@ant-design/pro-layout';
@@ -69,6 +71,14 @@ const TCreation = () => {
   const [contactForm] = Form.useForm();
   const [infoForm] = Form.useForm();
   const [jobForm] = Form.useForm();
+  const [jiexiNum, setJiexiNum] = useState(0);
+  const [sourceFile, setSourceFile] = useState(null);
+
+  useEffect(() => {
+    upFileLimit().then(res => {
+      setJiexiNum(res)
+    })
+  }, [])
   const handleSubmit = () => {
     basicForm.validateFields().then((basicValues) => {
       debugger;
@@ -278,14 +288,16 @@ const TCreation = () => {
     multiple: false,
     showUploadList: false,
     customRequest: async (options) => {
-      let result = await upload(options.file, () => { });
-      console.log(result.res.requestUrls[0]);
-      // form.setFieldsValue({ headUrl: [result.name] });
-      setImageUrl(
-        result.res.requestUrls[0].split('?')[0] +
-        '?x-oss-process=image/resize,w_100,h_100/quality,q_50',
-      );
-      options.onSuccess(result.res.requestUrls[0], result.res.requestUrls[0]);
+      console.log(options);
+      setSourceFile(options.file);
+      // let result = await upload(options.file, () => { });
+      // console.log(result.res.requestUrls[0]);
+      // // form.setFieldsValue({ headUrl: [result.name] });
+      // setImageUrl(
+      //   result.res.requestUrls[0].split('?')[0] +
+      //   '?x-oss-process=image/resize,w_100,h_100/quality,q_50',
+      // );
+      // options.onSuccess(result.res.requestUrls[0], result.res.requestUrls[0]);
     },
     // action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
     // onChange(info) {
@@ -342,6 +354,43 @@ const TCreation = () => {
       <div style={{ marginTop: 8 }}>Upload</div>
     </div>
   );
+  /**
+   * 简历解析接口
+   * resume_base base64文件流
+   * file_name 文件名称
+   */
+  const jiexiJianLi = async () => {
+    let xhr = null, result = null, json = null;
+    let forms = new FormData();
+    let basefile = await getFileBase64(sourceFile)
+    forms.append('resume-file', basefile);
+    forms.append('file-name', sourceFile.name)
+    if (window.ActiveXObject) {
+      xhr = new ActiveXObject("Microsoft.XMLHTTP");
+    } else if (window.XMLHttpRequest) {
+      xhr = new XMLHttpRequest();
+    }
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState == 4) {
+        if (xhr.status == 200 || xhr.status == 0) {
+          result = xhr.responseText;
+          json = eval("(" + result + ")");
+        }
+      }
+    }
+
+    xhr.open("post", 'http://xiaoxi.market.alicloudapi.com/v1/parser/parse_base', true);
+    xhr.send(forms);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('Authorization', 'APPCODE 0b0c24b75da2405d810b21ba17435cfa');
+    // parseBase({
+    //   'Content-Type': 'application/x-www-form-urlencoded',
+    //   'Authorization': 'APPCODE 0b0c24b75da2405d810b21ba17435cfa' //替换为您的密匙
+    // }, forms
+    // ).then(res => {
+    //   console.log(res);
+    // })
+  }
   return (
     <PageContainer style={{ background: '#fff' }}>
       <div className={styles['basic-container']}>
@@ -382,7 +431,7 @@ const TCreation = () => {
             <ProFormText width="sm" name="email" label="邮箱地址" rules={[
               {
                 required: true,
-                message: '请输入手机号',
+                message: '请输入邮箱地址',
               },
             ]} />
             {/* <Dragger {...fileProps} style={{ width: '300px' }}>
@@ -391,7 +440,7 @@ const TCreation = () => {
               </p>
               <p className="ant-upload-text" >简历解析</p>
             </Dragger>
-            <Button type="primary" size="small">解析</Button> */}
+            <Button type="primary" size="small" onClick={jiexiJianLi}>解析</Button> */}
           </ProForm.Group>
         </ProForm>
 
@@ -430,7 +479,7 @@ const TCreation = () => {
             <ProFormText label="人选年龄" name="age" rules={[
               {
                 required: true,
-                message: '请输入人选姓名',
+                message: '请输入人选年龄',
               },
             ]} />
           </ProForm.Group>
@@ -443,7 +492,7 @@ const TCreation = () => {
             rules={[
               {
                 required: true,
-                message: '请输入人选姓名',
+                message: '请选择人选学历',
               },
             ]}
             options={[
@@ -514,7 +563,7 @@ const TCreation = () => {
               rules={[
                 {
                   required: true,
-                  message: '请输入人选姓名',
+                  message: '请选择人选性别',
                 },
               ]}
               options={[
@@ -563,7 +612,7 @@ const TCreation = () => {
               rules={[
                 {
                   required: true,
-                  message: '请输入人选姓名',
+                  message: '请输入人选地址',
                 },
               ]}
             />
@@ -674,7 +723,7 @@ const TCreation = () => {
           <Form.Item name="RCity" label="期望地点" rules={[
             {
               required: true,
-              message: '请输入人选姓名',
+              message: '请输入人选期望地点',
             },
           ]}>
             {/* <Cascader

@@ -720,12 +720,7 @@ const TCreation = () => {
           <Form.Item name="RSalary" label="期望薪资">
             <Input style={{ width: '328px' }}></Input>
           </Form.Item>
-          <Form.Item name="RCity" label="期望地点" rules={[
-            {
-              required: true,
-              message: '请输入人选期望地点',
-            },
-          ]}>
+          <Form.Item name="RCity" label="期望地点">
             {/* <Cascader
               style={{ width: '328px' }}
               options={cityList}

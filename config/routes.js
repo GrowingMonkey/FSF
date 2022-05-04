@@ -133,6 +133,7 @@ export default [
         access: 'canProjectAdd',
         component: './Project/PCreation/index',
       },
+
     ],
   },
   //人才管理
@@ -184,6 +185,12 @@ export default [
         name: '新增人选',
         access: 'canTalentAdd',
         component: './Talent/TCreation/index',
+      },
+      {
+        path: '/talent/t-add',
+        name: '简历解析',
+        access: 'canTalentAdd',
+        component: './Talent/TCreation/add',
       },
     ],
   },

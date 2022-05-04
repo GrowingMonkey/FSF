@@ -527,13 +527,13 @@ const TCreation = () => {
                 message: '邮箱格式不正确',
               },
             ]} />
-            <Dragger {...fileProps} style={{ width: '300px' }}>
+            {/* <Dragger {...fileProps} style={{ width: '300px' }}>
               <p className="ant-upload-drag-icon">
                 <InboxOutlined />
               </p>
               <p className="ant-upload-text" >简历解析</p>
             </Dragger>
-            <Button type="primary" size="small" onClick={jiexiJianLi}>解析</Button>
+            <Button type="primary" size="small" onClick={jiexiJianLi}>解析</Button> */}
           </ProForm.Group>
         </ProForm>
 

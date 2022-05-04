@@ -17,7 +17,7 @@ const ChapterManager = () => {
     const [searchForm] = Form.useForm();
     const [remarkForm] = Form.useForm();
     const [TPList, setTPList] = useState([])
-    const [state, setState] = useState(0)
+    const [state, setState] = useState('')
     const [customId, setCustomId] = useState('')
     const [isYuYueModalVisible, setIsYuYueModalVisible] = useState(false);
     const [isOfferModalVisible, setIsOfferModalVisible] = useState(false);
@@ -424,7 +424,7 @@ const ChapterManager = () => {
                     </Form.Item>
                 </Form>
                 <Tabs centered onChange={e => setState(e)}>
-                    <TabPane tab="全部" key="-1"></TabPane>
+                    <TabPane tab="全部" key=""></TabPane>
                     <TabPane tab="加项目" key="0"></TabPane>
                     <TabPane tab="给客户" key="1"></TabPane>
                     <TabPane tab="否决人选" key="2"></TabPane>

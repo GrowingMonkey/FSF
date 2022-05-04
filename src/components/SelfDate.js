@@ -72,7 +72,11 @@ const SelfDate = ({
           return;
         }
       } else {
-        return;
+        if (value.startTime && value.startTime != '-') {
+          return moment(value.startTime, 'YYYY/MM');
+        } else {
+          return '';
+        }
       }
     } else {
       if (defaultValue) {
@@ -80,16 +84,26 @@ const SelfDate = ({
           console.log('end', defaultValue.endTime)
           let str = defaultValue.endTime.split('.').join('-');
           console.log(moment(str, 'YYYY/MM'))
-          return moment('2005-2', 'YYYY/MM');
+          return moment(str, 'YYYY/MM');
         } else {
           return;
+        }
+      } else {
+        if (value && value.endTime != '至今' && value.endTime != null && value.startTime != '-') {
+          console.log('end', value.endTime)
+          let str = value.endTime.split('.').join('-');
+          console.log(moment(str, 'YYYY/MM'))
+          return moment(str, 'YYYY/MM');
+        } else {
+          return "";
         }
       }
     }
   }
+  console.log(value)
   const startT = formatDefault('start');
   const endT = formatDefault('endT');
-  console.log('start', defaultValue);
+  console.log('startandend', startT, endT);
   return (
     <>
       <Space>
@@ -97,14 +111,15 @@ const SelfDate = ({
           ref={startElement}
           picker="month"
           placeholder="请选择"
-          // defaultValue={startT}
+          defaultValue={startT}
           onChange={(e) => onCustomerChange(e, 'startTime')}
         ></DatePicker>
         至
         <DatePicker
           picker="month"
           placeholder="请选择"
-          // defaultValue={endT}
+          defaultValue={endT}
+          // value={value.endTime || ''}
           ref={endTimeElement}
           // defaultValue={moment(defaultValue?.endTime || null, 'YYYY/MM')}
           onChange={(e) => onCustomerChange(e, 'endTime')}

@@ -15,6 +15,7 @@ import {
   message,
   Upload,
 } from 'antd';
+import moment from 'moment'
 import CascaderMul from '@/components/CascaderMul';
 import ProForm, {
   ProFormText,
@@ -100,11 +101,12 @@ const TCreation = () => {
         let inFormResult = await infoForm.validateFields();
         let jobFormResult = await jobForm.validateFields();
         if (jobFormResult.RCity) {
-          if (jobFormResult.RCity[1]) {
-            jobFormResult.RCity = `${jobFormResult.RCity[0]}/${jobFormResult.RCity[1]}`;
-          } else {
-            jobFormResult.RCity = `${jobFormResult.RCity[0]}/`;
-          }
+          // if (jobFormResult.RCity[1]) {
+          //   jobFormResult.RCity = `${jobFormResult.RCity[0]}/${jobFormResult.RCity[1]}`;
+          // } else {
+          //   jobFormResult.RCity = `${jobFormResult.RCity[0]}/`;
+          // }
+          jobFormResult.RCity = jobFormResult.RCity.join(',')
         }
         if (jobFormResult.RJob) {
           jobFormResult.RJob = jobFormResult.RJob[jobFormResult.RJob.length - 1];
@@ -118,11 +120,12 @@ const TCreation = () => {
           let gzjl = [];
           let xmjl = [];
           let jyjl = [];
+          let isSub = true;
           values.forEach((item) => {
             if (Object.keys(item)[0] === 'education') {
               // console.log(item["education"], 1, item["education"].length);
               debugger;
-              if (item['education']) {
+              if (item['education'] && item['education'].length > 0) {
                 item['education'].forEach((education) => {
                   // console.log(education.startTime.format("YYYY-MM-DD"));
                   let payload = Object.assign({}, education);
@@ -139,6 +142,9 @@ const TCreation = () => {
                   console.log(payload);
                   jyjl.push(payload);
                 });
+              } else {
+                message.error('教育经历至少一项')
+                isSub = false;
               }
             }
             if (Object.keys(item)[0] === 'project') {
@@ -165,7 +171,7 @@ const TCreation = () => {
             if (Object.keys(item)[0] === 'experience') {
               // console.log(item["experience"], 3, item["experience"].length);
               debugger;
-              if (item['experience']) {
+              if (item['experience'] && item['experience'].length > 0) {
                 item['experience'].forEach((experience) => {
                   let payload = Object.assign({}, experience);
                   if (experience.startTime) {
@@ -182,23 +188,34 @@ const TCreation = () => {
                   // extraInfo.push(addEC({ talentId: id, ...payload }));
                   gzjl.push(payload);
                 });
+              } else {
+                isSub = false;
+                message.error('工作经历至少一项')
               }
             }
+
           });
           console.log(gzjl, xmjl, jyjl);
-          addTalent({
-            talentId: data,
-            ...payload,
-            ...jobFormResult,
-            ...inFormResult,
-            ...contactFormResult,
-            gzjl: gzjl,
-            xmjl: xmjl,
-            jyjl: jyjl,
-          }).then((data) => {
-            message.success('新增人选成功');
-            history.push('/talent/t-list');
-          });
+          if (isSub) {
+            addTalent({
+              talentId: data,
+              ...payload,
+              ...jobFormResult,
+              ...inFormResult,
+              ...contactFormResult,
+              gzjl: gzjl,
+              xmjl: xmjl,
+              jyjl: jyjl,
+            }).then((data) => {
+              console.log(data);
+              if (data.code == 0) {
+                message.success('新增人选成功');
+                history.push('/talent/t-list');
+              } else {
+                message.error(data.message);
+              }
+            });
+          }
         });
         // addTalent({
         //   talentId: data,
@@ -293,27 +310,8 @@ const TCreation = () => {
     customRequest: async (options) => {
       console.log(options);
       setSourceFile(options.file);
-      // let result = await upload(options.file, () => { });
-      // console.log(result.res.requestUrls[0]);
-      // // form.setFieldsValue({ headUrl: [result.name] });
-      // setImageUrl(
-      //   result.res.requestUrls[0].split('?')[0] +
-      //   '?x-oss-process=image/resize,w_100,h_100/quality,q_50',
-      // );
-      // options.onSuccess(result.res.requestUrls[0], result.res.requestUrls[0]);
+      options.onSuccess();
     },
-    // action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-    // onChange(info) {
-    //   const { status } = info.file;
-    //   if (status !== 'uploading') {
-    //     console.log(info.file, info.fileList);
-    //   }
-    //   if (status === 'done') {
-    //     message.success(`${info.file.name} file uploaded successfully.`);
-    //   } else if (status === 'error') {
-    //     message.error(`${info.file.name} file upload failed.`);
-    //   }
-    // },
     onDrop(e) {
       console.log('Dropped files', e.dataTransfer.files);
     },
@@ -368,24 +366,6 @@ const TCreation = () => {
     let basefile = await getFileBase64(sourceFile)
     forms.append('resume-file', basefile);
     forms.append('file-name', sourceFile.name)
-    // if (window.ActiveXObject) {
-    //   xhr = new ActiveXObject("Microsoft.XMLHTTP");
-    // } else if (window.XMLHttpRequest) {
-    //   xhr = new XMLHttpRequest();
-    // }
-    // xhr.onreadystatechange = () => {
-    //   if (xhr.readyState == 4) {
-    //     if (xhr.status == 200 || xhr.status == 0) {
-    //       result = xhr.responseText;
-    //       json = eval("(" + result + ")");
-    //     }
-    //   }
-    // }
-
-    // xhr.open("post", 'http://xiaoxi.market.alicloudapi.com/v1/parser/parse_base', true);
-    // xhr.send(forms);
-    // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    // xhr.setRequestHeader('Authorization', 'APPCODE 0b0c24b75da2405d810b21ba17435cfa');
     parseBase({
       'Content-Type': 'application/json;charset=utf-8',
       'Authorization': 'APPCODE 0b0c24b75da2405d810b21ba17435cfa' //替换为您的密匙
@@ -402,13 +382,45 @@ const TCreation = () => {
           phone: parsing_result.contact_info.phone_number,
           email: parsing_result.contact_info.email
         })
+        const eduArr = [
+          {
+            label: '大专以下',
+            value: 3,
+          },
+          {
+            label: '大专',
+            value: 4,
+          },
+          {
+            label: '本科',
+            value: 5,
+          },
+          {
+            label: '硕士',
+            value: 6,
+          },
+          {
+            label: '博士',
+            value: 7,
+          },
+        ]
+        const gedArr = [
+          {
+            value: '1',
+            label: '男',
+          },
+          {
+            value: '2',
+            label: '女',
+          },
+        ]
         basicForm.setFieldsValue({
           name: parsing_result.basic_info.name,
           age: parsing_result.basic_info.age,
-          education: parsing_result.basic_info.degree,
+          education: eduArr.filter(item => item.label == parsing_result.basic_info.degree)[0].value,
           experience: parsing_result.basic_info.num_work_experience,
-          gender: parsing_result.basic_info.gender,
-          birthday: parsing_result.basic_info.date_of_birth,
+          gender: gedArr.filter(item => item.label == parsing_result.basic_info.gender)[0].value,
+          birthday: moment(parsing_result.basic_info.date_of_birth, 'YYYY-MM-DD'),
           salary: parsing_result.basic_info.current_salary,
           domicile: parsing_result.basic_info.expect_location,
           location: parsing_result.basic_info.current_location,
@@ -425,7 +437,7 @@ const TCreation = () => {
         })
         let educationC = parsing_result.education_experience.map(item => {
           return {
-            startTime: [item.start_time_year, item.end_time_year],
+            startTime: { startTime: `${item.start_time_year}-${item.start_time_month}`, endTime: `${item.end_time_year}-${item.end_time_month}` },
             name: item.school_name,
             education: item.degree,
             classes: item.major,
@@ -440,7 +452,7 @@ const TCreation = () => {
           return {
             job: item.job_function,
             duty: item.description,
-            startTime: [item.start_time_year, item.end_time_year],
+            startTime: { startTime: `${item.start_time_year}-${item.start_time_month}`, endTime: `${item.end_time_year}-${item.end_time_month}` },
             name: item.project_name
           }
         })
@@ -449,7 +461,7 @@ const TCreation = () => {
         })
         let experienceC = parsing_result.work_experience.map(item => {
           return {
-            startTime: [item.start_time_year, item.end_time_year],
+            startTime: { startTime: `${item.start_time_year}-${item.start_time_month}`, endTime: `${item.end_time_year}-${item.end_time_month}` },
             name: item.company_name,
             duty: item.description,
             industry: item.job_function
@@ -496,6 +508,10 @@ const TCreation = () => {
                   required: true,
                   message: '请输入手机号',
                 },
+                {
+                  pattern: /^1[2-9]\d{9}$/,
+                  message: '手机号格式不正确'
+                },
               ]}
               width="sm"
               name="phone"
@@ -505,6 +521,10 @@ const TCreation = () => {
               {
                 required: true,
                 message: '请输入邮箱地址',
+              },
+              {
+                pattern: /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/,
+                message: '邮箱格式不正确',
               },
             ]} />
             <Dragger {...fileProps} style={{ width: '300px' }}>
@@ -536,6 +556,7 @@ const TCreation = () => {
               return null;
             },
           }}
+          initialValues={{ education: 3, gender: '1' }}
         >
           <ProForm.Group>
             <ProFormText
@@ -554,6 +575,10 @@ const TCreation = () => {
                 required: true,
                 message: '请输入人选年龄',
               },
+              {
+                pattern: /^[1-9]\d*$/,
+                message: '年龄只能为数字',
+              }
             ]} />
           </ProForm.Group>
           <ProFormRadio.Group
@@ -679,7 +704,6 @@ const TCreation = () => {
             />
             <ProFormText
               label="现居地址"
-              help="" //备注
               width="sm"
               name="location"
               rules={[
@@ -800,7 +824,12 @@ const TCreation = () => {
               onChange={() => { }}
               multiple
             /> */}
-            <CascaderMul style={{ width: '328px' }} options={cityList} />
+            <CascaderMul style={{ width: '328px' }} onChange={(e) => {
+              console.log(e)
+              jobForm.setFieldsValue({
+                RCity: e.value
+              })
+            }} options={cityList} />
           </Form.Item>
         </Form>
       </div>

@@ -424,6 +424,7 @@ const ChapterManager = () => {
                     </Form.Item>
                 </Form>
                 <Tabs centered onChange={e => setState(e)}>
+                    <TabPane tab="全部" key="-1"></TabPane>
                     <TabPane tab="加项目" key="0"></TabPane>
                     <TabPane tab="给客户" key="1"></TabPane>
                     <TabPane tab="否决人选" key="2"></TabPane>

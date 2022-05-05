@@ -160,24 +160,24 @@ const addTripC = () => {
                             width="sm"
                             label="交通补助"
                             name="traffic"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: '请输入标题',
-                                },
-                            ]}
+                            // rules={[
+                            //     {
+                            //         required: true,
+                            //         message: '请输入标题',
+                            //     },
+                            // ]}
                             placeholder="给目标起个名字"
                         />
                         <ProFormText
                             width="sm"
                             label="餐补"
                             name="food"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: '请输入标题',
-                                },
-                            ]}
+                            // rules={[
+                            //     {
+                            //         required: true,
+                            //         message: '请输入标题',
+                            //     },
+                            // ]}
                             placeholder="给目标起个名字"
                         />
                     </ProForm.Group>
@@ -186,24 +186,24 @@ const addTripC = () => {
                             width="sm"
                             label="其他补助"
                             name="other"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: '请输入标题',
-                                },
-                            ]}
+                            // rules={[
+                            //     {
+                            //         required: true,
+                            //         message: '请输入标题',
+                            //     },
+                            // ]}
                             placeholder="给目标起个名字"
                         />
                         <ProFormText
                             width="sm"
                             label="本月扣款"
                             name="reduceFee"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: '请输入标题',
-                                },
-                            ]}
+                            // rules={[
+                            //     {
+                            //         required: true,
+                            //         message: '请输入标题',
+                            //     },
+                            // ]}
                             placeholder="给目标起个名字"
                         />
                     </ProForm.Group>
@@ -225,24 +225,24 @@ const addTripC = () => {
                             width="sm"
                             label="病假扣款"
                             name="sickFee"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: '请输入标题',
-                                },
-                            ]}
+                            // rules={[
+                            //     {
+                            //         required: true,
+                            //         message: '请输入标题',
+                            //     },
+                            // ]}
                             placeholder="给目标起个名字"
                         />
                         <ProFormText
                             width="sm"
                             label="事假扣款"
                             name="thingFee"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: '请输入标题',
-                                },
-                            ]}
+                            // rules={[
+                            //     {
+                            //         required: true,
+                            //         message: '请输入标题',
+                            //     },
+                            // ]}
                             placeholder="给目标起个名字"
                         />
                     </ProForm.Group>
@@ -251,24 +251,24 @@ const addTripC = () => {
                             width="sm"
                             label="迟到早退"
                             name="lateEarlyFee"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: '请输入标题',
-                                },
-                            ]}
+                            // rules={[
+                            //     {
+                            //         required: true,
+                            //         message: '请输入标题',
+                            //     },
+                            // ]}
                             placeholder="给目标起个名字"
                         />
                         <ProFormText
                             width="sm"
                             label="其他扣款"
                             name="otherDeduction"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: '请输入标题',
-                                },
-                            ]}
+                            // rules={[
+                            //     {
+                            //         required: true,
+                            //         message: '请输入标题',
+                            //     },
+                            // ]}
                             placeholder="给目标起个名字"
                         />
                     </ProForm.Group>
@@ -342,12 +342,12 @@ const addTripC = () => {
                         label="提醒内容"
                         width="xl"
                         name="remark"
-                        rules={[
-                            {
-                                required: true,
-                                message: '请输入目标描述',
-                            },
-                        ]}
+                        // rules={[
+                        //     {
+                        //         required: true,
+                        //         message: '请输入目标描述',
+                        //     },
+                        // ]}
                         placeholder="请输入你的阶段性工作目标"
                     />
                 </ProForm>

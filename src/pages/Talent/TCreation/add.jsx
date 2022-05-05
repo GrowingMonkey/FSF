@@ -568,7 +568,7 @@ const TCreation = () => {
                                 },
                             ]}
                             name="name"
-                            disabled
+
                             label="人选姓名"
                         />
                         <ProFormText label="人选年龄" name="age" rules={[
@@ -952,7 +952,6 @@ const TCreation = () => {
                                             ]}
                                         >
                                             <TextArea
-                                                disabled
                                                 style={{ width: '358px' }}
                                                 autoSize={{ minRows: 5, maxRows: 15 }}
                                             ></TextArea>
@@ -1006,7 +1005,7 @@ const TCreation = () => {
                                                 },
                                             ]}
                                         >
-                                            <Input style={{ width: '328px' }} disabled></Input>
+                                            <Input style={{ width: '328px' }} ></Input>
                                         </Form.Item>
 
                                         <Form.Item
@@ -1087,7 +1086,7 @@ const TCreation = () => {
                                                 },
                                             ]}
                                         >
-                                            <Input style={{ width: '328px' }} disabled></Input>
+                                            <Input style={{ width: '328px' }} ></Input>
                                         </Form.Item>
                                         <Form.Item
                                             name={[name, 'education']}

@@ -1,5 +1,5 @@
 import { Space, Select } from 'antd';
-import { QuestionCircleOutlined } from '@ant-design/icons';
+import { QuestionCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import React from 'react';
 import { useModel, SelectLang, history } from 'umi';
 import Avatar from './AvatarDropdown';
@@ -23,6 +23,7 @@ const GlobalHeaderRight = () => {
   }
   return (
     <Space className={className}>
+      <PlusOutlined onClick={() => history.push('/talent/t-add')} />
       <Select onChange={val => setType(val)} size="small" defaultValue={'/talent/t-list'} options={[{ label: '人选搜索', value: '/talent/t-list' }, { label: '客户搜索', value: '/customer/list' }, { label: '职位搜索', value: '/project/p-list' }]}></Select>
       <HeaderSearch
         className={`${styles.action} ${styles.search}`}

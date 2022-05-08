@@ -92,7 +92,9 @@ const InfoFile = () => {
         pagination={{
           total: total,
           pageSize: 10,
-          onChange: e => setPageNo(e)
+          onChange: e => setPageNo(e),
+          showTotal: total => `共${total}条`
+
         }}
       />
     </div>

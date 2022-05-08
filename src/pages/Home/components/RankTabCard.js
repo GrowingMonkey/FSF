@@ -8,10 +8,10 @@ const RankTabCard = ({ activeTab, setActiveTab }) => {
     //   name: "提成排行",
     //   value: 0,
     // },
-    // {
-    //   name: "回款排行",
-    //   value: 1,
-    // },
+    {
+      name: "业绩排行",
+      value: 1,
+    },
     {
       name: "回款排行",
       value: 2,
@@ -22,14 +22,13 @@ const RankTabCard = ({ activeTab, setActiveTab }) => {
     },
   ];
   return (
-    <div className={styles["container"]}>
-      <div className={styles["title"]}>排行榜</div>
+    <div style={{ display: 'flex', position: 'absolute', margin: '10px 18px' }}>
       {list.map((tab) => {
         return (
           <div
             className={styles["tab-item"]}
             key={tab.value}
-            style={{ padding: '0 10px 0 10px' }}
+            style={{ padding: '0 10px 0 10px', display: 'flex' }}
             onClick={() => {
               setActiveTab(tab.value);
             }}

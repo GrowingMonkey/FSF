@@ -119,13 +119,13 @@ const Home = () => {
     const warpBottomCol = {
         left: {
             xs: 24,
-            md: 4,
-            lg: 4
+            md: 12,
+            lg: 12
         },
         middle: {
             xs: 24,
-            md: 8,
-            lg: 8
+            md: 12,
+            lg: 12
         },
         right: {
             xs: 24,
@@ -188,16 +188,22 @@ const Home = () => {
             {/* </div> */}
             <div className={styles["bottom-container"]}>
                 <Row style={{ height: "100%" }} gutter={16}>
-                    <Col {...warpBottomCol.left}>
+                    {/* <Col {...warpBottomCol.left}>
                         <div className={styles["rank-tab-card"]}>
                             <RankTabCard
                                 activeTab={activeTab}
                                 setActiveTab={setActiveTab}
                             ></RankTabCard>
                         </div>
-                    </Col>
+                    </Col> */}
                     <Col {...warpBottomCol.middle}>
-                        <div className={styles["rank-data-card"]}>
+
+                        <div className={styles["rank-data-card"]} style={{ position: 'relative' }}>
+                            <RankTabCard
+                                activeTab={activeTab}
+                                setActiveTab={setActiveTab}
+                                style={{ position: 'absolute' }}
+                            ></RankTabCard>
                             <RankListCard activeTab={activeTab}></RankListCard>
                         </div>
                     </Col>

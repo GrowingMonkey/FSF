@@ -423,6 +423,8 @@ const TList = () => {
                                         onChange={onPageChange}
                                         total={listLength}
                                         showSizeChanger={false}
+                                        showTotal={listLength => `共${listLength}条`}
+
                                     ></Pagination>
                                 </Col>
                             </Row>

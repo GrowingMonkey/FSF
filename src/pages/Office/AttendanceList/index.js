@@ -201,7 +201,9 @@ const AttendanceList = () => {
           pagination={{
             total: total,
             pageSize: 10,
-            onChange: e => setSearchValues({ pageNo: e })
+            onChange: e => setSearchValues({ pageNo: e }),
+            showTotal: total => `共${listLength}条`
+
           }}
           size="small"
           bordered

@@ -189,6 +189,8 @@ const TCAList = () => {
               current={currentPage}
               onChange={onPageChange}
               total={listLength}
+              showTotal={listLength => `共${listLength}条`}
+
             ></Pagination>
           </Col>
         </Row>

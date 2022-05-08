@@ -227,7 +227,9 @@ const SignRank = () => {
           pagination={{
             total: total,
             pageSize: 10,
-            onChange: e => { signRun({ pageNo: e }) }
+            onChange: e => { signRun({ pageNo: e }) },
+            showTotal: total => `共${total}条`
+
           }}
           size="small"
           bordered

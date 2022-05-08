@@ -157,3 +157,9 @@ export const selectKpiFeeById = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export const gzjsq = (payload) => {
+  return request('/eco/gzjsq', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};

@@ -4,7 +4,7 @@ import { history, Link } from 'umi';
 import { useEffect } from 'react';
 import {
     selectTPList, recommendTalent, updateTP, Interview, rejectTalent, talentGiveUp, sendOffer, confirmOffer,
-    customerReject, quitWork, changeTPOwner
+    customerReject, quitWork, changeTPOwner, customerInterview
 } from '@/services/project'
 import { useState } from 'react';
 import ProForm, {
@@ -44,12 +44,12 @@ const ChapterManager = () => {
                 label: "推给客户",
                 value: 1,
             },
+            // {
+            //     label: "否决人选",
+            //     value: 2,
+            // },
             {
-                label: "否决人选",
-                value: 2,
-            },
-            {
-                label: "人选放弃",
+                label: "放弃人选",
                 value: 4,
             },
         ],
@@ -63,25 +63,25 @@ const ChapterManager = () => {
                 label: "预约面试",
                 value: 5,
             },
+            // {
+            //     label: "否决人选",
+            //     value: 2,
+            // },
             {
-                label: "否决人选",
-                value: 2,
-            },
-            {
-                label: "人选放弃",
+                label: "放弃人选",
                 value: 4,
             },
-            {
-                label: "客户否决",
-                value: 7,
-            }
+            // {
+            //     label: "客户否决",
+            //     value: 7,
+            // }
         ],
         2: [
-            {
-                label: "否决人选",
-                value: 2,
-                disabled: true
-            },
+            // {
+            //     label: "否决人选",
+            //     value: 2,
+            //     disabled: true
+            // },
         ],
         3: [
             {
@@ -89,14 +89,14 @@ const ChapterManager = () => {
                 value: 3,
                 disabled: true,
             },
-            {
-                label: "否决人选",
-                value: 2,
-            },
+            // {
+            //     label: "否决人选",
+            //     value: 2,
+            // },
         ],
         4: [
             {
-                label: "人选放弃",
+                label: "放弃人选",
                 value: 4,
                 disabled: true,
             },
@@ -110,35 +110,53 @@ const ChapterManager = () => {
                 label: "预约面试",
                 value: 5,
             },
+            // {
+            //     label: "否决人选",
+            //     value: 2,
+            // }, 
+
             {
-                label: "否决人选",
-                value: 2,
-            }, {
-                label: "人选放弃",
+                label: "客户面试",
+                value: 6,
+            },
+            {
+                label: "放弃人选",
                 value: 4,
             },
-            {
-                label: "客户否决",
-                value: 7,
-            },
-            {
-                label: "确认offer",
-                value: 8,
-            },
+            // {
+            //     label: "客户否决",
+            //     value: 7,
+            // },
+            // {
+            //     label: "确认offer",
+            //     value: 8,
+            // },
         ],
         6: [
             {
                 label: "客户面试",
                 value: 6,
                 disabled: true
-            }
+            },
+            {
+                label: "预约面试",
+                value: 5,
+            },
+            {
+                label: "确认offer",
+                value: 8,
+            },
+            {
+                label: "放弃人选",
+                value: 4,
+            },
         ],
         7: [
-            {
-                label: "客户否决",
-                value: 7,
-                disabled: true
-            }
+            // {
+            //     label: "客户否决",
+            //     value: 7,
+            //     disabled: true
+            // }
         ],
         8: [
             {
@@ -147,7 +165,7 @@ const ChapterManager = () => {
                 disabled: true
             },
             {
-                label: "人选放弃",
+                label: "放弃人选",
                 value: 4,
             },
             {
@@ -272,7 +290,7 @@ const ChapterManager = () => {
                 return '否决人选';
                 break;
             case 4:
-                return '人选放弃';
+                return '放弃人选';
                 break;
             case 5:
                 return '预约面试';
@@ -320,16 +338,16 @@ const ChapterManager = () => {
                 setIsRemarkModalVisible(true);
                 updateTP({ id: record.id, state: value })
                 break;
-            case 4://人选放弃
+            case 4://放弃人选
                 setIsRemarkModalVisible(true);
                 updateTP({ id: record.id, state: value })
                 break;
             case 5://约面试
                 setIsYuYueModalVisible(true);
                 break;
-            // case 6://客户面试
-            //     setIsRemarkModalVisible(true);
-            //     break;
+            case 6://客户面试
+                setIsRemarkModalVisible(true);
+                break;
             case 7://客户否决
                 setIsRemarkModalVisible(true);
                 break;
@@ -387,7 +405,7 @@ const ChapterManager = () => {
                 await rejectTalent({ projectId: query.projectId, id: recordId, remark: values.remark });
                 break;
             case 4:
-                //人选放弃
+                //放弃人选
                 await talentGiveUp({ projectId: query.projectId, id: recordId, remark: values.remark });
                 break;
             case 9:
@@ -398,6 +416,11 @@ const ChapterManager = () => {
                 // 客户否决
                 await customerReject({ projectId: query.projectId, id: recordId, remark: values.remark })
                 break;
+            case 6:
+                // 客户面试
+                await customerInterview({ projectId: query.projectId, id: recordId, remark: values.remark })
+                break;
+            //
         }
         remarkForm.resetFields();
         message.success('更改成功');
@@ -427,14 +450,15 @@ const ChapterManager = () => {
                     <TabPane tab="全部" key=""></TabPane>
                     <TabPane tab="加项目" key="0"></TabPane>
                     <TabPane tab="给客户" key="1"></TabPane>
-                    <TabPane tab="否决人选" key="2"></TabPane>
-                    <TabPane tab="人选放弃" key="4"></TabPane>
+                    {/* <TabPane tab="否决人选" key="2"></TabPane> */}
+
                     <TabPane tab="约面试" key="5"></TabPane>
-                    {/* <TabPane tab="客户面试" key="6"></TabPane> */}
-                    <TabPane tab="客户否决" key="7"></TabPane>
-                    <TabPane tab="收offer" key="8"></TabPane>
+                    <TabPane tab="客户面试" key="6"></TabPane>
+                    {/* <TabPane tab="客户否决" key="7"></TabPane> */}
+                    <TabPane tab="确认offer" key="8"></TabPane>
                     <TabPane tab="已入职" key="9"></TabPane>
                     <TabPane tab="人选离职" key="10"></TabPane>
+                    <TabPane tab="放弃人选" key="4"></TabPane>
                 </Tabs>
                 <Table columns={columns} dataSource={TPList} size="small" bordered scroll={{ x: 600 }}>
 

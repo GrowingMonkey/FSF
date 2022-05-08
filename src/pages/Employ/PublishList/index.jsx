@@ -213,7 +213,9 @@ const TripList = () => {
                     pagination={{
                         total: total,
                         pageSize: 10,
-                        onChange: e => { run({ pageNo: e }) }
+                        onChange: e => { run({ pageNo: e }) },
+                        showTotal: total => `共${total}条`
+
                     }}
                     size="small"
                     bordered

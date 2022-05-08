@@ -230,7 +230,9 @@ const CommissionRank = () => {
           pagination={{
             total: total,
             pageSize: 10,
-            onChange: e => { CRankRun({ pageNo: e }) }
+            onChange: e => { CRankRun({ pageNo: e }) },
+            showTotal: total => `共${total}条`
+
           }}
           size="small"
           bordered

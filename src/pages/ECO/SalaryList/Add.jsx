@@ -1,4 +1,4 @@
-import { Card, Form, message, Divider } from 'antd';
+import { Card, Form, message, Divider, Button } from 'antd';
 import ProForm, {
     ProFormDatePicker,
     ProFormDependency,
@@ -12,10 +12,13 @@ import ProForm, {
 import { useRequest, history } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
 import { useState, useEffect } from 'react';
-import { addSalary } from '@/services/eco';
+import { addSalary, gzjsq } from '@/services/eco';
 import { selectPList } from '@/services/project';
 import { selectTalentList } from '@/services/talent';
 import { addTrip } from '@/services/employ'
+
+
+
 import ApplyYuanGong from '@/components/employSelect'
 
 
@@ -86,7 +89,7 @@ const addTripC = () => {
                                     message: '请输入标题',
                                 },
                             ]}
-                            placeholder="给目标起个名字"
+                            placeholder="请输入"
                         />
                     </ProForm.Group>
                     <ProFormDatePicker
@@ -113,7 +116,7 @@ const addTripC = () => {
                                     message: '请输入标题',
                                 },
                             ]}
-                            placeholder="给目标起个名字"
+                            placeholder="请输入"
                         />
                         <ProFormText
                             width="sm"
@@ -125,8 +128,8 @@ const addTripC = () => {
                                     message: '请输入标题',
                                 },
                             ]}
-                            placeholder="给目标起个名字"
-                        />
+                            placeholder="请输入"
+                        ></ProFormText>
                     </ProForm.Group>
 
                     <ProForm.Group>
@@ -140,8 +143,23 @@ const addTripC = () => {
                                     message: '请输入标题',
                                 },
                             ]}
-                            placeholder="给目标起个名字"
+                            placeholder="请输入"
                         />
+                        <ProFormText
+                            width="sm"
+                            label="法定工作日"
+                            name="totalDays"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: '请输入标题',
+                                },
+                            ]}
+                            placeholder="请输入"
+                        />
+
+                    </ProForm.Group>
+                    <ProForm.Group>
                         <ProFormText
                             width="sm"
                             label="绩效工资"
@@ -152,10 +170,8 @@ const addTripC = () => {
                                     message: '请输入标题',
                                 },
                             ]}
-                            placeholder="给目标起个名字"
+                            placeholder="请输入"
                         />
-                    </ProForm.Group>
-                    <ProForm.Group>
                         <ProFormText
                             width="sm"
                             label="交通补助"
@@ -166,8 +182,11 @@ const addTripC = () => {
                             //         message: '请输入标题',
                             //     },
                             // ]}
-                            placeholder="给目标起个名字"
+                            placeholder="请输入"
                         />
+
+                    </ProForm.Group>
+                    <ProForm.Group>
                         <ProFormText
                             width="sm"
                             label="餐补"
@@ -178,10 +197,8 @@ const addTripC = () => {
                             //         message: '请输入标题',
                             //     },
                             // ]}
-                            placeholder="给目标起个名字"
+                            placeholder="请输入"
                         />
-                    </ProForm.Group>
-                    <ProForm.Group>
                         <ProFormText
                             width="sm"
                             label="其他补助"
@@ -192,11 +209,13 @@ const addTripC = () => {
                             //         message: '请输入标题',
                             //     },
                             // ]}
-                            placeholder="给目标起个名字"
+                            placeholder="请输入"
                         />
+                    </ProForm.Group>
+                    <ProForm.Group>
                         <ProFormText
                             width="sm"
-                            label="本月扣款"
+                            label="合计扣款"
                             name="reduceFee"
                             // rules={[
                             //     {
@@ -204,21 +223,36 @@ const addTripC = () => {
                             //         message: '请输入标题',
                             //     },
                             // ]}
-                            placeholder="给目标起个名字"
+                            placeholder="请输入"
                         />
+                        <ProFormText
+                            width="sm"
+                            label="实发工资"
+                            name="salary"
+
+                            rules={[
+                                {
+                                    required: true,
+                                    message: '请输入标题',
+                                },
+                            ]}
+                            placeholder="请输入"
+                        >
+
+                        </ProFormText>
+                        <Button size="small" onClick={() => {
+                            applyForm.validateFields(['reduceFee', 'totalDays', 'traffic', 'workDays', 'other', 'kpiFee', 'food', 'commissionFee', 'baseSalary']).then(value => {
+                                console.log(value);
+                                gzjsq({ ...value }).then(res => {
+                                    if (res.code == 0) {
+                                        applyForm.setFieldsValue({ salary: JSON.parse(res.data).salary })
+                                    } else {
+                                        applyForm.setFieldsValue({ salary: 0 })
+                                    }
+                                })
+                            })
+                        }}>计算</Button>
                     </ProForm.Group>
-                    <ProFormText
-                        width="sm"
-                        label="实发工资"
-                        name="salary"
-                        rules={[
-                            {
-                                required: true,
-                                message: '请输入标题',
-                            },
-                        ]}
-                        placeholder="给目标起个名字"
-                    />
                     <Divider></Divider>
                     <ProForm.Group>
                         <ProFormText
@@ -231,7 +265,7 @@ const addTripC = () => {
                             //         message: '请输入标题',
                             //     },
                             // ]}
-                            placeholder="给目标起个名字"
+                            placeholder="请输入"
                         />
                         <ProFormText
                             width="sm"
@@ -243,7 +277,7 @@ const addTripC = () => {
                             //         message: '请输入标题',
                             //     },
                             // ]}
-                            placeholder="给目标起个名字"
+                            placeholder="请输入"
                         />
                     </ProForm.Group>
                     <ProForm.Group>
@@ -257,7 +291,7 @@ const addTripC = () => {
                             //         message: '请输入标题',
                             //     },
                             // ]}
-                            placeholder="给目标起个名字"
+                            placeholder="请输入"
                         />
                         <ProFormText
                             width="sm"
@@ -269,7 +303,7 @@ const addTripC = () => {
                             //         message: '请输入标题',
                             //     },
                             // ]}
-                            placeholder="给目标起个名字"
+                            placeholder="请输入"
                         />
                     </ProForm.Group>
                     <Divider></Divider>
@@ -284,7 +318,7 @@ const addTripC = () => {
                                     message: '请输入标题',
                                 },
                             ]}
-                            placeholder="给目标起个名字"
+                            placeholder="请输入"
                         />
                         <ProFormText
                             width="sm"
@@ -296,7 +330,7 @@ const addTripC = () => {
                                     message: '请输入标题',
                                 },
                             ]}
-                            placeholder="给目标起个名字"
+                            placeholder="请输入"
                         />
                     </ProForm.Group><ProForm.Group>
                         <ProFormText
@@ -309,7 +343,7 @@ const addTripC = () => {
                                     message: '请输入标题',
                                 },
                             ]}
-                            placeholder="给目标起个名字"
+                            placeholder="请输入"
                         />
                         <ProFormText
                             width="sm"
@@ -321,7 +355,7 @@ const addTripC = () => {
                                     message: '请输入标题',
                                 },
                             ]}
-                            placeholder="给目标起个名字"
+                            placeholder="请输入"
                         />
                     </ProForm.Group>
                     <ProForm.Group>
@@ -335,7 +369,7 @@ const addTripC = () => {
                                     message: '请输入标题',
                                 },
                             ]}
-                            placeholder="给目标起个名字"
+                            placeholder="请输入"
                         />
                     </ProForm.Group>
                     <ProFormTextArea

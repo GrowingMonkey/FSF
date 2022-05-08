@@ -29,9 +29,14 @@ const RankListCard = ({ activeTab }) => {
             key: 'comName',
           },
           {
-            title: '姓名',
+            title: '顾问名称',
             dataIndex: 'name',
             key: 'name',
+          },
+          {
+            title: '职级',
+            dataIndex: 'roleName',
+            key: 'roleName',
           },
           {
             title: '金额',
@@ -40,7 +45,7 @@ const RankListCard = ({ activeTab }) => {
           }])
         setTableData(res.data?.list || [])
       });
-    } else {
+    } else if (activeTab == 3) {
       signRank().then((res) => {
         setTableData(res.data?.list || []);
         setColums([
@@ -50,12 +55,12 @@ const RankListCard = ({ activeTab }) => {
             key: 'comName',
           },
           {
-            title: '姓名',
+            title: '顾问名称',
             dataIndex: 'name',
             key: 'name',
           },
           {
-            title: '角色',
+            title: '职级',
             dataIndex: 'roleName',
             key: 'roleName',
           },
@@ -65,6 +70,32 @@ const RankListCard = ({ activeTab }) => {
             key: 'signNum',
           }])
       });
+    } else {
+
+      kpiRank().then((res) => {
+        setTableData(res.data?.list || []);
+        setColums([
+          {
+            title: '归属公司',
+            dataIndex: 'comName',
+            key: 'comName',
+          },
+          {
+            title: '顾问名称',
+            dataIndex: 'userName',
+            key: 'userName',
+          },
+          {
+            title: '职级',
+            dataIndex: 'role',
+            key: 'role',
+          },
+          {
+            title: '业绩',
+            dataIndex: 'kpiFee',
+            key: 'kpiFee',
+          }])
+      });
     }
 
     // kpiRank().then((data) => {
@@ -72,6 +103,7 @@ const RankListCard = ({ activeTab }) => {
     // });
   }, [activeTab]);
   return <div className={styles["container"]}>
+
     <Button type="link" style={{ float: 'right' }} onClick={() => history.push(`${activeTab == 2 ? '/kpi/pay-rank' : '/kpi/sign-rank'}`)}>查看更多</Button>
     <Table dataSource={tableData} columns={colums} pagination={false} size="small" />
   </div>;

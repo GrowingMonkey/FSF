@@ -324,4 +324,9 @@ export const changeTPOwner = (payload) => {
     data: { ...(payload || {}) },
   });
 };
-
+export const customerInterview = (payload) => {
+  return request('/project/customerInterview', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};

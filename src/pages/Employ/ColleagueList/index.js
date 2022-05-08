@@ -157,6 +157,8 @@ const ColleagueList = () => {
             onChange: (e) => {
               run({ pageNo: e });
             },
+            showTotal: total => `共${total}条`
+
           }}
           size="small"
           bordered

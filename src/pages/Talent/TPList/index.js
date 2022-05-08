@@ -149,8 +149,8 @@ const TPList = () => {
     },
   ];
   const formList = [];
-  const onSubmit = () => {};
-  const onCancel = () => {};
+  const onSubmit = () => { };
+  const onCancel = () => { };
   const handleSearchConfirm = () => {
     form.validateFields().then((values) => {
       console.log(values);
@@ -229,6 +229,8 @@ const TPList = () => {
             total: listLength,
             pageSize: 10,
             onChange: onPageChange,
+            showTotal: listLength => `共${listLength}条`
+
           }}
           size="small"
           bordered

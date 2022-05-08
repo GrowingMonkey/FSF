@@ -220,7 +220,9 @@ const TPList = () => {
                     pagination={{
                         total: listLength,
                         pageSize: 10,
-                        onChange: onPageChange
+                        onChange: onPageChange,
+                        showTotal: listLength => `共${listLength}条`
+
                     }}
                     size="small"
                     bordered

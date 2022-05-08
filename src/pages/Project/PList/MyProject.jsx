@@ -568,7 +568,9 @@ const PList = () => {
                     pagination={{
                         total: total,
                         pageSize: 10,
-                        onChange: e => { setCurrentPage(e) }
+                        onChange: e => { setCurrentPage(e) },
+                        showTotal: total => `共${total}条`
+
                     }}
                 />
             </div>

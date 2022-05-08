@@ -20,6 +20,8 @@ import { addProject, getProjectId } from '../../../services/project';
 import { cityList } from '../../../utils/CityList';
 import { industryList } from '../../../utils/Industry';
 import { positionList } from '../../../utils/Position';
+import CascaderMul from '@/components/CascaderMul';
+import { ulfq } from "@/services/customer";
 import styles from './index.less';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProForm, { ProFormText, ProFormSelect, ProFormTextArea } from '@ant-design/pro-form';
@@ -159,7 +161,12 @@ const PCreation = () => {
               name="cityCode"
               label="工作地点"
             >
-              <Cascader style={{ width: '328px' }} options={cityList} placeholder=""></Cascader>
+              <CascaderMul style={{ width: '328px' }} onChange={(e) => {
+                console.log(e)
+                form.setFieldsValue({
+                  cityCode: e.value
+                })
+              }} options={cityList} />
             </Form.Item>
             {/* <Form.Item
               name="RJob"
@@ -329,6 +336,39 @@ const PCreation = () => {
           ]}>
             <TextArea style={{ width: '328px' }}></TextArea>
           </Form.Item>
+          {/* <Form.Item name="details" label="职位描述" rules={[
+            {
+              required: true,
+              message: '必填',
+            },
+          ]}>
+            <Select
+              mode="multiple"
+              showArrow
+              tagRender={(props) => {
+                const { label, value, closable, onClose } = props;
+                const onPreventMouseDown = event => {
+                  event.preventDefault();
+                  event.stopPropagation();
+                };
+                return (
+                  <Tag
+                    color={value}
+                    onMouseDown={onPreventMouseDown}
+                    closable={closable}
+                    onClose={onClose}
+                    style={{ marginRight: 3 }}
+                  >
+                    {label}
+                  </Tag>
+                );
+              }}
+              defaultValue={['gold', 'cyan']}
+              style={{ width: '100%' }}
+              options={options}
+            />
+          </Form.Item>
+        */}
         </ProForm>
         <Space>
           <Button

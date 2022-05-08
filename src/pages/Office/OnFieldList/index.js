@@ -237,7 +237,9 @@ const OnFieldList = () => {
         <Table columns={onFieldColumns} dataSource={onFieldList} pagination={{
           total: total,
           pageSize: 10,
-          onChange: e => setSearchValues({ pageNo: e })
+          onChange: e => setSearchValues({ pageNo: e }),
+          showTotal: total => `共${total}条`
+
         }} size="small" bordered scroll={{ x: 900 }} />
       </div>
       <div style={{ width: '100%', minHeight: '15px' }}></div>

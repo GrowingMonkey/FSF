@@ -48,6 +48,9 @@ export async function getInitialState() {
 
 export const layout = ({ initialState }) => {
   return {
+    // logo: false,
+    // titleRender: () => <div>123</div>,
+    title: false,
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
     waterMarkProps: {

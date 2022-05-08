@@ -9,7 +9,7 @@ const Settings = {
   colorWeak: false,
   title: '费思福资源管理系统',
   pwa: false,
-  logo: 'https://faithful.oss-cn-shanghai.aliyuncs.com/static/logo.png',
+  logo: '/banner.png',
   iconfontUrl: '',
 };
 export default Settings;

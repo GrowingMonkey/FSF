@@ -15,12 +15,13 @@ import ProForm, {
 } from '@ant-design/pro-form';
 import { useRequest, history } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
-import { addServiceFee } from '@/services/eco'
+import { addServiceFee, selectServiceFeeById } from '@/services/eco'
 import { upload } from '@/utils/lib/upload'
 import SearchInput from '@/components/SearchInput';
 import TalentSearch from './TalentSearchBF';
 import CustomerSearch from '@/components/CustomerSearch';
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import { useEffect } from 'react';
 
 
 
@@ -44,6 +45,28 @@ const AddInvoice = () => {
         console.log(values)
         // run(values);
     };
+    useEffect(() => {
+        const { location: { query } } = history;
+        console.log(query)
+        if (query?.bfId) {
+            selectServiceFeeById({ id: query?.bfId }).then(ress => {
+                applyForm.setFieldsValue({
+                    fee: ress.data.fee,
+                    payWay: ress.data.payWay,
+                    payType: ress.data.payType,
+                    serviceType: ress.data.serviceType,
+                    dateType: ress.data.dateType,
+                    isTalent: ress.data.tpList.lenght > 0 ? 1 : 0,
+                    customerOut: ress.data.customerName,
+                    appUser: ress.data.auditorName
+                })
+
+                noteForm.setFieldsValue({
+                    remark: ress.data.remark
+                })
+            })
+        }
+    }, [])
     const handleSubmit = () => {
         debugger
         Promise.all([
@@ -51,17 +74,21 @@ const AddInvoice = () => {
             // talentForm.validateFields(),
             noteForm.validateFields(),
         ]).then((values) => {
-
+            const { location: { query } } = history;
             console.log(values)
             let realFee = [];
             if (values[0].isTalent == 1 && values[0].users) {
-
                 values[0].users.map(item => {
                     realFee.push({ realFee: item.realFee, tpId: item.talents.talents.id })
                 })
 
             }
-            run({ ...values[0], customerId: values[0].customerOut.customerId, customerName: values[0].customerOut.customerName, ...values[1], appUserId: values[0].appUser.recommenderUserId, tpIds: realFee })
+            if (query?.bfId) {
+                run({ ...values[0], customerId: values[0].customerOut.customerId, customerName: values[0].customerOut.customerName, ...values[1], appUserId: values[0].appUser.recommenderUserId, tpIds: realFee, id: query.bfId })
+
+            } else {
+                run({ ...values[0], customerId: values[0].customerOut.customerId, customerName: values[0].customerOut.customerName, ...values[1], appUserId: values[0].appUser.recommenderUserId, tpIds: realFee })
+            }
         })
     }
     const changedTalent = (e, index) => {
@@ -96,7 +123,14 @@ const AddInvoice = () => {
                     },
                 }}
             >
-                <Card bordered={false} title={'新增回款'} style={{ minWidth: '700px' }}>
+                <Card bordered={false} title={(() => {
+                    const { location: { query } } = history;
+                    if (query.bfId) {
+                        return '编辑回款'
+                    } else {
+                        return '新增回款'
+                    }
+                })()} style={{ minWidth: '700px' }}>
                     <Form.Item labelCol={{ style: { width: '113px' } }} name="fee" label="回款金额" rules={[
                         {
                             required: true,

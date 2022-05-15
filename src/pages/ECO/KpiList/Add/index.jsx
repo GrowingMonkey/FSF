@@ -166,7 +166,12 @@ const AddInvoice = () => {
         list.map(item => {
             item.serviceFee = otherParams.serviceFee;
             item.tpId = otherParams?.sgrx;
-            item.talentName = sgrxOptions.filter(item => item.value == otherParams?.sgrx)[0].label || 'ceshi';
+            try {
+                item.talentName = sgrxOptions?.filter(item => item.value == otherParams?.sgrx)[0]?.label || '';
+            } catch (err) {
+                console.log(err)
+                item.talentName = '';
+            }
             item.type = otherParams.yjfl;
             item.userId = item.empoylee.userId;
             item.userName = item.empoylee.name;
@@ -445,7 +450,7 @@ const AddInvoice = () => {
                                 required: true,
                                 message: '必填',
                             },
-                        ]} wrapperCol={{ style: { width: '175px' } }} label="选择回款">
+                        ]} wrapperCol={{ style: { width: '175px' } }} label="回款企业">
                             <BFSearch onChange={setOptionsType}></BFSearch>
                         </Form.Item>
                         <ProFormText labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="comName" label="归属公司"></ProFormText>
@@ -456,7 +461,7 @@ const AddInvoice = () => {
                         {({ appUser }) => {
                             console.log(appUser)
                             return <ProForm.Group>
-                                <ProFormSelect options={appUser ? stateChaneTypes[appUser.isKpi] : []} labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="type" label="提成分类" rules={[
+                                <ProFormSelect options={appUser ? stateChaneTypes[appUser.isKpi] : []} labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="type" label="回款类型" rules={[
                                     {
                                         required: true,
                                         message: '必填',

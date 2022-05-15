@@ -362,7 +362,7 @@ export default [
       },
       {
         path: '/eco/bf-add',
-        name: '新增回款',
+        name: '回款',
         access: 'canEcoBFAdd',
         hideInMenu: true,
         component: './ECO/BFList/AddBF',

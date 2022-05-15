@@ -163,3 +163,9 @@ export const gzjsq = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export const selectServiceFeeById = (payload) => {
+  return request('/eco/selectServiceFeeById', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};

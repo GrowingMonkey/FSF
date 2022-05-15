@@ -144,14 +144,18 @@ const BFList = () => {
       dataIndex: 'type10',
       ellipsis: true,
       fixed: 'right',
+      width: 210,
       key: 'type10',
       render: (text, record) => {
         return (
           <>
+            <Button type="link" size="small" onClick={() => history.push(`/eco/bf-add?bfId=${record.id}`)}>
+              编辑
+            </Button>
             <Button type="link" size="small" onClick={() => showModal(record)}>
               关联回款
             </Button>
-            {/* <Button type="link" size="small" onClick={() => history.push(`/eco/bf-detail?serviceFeeId=${record.id}`)}>查看详情</Button> */}
+            <Button type="link" size="small" onClick={() => history.push(`/eco/bf-detail?serviceFeeId=${record.id}`)}>查看详情</Button>
             {/* <Popconfirm placement="topLeft" title={'作废'} onConfirm={() => confirm(record)} okText="确定" cancelText="取消">
             <Button type="link" danger size="small" >作废</Button>
           </Popconfirm> */}

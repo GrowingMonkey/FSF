@@ -202,7 +202,7 @@ const AttendanceList = () => {
             total: total,
             pageSize: 10,
             onChange: e => setSearchValues({ pageNo: e }),
-            showTotal: total => `共${listLength}条`
+            showTotal: total => `共${total}条`
 
           }}
           size="small"

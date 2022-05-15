@@ -28,6 +28,9 @@ const ChapterManager = () => {
     const [recordId, setRecordId] = useState(null);
     const [yuYueForm] = Form.useForm();
     const [isfresh, setIsfresh] = useState(false);
+    const [total, setTotal] = useState(0);
+    const [pageNo, setPageNo] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
     const [ModalVisible, setModalVisible] = useState({
         state: false,
         current: null,
@@ -191,15 +194,16 @@ const ChapterManager = () => {
                 disabled: true
             }],
     };
-    const [pageNo, setPageNo] = useState(1);
-    const [pageSize, setPageSize] = useState(10);
+
     const { location: { query } } = history;
     useEffect(() => {
         selectTPList({ pageNo: pageNo, pageSize: pageSize, state: state, projectId: query.projectId }).then(res => {
             console.log(res);
             setTPList(res?.data?.list || []);
+            setTotal(res.data?.count)
             // setTPList([{ address: '111', username: 'hh' }])
             console.log(TPList);
+
         })
     }, [pageNo, pageSize, state, customId, isfresh])
     const changeUserName = (record) => {
@@ -446,7 +450,7 @@ const ChapterManager = () => {
                         <CustomerSearch CustomerStyle={{ width: '328px' }} onChange={e => setCustomId(e.customerId)} />
                     </Form.Item>
                 </Form>
-                <Tabs centered onChange={e => setState(e)}>
+                <Tabs centered onChange={e => { setState(e); setPageNo(1) }}>
                     <TabPane tab="全部" key=""></TabPane>
                     <TabPane tab="加项目" key="0"></TabPane>
                     <TabPane tab="给客户" key="1"></TabPane>
@@ -460,7 +464,13 @@ const ChapterManager = () => {
                     <TabPane tab="人选离职" key="10"></TabPane>
                     <TabPane tab="放弃人选" key="4"></TabPane>
                 </Tabs>
-                <Table columns={columns} dataSource={TPList} size="small" bordered scroll={{ x: 600 }}>
+                <Table columns={columns} dataSource={TPList} pagination={{
+                    total: total,
+                    pageSize: 10,
+                    defaultCurrent: pageNo,
+                    onChange: e => { setPageNo(e) },
+                    showTotal: total => `共${total}条`
+                }} size="small" bordered scroll={{ x: 600 }}>
 
                 </Table>
                 <Modal title="预约面试" visible={isYuYueModalVisible} footer={null} onCancel={() => setIsYuYueModalVisible(false)}>

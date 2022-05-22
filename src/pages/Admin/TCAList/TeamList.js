@@ -142,7 +142,7 @@ const TCAList = () => {
             <div className={styles["list-container"]}>
                 <Row justify="space-between" align="middle">
                     <Col>
-                        <div className={styles["page-title"]}>架构列表</div>
+                        <div className={styles["page-title"]}>团队列表</div>
                     </Col>
                     <Col>
                         <Space>

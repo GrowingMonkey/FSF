@@ -427,11 +427,29 @@ export default [
         access: 'canAdminUser',
         component: './Admin/UserList/index',
       },
+      // {
+      //   path: '/admin/tca-list',
+      //   name: '架构列表',
+      //   access: 'canAdminTca',
+      //   component: './Admin/TCAList/index',
+      // },
       {
-        path: '/admin/tca-list',
-        name: '架构列表',
-        access: 'canAdminTca',
-        component: './Admin/TCAList/index',
+        path: '/admin/tca-area',
+        name: '大区管理',
+        // access: 'canAdminTca',
+        component: './Admin/TCAList/AreaList',
+      },
+      {
+        path: '/admin/tca-company',
+        name: '分公司管理',
+        // access: 'canAdminTca',
+        component: './Admin/TCAList/CompanyList',
+      },
+      {
+        path: '/admin/tca-team',
+        name: '团队管理',
+        // access: 'canAdminTca',
+        component: './Admin/TCAList/TeamList',
       },
       {
         path: '/admin/role-list',

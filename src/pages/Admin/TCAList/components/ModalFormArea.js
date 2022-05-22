@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Modal, Form, Input } from "antd";
 import { addTCA, updateTCA } from "../../../../services/admin";
-
+import DebounceSelect from './UserSearch'
+import { userList, updateArea, tcaList, addArea } from '@/services/admin';
 const ModalFormArea = ({ visible, onSubmit, onCancel, record }) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalTitle, setModalTitle] = useState("新增大区");
@@ -12,13 +13,14 @@ const ModalFormArea = ({ visible, onSubmit, onCancel, record }) => {
       .validateFields()
       .then((values) => {
         if (record) {
-          updateTCA({ id: record.id, ...values }).then(() => {
+          updateArea({ id: record.id, ...values, ids: values.ids.map(item => item.value), leaderId: values.leaderId.value }).then(() => {
             onSubmit();
             form.resetFields();
             setConfirmLoading(false);
           });
         } else {
-          addTCA({ ...values, level: 0 }).then(() => {
+          console.log(values.ids)
+          addArea({ ...values, ids: values.ids.map(item => item.value), leaderId: values.leaderId.value }).then(() => {
             onSubmit();
             form.resetFields();
             setConfirmLoading(false);
@@ -77,6 +79,65 @@ const ModalFormArea = ({ visible, onSubmit, onCancel, record }) => {
         <Form.Item name="leaderName" label="领导名称"></Form.Item>
         <Form.Item name="leaderTel" label="领导电话"></Form.Item>
          */}
+        <Form.Item
+          name="leaderId"
+          label="大区负责人"
+
+        >
+          <DebounceSelect
+            // mode="multiple"
+            showSearch
+            value={form.getFieldValue('name')}
+            placeholder="Select users"
+            fetchOptions={async (e) => {
+              let a = await userList({ name: e });
+              console.log(a)
+              console.log(e);
+
+              return a.data.list.map(item => {
+                return {
+                  label: `${item.name} `,
+                  value: item.id,
+                }
+              });
+            }}
+            onChange={(newValue) => {
+              // setValue(newValue);
+            }}
+            style={{
+              width: '100%',
+            }}
+          />
+        </Form.Item>
+        <Form.Item
+          name="ids"
+          label="大区下属分公司"
+
+        >
+          <DebounceSelect
+            mode="multiple"
+            value={form.getFieldValue('name')}
+            placeholder="Select users"
+            fetchOptions={async (e) => {
+              let a = await tcaList({ name: e, level: '1' });
+              console.log(a)
+              console.log(e);
+
+              return a.data.list.map(item => {
+                return {
+                  label: `${item.name} `,
+                  value: item.id,
+                }
+              });
+            }}
+            onChange={(newValue) => {
+              // setValue(newValue);
+            }}
+            style={{
+              width: '100%',
+            }}
+          />
+        </Form.Item>
         <Form.Item name="remark" label="备注">
           <Input.TextArea />
         </Form.Item>

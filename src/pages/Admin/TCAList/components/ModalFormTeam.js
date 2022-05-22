@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { Modal, Form, Input, Cascader } from "antd";
 import { info, getCodeByProvinceName } from "china-region";
 import { cityList } from "../../../../utils/CityList";
-import { addTCA, updateTCA } from "../../../../services/admin";
+import { addTCA, tcaList, updateTeam, addTeam, userList, updateTCA } from "../../../../services/admin";
+import DebounceSelect from './UserSearch'
 
 const ModalFormTeam = ({ visible, onSubmit, onCancel, record }) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -14,20 +15,20 @@ const ModalFormTeam = ({ visible, onSubmit, onCancel, record }) => {
       .validateFields()
       .then((values) => {
         let payload = { ...values };
-        if (payload.cityCode.length === 2) {
-          payload.cityCode = payload.cityCode[1];
-        }
-        if (payload.cityCode.length === 1) {
-          payload.cityCode = payload.cityCode[0];
-        }
+        // if (payload.cityCode.length === 2) {
+        //   payload.cityCode = payload.cityCode[1];
+        // }
+        // if (payload.cityCode.length === 1) {
+        //   payload.cityCode = payload.cityCode[0];
+        // }
         if (record) {
-          updateTCA({ id: record.id, ...payload }).then(() => {
+          updateTeam({ id: record.id, ...payload, ids: values.ids.map(item => item.value), leaderId: values.leaderId.value, superiorId: values.superiorId.value, level: 2 }).then(() => {
             onSubmit();
             form.resetFields();
             setConfirmLoading(false);
           });
         } else {
-          addTCA({ ...payload, level: 2 }).then(() => {
+          addTeam({ ...payload, ids: values.ids.map(item => item.value), leaderId: values.leaderId.value, superiorId: values.superiorId.value, level: 2 }).then(() => {
             onSubmit();
             form.resetFields();
             setConfirmLoading(false);
@@ -92,19 +93,84 @@ const ModalFormTeam = ({ visible, onSubmit, onCancel, record }) => {
         >
           <Input />
         </Form.Item>
-        <Form.Item name="cityCode" label="城市">
-          <Cascader options={cityList} placeholder="请选择" />
+        <Form.Item name="superiorId" label="归属公司">
+          <DebounceSelect
+            showSearch
+            value={form.getFieldValue('name')}
+            placeholder="Select users"
+            fetchOptions={async (e) => {
+              let a = await tcaList({ name: e, level: '1' });
+              console.log(a)
+              console.log(e);
+
+              return a.data.list.map(item => {
+                return {
+                  label: `${item.name} `,
+                  value: item.id,
+                }
+              });
+            }}
+            onChange={(newValue) => {
+              // setValue(newValue);
+            }}
+            style={{
+              width: '100%',
+            }}
+          />
         </Form.Item>
-        <Form.Item name="address" label="地址">
-          <Input></Input>
+        <Form.Item name="leaderId" label="团队负责人">
+          <DebounceSelect
+            // mode="multiple"
+            showSearch
+            value={form.getFieldValue('name')}
+            placeholder="Select users"
+            fetchOptions={async (e) => {
+              let a = await userList({ name: e });
+              console.log(a)
+              console.log(e);
+
+              return a.data.list.map(item => {
+                return {
+                  label: `${item.name} `,
+                  value: item.id,
+                }
+              });
+            }}
+            onChange={(newValue) => {
+              // setValue(newValue);
+            }}
+            style={{
+              width: '100%',
+            }}
+          />
         </Form.Item>
-        <Form.Item name="superiorId" label="上级">
-          <Input></Input>
+        <Form.Item name="ids" label="团队下属员工">
+          <DebounceSelect
+            mode="multiple"
+
+            value={form.getFieldValue('name')}
+            placeholder="Select users"
+            fetchOptions={async (e) => {
+              let a = await userList({ name: e });
+              console.log(a)
+              console.log(e);
+
+              return a.data.list.map(item => {
+                return {
+                  label: `${item.name} `,
+                  value: item.id,
+                }
+              });
+            }}
+            onChange={(newValue) => {
+              // setValue(newValue);
+            }}
+            style={{
+              width: '100%',
+            }}
+          />
         </Form.Item>
-        <Form.Item name="details" label="说明">
-          <Input.TextArea />
-        </Form.Item>
-        <Form.Item name="remark" label="备注">
+        <Form.Item name="remark" label="说明">
           <Input.TextArea />
         </Form.Item>
       </Form>

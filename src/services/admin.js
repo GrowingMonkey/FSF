@@ -11,6 +11,17 @@ export const tcaList = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export const selectCom = (payload) => {
+  // return new Promise((resolve, reject) => {
+  //   request.post("/admin/TCAList", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/admin/selectCom', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
 
 export const addTCA = (payload) => {
   // return new Promise((resolve, reject) => {
@@ -154,3 +165,81 @@ export async function getOssSign(payload) {
     data: { ...(payload || {}) },
   });
 };
+export async function selectArea(payload) {
+  // return new Promise((resolve, reject) => {
+  //   request.post("/login/loginOut", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/admin/selectArea', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+export async function addArea(payload) {
+  // return new Promise((resolve, reject) => {
+  //   request.post("/login/loginOut", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/admin/addArea', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+export async function addCom(payload) {
+  // return new Promise((resolve, reject) => {
+  //   request.post("/login/loginOut", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/admin/addCom', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+export async function addTeam(payload) {
+  // return new Promise((resolve, reject) => {
+  //   request.post("/login/loginOut", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/admin/addTeam', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+export async function updateCom(payload) {
+  // return new Promise((resolve, reject) => {
+  //   request.post("/login/loginOut", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/admin/updateCom', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+export async function updateTeam(payload) {
+  // return new Promise((resolve, reject) => {
+  //   request.post("/login/loginOut", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/admin/updateTeam', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+export async function updateArea(payload) {
+  // return new Promise((resolve, reject) => {
+  //   request.post("/login/loginOut", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/admin/updateArea', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+

@@ -417,9 +417,9 @@ const TCreation = () => {
                 basicForm.setFieldsValue({
                     name: parsing_result.basic_info.name,
                     age: parsing_result.basic_info.age,
-                    education: eduArr.filter(item => item.label == parsing_result.basic_info.degree)[0].value,
+                    education: eduArr.filter(item => item.label == parsing_result.basic_info.degree)[0]?.value || '',
                     experience: parsing_result.basic_info.num_work_experience,
-                    gender: gedArr.filter(item => item.label == parsing_result.basic_info.gender)[0].value,
+                    gender: gedArr.filter(item => item.label == parsing_result.basic_info.gender)[0]?.value || '',
                     birthday: moment(parsing_result.basic_info.date_of_birth, 'YYYY-MM-DD'),
                     salary: parsing_result.basic_info.current_salary,
                     domicile: parsing_result.basic_info.expect_location,

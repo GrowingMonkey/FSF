@@ -127,10 +127,10 @@ const BFList = () => {
     },
     {
       title: '回款时间',
-      dataIndex: 'fee',
+      dataIndex: 'createTime',
       ellipsis: true,
 
-      key: 'fee',
+      key: 'createTime',
     },
     {
       title: '备注',

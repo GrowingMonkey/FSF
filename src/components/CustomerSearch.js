@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Select } from "antd";
 import debounce from "lodash/debounce";
-import { cstList } from "../services/customer";
+import { cstList, selectCustomerForSF } from "../services/customer";
 import { selectCustomerListForProject } from "@/services/project";
 
 /**
@@ -39,6 +39,24 @@ const CustomerSearch = ({ value = {}, CustomerStyle = {}, url = 0, onChange }) =
   const handleSearch = (value) => {
     if (url == 1) {
       selectCustomerListForProject({ pageNo: 1, pageSize: 1000, name: value ? value : '' }).then((res) => {
+        const { data } = res;
+        console.log(data.list);
+        if (data.list) {
+          setOptions(
+            data.list.map((item) => {
+              return (
+                <Option key={`${item.customerId}/${item.name}`}>
+                  {item.name}
+                </Option>
+              );
+            })
+          );
+        } else {
+          setOptions([])
+        }
+      });
+    } else if (url == 2) {
+      selectCustomerForSF({ pageNo: 1, pageSize: 1000, name: value ? value : '' }).then((res) => {
         const { data } = res;
         console.log(data.list);
         if (data.list) {

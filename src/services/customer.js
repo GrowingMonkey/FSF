@@ -152,6 +152,17 @@ export const cstList = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export const selectCustomerForSF = (payload) => {
+  // return new Promise((resolve, reject) => {
+  //   request.post("/customer/cstList", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/eco/selectCustomerForSF', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
 
 export const deleteContact = (payload) => {
   // return new Promise((resolve, reject) => {

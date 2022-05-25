@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import {
   Form,
   Row,
+  Popconfirm,
   Col,
   Input,
   InputNumber,
@@ -12,6 +13,7 @@ import {
   Space,
   DatePicker,
   Cascader,
+  message,
 } from 'antd';
 import { history } from 'umi';
 import styles from './index.less';
@@ -148,7 +150,28 @@ const KpiList = () => {
       width: 210,
       fixed: 'right',
       render: (text, record) => {
-        return [<Button type="primary" style={{ marginRight: 10 }} size="small" onClick={() => confirmKpi({ kpiId: record.kpiId })} size="small">同意</Button>, <Button style={{ marginRight: 10 }} type="primary" onClick={() => refuseKpi({ kpiId: record.sourceId })} size="small">拒绝</Button>, <Button type="primary" size="small" onClick={() => history.push(`/eco/kpi-detail?kpiId=${record.kpiId}&sourceId=${record.sourceId}`)}>查看详情</Button>]
+        return [<Popconfirm
+          title="task?"
+          onConfirm={() => {
+            confirmKpi({ kpiId: record.kpiId }).then(res => {
+              message.info(res.message)
+            })
+          }}
+          okText="Yes"
+          cancelText="No">
+          <Button type="primary" style={{ marginRight: 10 }} size="small" size="small">同意</Button>
+        </Popconfirm>,
+        <Popconfirm
+          title="task?"
+          onConfirm={() => {
+            refuseKpi({ kpiId: record.sourceId }).then(res => {
+              message.info(res.message)
+            })
+          }}
+          okText="Yes"
+          cancelText="No">
+          <Button style={{ marginRight: 10 }} type="primary" size="small">拒绝</Button></Popconfirm>,
+        <Button type="primary" size="small" onClick={() => history.push(`/eco/kpi-detail?kpiId=${record.kpiId}&sourceId=${record.sourceId}`)}>查看详情</Button>]
       }
     },
   ];

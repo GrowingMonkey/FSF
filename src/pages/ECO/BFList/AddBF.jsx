@@ -184,7 +184,7 @@ const AddInvoice = () => {
                                 message: '必填',
                             },
                         ]} wrapperCol={{ style: { width: '175px' } }} label="客户名称">
-                            <CustomerSearch></CustomerSearch>
+                            <CustomerSearch url={2}></CustomerSearch>
                         </Form.Item>
                     </ProForm.Group>
                     <ProForm.Group>

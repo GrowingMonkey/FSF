@@ -90,7 +90,7 @@ const AddInvoice = () => {
             console.log(values)
             console.log(fenPeiList)
             console.log(BFData)
-            run({ ...values[0], sfId: BFData.sfId, payType: BFData.payType, customerId: BFData.customerId, customerName: BFData.customerName, allotPlan: [...fenPeiList] })
+            run({ ...values[0], serviceType: BFData?.serviceType, sfId: BFData.sfId, payType: BFData.payType, customerId: BFData.customerId, customerName: BFData.customerName, allotPlan: [...fenPeiList] })
         })
     }
     const stateChaneTypes = {
@@ -195,9 +195,9 @@ const AddInvoice = () => {
         setSgrxOptions(e.tpList);
         console.log()
         setBFData(e)
-        // talentForm.setFieldsValue({
-
-        // })
+        talentForm.setFieldsValue({
+            serviceFee: e.fee
+        })
         // setOptions(e.isKpi)
     }
     const modalFormss = () => {

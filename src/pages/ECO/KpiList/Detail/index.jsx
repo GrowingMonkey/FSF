@@ -100,8 +100,8 @@ const AddInvoice = () => {
         },
         {
             title: '业绩比例',
-            dataIndex: 'rate',
-            key: 'rate',
+            dataIndex: 'commissionRate',
+            key: 'commissionRate',
             ellipsis: true,
         },
         {
@@ -124,10 +124,10 @@ const AddInvoice = () => {
                 <Descriptions column={2}>
                     <Descriptions.Item label="回款信息">{dataSource.customerName}</Descriptions.Item>
                     <Descriptions.Item label="归属公司">{dataSource.comName}</Descriptions.Item>
-                    <Descriptions.Item label="提成分类">{dataSource.type}</Descriptions.Item>
+                    <Descriptions.Item label="提成分类">{dataSource.payType == 0 ? '服务费' : dataSource.type == 1 ? '咨询费' : dataSource.type == 3 ? '首付款' : ''}</Descriptions.Item>
                     <Descriptions.Item label="提成比例">{dataSource.rate}</Descriptions.Item>
-                    <Descriptions.Item label="回款金额">{dataSource.serviceFee}</Descriptions.Item>
-                    <Descriptions.Item label="提成金额">{dataSource.commissionFee}</Descriptions.Item>
+                    {dataSource.rate == 5 && [<Descriptions.Item label="回款金额">{dataSource.serviceFee}</Descriptions.Item>,
+                    <Descriptions.Item label="提成金额">{dataSource.commissionFee}</Descriptions.Item>]}
                 </Descriptions>
             </Card>
             <Card bordered={false} title={'分配方案'} style={{ width: '100%' }}>
@@ -139,7 +139,7 @@ const AddInvoice = () => {
                             <Descriptions>
                                 <Descriptions.Item label="分配金额">{item.serviceFee}</Descriptions.Item>
                                 <Descriptions.Item label="关联人选">{item.talentName}</Descriptions.Item>
-                                <Descriptions.Item label="业绩分类"> {item.type}</Descriptions.Item>
+                                <Descriptions.Item label="业绩分类"> {item.type == 1 ? '独立运作' : item.type == 2 ? '组内合作' : item.type == 3 ? '同城合作' : item.type == 4 ? '跨区合作' : ''}</Descriptions.Item>
                             </Descriptions>
                             <Table columns={columns} dataSource={item?.kpiUserInfos || []} pagination={false} size="small"
                                 bordered

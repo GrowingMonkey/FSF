@@ -150,28 +150,32 @@ const KpiList = () => {
       width: 210,
       fixed: 'right',
       render: (text, record) => {
-        return [<Popconfirm
-          title="task?"
-          onConfirm={() => {
-            confirmKpi({ kpiId: record.kpiId }).then(res => {
-              message.info(res.message)
-            })
-          }}
-          okText="Yes"
-          cancelText="No">
-          <Button type="primary" style={{ marginRight: 10 }} size="small" size="small">同意</Button>
-        </Popconfirm>,
-        <Popconfirm
-          title="task?"
-          onConfirm={() => {
-            refuseKpi({ kpiId: record.sourceId }).then(res => {
-              message.info(res.message)
-            })
-          }}
-          okText="Yes"
-          cancelText="No">
-          <Button style={{ marginRight: 10 }} type="primary" size="small">拒绝</Button></Popconfirm>,
-        <Button type="primary" size="small" onClick={() => history.push(`/eco/kpi-detail?kpiId=${record.kpiId}&sourceId=${record.sourceId}`)}>查看详情</Button>]
+        if (record.state == 0) {
+          return [<Popconfirm
+            title="task?"
+            onConfirm={() => {
+              confirmKpi({ kpiId: record.kpiId }).then(res => {
+                message.info(res.message)
+              })
+            }}
+            okText="Yes"
+            cancelText="No">
+            <Button type="primary" style={{ marginRight: 10 }} size="small" size="small">同意</Button>
+          </Popconfirm>,
+          <Popconfirm
+            title="task?"
+            onConfirm={() => {
+              refuseKpi({ kpiId: record.sourceId }).then(res => {
+                message.info(res.message)
+              })
+            }}
+            okText="Yes"
+            cancelText="No">
+            <Button style={{ marginRight: 10 }} type="primary" size="small">拒绝</Button></Popconfirm>,
+          <Button type="primary" size="small" onClick={() => history.push(`/eco/kpi-detail?kpiId=${record.kpiId}&sourceId=${record.sourceId}`)}>查看详情</Button>]
+        } else {
+          return <Button type="primary" size="small" onClick={() => history.push(`/eco/kpi-detail?kpiId=${record.kpiId}&sourceId=${record.sourceId}`)}>查看详情</Button>
+        }
       }
     },
   ];

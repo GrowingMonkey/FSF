@@ -85,12 +85,13 @@ const AddInvoice = () => {
     const handleSubmit = () => {
         Promise.all([
             applyForm.validateFields()
-        ]).then((values) => {
+        ]).then(async (values) => {
             debugger
             console.log(values)
             console.log(fenPeiList)
             console.log(BFData)
             run({ ...values[0], serviceType: BFData?.serviceType, sfId: BFData.sfId, payType: BFData.payType, customerId: BFData.customerId, customerName: BFData.customerName, allotPlan: [...fenPeiList] })
+            history.push('/eco/kpi-list')
         })
     }
     const stateChaneTypes = {

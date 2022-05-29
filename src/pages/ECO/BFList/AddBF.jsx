@@ -73,7 +73,7 @@ const AddInvoice = () => {
             applyForm.validateFields(),
             // talentForm.validateFields(),
             noteForm.validateFields(),
-        ]).then((values) => {
+        ]).then(async (values) => {
             const { location: { query } } = history;
             console.log(values)
             let realFee = [];
@@ -84,10 +84,13 @@ const AddInvoice = () => {
 
             }
             if (query?.bfId) {
-                run({ ...values[0], customerId: values[0].customerOut.customerId, customerName: values[0].customerOut.customerName, ...values[1], appUserId: values[0].appUser.recommenderUserId, tpIds: realFee, id: query.bfId })
+                await run({ ...values[0], customerId: values[0].customerOut.customerId, customerName: values[0].customerOut.customerName, ...values[1], appUserId: values[0].appUser.recommenderUserId, tpIds: realFee, id: query.bfId })
+                history.push('/eco/bf-list')
 
             } else {
-                run({ ...values[0], customerId: values[0].customerOut.customerId, customerName: values[0].customerOut.customerName, ...values[1], appUserId: values[0].appUser.recommenderUserId, tpIds: realFee })
+                await run({ ...values[0], customerId: values[0].customerOut.customerId, customerName: values[0].customerOut.customerName, ...values[1], appUserId: values[0].appUser.recommenderUserId, tpIds: realFee })
+                history.push('/eco/bf-list')
+
             }
         })
     }

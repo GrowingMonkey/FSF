@@ -169,7 +169,7 @@ const Home = () => {
                 <Row gutter={16} style={{ height: "100%" }}>
                     <Col span={12}>
                         <div className={styles["rank-data-card"]}>
-                            <Card title="实时推荐榜" extra={<Button type="link" onClick={() => history.push(`/kpi/sign-rank`)}>查看更多</Button>}>
+                            <Card title="实时推荐榜" extra={<Button type="link" onClick={() => history.push(`/kpi/p-rank`)}>查看更多</Button>}>
 
                                 <Table size="small" dataSource={recommendRankData} bordered columns={feeRankColumns} pagination={false} scroll={{ x: 550, }}></Table>
                             </Card>
@@ -177,7 +177,7 @@ const Home = () => {
                     </Col>
                     <Col span={12}>
                         <div className={styles["rank-data-card"]}>
-                            <Card title="实时回款榜" extra={<Button type="link" onClick={() => history.push(`/kpi/pay-rank`)}>查看更多</Button>}>
+                            <Card title="实时回款榜" extra={<Button type="link" onClick={() => history.push(`/kpi/pb-rank`)}>查看更多</Button>}>
                                 <Table size="small" dataSource={feeRankData} bordered columns={recommendRankColums} pagination={false} scroll={{ x: 500, }}></Table>
                             </Card>
                         </div>

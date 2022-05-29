@@ -48,10 +48,11 @@ const AddInvoice = () => {
             applyForm.validateFields(),
             // talentForm.validateFields(),
             noteForm.validateFields(),
-        ]).then((values) => {
+        ]).then(async (values) => {
             console.log(values);
 
-            run({ ...values[0], ...values[1], appUserId: values[0].appUser.recommenderUserId, customerId: values[0].customerOut.customerId, customerName: values[0].customerOut.customerName })
+            await run({ ...values[0], ...values[1], appUserId: values[0].appUser.recommenderUserId, customerId: values[0].customerOut.customerId, customerName: values[0].customerOut.customerName })
+            history.push(`/eco/invioce-list`)
         })
     }
     const changedTalent = (e) => {

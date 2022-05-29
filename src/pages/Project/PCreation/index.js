@@ -4,6 +4,9 @@ import {
   Form,
   Row,
   Col,
+  Card,
+  Tag,
+  Modal,
   Input,
   Radio,
   InputNumber,
@@ -26,9 +29,17 @@ import styles from './index.less';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProForm, { ProFormText, ProFormSelect, ProFormTextArea } from '@ant-design/pro-form';
 const { TextArea } = Input;
+import SearchInput from '@/components/SearchInput';
+
 const PCreation = () => {
+  const [btnLoading, setBtnLoading] = useState(false);
   const history = useHistory();
+  const [tags, setTags] = useState([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   const [form] = Form.useForm();
+  const [teamForm] = Form.useForm();
+
   const [jobForm] = Form.useForm();
   const [industryChildList, setIndustryChildList] = useState([]);
   const onIndustryChange = (value, data) => {
@@ -38,6 +49,7 @@ const PCreation = () => {
   };
 
   const onSubmit = (params) => {
+    setBtnLoading(true);
     form.validateFields().then((values) => {
       let payload = Object.assign({}, values);
       if (values.job) {
@@ -63,13 +75,18 @@ const PCreation = () => {
       getProjectId().then((res) => {
         const { data } = res;
         jobForm.validateFields().then((values) => {
-          addProject({ projectId: data, ...payload, ...values, ...params }).then((data) => {
+          addProject({ projectId: data, ...payload, ...values, ...params, teams: tags }).then((data) => {
             // console.log(data);
-            message.success('新增职位成功');
+
+            message.success(res.message);
+            setBtnLoading(false)
             history.push('/project/pm-list');
           });
         });
       });
+    }).catch(err => {
+      setBtnLoading(false);
+      console.log(err);
     });
   };
   const onReset = () => {
@@ -87,6 +104,22 @@ const PCreation = () => {
     lg: 16,
     xl: 12,
   };
+  const onFinish = (values) => {
+    console.log(values);
+    let arr = tags;
+    arr.push({ appUserId: values.project.recommenderUserId, appUserName: values.project.recommenderName });
+    setTags(arr);
+    console.log(tags);
+    setIsModalVisible(false);
+    teamForm.resetFields();
+  }
+  const handleDeleteTag = async (removedTag) => {
+    console.log(removedTag);
+    // getTages();
+    let arr = tags.filter(item => item.appUserId !== removedTag.appUserId);
+    setTags(arr);
+
+  }
   return (
     <PageContainer>
       <div className={styles['info-container']}>
@@ -97,10 +130,10 @@ const PCreation = () => {
           <Col>
             <Space>
               <Button onClick={onReset}>清空</Button>
-              <Button type="primary" onClick={() => onSubmit({ state: 1 })}>
+              <Button type="primary" loading={btnLoading} onClick={() => onSubmit({ state: 1 })}>
                 发布
               </Button>
-              <Button type="primary" onClick={() => onSubmit({ state: 0 })}>
+              <Button type="primary" loading={btnLoading} onClick={() => onSubmit({ state: 0 })}>
                 保存草稿
               </Button>
             </Space>
@@ -370,18 +403,64 @@ const PCreation = () => {
           </Form.Item>
         */}
         </ProForm>
+        <Card title="执行团队" extra={<Button type="primary" onClick={() => setIsModalVisible(true)}>新增成员</Button>}>
+          {tags && tags.map((tag, index) => {
+            const tagElem = (
+              <Tag
+                className="edit-tag"
+                key={tag.id}
+                closable
+                color={["#f50", "#87d068", "#2db7f5", "#108ee9"][index % 4]}
+                onClose={(e) => {
+                  e.preventDefault();
+                  handleDeleteTag(tag)
+                }}
+              >
+                {tag.appUserName}
+              </Tag>
+            );
+            return tagElem
+          })}
+        </Card>
+        <Modal title="加入团队" visible={isModalVisible} footer={null} onCancel={() => setIsModalVisible(false)}>
+          <ProForm
+            hideRequiredMark
+            style={{
+              margin: 'auto',
+              marginTop: 8,
+              maxWidth: 600,
+            }}
+            name="basic"
+            form={teamForm}
+            layout="vertical"
+            initialValues={{
+              public: '1',
+            }}
+            onFinish={onFinish}
+          >
+            <Form.Item
+              label="推荐人"
+              name="project"
+            >
+              <SearchInput></SearchInput>
+            </Form.Item>
+          </ProForm>
+        </Modal>
+
         <Space>
           <Button
             style={{ marginLeft: '95px' }}
             type="primary"
+            loading={btnLoading}
             onClick={() => onSubmit({ state: 1 })}
           >
             发布
           </Button>
-          <Button type="primary" onClick={() => onSubmit({ state: 0 })}>
+          <Button type="primary" loading={btnLoading} onClick={() => onSubmit({ state: 0 })}>
             保存草稿
           </Button>
         </Space>
+
       </div>
     </PageContainer>
   );

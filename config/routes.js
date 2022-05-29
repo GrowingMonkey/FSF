@@ -412,6 +412,18 @@ export default [
         access: 'canKpiCommission',
         component: './KPI/CommissionRank/index',
       },
+      {
+        path: '/kpi/p-rank',
+        name: '实时推荐排行',
+        access: 'canKpiCommission',
+        component: './KPI/PushRank/index',
+      },
+      {
+        path: '/kpi/pb-rank',
+        name: '实时回款排行',
+        access: 'canKpiCommission',
+        component: './KPI/PushBfRank/index',
+      },
     ],
   },
   //后台管理

@@ -27,10 +27,10 @@ const Home = () => {
         sysNotice().then(res => {
             setNoticeData(res?.data?.list || []);
         });
-        feeRank().then(res => {
+        feeRank({ pageSize: 5 }).then(res => {
             setFeeRankData(res?.data?.list || []);
         });
-        recommendRank().then(res => {
+        recommendRank({ pageSize: 5 }).then(res => {
             setRecommendRankData(res?.data?.list || []);
         });
     }, []);

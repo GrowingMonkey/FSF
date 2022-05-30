@@ -17,7 +17,7 @@ import styles from "./index.less";
 import { useRequest } from 'umi'
 import { PageContainer } from "@ant-design/pro-layout";
 import { tcaList } from '@/services/admin'
-import { sysNotice, feeRank, recommendRank } from "@/services/home";
+import { sysNotice, feeRank, recommendRank } from "@/services/kpi";
 
 import { useEffect, useState } from "react";
 const { RangePicker } = DatePicker;

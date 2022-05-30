@@ -125,7 +125,7 @@ const Login = () => {
   const handleSubmit = async (values) => {
     try {
       // 登录
-      const msg = await login({ ...values, pwd: md5(values.password), account: values.username, type });
+      const msg = await login({ pwd: md5(values.password), account: values.username, type });
       console.log(msg);
       if (msg.code === 0) {
         const defaultLoginSuccessMessage = intl.formatMessage({

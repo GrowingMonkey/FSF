@@ -33,5 +33,27 @@ export const getHKRank = (payload) => {
         data: { ...(payload || {}) },
     });
 };
+export const recommendRank = (payload) => {
+    // return new Promise((resolve, reject) => {
+    //   request("home/changeMsgState", payload).then((data) => {
+    //     resolve(data);
+    //   });
+    // });
+    return request('/kpi/recommendRank', {
+        method: 'POST',
+        data: { ...(payload || {}) },
+    });
+};
+export const feeRank = (payload) => {
+    // return new Promise((resolve, reject) => {
+    //   request("home/changeMsgState", payload).then((data) => {
+    //     resolve(data);
+    //   });
+    // });
+    return request('/kpi/feeRank', {
+        method: 'POST',
+        data: { ...(payload || {}) },
+    });
+};
 
 

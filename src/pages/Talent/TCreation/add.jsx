@@ -216,6 +216,8 @@ const TCreation = () => {
                             }
                         });
                     }
+                }).catch(err => {
+                    console.log(err);
                 });
                 // addTalent({
                 //   talentId: data,
@@ -295,6 +297,12 @@ const TCreation = () => {
                 //   });
                 // });
             });
+        }).catch(err => {
+            console.log(err);
+            basicForm.scrollToField(err.errorFields[0].name, {
+                inline: 'center',
+                block: 'center'
+            })
         });
     };
     const onIndustryChange = (value, data) => {
@@ -849,7 +857,6 @@ const TCreation = () => {
                     labelCol={{ style: { width: '95.33px' } }}
                     wrapperCol={{ style: { width: '328px' } }}
                     labelAlign="left"
-                    initialValues={{ experience: [{ name: '' }] }}
                 >
                     <Form.List name="experience">
                         {(fields, { add, remove }) => (

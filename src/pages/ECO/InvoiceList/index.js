@@ -29,6 +29,9 @@ const InvoiceList = () => {
   const [searchValues, setSearchValues] = useState(null);
   const [invoiceList, setInvoiceList] = useState([]);
   const [ModelData, setModelData] = useState([]);
+  const [count, setCount] = useState(0);
+  const [pageNo, setPageNo] = useState(1)
+
   const formList = [
 
     {
@@ -324,8 +327,9 @@ const InvoiceList = () => {
       setInvoiceList(
         res?.data?.list || []
       );
+      setCount(res.data.count)
     });
-  }, [searchValues]);
+  }, [searchValues, pageNo]);
   useEffect(() => {
     selectServiceFeeList(searchValues).then((res) => {
       console.log(res);
@@ -422,7 +426,13 @@ const InvoiceList = () => {
         </Form>
       </div>
       <div className={styles['list-container']}>
-        <Table columns={invoiceColumns} dataSource={invoiceList} pagination={false} size="small" bordered scroll={{ x: 900 }} />
+        <Table columns={invoiceColumns} dataSource={invoiceList} pagination={{
+          total: count,
+          pageSize: 10,
+          onChange: e => { setPageNo(e) },
+          showTotal: count => `共${count}条`
+
+        }} size="small" bordered scroll={{ x: 900 }} />
       </div>
       <Modal title="请选择关联的发票" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
         <Table

@@ -33,6 +33,9 @@ const BFList = () => {
   const [searchValues, setSearchValues] = useState(null);
   const [searchModalValues, setSearchModalValues] = useState(null);
   const [bfList, setBfList] = useState([]);
+  const [count, setCount] = useState(0);
+  const [pageNo, setPageNo] = useState(1)
+
   const [ModelData, setModelData] = useState([]);
   const formList = [
     {
@@ -247,7 +250,7 @@ const BFList = () => {
   };
 
   useEffect(() => {
-    selectServiceFeeList(searchValues).then((res) => {
+    selectServiceFeeList({ ...searchValues, pageNo: pageNo }).then((res) => {
       // const { data } = res;
       // setBfList(
       //   data.list &&
@@ -256,8 +259,10 @@ const BFList = () => {
       //   }),
       // );
       setBfList(res?.data?.list || [])
+      setCount(res?.data?.count || 0);
+
     });
-  }, [searchValues]);
+  }, [searchValues, pageNo]);
   useEffect(() => {
     selectInvoiceList(searchValues).then((res) => {
       console.log(res);
@@ -354,7 +359,13 @@ const BFList = () => {
         </Form>
       </div>
       <div className={styles['list-container']}>
-        <Table columns={bfColumns} dataSource={bfList} pagination={false} size="small" bordered scroll={{ x: 900 }} />
+        <Table columns={bfColumns} dataSource={bfList} pagination={{
+          total: count,
+          pageSize: 10,
+          onChange: e => { setPageNo(e) },
+          showTotal: count => `共${count}条`
+
+        }} size="small" bordered scroll={{ x: 900 }} />
       </div>
       <Modal
         title="请选择关联的发票"

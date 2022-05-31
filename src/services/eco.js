@@ -4,7 +4,7 @@ import { request } from './request';
 export const queryKpiList = (payload) => {
   return request('/eco/selectKpiList', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 
@@ -20,7 +20,7 @@ export const addKpi = (payload) => {
 export const querySalaryList = (payload) => {
   return request('/eco/selectSalaryList', {
     method: 'POST',
-    ...(payload || {}),
+    data: { ...(payload || {}) },
   });
 };
 

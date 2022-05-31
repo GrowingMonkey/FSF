@@ -20,6 +20,8 @@ import styles from './index.less';
 import { PageContainer } from '@ant-design/pro-layout';
 import ModalForm from './components/ModalForm';
 import { queryKpiList, confirmKpi, refuseKpi } from '@/services/eco';
+const { RangePicker } = DatePicker;
+import momemt from 'moment'
 
 const KpiList = () => {
   const [form] = Form.useForm();
@@ -28,34 +30,34 @@ const KpiList = () => {
   const [searchValues, setSearchValues] = useState(null);
   const [kpiList, setKpiList] = useState([]);
   const [count, setCount] = useState(0);
-
+  const [pageNo, setPageNo] = useState(1)
   const formList = [
     {
-      name: "kpiFee",
-      label: "年龄",
-      type: "inputRange",
-      span: 6,
-    },
-    {
-      name: 'employId',
+      name: 'appUserName',
       label: '服务顾问',
       type: 'input',
       span: 6,
     },
+    // {
+    //   name: 'rate',
+    //   label: '所占比例',
+    //   type: 'inputRange',
+    //   span: 6,
+    // },
+    // {
+    //   name: 'kpiFee',
+    //   label: '业绩',
+    //   type: 'inputRange',
+    //   span: 6,
+    // },
     {
-      name: 'rate',
-      label: '所占比例',
-      type: 'input',
-      span: 6,
-    },
-    {
-      name: 'comId',
+      name: 'customerName',
       label: '服务客户',
       type: 'input',
       span: 6,
     },
     {
-      name: 'type',
+      name: 'payType',
       label: '业绩来源',
       type: 'select',
       span: 6,
@@ -66,15 +68,15 @@ const KpiList = () => {
       ],
     },
     {
-      name: 'applydate',
-      label: '申请日期',
-      type: 'datePicker',
+      name: "sqsj",
+      label: "申请时间",
+      type: "dateRangPicker",
       span: 6,
     },
     {
-      name: 'applydate',
-      label: '审核日期',
-      type: 'datePicker',
+      name: "shsj",
+      label: "审核时间",
+      type: "dateRangPicker",
       span: 6,
     },
   ];
@@ -201,6 +203,16 @@ const KpiList = () => {
         payload.customerName = values.customer.customerName;
         delete payload.customer;
       }
+      if (values.sqsj) {
+        payload.sqsj1 = momemt(values.sqsj[0]).format('YYYY-MM-DD')
+        payload.sqsj2 = moment(values.sqsj[1]).format('YYYY-MM-DD')
+        delete payload.sqsj;
+      }
+      if (values.shsj) {
+        payload.shsj1 = momemt(values.shsj[0]).format('YYYY-MM-DD')
+        payload.shsj2 = momemt(values.shsj[1]).format('YYYY-MM-DD')
+        delete payload.shsj;
+      }
 
       setSearchValues(payload);
     });
@@ -222,7 +234,7 @@ const KpiList = () => {
   };
 
   useEffect(() => {
-    queryKpiList(searchValues).then((res) => {
+    queryKpiList({ ...searchValues, pageNo: pageNo }).then((res) => {
       const { data } = res;
       setKpiList(
         data.list &&
@@ -230,8 +242,9 @@ const KpiList = () => {
           return Object.assign(item, { key: item.id });
         }),
       );
+      setCount(data.count)
     });
-  }, [searchValues, count]);
+  }, [searchValues, count, pageNo]);
   return (
     <PageContainer>
       <ModalForm
@@ -315,10 +328,19 @@ const KpiList = () => {
                   return (
                     <Col span={col.span} key={col.name} >
                       <Form.Item name={col.name} label={col.label}>
-                        <Input style={{ width: '47%' }}></Input>-<Input style={{ width: '47%' }}></Input>
+                        <Input.Group compact>
+                          <Input style={{ width: '47%' }}></Input>- <Input style={{ width: '47%' }}></Input>
+                        </Input.Group>
                       </Form.Item>
                     </Col>
                   );
+                }
+                if (col.type === 'dateRangPicker') {
+                  return (<Col span={col.span} key={col.name}>
+                    <Form.Item name={col.name} label={col.label}>
+                      <RangePicker format={`YYYY-MM-DD`} />
+                    </Form.Item>
+                  </Col>)
                 }
                 return null;
               })}
@@ -327,7 +349,13 @@ const KpiList = () => {
         </Form>
       </div>
       <div className={styles['list-container']}>
-        <Table columns={kpiColumns} dataSource={kpiList} pagination={false} size="small"
+        <Table columns={kpiColumns} dataSource={kpiList} pagination={{
+          total: count,
+          pageSize: 10,
+          onChange: e => { setPageNo(e) },
+          showTotal: count => `共${count}条`
+
+        }} size="small"
           bordered
           scroll={{ x: 1200 }} />
       </div>

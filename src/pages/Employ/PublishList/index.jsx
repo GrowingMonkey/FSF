@@ -21,6 +21,7 @@ const TripList = () => {
     const [form] = Form.useForm();
     const { data, refresh, run } = useRequest(sysNotice);
     const [tripList, setTripList] = useState([]);
+
     const [total, setTotal] = useState(0);
     useEffect(() => {
         setTripList(data?.list || [])

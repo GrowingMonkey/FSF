@@ -20,7 +20,7 @@ import {
   finishProject,
   closeProject,
 } from "../../../services/project";
-import { history } from 'umi';
+import { history, Link } from 'umi';
 import { cityList } from "../../../utils/CityList";
 import { industryList } from "../../../utils/Industry";
 import { positionList } from "../../../utils/Position";
@@ -114,11 +114,13 @@ const PList = () => {
       key: "action",
       render: (text, record) => (
         <Space size={16}>
-          <Button type="link" style={{ padding: 0 }} onClick={() => history.push(
-            `/project/p-detail/detail?projectId=${record.projectId}&customerId=${record.customerId}&id=${record.id}`,
-          )}>
+          <Link to={{
+            pathname: '/project/p-detail/detail',
+            search: `?projectId=${record.projectId}&customerId=${record.customerId}&id=${record.id}`,
+            state: { record: record },
+          }} target="_blank" style={{ padding: 0 }}>
             查看详情
-          </Button>
+              </Link>
         </Space>
       ),
       width: 100,

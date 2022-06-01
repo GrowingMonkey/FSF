@@ -715,12 +715,12 @@ const TCreation = () => {
                             label="现居地址"
                             width="sm"
                             name="location"
-                        // rules={[
-                        //     {
-                        //         required: true,
-                        //         message: '请输入人选地址',
-                        //     },
-                        // ]}
+                            rules={[
+                                {
+                                    required: true,
+                                    message: '请输入人选地址',
+                                },
+                            ]}
                         />
                     </ProForm.Group>
                     <ProForm.Group>

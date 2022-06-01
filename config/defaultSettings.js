@@ -9,7 +9,7 @@ const Settings = {
   colorWeak: false,
   title: '费思福资源管理系统',
   pwa: false,
-  logo: '/banner.png',
+  logo: '/banner.svg',
   iconfontUrl: '',
 };
 export default Settings;

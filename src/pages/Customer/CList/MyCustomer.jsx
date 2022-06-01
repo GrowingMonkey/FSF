@@ -352,7 +352,7 @@ const CustomerList = () => {
               >
                 查看
               </Button> */}
-                    <Link to={{
+                    <Link target="_blank" to={{
                         pathname: '/customer/detail',
                         search: '?id=' + record.id + '&customerId=' + record.customerId + '&customerName=' + record.name,
                         state: { record: record },

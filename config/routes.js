@@ -154,6 +154,7 @@ export default [
         hideInMenu: true,
         path: '/talent/detail',
         name: '人才详情',
+        target: true,
         component: './Talent/TList/components/TalentDetail',
       },
       {

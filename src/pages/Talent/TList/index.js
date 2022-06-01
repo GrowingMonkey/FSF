@@ -261,7 +261,7 @@ const TList = () => {
             pathname: '/talent/detail',
             search: '?talentId=' + record.talentId,
             state: { record: record },
-          }}>查看</Link>
+          }} target="_blank">查看</Link>
           <Button type="link" style={{ padding: 0 }} onClick={(e) => { e.stopPropagation(); setCurrentTarent(record.talentId); setIsModalVisible(true); }}>
             加入项目
           </Button>

@@ -82,7 +82,24 @@ export const selectServiceFeeList = (payload) => {
     data: { ...(payload || {}) },
   });
 };
-
+export const selectSFListForInvoice = (payload) => {
+  return request('/eco/selectSFListForInvoice', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+export const addcp = (payload) => {
+  return request('/eco/addcp', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+export const adddz = (payload) => {
+  return request('/eco/adddz', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
 export const abandonInvoice = (payload) => {
   return request('/eco/abandonInvoice', {
     method: 'POST',

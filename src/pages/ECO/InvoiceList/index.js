@@ -16,11 +16,13 @@ import {
   message,
 } from 'antd';
 import styles from './index.less';
+import moment from 'moment';
 import { PageContainer } from '@ant-design/pro-layout';
 import { useState, useEffect } from 'react';
-import { selectServiceFeeList, selectInvoiceList, relevancePay } from '@/services/eco';
+import { selectServiceFeeList, addcp, adddz, selectSFListForInvoice, selectInvoiceList, relevancePay } from '@/services/eco';
 import { history } from 'umi';
 const InvoiceList = () => {
+  const [fresh, setFresh] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectItem, setSelectItem] = useState(null);
   const [InvoiceSelectItem, setInvoiceSelectItem] = useState(null);
@@ -31,11 +33,11 @@ const InvoiceList = () => {
   const [ModelData, setModelData] = useState([]);
   const [count, setCount] = useState(0);
   const [pageNo, setPageNo] = useState(1)
-
+  const [appUserId, setAppUserId] = useState('');
   const formList = [
 
     {
-      name: 'isBack',
+      name: 'state',
       label: '业务类型',
       type: 'select',
       span: 8,
@@ -47,7 +49,7 @@ const InvoiceList = () => {
       ],
     },
     {
-      name: 'isBack',
+      name: 'type12',
       label: '发票属性',
       type: 'select',
       span: 8,
@@ -71,7 +73,7 @@ const InvoiceList = () => {
       ],
     },
     {
-      name: 'isBack',
+      name: 'type1',
       label: '发票类型',
       type: 'select',
       span: 8,
@@ -83,7 +85,7 @@ const InvoiceList = () => {
       ],
     },
     {
-      name: 'state',
+      name: 'state1',
       label: '发票状态',
       type: 'select',
       span: 8,
@@ -101,19 +103,19 @@ const InvoiceList = () => {
     },
 
     {
-      name: 'employName',
+      name: 'userName',
       label: '开票人',
       type: 'input',
       span: 8,
     },
     {
-      name: 'employName',
+      name: 'invoiceTime',
       label: '开票时间',
       type: 'input',
       span: 8,
     },
     {
-      name: 'employName',
+      name: 'updateTime',
       label: '到账时间',
       type: 'input',
       span: 8,
@@ -143,8 +145,8 @@ const InvoiceList = () => {
     },
     {
       title: '客户名称',
-      dataIndex: 'type3',
-      key: 'type3',
+      dataIndex: 'customerName',
+      key: 'customerName',
       ellipsis: true,
 
     },
@@ -153,21 +155,24 @@ const InvoiceList = () => {
       dataIndex: 'type',
       key: 'type',
       ellipsis: true,
-
+      render: (text, record) => {
+        return +text == 0 ? '普通发票' : +text == 1 ? '专用发票' : '电子普通发票'
+      }
     },
     {
       title: '发票金额',
-      dataIndex: 'type5',
-      key: 'type5',
+      dataIndex: 'fee',
+      key: 'fee',
       ellipsis: true,
-
     },
     {
       title: '发票状态',
       dataIndex: 'state',
       key: 'state',
       ellipsis: true,
-
+      render: (text, record) => {
+        return +text == 0 ? '申请中' : +text == 1 ? '已开出' : '已作废'
+      }
     },
     {
       title: '开票人',
@@ -177,23 +182,25 @@ const InvoiceList = () => {
 
     },
     {
-      title: '回款状态',
-      dataIndex: 'type8',
-      key: 'type8',
+      title: '是否回款',
+      dataIndex: 'isPay',
+      key: 'isPay',
       ellipsis: true,
-
+      render: (text) => {
+        return +text == 0 ? '否' : '是'
+      }
     },
     {
       title: '开票时间',
-      dataIndex: 'time',
-      key: 'time',
+      dataIndex: 'invoiceTime',
+      key: 'invoiceTime',
       ellipsis: true,
 
     },
     {
       title: '到账时间',
-      dataIndex: 'type10',
-      key: 'type10',
+      dataIndex: 'payTime',
+      key: 'payTime',
       ellipsis: true,
 
     },
@@ -209,10 +216,17 @@ const InvoiceList = () => {
       dataIndex: 'type13',
       key: 'type13',
       ellipsis: true,
+      width: 240,
       fixed: 'right',
       render: (text, record) => {
         return <>
-          <Button type="link" size="small" onClick={() => showModal(record)}>关联回款</Button>
+          {record.isPay == 0 && <Button type="link" size="small" onClick={() => { showModal(record); setAppUserId(record.userId) }}>关联回款</Button>}
+          {record.state < 1 && <Popconfirm placement="topLeft" title={'出票'} onConfirm={() => applyInvoice(record)} okText="确定" cancelText="取消">
+            <Button type="link" size="small">出票</Button>
+          </Popconfirm>}
+          <Popconfirm placement="topLeft" title={'到账'} onConfirm={() => applyedInvoice(record)} okText="确定" cancelText="取消">
+            <Button type="link" size="small">到账</Button>
+          </Popconfirm>
           <Popconfirm placement="topLeft" title={'作废'} onConfirm={() => confirm(record)} okText="确定" cancelText="取消">
             <Button type="link" danger size="small">作废</Button>
           </Popconfirm>
@@ -223,53 +237,25 @@ const InvoiceList = () => {
   const ModelColumns = [
     {
       title: '客户名称',
-      dataIndex: 'type0',
-      key: 'type0',
+      dataIndex: 'customerName',
+      key: 'customerName',
     },
     {
-      title: '职位',
-      dataIndex: 'job',
-      key: 'job',
-    },
-    {
-      title: '推荐人',
+      title: '服务顾问',
       dataIndex: 'userName',
       key: 'userName',
     },
+
     {
-      title: '上岗人选',
-      dataIndex: 'talentName',
-      key: 'talentName',
-    },
-    {
-      title: '年薪',
-      dataIndex: 'salary',
-      key: 'salary',
-    },
-    {
-      title: '入职状态',
-      dataIndex: 'inductionState',
-      key: 'inductionState',
-    },
-    {
-      title: '入职时间',
-      dataIndex: 'inductionTime',
-      key: 'inductionTime',
-    },
-    {
-      title: '应收服务',
+      title: '回款金额',
       dataIndex: 'fee',
       key: 'fee',
     },
+
     {
-      title: '议价服务',
-      dataIndex: 'balanceFee',
-      key: 'balanceFee',
-    },
-    {
-      title: '差额',
-      dataIndex: 'marginFee',
-      key: 'marginFee',
+      title: '回款时间',
+      dataIndex: 'updateTime',
+      key: 'updateTime',
     },
   ];
   const showModal = (record) => {
@@ -280,6 +266,12 @@ const InvoiceList = () => {
     relevancePay({ invoiceId: InvoiceSelectItem.id, serviceFeeId: selectItem.id }).then(res => {
       message.success('关联成功')
       setIsModalVisible(false);
+      setInvoiceSelectItem(null)
+      if (searchValues == '') {
+        setSearchValues(null)
+      } else if (searchValues == null) {
+        setSearchValues('')
+      }
     })
   };
 
@@ -294,9 +286,24 @@ const InvoiceList = () => {
     console.log(record);
     abandonInvoice({ invoiceId: record.id }).then(res => {
       message.success('作废成功');
-      setSearchValues('');
+      setFresh(fresh ? false : true)
     })
   }
+  const applyInvoice = (record) => {
+    console.log(record);
+    addcp({ invoiceId: record.id, time: moment(new Date().getTime()).format('YYYY-MM-DD HH:mm:ss') }).then(res => {
+      message.success('出票成功');
+      setFresh(fresh ? false : true)
+    })
+  }
+  const applyedInvoice = (record) => {
+    console.log(record);
+    adddz({ invoiceId: record.id, time: moment(new Date().getTime()).format('YYYY-MM-DD HH:mm:ss') }).then(res => {
+      message.success('到账成功');
+      setFresh(fresh ? false : true)
+    })
+  }
+
   const handleSearchClear = () => {
     form.resetFields();
     setSearchValues(null);
@@ -329,25 +336,28 @@ const InvoiceList = () => {
       );
       setCount(res.data.count)
     });
-  }, [searchValues, pageNo]);
+  }, [searchValues, pageNo, fresh]);
   useEffect(() => {
-    selectServiceFeeList(searchValues).then((res) => {
+    selectSFListForInvoice({ appUserId: appUserId }).then((res) => {
       console.log(res);
       setModelData(
         res?.data?.list || []
       );
     });
-  }, [searchModalValues]);
+  }, [searchModalValues, appUserId]);
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
       setSelectItem(selectedRows[0]);
     },
     getCheckboxProps: (record) => ({
-      disabled: record.name === 'Disabled User',
       // Column configuration not to be checked
-      name: record.name,
+      id: record.id,
     }),
+    // rowKey: (record) => {
+    //   console.log(`record`, record)
+    //   return record.id
+    // }
   };
   return (
     <PageContainer>
@@ -440,11 +450,12 @@ const InvoiceList = () => {
             type: 'radio',
             ...rowSelection,
           }}
+          rowKey="id"
           columns={ModelColumns}
           dataSource={ModelData}
           size="small"
           bordered
-          scroll={{ x: 900 }}
+          scroll={{ x: 600 }}
         />
       </Modal>
     </PageContainer>

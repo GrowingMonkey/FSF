@@ -386,21 +386,20 @@ const AddInvoice = () => {
                                                                     label: '6%',
                                                                     value: 6,
                                                                 }]} onChange={() => {
-                                                                    () => {
-                                                                        let values = action.getCurrentRowData();
-                                                                        console.log(values);
-                                                                        if (values.fee && values.invoiceRate) {
-                                                                            sejsq({ ...values }).then(res => {
-                                                                                let result = JSON.parse(res.data);
-                                                                                action.setCurrentRowData({
-                                                                                    invoiceFee: result?.invoiceFee || 0,
-                                                                                    freeFee: result.freeFee
-                                                                                })
+                                                                    let values = action.getCurrentRowData();
+                                                                    console.log(values);
+                                                                    if (values.fee && values.invoiceRate) {
+                                                                        sejsq({ ...values }).then(res => {
+                                                                            let result = JSON.parse(res.data);
+                                                                            action.setCurrentRowData({
+                                                                                invoiceFee: result?.invoiceFee || 0,
+                                                                                freeFee: result.freeFee
                                                                             })
-                                                                        } else {
-                                                                            return;
-                                                                        }
+                                                                        })
+                                                                    } else {
+                                                                        return;
                                                                     }
+
                                                                 }} labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="invoiceRate" label="税率" />
                                                         </ProForm.Group>
                                                         <ProForm.Group>
@@ -416,83 +415,94 @@ const AddInvoice = () => {
                             }
                         }}
                     </ProFormDependency>
+                    <ProFormDependency name={['isTalent']}>
+                        {({ isTalent }) => {
+                            if (+isTalent == 0) {
+                                return (
+                                    <Card title="开票信息" bordered={false} style={{ minWidth: '700px' }}>
+
+
+                                        <>
+                                            <ProForm.Group>
+                                                <ProFormText rules={[
+                                                    {
+                                                        required: true,
+                                                        message: '必填',
+                                                    },
+                                                ]} labelCol={{ style: { width: '112px' } }} wrapperCol={{ style: { width: '168px' } }} name="serviceFee" label="议价服务费" />
+                                            </ProForm.Group>
+                                            <ProForm.Group>
+                                                <ProFormText rules={[
+                                                    {
+                                                        required: true,
+                                                        message: '必填',
+                                                    },
+                                                ]} fieldProps={{
+                                                    onBlur: () => {
+                                                        let values = applyForm.getFieldsValue();
+                                                        console.log(values);
+                                                        if (values.fee && values.invoiceRate) {
+                                                            sejsq({ ...values }).then(res => {
+                                                                let result = JSON.parse(res.data);
+                                                                applyForm.setFieldsValue({
+                                                                    invoiceFee: result?.invoiceFee || 0,
+                                                                    freeFee: result.freeFee
+                                                                })
+                                                            })
+                                                        } else {
+                                                            return;
+                                                        }
+                                                    }
+                                                }} labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="fee" label="开票金额" />
+                                                <ProFormSelect options={[
+                                                    {
+                                                        label: '0%',
+                                                        value: 0,
+                                                    },
+                                                    {
+                                                        label: '1%',
+                                                        value: 1,
+                                                    },
+                                                    {
+                                                        label: '3%',
+                                                        value: 3,
+                                                    }, {
+                                                        label: '6%',
+                                                        value: 6,
+                                                    }]} onChange={() => {
+
+                                                        let values = applyForm.getFieldsValue();
+                                                        console.log(values);
+                                                        if (values.fee && values.invoiceRate) {
+                                                            sejsq({ ...values }).then(res => {
+                                                                let result = JSON.parse(res.data);
+                                                                applyForm.setFieldsValue({
+                                                                    invoiceFee: result?.invoiceFee || 0,
+                                                                    freeFee: result.freeFee
+                                                                })
+                                                            })
+                                                        } else {
+                                                            return;
+                                                        }
+
+                                                    }} labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="invoiceRate" label="税率" />
+                                            </ProForm.Group>
+                                            <ProForm.Group>
+                                                <ProFormText labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} disabled name="freeFee" label="不含税率金额"></ProFormText>
+                                                <ProFormText labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} disabled name="invoiceFee" label="税额" />
+                                            </ProForm.Group>
+
+                                        </>
+
+
+                                    </Card>
+                                )
+                            }
+                        }}
+                    </ProFormDependency>
+
                 </ProForm>
             </Card>
-            {/* <Card title="人选信息" bordered={false}>
-                <ProForm
-                    style={{
-                        marginTop: 8,
-                        maxWidth: 600,
-                    }}
-                    form={talentForm}
-                    name="talent"
-                    layout="horizontal"
-                    initialValues={{
-                        public: '1',
-                    }}
-                    submitter={{
-                        render: (props, dom) => {
-                            return null;
-                        },
-                    }}
-                >
-                    <Form.Item name="basic" name="talent" labelCol={{ style: { width: '112px' } }} label="选择人选" rules={[
-                        {
-                            required: true,
-                            message: '必填',
-                        },
-                    ]}>
-                        <TalentSearchForEco onChange={changedTalent} style={{ width: '196px' }} applyUser={() => applyForm.getFieldValue('appUser')} />
-                    </Form.Item>
-                    <ProForm.Group>
-                        <ProFormText rules={[
-                            {
-                                required: true,
-                                message: '必填',
-                            },
-                        ]} labelCol={{ style: { width: '112px' } }} wrapperCol={{ style: { width: '168px' } }} disabled name="serviceFee" label="议价服务费" />
-                        <ProFormText rules={[
-                            {
-                                required: true,
-                                message: '必填',
-                            },
-                        ]} labelCol={{ style: { width: '112px' } }} wrapperCol={{ style: { width: '168px' } }} disabled name="alreadyFee" label="已开票金额"></ProFormText>
-                    </ProForm.Group>
-                    <ProForm.Group>
-                        <ProFormText rules={[
-                            {
-                                required: true,
-                                message: '必填',
-                            },
-                        ]} fieldProps={{
-                            onBlur: blurFee
-                        }} labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="fee" label="开票金额" />
-                        <ProFormSelect options={[
-                            {
-                                label: '0%',
-                                value: 0,
-                            },
-                            {
-                                label: '1%',
-                                value: 1,
-                            },
-                            {
-                                label: '3%',
-                                value: 3,
-                            }, {
-                                label: '6%',
-                                value: 6,
-                            }]} onChange={blurFee} labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="invoiceRate" label="税率" />
-                    </ProForm.Group>
-                    <ProForm.Group>
-                        <ProFormText labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} disabled name="freeFee" label="不含税率金额"></ProFormText>
-                        <ProFormText labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} disabled name="invoiceFee" label="税额" />
-                    </ProForm.Group>
-
-                </ProForm>
-
-            </Card> */}
-
             <Card title="申请发票备注" bordered={false}>
                 <ProForm
                     hideRequiredMark

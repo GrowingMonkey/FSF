@@ -153,7 +153,7 @@ const StepDetail = () => {
                 </div>
 
             </Card>
-            <Modal title="修改人选信息" visible={talentVisible} onCancel={() => setTalentVisible(false)} onOk={handleOk}>
+            <Modal title="修改人选信息" cancelText="取消" okText="确定" visible={talentVisible} onCancel={() => setTalentVisible(false)} onOk={handleOk}>
                 <Form form={form} labelCol={{ span: 4 }} wrapperCol={{ span: 16 }} labelAlign="left">
 
                     <Form.Item name="phone" label="联系电话">

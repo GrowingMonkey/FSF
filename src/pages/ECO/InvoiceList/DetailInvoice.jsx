@@ -1,4 +1,4 @@
-import { Card, message, Form } from 'antd';
+import { Card, message, Form, Button, Descriptions } from 'antd';
 import ProForm, {
     ProFormDatePicker,
     ProFormDateTimePicker,
@@ -7,29 +7,46 @@ import ProForm, {
     ProFormSearchSelect,
     ProFormDigit,
     ProFormRadio,
+    ProFormList,
     ProFormSelect,
     ProFormText,
     ProFormTextArea,
 } from '@ant-design/pro-form';
 import { useRequest, history } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
-import { applyBK } from '@/services/office'
+import { addInvoice, getAlreadyFee, sejsq, selectInvoiceById } from '@/services/eco'
 import { upload } from '@/utils/lib/upload'
+import SearchInput from '@/components/SearchInput';
+import TalentSearchForEco from '@/components/TalentSearchForEco';
+import { useState } from 'react';
 import CustomerSearch from '@/components/CustomerSearch';
+import { useEffect } from 'react';
 
 const AddInvoice = () => {
+    const [detailData, setDetailData] = useState(null);
     const [applyForm] = Form.useForm();
-
+    const [isEdit, setIsEdit] = useState(false);
+    const [applyUser, setApplyUser] = useState('');
     const [talentForm] = Form.useForm();
     const [noteForm] = Form.useForm();
-    const { run } = useRequest(applyBK, {
+    const { run } = useRequest(addInvoice, {
         manual: true,
         onSuccess: () => {
             message.success('提交成功');
-            history.push(`/office//attendance-list`)
+            history.push(`/eco/invioce-list`)
         },
     });
-
+    useEffect(() => {
+        const { location: { query } } = history;
+        console.log(query)
+        if (query.id) {
+            setIsEdit(true);
+            selectInvoiceById({ id: query.id }).then(res => {
+                console.log(res);
+                setDetailData(res?.data || {})
+            })
+        }
+    }, [])
     /**
      * 
      * @param {Promise} values 
@@ -38,111 +55,96 @@ const AddInvoice = () => {
         console.log(values)
         // run(values);
     };
+    const handleSubmit = () => {
+        debugger
+        Promise.all([
+            applyForm.validateFields(),
+            // talentForm.validateFields(),
+            noteForm.validateFields(),
+        ]).then(async (values) => {
+            console.log(values);
 
-
+            await run({ ...values[0], ...values[1], appUserId: values[0].appUser.recommenderUserId, customerId: values[0].customerOut.customerId, customerName: values[0].customerOut.customerName })
+            history.push(`/eco/invioce-list`)
+        })
+    }
+    const changedTalent = (e) => {
+        console.log(e);
+        talentForm.setFieldsValue({
+            serviceFee: e.needPayment,
+        })
+        getAlreadyFee({ tpId: e.talentId }).then(res => {
+            talentForm.setFieldsValue({
+                alreadyFee: res?.data || 0,
+            })
+        })
+    }
+    const lableCss = {
+        width: 120,
+        justifyContent: 'right',
+        color: '#999'
+    }
+    const blurFee = () => {
+        let values = talentForm.getFieldsValue(['fee', 'invoiceRate']);
+        console.log(values);
+        if (values.fee && values.invoiceRate) {
+            sejsq({ ...values }).then(res => {
+                let result = JSON.parse(res.data);
+                talentForm.setFieldsValue({
+                    invoiceFee: result?.invoiceFee || 0,
+                    freeFee: result.freeFee
+                })
+            })
+        } else {
+            return;
+        }
+    }
     return (
         <PageContainer content="">
             <Card bordered={false} title={'申请发票'}>
-                <ProForm
-                    hideRequiredMark
-                    style={{
-                        // margin: 'auto',
-                        marginTop: 8,
-                        maxWidth: 608,
-                    }}
-                    form={applyForm}
-                    name="basic"
-                    layout="horizontal"
-                    submitter={{
-                        render: (props, dom) => {
-                            return null;
-                        },
-                    }}
-                >
-                    <Form.Item name="basic" label="开票公司">
-                        <CustomerSearch></CustomerSearch>
-                    </Form.Item>
-                    <ProForm.Group>
-                        <ProFormSelect name="a1" label="开票公司" />
-                        <ProFormText name="a2" label="申请人归属公司"></ProFormText>
-                    </ProForm.Group>
-                    <ProForm.Group>
-                        <ProFormSelect name="a3" label="开票对象" />
-                        <ProFormText name="a4" label="客户名称"></ProFormText>
-                    </ProForm.Group>
-                    <ProForm.Group>
-                        <ProFormText name="a5" label="开票名称"></ProFormText>
-                        <ProFormSelect name="a6" label="发票属性" />
-                    </ProForm.Group>
-                    <ProForm.Group>
-                        <ProFormSelect name="a7" label="业务类型" />
-                        <ProFormSelect name="a8" label="收入类型" />
-                    </ProForm.Group>
-                    <ProForm.Group>
-                        <ProFormSelect name="a9" label="发票类型" />
-                        <ProFormRadio name="a10" label="是否关联人选" />
-                    </ProForm.Group>
-                    <ProFormText name="a10" label="纳税人识别号" />
-                </ProForm>
-            </Card>
-            <Card title="人选信息" bordered={false}>
-                <ProForm
-                    hideRequiredMark
-                    style={{
-                        margin: 'auto',
-                        marginTop: 8,
-                        maxWidth: 600,
-                    }}
-                    form={talentForm}
-                    name="basic"
-                    layout="horizontal"
-                    initialValues={{
-                        public: '1',
-                    }}
-                    submitter={{
-                        render: (props, dom) => {
-                            return null;
-                        },
-                    }}
-                >
-                    <Form.Item name="basic" label="选择人选">
-                        <CustomerSearch></CustomerSearch>
-                    </Form.Item>
-                    <ProForm.Group>
-                        <ProFormText name="a1" label="议价服务费" />
-                        <ProFormText name="a2" label="已开票金额"></ProFormText>
-                    </ProForm.Group>
-                    <ProForm.Group>
-                        <ProFormText name="a3" label="开票金额" />
-                        <ProFormSelect name="a6" label="税率" />
-                    </ProForm.Group>
-                    <ProForm.Group>
-                        <ProFormText name="a5" label="不含税率金额"></ProFormText>
-                        <ProFormSelect name="a6" label="税额" />
-                    </ProForm.Group>
-                </ProForm>
+                <Descriptions title="" column={2}>
+                    <Descriptions.Item labelStyle={lableCss} label="开票公司" span={2}>{detailData?.customerName}</Descriptions.Item>
+                    <Descriptions.Item labelStyle={lableCss} label="申请用户">{detailData?.userName}</Descriptions.Item>
+                    <Descriptions.Item labelStyle={lableCss} label="申请人归属公司">{detailData?.companyName}</Descriptions.Item>
+                    <Descriptions.Item labelStyle={lableCss} label="开票对象">{detailData?.invoiceObj == 0 ? '外部对象' : detailData?.invoiceObj == 1 ? '内部客户' : '其他'}</Descriptions.Item>
+                    <Descriptions.Item labelStyle={lableCss} label="客户名称">
+                        {detailData?.customerOut}
+                    </Descriptions.Item>
+                    <Descriptions.Item labelStyle={lableCss} label="开票名称">{detailData?.name}</Descriptions.Item>
+                    <Descriptions.Item labelStyle={lableCss} label="发票属性">{detailData?.invoiceType == 0 ? '服务费' : detailData?.invoiceType == 1 ? '咨询费' : '其他'}</Descriptions.Item>
+                    <Descriptions.Item labelStyle={lableCss} label="业务类型">
+                        {detailData?.serviceType == 0 ? '猎头业务' : detailData?.serviceType == 1 ? '咨询业务' : '其他'}
+                    </Descriptions.Item>
+                    <Descriptions.Item labelStyle={lableCss} label="收入类型">
+                        {detailData?.payType == 0 ? '服务费' : detailData?.payType == 1 ? '咨询费' : detailData?.payType == 2 ? '首付款' : '其他'}
+                    </Descriptions.Item>
+                    <Descriptions.Item labelStyle={lableCss} label="发票类型">
+                        {detailData?.serviceType == 0 ? '普通发票' : detailData?.serviceType == 1 ? '专用发票' : '电子普通发票'}
 
+                    </Descriptions.Item>
+                    <Descriptions.Item labelStyle={lableCss} label="是否关联人选">
+                        {detailData?.serviceType == 0 ? '否' : '是'}
+                    </Descriptions.Item>
+                    <Descriptions.Item labelStyle={lableCss} label="纳税人识别号" span={2}>
+                        {detailData?.invoiceNumber}
+                    </Descriptions.Item>
+                </Descriptions>
+            </Card>
+            <Card bordered={false} title={'开票信息'}>
+                <Descriptions title="" column={2}>
+                    <Descriptions.Item labelStyle={lableCss} label="议价服务费" span={2}>{detailData?.serviceFee}</Descriptions.Item>
+                    <Descriptions.Item labelStyle={lableCss} label="开票金额">{detailData?.fee}</Descriptions.Item>
+                    <Descriptions.Item labelStyle={lableCss} label="税率">{detailData?.invoiceRate}%</Descriptions.Item>
+                    <Descriptions.Item labelStyle={lableCss} label="不含税金额">{detailData?.freeFee}</Descriptions.Item>
+                    <Descriptions.Item labelStyle={lableCss} label="税额">
+                        {detailData?.invoiceFee}
+                    </Descriptions.Item>
+                </Descriptions>
             </Card>
             <Card title="申请发票备注" bordered={false}>
-                <ProForm
-                    hideRequiredMark
-                    style={{
-                        margin: 'auto',
-                        marginTop: 8,
-                        maxWidth: 600,
-                    }}
-                    form={noteForm}
-                    name="basic"
-                    layout="horizontal"
-                    submitter={{
-                        render: (props, dom) => {
-                            return null;
-                        },
-                    }}
-                >
-                    <ProFormTextArea name="a12" label="" />
-                </ProForm>
-
+                <Descriptions title="" column={2}>
+                    <Descriptions.Item label="" span={2}>{detailData?.remark}</Descriptions.Item>
+                </Descriptions>
             </Card>
         </PageContainer>
     );

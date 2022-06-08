@@ -106,6 +106,12 @@ export const abandonInvoice = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export const selectInvoiceById = (payload) => {
+  return request('/eco/selectInvoiceById', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
 
 export const relevancePay = (payload) => {
   return request('/eco/relevancePay', {

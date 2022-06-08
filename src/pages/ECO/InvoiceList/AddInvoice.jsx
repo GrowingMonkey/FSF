@@ -386,6 +386,7 @@ const AddInvoice = () => {
                                                                     label: '6%',
                                                                     value: 6,
                                                                 }]} onChange={() => {
+
                                                                     let values = action.getCurrentRowData();
                                                                     console.log(values);
                                                                     if (values.fee && values.invoiceRate) {

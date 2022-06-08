@@ -224,6 +224,7 @@ const InvoiceList = () => {
           {record.state < 1 && <Popconfirm placement="topLeft" title={'出票'} onConfirm={() => applyInvoice(record)} okText="确定" cancelText="取消">
             <Button type="link" size="small">出票</Button>
           </Popconfirm>}
+          <Button type="link" size="small" onClick={() => history.push('/eco/invioce-detail?id=' + record.id)}>查看</Button>
           <Popconfirm placement="topLeft" title={'到账'} onConfirm={() => applyedInvoice(record)} okText="确定" cancelText="取消">
             <Button type="link" size="small">到账</Button>
           </Popconfirm>

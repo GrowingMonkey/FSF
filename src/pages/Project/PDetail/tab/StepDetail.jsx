@@ -1,18 +1,23 @@
 import { PageContainer } from '@ant-design/pro-layout';
-import { Input, Dropdown, Menu, Button, Row, Divider, Tag, Descriptions, Card, Col, Avatar, Space } from 'antd';
+import { Input, Form, Dropdown, Menu, Modal, Button, Row, Divider, Tag, Descriptions, Card, Col, Avatar, Space, message } from 'antd';
 import { history } from 'umi';
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import StepItem from './components/StepItem';
 import { useEffect } from 'react'
 import { selectTalentById, selectTPById } from '@/services/talent'
+import { updateTpInfo } from '@/services/project'
+
 import { useState } from 'react';
 const StepDetail = () => {
     const { location: { query } } = history;
     console.clear();
     console.log(query);
     const { talentId, id } = query;
+    const [form] = Form.useForm();
+    const [talentVisible, setTalentVisible] = useState(false);
     const [talentDetail, setTalentDetail] = useState({});
     const [talentJoinDetail, setTalentJoinDetail] = useState({})
+    const [fresh, setFresh] = useState(false);
     useEffect(() => {
         selectTalentById({ talentId: talentId }).then(res => {
             const { data } = res;
@@ -53,7 +58,7 @@ const StepDetail = () => {
             })
             console.log(res);
         })
-    }, [talentId])
+    }, [talentId, fresh])
     const stateStr = (state) => {
         switch (+state) {
             case 0:
@@ -88,16 +93,26 @@ const StepDetail = () => {
                 break;
         }
     }
+    const handleOk = () => {
+        form.validateFields().then((values) => {
+            console.log(values)
+            updateTpInfo(values).then(res => {
+                message.info(res.message)
+                setTalentVisible(false);
+                setFresh(fresh ? false : true)
+            })
+        })
+    }
     return (
         <>
-            <Card title="人选基本信息">
+            <Card title="人选基本信息" extra={<Button type="primary" size="small" onClick={() => setTalentVisible(true)}>编辑</Button>}>
                 <Row>
                     <Col span={2}><Avatar size={64} icon={<UserOutlined />} />
                     </Col>
                     <Col span={20}>
                         <Descriptions title={talentDetail.name} column={2}>
-                            <Descriptions.Item>{talentDetail.gender == 1 ? '男' : '女'}  <Divider type="vertical" />{talentDetail.education}<Divider type="vertical" />{talentDetail.age}岁({talentDetail.birthday})</Descriptions.Item>
-                            <Descriptions.Item label="服务客户">{}</Descriptions.Item>
+                            <Descriptions.Item>{talentDetail.gender == 1 ? '男' : '女'}  <Divider type="vertical" />{talentDetail.education}<Divider type="vertical" />{talentDetail.age}岁</Descriptions.Item>
+                            <Descriptions.Item label="服务客户">{talentJoinDetail.customerName}</Descriptions.Item>
                             <Descriptions.Item label="联系电话">{talentDetail.phone}</Descriptions.Item>
                             <Descriptions.Item label="当前公司">{talentDetail.lastCompany}</Descriptions.Item>
                             <Descriptions.Item label="电子邮箱">{talentDetail.email}</Descriptions.Item>
@@ -118,10 +133,10 @@ const StepDetail = () => {
                     <div style={{ width: '64px', textAlign: 'center', color: '#fff', fontWeight: 600 }}>步骤</div>
                     <Row style={{ width: '100%', marginLeft: '12px', color: '#fff', padding: '12px', fontWeight: 600 }}>
                         <Col span={10}>详细内容</Col>
-                        <Col span={2}>操作人</Col>
-                        <Col span={4}>时间</Col>
-                        <Col span={4}>绩效审核</Col>
-                        <Col span={4}>操作</Col>
+                        {/* <Col span={2}>操作人</Col> */}
+                        <Col span={6}>时间</Col>
+                        {/* <Col span={4}>绩效审核</Col> */}
+                        {/* <Col span={4}>操作</Col> */}
                     </Row>
                 </div>
                 {/* <StepItem title="加入项目"></StepItem>
@@ -138,7 +153,30 @@ const StepDetail = () => {
                 </div>
 
             </Card>
+            <Modal title="修改人选信息" visible={talentVisible} onCancel={() => setTalentVisible(false)} onOk={handleOk}>
+                <Form form={form} labelCol={{ span: 4 }} wrapperCol={{ span: 16 }} labelAlign="left">
 
+                    <Form.Item name="phone" label="联系电话">
+                        <Input />
+                    </Form.Item>
+                    <Form.Item name="email" label="电子邮箱">
+                        <Input />
+                    </Form.Item>
+                    <Form.Item name="salary" label="目前薪资">
+                        <Input />
+                    </Form.Item>
+                    <Form.Item name="company" label="当前公司">
+                        <Input />
+                    </Form.Item>
+                    <Form.Item name="job" label="当前职位">
+                        <Input />
+                    </Form.Item>
+                    <Form.Item name="remark" label="备注信息">
+                        <Input />
+                    </Form.Item>
+                </Form>
+
+            </Modal>
         </>
     );
 };

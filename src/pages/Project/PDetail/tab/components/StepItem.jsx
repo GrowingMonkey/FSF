@@ -23,8 +23,8 @@ const StepItem = ({ title, isEnd, info }) => {
                                 <Descriptions.Item label="Remark">empty</Descriptions.Item> */}
                             </Descriptions>
                         </Col>
-                        <Col span={4}>{info?.createTime || ''}</Col>
-                        <Col span={4}>{}</Col>
+                        <Col span={6}>{info?.createTime || ''}</Col>
+                        <Col span={3}>{}</Col>
                         <Col span={4}>{}</Col>
                     </Row>
                     <Divider></Divider>

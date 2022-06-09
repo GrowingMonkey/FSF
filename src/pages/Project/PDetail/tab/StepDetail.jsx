@@ -96,7 +96,7 @@ const StepDetail = () => {
     const handleOk = () => {
         form.validateFields().then((values) => {
             console.log(values)
-            updateTpInfo(values).then(res => {
+            updateTpInfo({ ...values, id: id }).then(res => {
                 message.info(res.message)
                 setTalentVisible(false);
                 setFresh(fresh ? false : true)

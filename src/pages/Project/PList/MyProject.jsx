@@ -350,6 +350,12 @@ const PList = () => {
                 value: 4,
             },
         ],
+        2: [
+            {
+                label: "结束",
+                value: 2,
+            },
+        ],
         3: [
             {
                 label: "发布",

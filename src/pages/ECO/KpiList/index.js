@@ -25,12 +25,13 @@ import momemt from 'moment'
 
 const KpiList = () => {
   const [form] = Form.useForm();
+  const [fresh, setFresh] = useState(false);
   const [visible, setVisible] = useState(false);
   const [formValue, setFormValue] = useState(null);
   const [searchValues, setSearchValues] = useState(null);
   const [kpiList, setKpiList] = useState([]);
   const [count, setCount] = useState(0);
-  const [pageNo, setPageNo] = useState(1)
+  const [pageNo, setPageNo] = useState(1);
   const formList = [
     {
       name: 'appUserName',
@@ -157,7 +158,8 @@ const KpiList = () => {
             title="task?"
             onConfirm={() => {
               confirmKpi({ kpiId: record.kpiId }).then(res => {
-                message.info(res.message)
+                message.info(res.message);
+                setFresh(fresh ? false : true)
               })
             }}
             okText="Yes"
@@ -169,6 +171,8 @@ const KpiList = () => {
             onConfirm={() => {
               refuseKpi({ kpiId: record.sourceId }).then(res => {
                 message.info(res.message)
+                setFresh(fresh ? false : true)
+
               })
             }}
             okText="Yes"
@@ -234,7 +238,7 @@ const KpiList = () => {
   };
 
   useEffect(() => {
-    queryKpiList({ ...searchValues, pageNo: pageNo }).then((res) => {
+    queryKpiList({ ...searchValues, pageNo: pageNo, pageSize: 10 }).then((res) => {
       const { data } = res;
       setKpiList(
         data.list &&
@@ -244,7 +248,7 @@ const KpiList = () => {
       );
       setCount(data.count)
     });
-  }, [searchValues, count, pageNo]);
+  }, [searchValues, count, pageNo, fresh]);
   return (
     <PageContainer>
       <ModalForm

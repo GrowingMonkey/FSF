@@ -18,6 +18,7 @@ const ModalForm = ({ visible, onSubmit, onCancel, record, areaTypes, companyType
   useEffect(() => {
     if (visible) {
       if (record) {
+        console.log(companyTypes);
         console.log(record);
         form.setFieldsValue(record);
         form.setFieldsValue({ headUrl: [record.headUrl] });
@@ -153,7 +154,7 @@ const ModalForm = ({ visible, onSubmit, onCancel, record, areaTypes, companyType
               name="headUrl"
               title={
                 imageUrl ? (
-                  <img src={imageUrl} alt="avatar" style={{ width: '100%' }} />
+                  <img src={'https://faithful.oss-cn-shanghai.aliyuncs.com' + imageUrl} alt="avatar" style={{ width: '100%' }} />
                 ) : (
                     uploadButton
                   )

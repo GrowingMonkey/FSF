@@ -479,8 +479,21 @@ const TCreation = () => {
                     experience: experienceC
                 })
                 //解析成功
-            } else {
+            }
+            else {
                 message.error('解析失败')
+                //     let reader = new FileReader()
+                //     // 发送异步请求
+                //     // 0.使用readAsText方法（读取结果普通文本）
+                //     // reader.readAsText(this.files[0]);
+                //     let file = sourceFile;
+                //     reader.readAsDataURL(file);
+                //     reader.onload = (res) => {
+                //         console.log(res.currentTarget.result)
+                //         let formss = new FormData();
+                //         formss.append('resume-file', res.currentTarget.result);
+                //         formss.append('file-name', sourceFile.name)
+                //     }
             }
         })
     }

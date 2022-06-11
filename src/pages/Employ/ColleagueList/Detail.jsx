@@ -35,7 +35,7 @@ const Detail = () => {
         <PageContainer>
             <div className={styles["input-container"]}>
                 <Row justify="center">
-                    <Col span={4}><Image style={{ maxWidth: '100px' }} src={headUrl ? headUrl : `https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Ffb9431a4c99691e54952d85ed034faf9a6b7e4f22d45-xy5FHF_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1647160965&t=81c9ce7f726dd9c62bd6b4e0a446684c`} /></Col>
+                    <Col span={4}><Image style={{ maxWidth: '100px' }} src={headUrl ? 'https://faithful.oss-cn-shanghai.aliyuncs.com' + headUrl : `https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Ffb9431a4c99691e54952d85ed034faf9a6b7e4f22d45-xy5FHF_fw658&refer=http%3A%2F%2Fhbimg.b0.upaiyun.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1647160965&t=81c9ce7f726dd9c62bd6b4e0a446684c`} /></Col>
                     <Col span={20}>
                         <Descriptions
                             column={2}

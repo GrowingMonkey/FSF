@@ -1,4 +1,4 @@
-import { Divider } from "antd";
+import { Divider, Avatar } from "antd";
 import styles from "./InfoCard.less";
 import { useModel } from 'umi';
 const InfoCard = () => {
@@ -6,7 +6,10 @@ const InfoCard = () => {
   const { currentUser } = initialState || {};
   return (
     <div className={styles["container"]}>
-      <div className={styles["line-1"]}>个人资料</div>
+      <div style={{ width: '100%' }}>
+        <div className={styles["line-1"]}>个人资料</div>
+      </div>
+      <Avatar size={80} src={'https://faithful.oss-cn-shanghai.aliyuncs.com' + currentUser.headUrl} alt="avatar" />
       <div className={styles["line-2"]}>{currentUser?.name}</div>
       <div className={styles["line-3"]}>({currentUser?.comName})</div>
       <Divider></Divider>

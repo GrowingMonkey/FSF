@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { PageContainer } from '@ant-design/pro-layout';
-import { Row, Col, Card, List, Table, Typography, Button, Modal, Collapse } from "antd";
+import { Row, Col, Card, List, Table, Image, Typography, Button, Modal, Avatar, Collapse } from "antd";
 import { selectWorkFlow } from "../../services/home";
 import InfoCard from "./components/InfoCard";
 import DataCard from "./components/DataCard";
@@ -10,6 +10,20 @@ import RankListCard from "./components/RankListCard";
 import styles from "./index.less";
 import { sysNotice, feeRank, recommendRank } from "@/services/home";
 import { history } from 'umi';
+import M1 from "../../assets/images/M1.png";
+
+import M2 from "../../assets/images/M2.png";
+
+import M3 from "../../assets/images/M3.png";
+import MP from "../../assets/images/MP.png";
+import M4 from "../../assets/images/M4.png";
+import LHR from "../../assets/images/LHR.png";
+import LHL from "../../assets/images/LHL.png";
+import YBR from "../../assets/images/YBR.png";
+import YBL from "../../assets/images/YBL.png";
+import START from "../../assets/images/START.png";
+
+
 const Home = () => {
     const [activeTab, setActiveTab] = useState(2);
     const [dataState, setDataState] = useState(null);
@@ -109,12 +123,12 @@ const Home = () => {
     const wrapLeftCol = {
         xs: 24,
         md: 8,
-        lg: 6
+        lg: 8
     }
     const wrapRightCol = {
         xs: 24,
         md: 16,
-        lg: 18
+        lg: 16
     }
     const warpBottomCol = {
         left: {
@@ -124,13 +138,13 @@ const Home = () => {
         },
         middle: {
             xs: 24,
-            md: 12,
-            lg: 12
+            md: 11,
+            lg: 11
         },
         right: {
             xs: 24,
-            md: 12,
-            lg: 12
+            md: 13,
+            lg: 13
         },
     }
     const formatNotice = (item) => {
@@ -228,7 +242,7 @@ const Home = () => {
                                                 setNoticeVisible(true)
                                             }}
                                         >
-                                            <Typography.Text mark style={{ width: '72px', display: 'inline-block' }}>[{formatNotice(item)}]</Typography.Text> <Typography.Text style={{ width: "44%", display: 'inline-flex', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontWeight: 'bold' }}>{item.title}</Typography.Text><Typography.Text style={{ display: "inline-block", paddingRight: '5px', width: '70px', float: 'right' }}>{'系统发布'}</Typography.Text><Typography.Text style={{ width: '85px', display: 'inline-block', float: 'right' }}>{item.publishTime}</Typography.Text>
+                                            <Typography.Text mark style={{ width: '72px', display: 'inline-block' }}>[{formatNotice(item)}]</Typography.Text> <Typography.Text style={{ width: "44%", color: '#272727', display: 'inline-flex', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontWeight: 'bold' }}>{item.title}</Typography.Text><Typography.Text style={{ display: "inline-block", paddingRight: '5px', width: '70px', float: 'right' }}>{'系统发布'}</Typography.Text><Typography.Text style={{ width: '85px', display: 'inline-block', float: 'right' }}>{item.publishTime}</Typography.Text>
                                         </List.Item>
                                     )}
                                 />
@@ -236,7 +250,39 @@ const Home = () => {
                         </div>
                     </Col>
                 </Row>
-                <Modal title="公告内容" visible={NoticeVisible} footer={null} onCancel={() => setNoticeVisible(false)}>
+                <Modal title={null}
+                    cancelText="取消"
+                    okText="确定"
+                    centered closable={false}
+                    onCancel={() => setNoticeVisible(false)}
+                    onOk={() => setNoticeVisible(false)}
+                    title={<div style={{ textAlign: 'center' }}>{NoticeContent.title}</div>}
+                    style={{ position: 'relative', background: 'none' }} visible={NoticeVisible} >
+                    <div style={{
+                        height: '332px',
+                        position: 'absolute',
+                        top: '-332px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        width: '100%',
+                        marginLeft: '-24px',
+                        alignItems: 'end'
+                    }}><img src={NoticeContent.type == 0 ? M2 : NoticeContent.type == 1 ? M1 : NoticeContent.type == 2 ? M3 : M4} style={{
+                        width: NoticeContent.type == 0 || NoticeContent.type == 2 ? '70%' : '100%'
+                    }} /></div>
+                    {
+                        NoticeContent.type != 0 && [<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <Image width={62} style={{ paddingTop: NoticeContent.type == 1 ? '22px' : null }} src={NoticeContent.type == 1 ? YBL : NoticeContent.type == 3 ? START : LHL} />
+                            <Avatar src={'https://faithful.oss-cn-shanghai.aliyuncs.com' + NoticeContent.headUrl || ''} size={132} style={{ marginLeft: 70, marginRight: 70 }}></Avatar>
+                            <Image width={62} style={{ paddingBottom: NoticeContent.type == 1 ? '22px' : null }} src={NoticeContent.type == 1 ? YBR : NoticeContent.type == 3 ? START : LHR} />
+                        </div>, <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <div style={{
+                                width: 164, textAlign: 'center', lineHeight: '42px', marginTop: '-20px',
+                                zIndex: 10, backgroundImage: `url(${MP})`, backgroundSize: '100%'
+                            }}>{NoticeContent.userName || ''}</div>
+                        </div>]
+
+                    }
                     <p>{NoticeContent.content}</p>
                 </Modal>
             </div>

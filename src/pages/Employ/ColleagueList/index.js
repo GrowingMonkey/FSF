@@ -1,4 +1,4 @@
-import { Form, Row, Col, Input, Button, Select, Table, Divider, Space, DatePicker } from 'antd';
+import { Form, Row, Col, Input, Button, Select, Avatar, Table, Divider, Space, DatePicker } from 'antd';
 import ModalMyInfo from './component/ModalMyInfo';
 import styles from './index.less';
 import { PageContainer } from '@ant-design/pro-layout';
@@ -30,6 +30,9 @@ const ColleagueList = () => {
       dataIndex: 'headUrl',
       key: 'headUrl',
       ellipsis: true,
+      render: (text, record) => {
+        return <Avatar src={'https://faithful.oss-cn-shanghai.aliyuncs.com' + text}></Avatar>
+      }
     },
     {
       title: '姓名',

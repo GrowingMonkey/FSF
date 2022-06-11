@@ -1,5 +1,9 @@
-import { Divider, Col, Row } from "antd";
+import { Divider, Col, Row, Image, Tag } from "antd";
 import styles from "./DataCard.less";
+import I1 from "../../../assets/images/1.png";
+import I2 from "../../../assets/images/2.png";
+import I3 from "../../../assets/images/3.png";
+import I4 from "../../../assets/images/4.png";
 
 const DataCard = ({ dataState }) => {
   // 6 客户面试数、8 offer人数、12 人选录入数，13 签约客户数，14 新增项目数
@@ -48,62 +52,125 @@ const DataCard = ({ dataState }) => {
   const wrapCol = {
     xs: 12,
     sm: 12,
-    md: 8,
-    lg: 6,
-    xl: 6
+    md: 12,
+    lg: 12,
+    xl: 12,
+  }
+  const leftCss = {
+    display: 'flex',
+    alignItem: 'center'
   }
   console.log(dataState)
   return (
     <div className={styles["container"]}>
-      <div className={styles["title"]}>个人数据</div>
+      {/* <div className={styles["title"]}>个人数据</div> */}
       <Row className={styles["data-list"]} gutter={17}>
-        <Col {...wrapCol}>
-          <div className={styles["data-item"]}>
-            <div>
-              <span className={styles["value"]}>{dataState?.addTalentNum || 0}</span>
-              <span>{dataList[0].unit}</span>
-            </div>
-            <div className={styles.data_info}>{dataList[0].label}</div>
-          </div>
+
+        <Col span="12">
+          <Row gutter={[0, 68]}>
+            <Col {...wrapCol}>
+              <div style={leftCss}>
+                <Image src={I1} style={{ width: 56, height: 56 }} />
+                <div className={styles["data-item"]}>
+                  <div className={styles.data_info}>{dataList[0].label}</div>
+                  <div>
+                    <span className={styles["value"]}>{dataState?.addTalentNum || 0}</span>
+                    <span style={{ fontSize: 14 }}>{dataList[0].unit}</span>
+                  </div>
+                </div>
+              </div>
+            </Col>
+
+            <Col {...wrapCol}>
+              <div style={leftCss}>
+                <Image src={I1} style={{ width: 56, height: 56 }} />
+
+                <div className={styles["data-item"]}>
+                  <div className={styles.data_info}>{dataList[1].label}</div>
+
+                  <div>
+                    <span className={styles["value"]}>{dataState?.addJobNum || 0}</span>
+                    <span>{dataList[1].unit}</span>
+                  </div>
+                </div>
+              </div>
+            </Col>
+            <Col {...wrapCol}>
+              <div style={leftCss}>
+                <Image src={I1} style={{ width: 56, height: 56 }} />
+                <div className={styles["data-item"]}>
+                  <div className={styles.data_info}>{dataList[2].label}</div>
+
+                  <div>
+                    <span className={styles["value"]}>{dataState?.addSignNum || 0}</span>
+                    <span>{dataList[2].unit}</span>
+                  </div>
+
+                </div>
+              </div>
+            </Col>
+
+
+
+            <Col {...wrapCol}>
+              <div style={leftCss}>
+                <Image src={I1} style={{ width: 56, height: 56 }} />
+                <div className={styles["data-item"]}>
+                  <div className={styles.data_info}>{dataList[3].label}</div>
+
+                  <div>
+                    <span className={styles["value"]}>{dataState?.addServiceFee || 0}</span>
+                    <span>{dataList[3].unit}</span>
+                  </div>
+                </div>
+              </div>
+            </Col>
+
+          </Row>
+        </Col>
+        <Col span="12">
+          <Row gutter={[0, 68]}>
+            <Col {...wrapCol}>
+              <div className={styles["data-item"]}>
+                <div>
+                  <span className={styles["value"]}>{dataState?.addRecommendNum || 0}</span>
+                  <span>{dataList[4].unit}</span>
+                </div>
+                <div className={styles.data_info}>{dataList[4].label}</div>
+              </div>
+            </Col>
+            <Col {...wrapCol}>
+              <div className={styles["data-item"]}>
+                <div>
+                  <span className={styles["value"]}>{dataState?.addFaceNum || 0}</span>
+                  <span>{dataList[5].unit}</span>
+                </div>
+                <div className={styles.data_info}>{dataList[5].label}</div>
+              </div>
+            </Col>
+            <Col {...wrapCol}>
+              <div className={styles["data-item"]}>
+                <div>
+                  <span className={styles["value"]}>{dataState?.addOfferNum || 0}</span>
+                  <span>{dataList[6].unit}</span>
+                </div>
+                <div className={styles.data_info}>{dataList[6].label}</div>
+              </div>
+            </Col>
+            <Col {...wrapCol}>
+              <div className={styles["data-item"]}>
+                <div>
+                  <span className={styles["value"]}>{dataState?.addWorkNum || 0}</span>
+                  <span>{dataList[7].unit}</span>
+                </div>
+                <div className={styles.data_info}>{dataList[7].label}</div>
+              </div>
+            </Col>
+          </Row>
         </Col>
 
-        <Col {...wrapCol}>
-          <div className={styles["data-item"]}>
-            <div>
-              <span className={styles["value"]}>{dataState?.addJobNum || 0}</span>
-              <span>{dataList[1].unit}</span>
-            </div>
-            <div className={styles.data_info}>{dataList[1].label}</div>
-          </div>
-        </Col>
 
-
-
-        <Col {...wrapCol}>
-          <div className={styles["data-item"]}>
-            <div>
-              <span className={styles["value"]}>{dataState?.addSignNum || 0}</span>
-              <span>{dataList[2].unit}</span>
-            </div>
-            <div className={styles.data_info}>{dataList[2].label}</div>
-          </div>
-        </Col>
-
-
-
-        <Col {...wrapCol}>
-          <div className={styles["data-item"]}>
-            <div>
-              <span className={styles["value"]}>{dataState?.addServiceFee || 0}</span>
-              <span>{dataList[3].unit}</span>
-            </div>
-            <div className={styles.data_info}>{dataList[3].label}</div>
-          </div>
-        </Col>
-
-        {/* <Divider type="vertical" style={{ height: "100%" }}></Divider> */}
-
-        <Col {...wrapCol}>
+        {/*<Col {...wrapCol}>
           <div className={styles["data-item"]}>
             <div>
               <span className={styles["value"]}>{dataState?.addRecommendNum || 0}</span>
@@ -138,9 +205,14 @@ const DataCard = ({ dataState }) => {
             </div>
             <div className={styles.data_info}>{dataList[7].label}</div>
           </div>
-        </Col>
+        </Col> */}
 
       </Row>
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <Tag color="#108ee9" style={{ cursor: 'pointer', marginTop: 20 }}>个人</Tag>
+        <Tag style={{ cursor: 'pointer', marginTop: 20 }}>团队</Tag>
+        <Tag style={{ cursor: 'pointer', marginTop: 20 }}>公司</Tag>
+      </div>
     </div>
   );
 };

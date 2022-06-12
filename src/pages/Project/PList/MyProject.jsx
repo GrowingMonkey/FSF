@@ -501,15 +501,15 @@ const PList = () => {
             <div className={styles["search-container"]}>
                 <Row justify="space-between" align="middle">
                     <Col>
-                        <div className={styles["page-title"]}>职位列表</div>
+                        <div className={styles["page-title"]}>条件筛选</div>
                     </Col>
                     <Col>
-                        <Space>
+                        {/* <Space>
                             <Button onClick={handleSearchClear}>清空</Button>
                             <Button type="primary" onClick={handleSearchConfirm}>
                                 搜索
               </Button>
-                        </Space>
+                        </Space> */}
                     </Col>
                 </Row>
                 <Divider></Divider>
@@ -563,6 +563,18 @@ const PList = () => {
                             }
                             return null;
                         })}
+                        <Col span={6} {...wrapCol} key={'action1'}></Col>
+                        <Col span={6} {...wrapCol} key={'action2'}></Col>
+                        <Col span={6} {...wrapCol} key={'action'}>
+                            <Form.Item label=" " colon={false}>
+                                <Space size="large">
+                                    <Button onClick={handleSearchClear}>清空</Button>
+                                    <Button type="primary" onClick={handleSearchConfirm}>
+                                        搜索
+                  </Button>
+                                </Space>
+                            </Form.Item>
+                        </Col>
                     </Row>
                 </Form>
             </div>

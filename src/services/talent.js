@@ -339,7 +339,7 @@ export const parseBase = (header, payload) => {
   //     resolve(data);
   //   });
   // });
-  return requestOther('http://xiaoxi.market.alicloudapi.com/v1/parser/parse_base', header, {
+  return requestOther('http://xiaoxi.market.alicloudapi.com/v1/parser/parse_base?avatar=1&handle_image=1&rawtext=1&parse_mode=fast', header, {
     method: 'POST',
     data: { ...(payload || {}) },
   });

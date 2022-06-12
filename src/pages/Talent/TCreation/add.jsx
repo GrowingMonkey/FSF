@@ -371,131 +371,144 @@ const TCreation = () => {
     const jiexiJianLi = async () => {
         // let xhr = null, result = null, json = null;
         let forms = new FormData();
-        let basefile = await getFileBase64(sourceFile)
-        forms.append('resume-file', basefile);
-        forms.append('file-name', sourceFile.name)
-        parseBase({
-            'Content-Type': 'application/json;charset=utf-8',
-            'Authorization': 'APPCODE 0b0c24b75da2405d810b21ba17435cfa' //替换为您的密匙
-        }, {
-            resume_base: basefile.split(';base64,')[1],
-            file_name: sourceFile.name
+        let reader = new FileReader()
+        //     // 发送异步请求
+        //     // 0.使用readAsText方法（读取结果普通文本）
+        //     // reader.readAsText(this.files[0]);
+        let file = sourceFile;
+        reader.readAsDataURL(file);
+        reader.onload = (res) => {
+            console.log(res.currentTarget.result)
+            //         let formss = new FormData();
+            //         formss.append('resume-file', res.currentTarget.result);
+            //         formss.append('file-name', sourceFile.name)
+            let basefile = res.currentTarget.result;
+            // let basefile = await getFileBase64(sourceFile)
+            forms.append('resume-file', basefile);
+            forms.append('file-name', sourceFile.name)
+            parseBase({
+                'Content-Type': 'application/json;charset=utf-8',
+                'Authorization': 'APPCODE 0b0c24b75da2405d810b21ba17435cfa' //替换为您的密匙
+            }, {
+                resume_base: basefile.split(';base64,')[1],
+                file_name: sourceFile.name
+            }
+            ).then(res => {
+                console.log(res);
+                if (res.errorcode == 0) {
+                    message.success('解析成功');
+                    const { parsing_result } = res;
+                    contactForm.setFieldsValue({
+                        phone: parsing_result.contact_info.phone_number,
+                        email: parsing_result.contact_info.email
+                    })
+                    const eduArr = [
+                        {
+                            label: '大专以下',
+                            value: 3,
+                        },
+                        {
+                            label: '大专',
+                            value: 4,
+                        },
+                        {
+                            label: '本科',
+                            value: 5,
+                        },
+                        {
+                            label: '硕士',
+                            value: 6,
+                        },
+                        {
+                            label: '博士',
+                            value: 7,
+                        },
+                    ]
+                    const gedArr = [
+                        {
+                            value: '1',
+                            label: '男',
+                        },
+                        {
+                            value: '2',
+                            label: '女',
+                        },
+                    ]
+                    basicForm.setFieldsValue({
+                        name: parsing_result.basic_info.name,
+                        age: parsing_result.basic_info.age,
+                        education: eduArr.filter(item => item.label == parsing_result.basic_info.degree)[0]?.value || '',
+                        experience: parsing_result.basic_info.num_work_experience,
+                        gender: gedArr.filter(item => item.label == parsing_result.basic_info.gender)[0]?.value || '',
+                        birthday: moment(parsing_result.basic_info.date_of_birth, 'YYYY-MM-DD'),
+                        salary: parsing_result.basic_info.current_salary,
+                        domicile: parsing_result.basic_info.expect_location,
+                        location: parsing_result.basic_info.current_location,
+                        workState: parsing_result.basic_info.current_status,
+                    })
+                    infoForm.setFieldsValue({
+                        introduce: parsing_result.others.self_evaluation
+                    })
+                    jobForm.setFieldsValue({
+                        RIndustry: parsing_result.basic_info.desired_industry,
+                        RSalary: parsing_result.basic_info.desired_salary,
+                        RJob: parsing_result.basic_info.desired_position,
+                        RCity: parsing_result.basic_info.detailed_location,
+                    })
+                    let educationC = parsing_result.education_experience.map(item => {
+                        return {
+                            startTime: { startTime: `${item.start_time_year}-${item.start_time_month}`, endTime: `${item.end_time_year}-${item.end_time_month}` },
+                            name: item.school_name,
+                            education: item.degree,
+                            classes: item.major,
+                            isAllTime: item.still_active
+                        }
+                    })
+                    console.log(educationC);
+                    educationForm.setFieldsValue({
+                        education: educationC
+                    })
+                    let projectC = parsing_result.project_experience.map(item => {
+                        return {
+                            job: item.job_function,
+                            duty: item.description,
+                            startTime: { startTime: `${item.start_time_year}-${item.start_time_month}`, endTime: `${item.end_time_year}-${item.end_time_month}` },
+                            name: item.project_name
+                        }
+                    })
+                    projectForm.setFieldsValue({
+                        project: projectC
+                    })
+                    let experienceC = parsing_result.work_experience.map(item => {
+                        return {
+                            startTime: { startTime: `${item.start_time_year}-${item.start_time_month}`, endTime: `${item.end_time_year}-${item.end_time_month}` },
+                            name: item.company_name,
+                            duty: item.description,
+                            industry: item.job_function
+                        }
+                    })
+                    experienceForm.setFieldsValue({
+                        experience: experienceC
+                    })
+                    //解析成功
+                }
+                else {
+                    message.error('解析失败')
+                    // let reader = new FileReader()
+                    // //     // 发送异步请求
+                    // //     // 0.使用readAsText方法（读取结果普通文本）
+                    // //     // reader.readAsText(this.files[0]);
+                    // let file = sourceFile;
+                    // reader.readAsDataURL(file);
+                    // reader.onload = (res) => {
+                    //     console.log(res.currentTarget.result)
+                    //     //         let formss = new FormData();
+                    //     //         formss.append('resume-file', res.currentTarget.result);
+                    //     //         formss.append('file-name', sourceFile.name)
+                    // }
+                }
+            })
         }
-        ).then(res => {
-            console.log(res);
-            if (res.errorcode == 0) {
-                message.success('解析成功');
-                const { parsing_result } = res;
-                contactForm.setFieldsValue({
-                    phone: parsing_result.contact_info.phone_number,
-                    email: parsing_result.contact_info.email
-                })
-                const eduArr = [
-                    {
-                        label: '大专以下',
-                        value: 3,
-                    },
-                    {
-                        label: '大专',
-                        value: 4,
-                    },
-                    {
-                        label: '本科',
-                        value: 5,
-                    },
-                    {
-                        label: '硕士',
-                        value: 6,
-                    },
-                    {
-                        label: '博士',
-                        value: 7,
-                    },
-                ]
-                const gedArr = [
-                    {
-                        value: '1',
-                        label: '男',
-                    },
-                    {
-                        value: '2',
-                        label: '女',
-                    },
-                ]
-                basicForm.setFieldsValue({
-                    name: parsing_result.basic_info.name,
-                    age: parsing_result.basic_info.age,
-                    education: eduArr.filter(item => item.label == parsing_result.basic_info.degree)[0]?.value || '',
-                    experience: parsing_result.basic_info.num_work_experience,
-                    gender: gedArr.filter(item => item.label == parsing_result.basic_info.gender)[0]?.value || '',
-                    birthday: moment(parsing_result.basic_info.date_of_birth, 'YYYY-MM-DD'),
-                    salary: parsing_result.basic_info.current_salary,
-                    domicile: parsing_result.basic_info.expect_location,
-                    location: parsing_result.basic_info.current_location,
-                    workState: parsing_result.basic_info.current_status,
-                })
-                infoForm.setFieldsValue({
-                    introduce: parsing_result.others.self_evaluation
-                })
-                jobForm.setFieldsValue({
-                    RIndustry: parsing_result.basic_info.desired_industry,
-                    RSalary: parsing_result.basic_info.desired_salary,
-                    RJob: parsing_result.basic_info.desired_position,
-                    RCity: parsing_result.basic_info.detailed_location,
-                })
-                let educationC = parsing_result.education_experience.map(item => {
-                    return {
-                        startTime: { startTime: `${item.start_time_year}-${item.start_time_month}`, endTime: `${item.end_time_year}-${item.end_time_month}` },
-                        name: item.school_name,
-                        education: item.degree,
-                        classes: item.major,
-                        isAllTime: item.still_active
-                    }
-                })
-                console.log(educationC);
-                educationForm.setFieldsValue({
-                    education: educationC
-                })
-                let projectC = parsing_result.project_experience.map(item => {
-                    return {
-                        job: item.job_function,
-                        duty: item.description,
-                        startTime: { startTime: `${item.start_time_year}-${item.start_time_month}`, endTime: `${item.end_time_year}-${item.end_time_month}` },
-                        name: item.project_name
-                    }
-                })
-                projectForm.setFieldsValue({
-                    project: projectC
-                })
-                let experienceC = parsing_result.work_experience.map(item => {
-                    return {
-                        startTime: { startTime: `${item.start_time_year}-${item.start_time_month}`, endTime: `${item.end_time_year}-${item.end_time_month}` },
-                        name: item.company_name,
-                        duty: item.description,
-                        industry: item.job_function
-                    }
-                })
-                experienceForm.setFieldsValue({
-                    experience: experienceC
-                })
-                //解析成功
-            }
-            else {
-                message.error('解析失败')
-                //     let reader = new FileReader()
-                //     // 发送异步请求
-                //     // 0.使用readAsText方法（读取结果普通文本）
-                //     // reader.readAsText(this.files[0]);
-                //     let file = sourceFile;
-                //     reader.readAsDataURL(file);
-                //     reader.onload = (res) => {
-                //         console.log(res.currentTarget.result)
-                //         let formss = new FormData();
-                //         formss.append('resume-file', res.currentTarget.result);
-                //         formss.append('file-name', sourceFile.name)
-                //     }
-            }
-        })
     }
     return (
         <PageContainer style={{ background: '#fff' }}>

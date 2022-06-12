@@ -42,8 +42,8 @@ const ColleagueList = () => {
     },
     {
       title: '职务',
-      dataIndex: 'type',
-      key: 'type',
+      dataIndex: 'roleName',
+      key: 'roleName',
       ellipsis: true,
     },
     {

@@ -50,8 +50,8 @@ const ModalFormTeam = ({ visible, onSubmit, onCancel, record }) => {
         let cityInfo = info(`${value.cityCode}`);
         console.log(cityInfo);
         let provinceCode = "";
-        let prefectureCode = cityInfo.code;
-        if (cityInfo.prefecture !== cityInfo.province) {
+        let prefectureCode = cityInfo?.code;
+        if (cityInfo?.prefecture !== cityInfo?.province) {
           provinceCode = getCodeByProvinceName(cityInfo.province);
         } else {
           provinceCode = prefectureCode;
@@ -132,7 +132,7 @@ const ModalFormTeam = ({ visible, onSubmit, onCancel, record }) => {
               return a.data.list.map(item => {
                 return {
                   label: `${item.name} `,
-                  value: item.id,
+                  value: item.userId,
                 }
               });
             }}

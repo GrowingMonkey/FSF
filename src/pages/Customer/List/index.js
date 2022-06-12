@@ -280,7 +280,7 @@ const List = () => {
       },
     },
     {
-      title: "职位",
+      title: "招聘人数",
       dataIndex: "jobBeansNum",
       key: "jobBeansNum",
     },

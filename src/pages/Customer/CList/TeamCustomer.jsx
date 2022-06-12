@@ -33,7 +33,7 @@ import CompanySearch from "@/components/CompanySearch";
 const CustomerList = () => {
     console.clear()
     const [form] = Form.useForm();
-    const [showState, setShowState] = useState(false);
+    const [showState, setShowState] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchValues, setSearchValues] = useState(null);
     const [listLength, setListLength] = useState(0);
@@ -276,7 +276,7 @@ const CustomerList = () => {
             },
         },
         {
-            title: "职位",
+            title: "招聘人数",
             ellipsis: true,
             dataIndex: "jobBeansNum",
             key: "jobBeansNum",
@@ -475,17 +475,17 @@ const CustomerList = () => {
             <div className={styles["search-container"]} style={{ maxHeight: !showState ? '200px' : 'none', overflow: 'hidden' }}>
                 <Row justify="space-between" align="middle">
                     <Col>
-                        <div className={styles["page-title"]}>客户列表</div>
+                        <div className={styles["page-title"]}>条件筛选</div>
                     </Col>
                     <Col>
-                        <Space size={8}>
+                        {/* <Space size={8}>
                             <Button type="primary" onClick={() => setShowState(!showState)}>{showState ? '收起' : '展开'}</Button>
 
                             <Button onClick={onClear}>清空</Button>
                             <Button type="primary" onClick={onSearch}>
                                 搜索
                   </Button>
-                        </Space>
+                        </Space> */}
                     </Col>
                 </Row>
                 <Divider></Divider>
@@ -591,6 +591,14 @@ const CustomerList = () => {
                                 }
                                 return null;
                             })}
+                            <Col span={6} {...wrapCol} key={'action'}>
+                                <Form.Item label=" " colon={false}>
+                                    <Space size="large">
+                                        <Button onClick={onClear}>清空</Button>
+                                        <Button type="primary" onClick={onSearch}>搜索</Button>
+                                    </Space>
+                                </Form.Item>
+                            </Col>
                         </Row>
                     }
                 </Form>

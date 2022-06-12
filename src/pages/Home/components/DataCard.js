@@ -5,7 +5,7 @@ import I2 from "../../../assets/images/2.png";
 import I3 from "../../../assets/images/3.png";
 import I4 from "../../../assets/images/4.png";
 
-const DataCard = ({ dataState }) => {
+const DataCard = ({ dataState, selectType, dataType = 1 }) => {
   // 6 客户面试数、8 offer人数、12 人选录入数，13 签约客户数，14 新增项目数
   const dataList = [
     {
@@ -83,7 +83,7 @@ const DataCard = ({ dataState }) => {
 
             <Col {...wrapCol}>
               <div style={leftCss}>
-                <Image src={I1} style={{ width: 56, height: 56 }} />
+                <Image src={I2} style={{ width: 56, height: 56 }} />
 
                 <div className={styles["data-item"]}>
                   <div className={styles.data_info}>{dataList[1].label}</div>
@@ -97,7 +97,7 @@ const DataCard = ({ dataState }) => {
             </Col>
             <Col {...wrapCol}>
               <div style={leftCss}>
-                <Image src={I1} style={{ width: 56, height: 56 }} />
+                <Image src={I3} style={{ width: 56, height: 56 }} />
                 <div className={styles["data-item"]}>
                   <div className={styles.data_info}>{dataList[2].label}</div>
 
@@ -114,7 +114,7 @@ const DataCard = ({ dataState }) => {
 
             <Col {...wrapCol}>
               <div style={leftCss}>
-                <Image src={I1} style={{ width: 56, height: 56 }} />
+                <Image src={I4} style={{ width: 56, height: 56 }} />
                 <div className={styles["data-item"]}>
                   <div className={styles.data_info}>{dataList[3].label}</div>
 
@@ -209,9 +209,9 @@ const DataCard = ({ dataState }) => {
 
       </Row>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <Tag color="#108ee9" style={{ cursor: 'pointer', marginTop: 20 }}>个人</Tag>
-        <Tag style={{ cursor: 'pointer', marginTop: 20 }}>团队</Tag>
-        <Tag style={{ cursor: 'pointer', marginTop: 20 }}>公司</Tag>
+        <Tag color={dataType == 1 ? '#108ee9' : null} style={{ cursor: 'pointer', marginTop: 20 }} onClick={() => selectType(1)}>个人</Tag>
+        <Tag color={dataType == 2 ? '#108ee9' : null} style={{ cursor: 'pointer', marginTop: 20 }} onClick={() => selectType(2)}>团队</Tag>
+        <Tag color={dataType == 3 ? '#108ee9' : null} style={{ cursor: 'pointer', marginTop: 20 }} onClick={() => selectType(3)}>公司</Tag>
       </div>
     </div>
   );

@@ -33,11 +33,18 @@ const Home = () => {
     const [NoticeVisible, setNoticeVisible] = useState(false);
     const [NoticeContent, setNoticeContent] = useState({})
     const [Ic, setIc] = useState(0);
+    const [dataType, setDataType] = useState(1)
     useEffect(() => {
-        selectWorkFlow().then((res) => {
+        selectWorkFlow({ type: dataType }).then((res) => {
             const { data } = res;
             setDataState(data)
         });
+    }, [dataType]);
+    useEffect(() => {
+        // selectWorkFlow({type:1}).then((res) => {
+        //     const { data } = res;
+        //     setDataState(data)
+        // });
         sysNotice().then(res => {
             setNoticeData(res?.data?.list || []);
         });
@@ -175,7 +182,7 @@ const Home = () => {
                 </Col>
                 <Col {...wrapRightCol}>
                     <div className={styles["data-card"]}>
-                        <DataCard dataState={dataState}></DataCard>
+                        <DataCard dataType={dataType} selectType={(e) => setDataType(e)} dataState={dataState}></DataCard>
                     </div>
                 </Col>
             </Row>
@@ -273,7 +280,8 @@ const Home = () => {
                     {
                         NoticeContent.type != 0 && [<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                             <Image width={62} style={{ paddingTop: NoticeContent.type == 1 ? '22px' : null }} src={NoticeContent.type == 1 ? YBL : NoticeContent.type == 3 ? START : LHL} />
-                            <Avatar src={'https://faithful.oss-cn-shanghai.aliyuncs.com' + NoticeContent.headUrl || ''} size={132} style={{ marginLeft: 70, marginRight: 70 }}></Avatar>
+                            {/* <Avatar src={'https://faithful.oss-cn-shanghai.aliyuncs.com' + NoticeContent.headUrl || ''} size={132} style={{ marginLeft: 70, marginRight: 70 }}></Avatar> */}
+                            <div style={{ maxWidth: '100%' }}>{NoticeContent.content}</div>
                             <Image width={62} style={{ paddingBottom: NoticeContent.type == 1 ? '22px' : null }} src={NoticeContent.type == 1 ? YBR : NoticeContent.type == 3 ? START : LHR} />
                         </div>, <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                             <div style={{
@@ -283,7 +291,7 @@ const Home = () => {
                         </div>]
 
                     }
-                    <p>{NoticeContent.content}</p>
+                    {NoticeContent.type == 0 && <p>{NoticeContent.content}</p>}
                 </Modal>
             </div>
         </PageContainer>

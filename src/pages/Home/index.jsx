@@ -287,7 +287,7 @@ const Home = () => {
                             <div style={{
                                 width: 164, textAlign: 'center', lineHeight: '42px', marginTop: '-20px',
                                 zIndex: 10, backgroundImage: `url(${MP})`, backgroundSize: '100%'
-                            }}>{NoticeContent.userName || ''}</div>
+                            }}>{''}</div>
                         </div>]
 
                     }

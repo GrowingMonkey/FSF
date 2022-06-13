@@ -15,7 +15,7 @@ const DataCard = ({ dataState, selectType, dataType = 1 }) => {
     },
     {
       value: "88",
-      unit: "次",
+      unit: "个",
       label: "新增职位",
     },
     {
@@ -26,7 +26,7 @@ const DataCard = ({ dataState, selectType, dataType = 1 }) => {
     {
       value: "10",
       unit: "元",
-      label: "年度回款",
+      label: "年度业绩",
     },
     {
       value: "102",

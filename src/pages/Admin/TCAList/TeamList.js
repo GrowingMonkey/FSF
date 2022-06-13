@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { Table, Button, Space, Divider, Row, Col, Pagination } from "antd";
+import { Table, Button, Space, Divider, Row, Col, Pagination, message } from "antd";
 import { info } from "china-region";
 import ModalFormArea from "./components/ModalFormArea";
 import ModalFormCompany from "./components/ModalFormCompany";
 import ModalFormTeam from "./components/ModalFormTeam";
-import { tcaList } from "../../../services/admin";
+import { tcaList, teamList, delTeam } from "../../../services/admin";
 import styles from "./index.less";
 import { PageContainer } from "@ant-design/pro-layout";
 
@@ -19,21 +19,28 @@ const TCAList = () => {
     const [list, setList] = useState([]);
     const [formValue, setFormValue] = useState(null);
     useEffect(() => {
-        tcaList({ pageNo: currentPage, pageSize: 10, level: '2' }).then((res) => {
-            const { data } = res;
+        // level:'2'
+        teamList({ pageNo: currentPage, pageSize: 10, level: '2' }).then((res) => {
+            // const { data } = res;
             setList(
-                data.list.map((item) => {
+                res?.data?.list?.map((item) => {
                     return Object.assign(item, {
                         key: item.id,
                     });
-                })
+                }) || []
             );
-            setListLength(data.count);
+            setListLength(res?.data?.count);
         });
     }, [currentPage, isFresh]);
     const onPageChange = (page) => {
         setCurrentPage(page);
     };
+    const deleteTeam = (id) => {
+        delTeam({ id: id }).then(res => {
+            message.info(res.message);
+            setIsFreash(!isFresh)
+        })
+    }
     const onSubmit = () => {
         setVisibleTeam(false);
         setVisibleCompany(false);
@@ -67,6 +74,16 @@ const TCAList = () => {
                 );
             },
             width: "35%",
+        },
+        {
+            title: "团队成员",
+            dataIndex: "userList",
+            key: "userList",
+            width: "20%",
+            ellipsis: true,
+            render: (text, record) => {
+                return record.userList.map(item => item.name).join(',')
+            }
         },
         {
             title: "归属",
@@ -113,6 +130,7 @@ const TCAList = () => {
                     >
                         编辑
           </Button>
+                    <Button type="link" onClick={() => deleteTeam(record.id)} > 删除</Button>
                 </Space>
             ),
             width: 100,

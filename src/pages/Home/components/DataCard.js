@@ -60,6 +60,16 @@ const DataCard = ({ dataState, selectType, dataType = 1 }) => {
     display: 'flex',
     alignItem: 'center'
   }
+  const formatNum = (value) => {
+    if (+value > 10000) {
+      return { num: (+value / 10000).toFixed(2), toW: true }
+    } else {
+      return {
+        num: value,
+        toW: false
+      }
+    }
+  }
   console.log(dataState)
   return (
     <div className={styles["container"]}>
@@ -119,8 +129,8 @@ const DataCard = ({ dataState, selectType, dataType = 1 }) => {
                   <div className={styles.data_info}>{dataList[3].label}</div>
 
                   <div>
-                    <span className={styles["value"]}>{dataState?.addServiceFee || 0}</span>
-                    <span>{dataList[3].unit}</span>
+                    <span className={styles["value"]}>{formatNum(dataState?.addServiceFee).num}</span>
+                    <span>{formatNum(dataState?.addServiceFee).toW ? '万' + dataList[3].unit : dataList[3].unit}</span>
                   </div>
                 </div>
               </div>

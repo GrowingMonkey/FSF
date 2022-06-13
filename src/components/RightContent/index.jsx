@@ -34,8 +34,8 @@ const GlobalHeaderRight = () => {
           history.replace({ pathname: type, state: { keyword: value } })
         }}
       />
-      {/* <PlusOutlined onClick={() => history.push('/talent/t-add')} /> */}
-      <Button type="dashed" onClick={() => history.push('/talent/t-add')}>简历解析</Button>
+      <PlusOutlined onClick={() => history.push('/talent/t-add')} />
+      {/* <Button type="dashed" onClick={() => history.push('/talent/t-add')}>简历解析</Button> */}
       {/* <span
         className={styles.action}
         onClick={() => {

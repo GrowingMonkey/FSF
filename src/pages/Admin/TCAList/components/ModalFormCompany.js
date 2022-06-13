@@ -141,7 +141,7 @@ const ModalFormCompany = ({ visible, onSubmit, onCancel, record }) => {
               return a.data.list.map(item => {
                 return {
                   label: `${item.name} `,
-                  value: item.id,
+                  value: item.userId,
                 }
               });
             }}

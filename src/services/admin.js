@@ -11,6 +11,24 @@ export const tcaList = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export const delTeam = (payload) => {
+  return request('/admin/delTeam', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+}
+export const teamList = (payload) => {
+  // return new Promise((resolve, reject) => {
+  //   request.post("/admin/TCAList", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/admin/teamList', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+
 export const selectCom = (payload) => {
   // return new Promise((resolve, reject) => {
   //   request.post("/admin/TCAList", payload).then((data) => {

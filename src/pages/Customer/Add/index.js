@@ -189,6 +189,9 @@ const Add = () => {
                   if (result.data == 1) {
                     return Promise.reject(new Error('客户名重复,请重新输入'));
                   }
+                  if (value.indexOf('有限责任公司') == -1 && value.indexOf('股份有限责任公司') == -1) {
+                    return Promise.reject(new Error('客户名称不完整'));
+                  }
                   return Promise.resolve();
                 },
               }),

@@ -93,6 +93,10 @@ const AddInvoice = () => {
                     form={applyForm}
                     name="basic"
                     layout="horizontal"
+                    initialValues={{
+                        serviceType: 0,
+                        payType: 1
+                    }}
                     submitter={{
                         render: (props, dom) => {
                             return null;
@@ -104,7 +108,7 @@ const AddInvoice = () => {
                             required: true,
                             message: '必填',
                         },
-                    ]} label="开票公司">
+                    ]} label="我司名称">
                         <ProFormText style={{ width: '196px' }} />
                     </Form.Item>
                     <ProForm.Group>
@@ -185,12 +189,14 @@ const AddInvoice = () => {
                             {
                                 label: '其他',
                                 value: 9,
-                            }]} labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '175px' } }} name="serviceType" label="业务类型" rules={[
-                                {
-                                    required: true,
-                                    message: '必填',
-                                },
-                            ]} />
+                            }]} labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '175px' } }} name="serviceType" label="业务类型"
+                        // rules={[
+                        //     {
+                        //         required: true,
+                        //         message: '必填',
+                        //     },
+                        // ]} 
+                        />
                         <ProFormSelect options={[
                             {
                                 label: '服务费',
@@ -207,12 +213,15 @@ const AddInvoice = () => {
                             {
                                 label: '其他',
                                 value: 9,
-                            }]} labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '175px' } }} name="payType" label="收入类型" rules={[
-                                {
-                                    required: true,
-                                    message: '必填',
-                                },
-                            ]} />
+                            }]} labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '175px' } }} name="payType" label="收入类型"
+                        // rules={[
+                        //     {
+                        //         required: true,
+                        //         message: '必填',
+                        //     },
+                        // ]}
+                        />
+
                     </ProForm.Group>
                     <ProForm.Group>
                         <ProFormSelect options={[

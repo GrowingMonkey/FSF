@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { Select, DatePicker, Checkbox, Space } from 'antd';
-import moment from 'moment'
+import moment from 'moment';
 import debounce from 'lodash/debounce';
 import { cstList } from '../services/customer';
 import ProForm, { ProFormCheckbox } from '@ant-design/pro-form';
@@ -81,26 +81,30 @@ const SelfDate = ({
     } else {
       if (defaultValue) {
         if (defaultValue && defaultValue.endTime != '至今' && defaultValue.endTime != null) {
-          console.log('end', defaultValue.endTime)
+          console.log('end', defaultValue.endTime);
           let str = defaultValue.endTime.split('.').join('-');
-          console.log(moment(str, 'YYYY/MM'))
+          console.log(moment(str, 'YYYY/MM'));
           return moment(str, 'YYYY/MM');
         } else {
           return;
         }
       } else {
         if (value && value.endTime != '至今' && value.endTime != null && value.startTime != '-') {
-          console.log('end', value.endTime)
-          let str = value.endTime.split('.').join('-');
-          console.log(moment(str, 'YYYY/MM'))
-          return moment(str, 'YYYY/MM');
+          console.log('end', value.endTime);
+          if (typeof value.endTime == 'string') {
+            let str = value.endTime.split('.').join('-');
+            console.log(moment(str, 'YYYY/MM'));
+            return moment(str, 'YYYY/MM');
+          } else {
+            return value.endTime;
+          }
         } else {
-          return "";
+          return '';
         }
       }
     }
-  }
-  console.log(value)
+  };
+  console.log(value);
   const startT = formatDefault('start');
   const endT = formatDefault('endT');
   console.log('startandend', startT, endT);
@@ -131,7 +135,7 @@ const SelfDate = ({
             style={{ lineHeight: '22px', width: '18px', height: '18px', marginTop: '4px' }}
             onChange={(e) => onCustomerChange(e, 'isNow')}
           />
-        至今
+          至今
         </div>
       </Space>
     </>

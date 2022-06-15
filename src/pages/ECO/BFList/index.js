@@ -34,7 +34,7 @@ const BFList = () => {
   const [searchModalValues, setSearchModalValues] = useState(null);
   const [bfList, setBfList] = useState([]);
   const [count, setCount] = useState(0);
-  const [pageNo, setPageNo] = useState(1)
+  const [pageNo, setPageNo] = useState(1);
 
   const [ModelData, setModelData] = useState([]);
   const formList = [
@@ -66,15 +66,15 @@ const BFList = () => {
       ],
     },
     {
-      name: 'userId',
+      name: 'appUserName',
       label: '服务顾问',
       type: 'input',
       span: 8,
     },
     {
-      name: 'userId',
+      name: 'hksj1',
       label: '回款时间',
-      type: 'input',
+      type: 'datePicker',
       span: 8,
     },
   ];
@@ -152,13 +152,23 @@ const BFList = () => {
       render: (text, record) => {
         return (
           <>
-            <Button type="link" size="small" onClick={() => history.push(`/eco/bf-add?bfId=${record.id}`)}>
+            <Button
+              type="link"
+              size="small"
+              onClick={() => history.push(`/eco/bf-add?bfId=${record.id}`)}
+            >
               编辑
             </Button>
             {/* <Button type="link" size="small" onClick={() => showModal(record)}>
               关联回款
             </Button> */}
-            <Button type="link" size="small" onClick={() => history.push(`/eco/bf-detail?serviceFeeId=${record.id}`)}>查看详情</Button>
+            <Button
+              type="link"
+              size="small"
+              onClick={() => history.push(`/eco/bf-detail?serviceFeeId=${record.id}`)}
+            >
+              查看详情
+            </Button>
             {/* <Popconfirm placement="topLeft" title={'作废'} onConfirm={() => confirm(record)} okText="确定" cancelText="取消">
             <Button type="link" danger size="small" >作废</Button>
           </Popconfirm> */}
@@ -173,35 +183,30 @@ const BFList = () => {
       dataIndex: 'id',
       key: 'id',
       ellipsis: true,
-
     },
     {
       title: '客户名称',
       dataIndex: 'type3',
       key: 'type3',
       ellipsis: true,
-
     },
     {
       title: '发票类型',
       dataIndex: 'type',
       key: 'type',
       ellipsis: true,
-
     },
     {
       title: '发票状态',
       dataIndex: 'state',
       key: 'state',
       ellipsis: true,
-
     },
     {
       title: '开票时间',
       dataIndex: 'time',
       key: 'time',
       ellipsis: true,
-
     },
   ];
   const showModal = (record) => {
@@ -258,9 +263,8 @@ const BFList = () => {
       //     return Object.assign(item, { key: item.id });
       //   }),
       // );
-      setBfList(res?.data?.list || [])
+      setBfList(res?.data?.list || []);
       setCount(res?.data?.count || 0);
-
     });
   }, [searchValues, pageNo]);
   useEffect(() => {
@@ -359,13 +363,21 @@ const BFList = () => {
         </Form>
       </div>
       <div className={styles['list-container']}>
-        <Table columns={bfColumns} dataSource={bfList} pagination={{
-          total: count,
-          pageSize: 10,
-          onChange: e => { setPageNo(e) },
-          showTotal: count => `共${count}条`
-
-        }} size="small" bordered scroll={{ x: 900 }} />
+        <Table
+          columns={bfColumns}
+          dataSource={bfList}
+          pagination={{
+            total: count,
+            pageSize: 10,
+            onChange: (e) => {
+              setPageNo(e);
+            },
+            showTotal: (count) => `共${count}条`,
+          }}
+          size="small"
+          bordered
+          scroll={{ x: 900 }}
+        />
       </div>
       <Modal
         title="请选择关联的发票"

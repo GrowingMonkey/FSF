@@ -180,6 +180,9 @@ const ModalForm = ({
             >
               <Input />
             </Form.Item>
+            <Form.Item name="outName" label="职级名称">
+              <Input></Input>
+            </Form.Item>
             <Form.Item name="detail" label="角色说明">
               <Input.TextArea></Input.TextArea>
             </Form.Item>

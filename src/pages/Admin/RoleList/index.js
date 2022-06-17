@@ -21,7 +21,7 @@ const RoleList = () => {
           });
         }),
       );
-      setListLength(res.count);
+      setListLength(res.data.count);
       permissionList({ pageNo: currentPage, pageSize: 1000 }).then((res) => {
         if (res.data.list.length) {
           let functionTree = {};
@@ -134,6 +134,13 @@ const RoleList = () => {
       title: '角色说明',
       dataIndex: 'detail',
       key: 'detail',
+      ellipsis: true,
+    },
+    {
+      title: '职级名称',
+      dataIndex: 'outName',
+      key: 'outName',
+      width: 120,
       ellipsis: true,
     },
     {

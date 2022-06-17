@@ -72,6 +72,7 @@ const PList = () => {
             title: "工作地点",
             dataIndex: "cityCode",
             ellipsis: true,
+            width: 200,
             key: "cityCode",
             render: (text) => {
                 let cityCode = text.split("/");
@@ -101,6 +102,7 @@ const PList = () => {
             title: "更新时间",
             dataIndex: "updateTime",
             ellipsis: true,
+            width: 120,
             key: "updateTime",
             render: (text) => {
                 if (text) {

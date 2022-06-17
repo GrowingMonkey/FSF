@@ -143,7 +143,7 @@ const TList = () => {
       dataIndex: "name",
       key: "name",
       ellipsis: true,
-      width: 100,
+      width: 80,
       render: (text, record) => {
         return record.gender == 2 ? (<span><WomanOutlined twoToneColor="#eb2f96" style={{ color: '#eb2f96' }} />{record.name}</span>) : record.gender == 1 ? (<span><ManOutlined style={{ color: '#1890ff' }} />{record.name}</span>) : (<span><UserOutlined />{record.name}</span>)
       }
@@ -201,6 +201,7 @@ const TList = () => {
     {
       title: "工作经验",
       dataIndex: "experience",
+      width: 80,
       ellipsis: true,
       key: "experience",
     },
@@ -213,18 +214,21 @@ const TList = () => {
     {
       title: "公司",
       dataIndex: "lastCompany",
+      width: 250,
       ellipsis: true,
       key: "lastCompany",
     },
     {
       title: "职位",
       dataIndex: "job",
+      width: 220,
       ellipsis: true,
       key: "job",
     },
     {
       title: "录入人",
       dataIndex: "userName",
+      width: 60,
       ellipsis: true,
       key: "userName",
       render: (text, record) => {
@@ -236,6 +240,7 @@ const TList = () => {
     },
     {
       title: "更新时间",
+      width: 110,
       dataIndex: "updateTime",
       ellipsis: true,
       key: "updateTime",

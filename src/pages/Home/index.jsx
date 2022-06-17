@@ -85,6 +85,7 @@ const Home = () => {
             title: '人选职位',
             dataIndex: 'job',
             key: 'job',
+            width: 200,
             ellipsis: true,
         },
         {
@@ -110,6 +111,7 @@ const Home = () => {
         {
             title: '客户名称',
             dataIndex: 'customerName',
+            width: 200,
             key: 'customerName',
             ellipsis: true,
         },
@@ -145,13 +147,13 @@ const Home = () => {
         },
         middle: {
             xs: 24,
-            md: 11,
-            lg: 11
+            md: 12,
+            lg: 12
         },
         right: {
             xs: 24,
-            md: 13,
-            lg: 13
+            md: 12,
+            lg: 12
         },
     }
     const formatNotice = (item) => {
@@ -249,7 +251,7 @@ const Home = () => {
                                                 setNoticeVisible(true)
                                             }}
                                         >
-                                            <Typography.Text mark style={{ width: '72px', display: 'inline-block' }}>[{formatNotice(item)}]</Typography.Text> <Typography.Text style={{ width: "44%", color: '#272727', display: 'inline-flex', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontWeight: 'bold' }}>{item.title}</Typography.Text><Typography.Text style={{ display: "inline-block", paddingRight: '5px', width: '70px', float: 'right' }}>{'系统发布'}</Typography.Text><Typography.Text style={{ width: '85px', display: 'inline-block', float: 'right' }}>{item.publishTime}</Typography.Text>
+                                            <Typography.Text style={{ width: '72px', fontWeight: 'bold', display: 'inline-block' }}>[{formatNotice(item)}]</Typography.Text> <Typography.Text link style={{ width: "44%", color: '#0065fb', display: 'inline-flex', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontWeight: 'bold' }}>{item.title}</Typography.Text><Typography.Text style={{ display: "inline-block", paddingRight: '5px', width: '70px', float: 'right' }}>{'系统发布'}</Typography.Text><Typography.Text style={{ width: '85px', display: 'inline-block', float: 'right' }}>{item.publishTime}</Typography.Text>
                                         </List.Item>
                                     )}
                                 />

@@ -71,6 +71,7 @@ const PList = () => {
     {
       title: "工作地点",
       dataIndex: "cityCode",
+      width: 200,
       ellipsis: true,
       key: "cityCode",
       render: (text) => {
@@ -101,6 +102,7 @@ const PList = () => {
       title: "更新时间",
       dataIndex: "updateTime",
       ellipsis: true,
+      width: 120,
       key: "updateTime",
       render: (text) => {
         if (text) {

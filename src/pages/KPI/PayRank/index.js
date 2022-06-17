@@ -66,27 +66,27 @@ const PayRank = () => {
       key: "roleName",
       ellipsis: true,
     },
-    {
-      title: "团队人数",
-      dataIndex: "teamNum",
-      key: "teamNum",
-      ellipsis: true,
-    },
+    // {
+    //   title: "团队人数",
+    //   dataIndex: "teamNum",
+    //   key: "teamNum",
+    //   ellipsis: true,
+    // },
 
 
 
     {
       title: "回款金额",
-      dataIndex: "money",
-      key: "money",
+      dataIndex: "fee",
+      key: "fee",
       ellipsis: true,
     },
-    {
-      title: "回款月份",
-      dataIndex: "month",
-      key: "month",
-      ellipsis: true,
-    },
+    // {
+    //   title: "回款月份",
+    //   dataIndex: "month",
+    //   key: "month",
+    //   ellipsis: true,
+    // },
   ];
   const handleSearch = () => {
     form.validateFields().then(values => {

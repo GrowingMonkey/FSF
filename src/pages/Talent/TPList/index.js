@@ -85,6 +85,7 @@ const TPList = () => {
       title: '录入人',
       dataIndex: 'userName',
       ellipsis: true,
+      width: 60,
       key: 'userName',
       render: (text, record) => {
         if (text) {

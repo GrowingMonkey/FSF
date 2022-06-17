@@ -280,6 +280,7 @@ const CustomerList = () => {
         {
             title: "招聘人数",
             ellipsis: true,
+            width: 80,
             dataIndex: "jobBeansNum",
             key: "jobBeansNum",
         },
@@ -311,13 +312,14 @@ const CustomerList = () => {
             title: "最后沟通",
             dataIndex: "updateTime",
             ellipsis: true,
+            width: 200,
             key: "updateTime",
         },
         {
             title: "记录",
             dataIndex: "customerCommunicateBeansNum",
             ellipsis: true,
-            width: 40,
+            width: 80,
             key: "customerCommunicateBeansNum",
             render: (text) => {
                 return (
@@ -340,6 +342,7 @@ const CustomerList = () => {
         {
             title: "操作",
             key: "action",
+            width: 200,
             render: (text, record) => (
                 <Space size="middle">
                     {/* <Button

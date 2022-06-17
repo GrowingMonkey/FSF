@@ -185,11 +185,14 @@ const TList = () => {
         {
             title: "工作经验",
             dataIndex: "experience",
+            width: 80,
+
             ellipsis: true,
             key: "experience",
         },
         {
             title: "所在地",
+
             dataIndex: "location",
             ellipsis: true,
             key: "location",
@@ -197,18 +200,22 @@ const TList = () => {
         {
             title: "公司",
             dataIndex: "lastCompany",
+            width: 250,
+
             ellipsis: true,
             key: "lastCompany",
         },
         {
             title: "职位",
             dataIndex: "job",
+            width: 220,
             ellipsis: true,
             key: "job",
         },
         {
             title: "录入人",
             dataIndex: "userName",
+            width: 60,
             ellipsis: true,
             key: "userName",
             render: (text, record) => {
@@ -222,6 +229,8 @@ const TList = () => {
             title: "更新时间",
             dataIndex: "updateTime",
             ellipsis: true,
+            width: 110,
+
             key: "updateTime",
         },
         {

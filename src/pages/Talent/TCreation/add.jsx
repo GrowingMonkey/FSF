@@ -853,12 +853,12 @@ const TCreation = () => {
                         <Input style={{ width: '328px' }}></Input>
                     </Form.Item>
                     <Form.Item name="RCity" label="期望地点"
-                    // rules={[
-                    //     {
-                    //         required: true,
-                    //         message: '请输入人选地址',
-                    //     },
-                    // ]}
+                        rules={[
+                            {
+                                required: true,
+                                message: '请输入人选地址',
+                            },
+                        ]}
                     >
                         {/* <Cascader
               style={{ width: '328px' }}
@@ -897,12 +897,12 @@ const TCreation = () => {
                                             name={[name, 'startTime']}
                                             fieldKey={[fieldKey, 'startTime']}
                                             label="工作时间"
-                                        // rules={[
-                                        //     {
-                                        //         required: true,
-                                        //         message: '必填',
-                                        //     },
-                                        // ]}
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message: '必填',
+                                                },
+                                            ]}
                                         >
                                             {/* <RangePicker picker="month" style={{ width: "328px" }}></RangePicker> */}
                                             <SelfDate
@@ -950,12 +950,12 @@ const TCreation = () => {
 
                                         <Form.Item
                                             name={[name, 'job']}
-                                            // rules={[
-                                            //     {
-                                            //         required: true,
-                                            //         message: '必填',
-                                            //     },
-                                            // ]}
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message: '必填',
+                                                },
+                                            ]}
                                             fieldKey={[fieldKey, 'job']}
                                             label="工作岗位"
                                         >
@@ -1045,12 +1045,12 @@ const TCreation = () => {
                                             name={[name, 'job']}
                                             fieldKey={[fieldKey, 'job']}
                                             label="项目职位"
-                                        // rules={[
-                                        //     {
-                                        //         required: true,
-                                        //         message: '必填',
-                                        //     },
-                                        // ]}
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message: '必填',
+                                                },
+                                            ]}
                                         >
                                             <Input style={{ width: '328px' }}></Input>
                                         </Form.Item>
@@ -1094,12 +1094,12 @@ const TCreation = () => {
                                             name={[name, 'startTime']}
                                             fieldKey={[fieldKey, 'startTime']}
                                             label="学习时间"
-                                        // rules={[
-                                        //     {
-                                        //         required: true,
-                                        //         message: '必填',
-                                        //     },
-                                        // ]}
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message: '必填',
+                                                },
+                                            ]}
                                         >
                                             <SelfDate
                                                 fieldProps={{ picker: 'month' }}

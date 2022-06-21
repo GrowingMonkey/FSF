@@ -106,7 +106,7 @@ const TCreation = () => {
                     // } else {
                     //   jobFormResult.RCity = `${jobFormResult.RCity[0]}/`;
                     // }
-                    jobFormResult.RCity = jobFormResult.RCity.join(',')
+                    jobFormResult.RCity = jobFormResult.RCity?.join(',') || jobFormResult.RCity
                 }
                 if (jobFormResult.RJob) {
                     jobFormResult.RJob = jobFormResult.RJob[jobFormResult.RJob.length - 1];
@@ -453,7 +453,7 @@ const TCreation = () => {
                         RIndustry: parsing_result.basic_info.desired_industry,
                         RSalary: parsing_result.basic_info.desired_salary,
                         RJob: parsing_result.basic_info.desired_position,
-                        RCity: parsing_result.basic_info.detailed_location,
+                        RCity: [parsing_result.basic_info.detailed_location],
                     })
                     let educationC = parsing_result.education_experience.map(item => {
                         return {

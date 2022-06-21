@@ -11,6 +11,17 @@ export const getSignKpi = (payload) => {
         data: { ...(payload || {}) },
     });
 };
+export const kpiRank = (payload) => {
+    // return new Promise((resolve, reject) => {
+    //   request("home/changeMsgState", payload).then((data) => {
+    //     resolve(data);
+    //   });
+    // });
+    return request('/kpi/kpiRank', {
+        method: 'POST',
+        data: { ...(payload || {}) },
+    });
+};
 export const getCRank = (payload) => {
     // return new Promise((resolve, reject) => {
     //   request("home/changeMsgState", payload).then((data) => {

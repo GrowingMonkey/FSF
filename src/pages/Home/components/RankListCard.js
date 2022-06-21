@@ -104,7 +104,7 @@ const RankListCard = ({ activeTab }) => {
   }, [activeTab]);
   return <div className={styles["container"]}>
 
-    <Button type="link" style={{ float: 'right' }} onClick={() => history.push(`${activeTab == 2 ? '/kpi/pay-rank' : activeTab == 3 ? '/kpi/sign-rank' : '/eco/kpi-list'}`)}>查看更多</Button>
+    <Button type="link" style={{ float: 'right' }} onClick={() => history.push(`${activeTab == 2 ? '/kpi/pay-rank' : activeTab == 3 ? '/kpi/sign-rank' : '/kpi/commission-rank'}`)}>查看更多</Button>
     <Table dataSource={tableData} columns={colums} pagination={false} size="small" />
   </div>;
 };

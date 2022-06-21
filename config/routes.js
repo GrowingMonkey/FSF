@@ -409,7 +409,7 @@ export default [
       },
       {
         path: '/kpi/commission-rank',
-        name: '提成排行',
+        name: '业绩排行',
         access: 'canKpiCommission',
         component: './KPI/CommissionRank/index',
       },

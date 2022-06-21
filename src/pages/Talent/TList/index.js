@@ -37,13 +37,42 @@ const TList = () => {
   const [searchValues, setSearchValues] = useState(null);
   const [detailVisible, setDetailVisible] = useState(false);
   const [detailRecord, setDetailRecord] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentTarent, setCurrentTarent] = useState('');
   const [form] = Form.useForm();
 
   const formList = [
     [
+      {
+        name: "keyword",
+        label: "关键词",
+        type: "input",
+
+      },
+      {
+        name: "talentId",
+        label: "简历编码",
+        type: "input",
+
+      },
+      {
+        name: "name",
+        label: "姓名",
+        type: "input",
+
+      },
+      {
+        name: "phone",
+        label: "电话",
+        type: "input",
+
+      },
+      {
+        name: "company",
+        label: "公司",
+        type: "input",
+      },
       {
         name: "job",
         label: "职位名称",
@@ -55,11 +84,7 @@ const TList = () => {
         type: "cascader",
         options: positionList
       },
-      {
-        name: "company",
-        label: "公司",
-        type: "input",
-      },
+
       {
         name: "location",
         label: "当前地点",
@@ -89,24 +114,8 @@ const TList = () => {
         type: "input",
 
       },
-      {
-        name: "name",
-        label: "姓名",
-        type: "input",
 
-      },
-      {
-        name: "phone",
-        label: "电话",
-        type: "input",
 
-      },
-      {
-        name: "talentId",
-        label: "简历编码",
-        type: "input",
-
-      },
       // {
       //   name: "school",
       //   label: "毕业学校",
@@ -329,7 +338,7 @@ const TList = () => {
   const wrapCol = {
     xs: 24,
     md: 12,
-    lg: 8
+    lg: 6
   }
   return (
     <PageContainer>
@@ -359,13 +368,13 @@ const TList = () => {
             labelAlign="center"
           >
 
-            <Row gutter={32}>
+            {/* <Row gutter={32}>
               <Col  {...wrapCol}>
                 <Form.Item name={'keyWord'} label={'关键词'}>
                   <Input></Input>
                 </Form.Item>
               </Col>
-            </Row>
+            </Row> */}
             {formList.map((row, rIndex) => {
               return (
                 <Row gutter={32} key={`row-${rIndex}`}>

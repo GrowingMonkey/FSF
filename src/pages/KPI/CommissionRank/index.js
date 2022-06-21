@@ -15,13 +15,13 @@ import {
 import styles from "./index.less";
 import moment from "moment";
 import { PageContainer } from "@ant-design/pro-layout";
-import { getCRank } from '@/services/kpi'
+import { getCRank, kpiRank } from '@/services/kpi'
 import { useRequest } from 'umi'
 import { useEffect, useState } from "react";
 import { tcaList } from '@/services/admin'
 const { RangePicker } = DatePicker;
 const CommissionRank = () => {
-  const { data, run: CRankRun } = useRequest(getCRank)
+  const { data, run: CRankRun } = useRequest(kpiRank)
   const [cRankList, setCRankList] = useState([])
   const [total, setTotal] = useState(0);
   useEffect(() => {
@@ -53,53 +53,30 @@ const CommissionRank = () => {
   const onFinish = () => { }
   const commissionColumns = [
     {
-      title: "提成金额",
-      dataIndex: "money",
-      ellipsis: true,
-      key: "money",
-    },
-    {
-      title: "姓名",
-      dataIndex: "name",
-      ellipsis: true,
-      key: "name",
-    },
-    {
       title: "归属公司",
       dataIndex: "comName",
       ellipsis: true,
       key: "comName",
     },
     {
-      title: "担任职务",
-      dataIndex: "roleName",
+      title: "顾问名称",
+      dataIndex: "userName",
       ellipsis: true,
-      key: "roleName",
+      key: "userName",
     },
     {
-      title: "团队人数",
-      dataIndex: "teamNum",
+      title: "职级",
+      dataIndex: "role",
       ellipsis: true,
-      key: "teamNum",
+      key: "role",
     },
     {
-      title: "提成次数",
-      dataIndex: "signNum",
+      title: "金额",
+      dataIndex: "kpiFee",
       ellipsis: true,
-      key: "signNum",
+      key: "kpiFee",
     },
-    {
-      title: "平均比例",
-      dataIndex: "avg",
-      ellipsis: true,
-      key: "avg",
-    },
-    {
-      title: "时间",
-      dataIndex: "month",
-      ellipsis: true,
-      key: "month",
-    },
+
   ];
   const handleSearch = () => {
     form.validateFields().then(values => {
@@ -120,7 +97,7 @@ const CommissionRank = () => {
       <div className={styles["search-container"]}>
         <Row justify="space-between" align="middle">
           <Col>
-            <div className={styles["page-title"]}>提成排行</div>
+            <div className={styles["page-title"]}>业绩排行</div>
           </Col>
           <Col>
             <Space size={8}>

@@ -30,7 +30,7 @@ import styles from "./index.less";
 import { PageContainer } from "@ant-design/pro-layout";
 import { Link } from "umi";
 import CompanySearch from "@/components/CompanySearch";
-
+import { history } from "umi"
 const CustomerList = () => {
   console.clear()
   const [form] = Form.useForm();
@@ -237,6 +237,7 @@ const CustomerList = () => {
       title: "客户名称",
       dataIndex: "name",
       ellipsis: true,
+      width: 200,
       key: "name",
       render: (text, record) => {
         return (
@@ -442,7 +443,11 @@ const CustomerList = () => {
     setCurrentPage(page);
   };
   useEffect(() => {
-    cstList({ pageNo: currentPage, pageSize: 10, ...searchValues }).then(res => {
+    const { location } = history;
+    if (location.state?.keyword) {
+      form.setFieldsValue({ name: location.state?.keyword })
+    }
+    cstList({ pageNo: currentPage, pageSize: 10, ...searchValues, name: location.state?.keyword ? location.state?.keyword : searchValues?.name }).then(res => {
       const { data } = res;
       console.log(res);
       setCustomerList(

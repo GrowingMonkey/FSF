@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { PageContainer } from '@ant-design/pro-layout';
-import { Row, Col, Card, List, Table, Image, Typography, Button, Modal, Avatar, Collapse } from "antd";
+import { Row, Col, Card, Tooltip, List, Table, Image, Typography, Button, Modal, Avatar, Collapse } from "antd";
 import { selectWorkFlow } from "../../services/home";
 import InfoCard from "./components/InfoCard";
 import DataCard from "./components/DataCard";
@@ -61,23 +61,26 @@ const Home = () => {
             dataIndex: 'stateName',
             key: 'stateName',
             ellipsis: true,
-            width: 75,
+            width: 60,
             render: text => <span style={{ color: 'red' }}>{text}</span>,
         },
         {
             title: '所在公司',
             dataIndex: 'comName',
             key: 'comName',
+            width: 80,
             ellipsis: true,
         }, {
             title: '推荐人',
             dataIndex: 'userName',
+            width: 80,
             key: 'userName',
             ellipsis: true,
         },
         {
             title: '人选名称',
             dataIndex: 'talentName',
+            width: 80,
             key: 'talentName',
             ellipsis: true,
         },
@@ -85,13 +88,21 @@ const Home = () => {
             title: '人选职位',
             dataIndex: 'job',
             key: 'job',
-            width: 200,
-            ellipsis: true,
+            ellipsis: {
+                showTitle: false,
+            },
+            width: 150,
+            render: job => (
+                <Tooltip placement="topLeft" title={job}>
+                    {job}
+                </Tooltip>
+            ),
         },
         {
             title: '人选年薪',
             dataIndex: 'salary',
             key: 'salary',
+            width: 80,
             render: text => <span style={{ color: 'red' }}>{text || 0}万</span>,
             ellipsis: true,
         },
@@ -119,14 +130,29 @@ const Home = () => {
             title: '回款金额',
             dataIndex: 'fee',
             key: 'fee',
-            ellipsis: true,
-            render: text => <span style={{ color: 'red' }}>{text || 0}元</span>,
+            ellipsis: {
+                showTitle: false,
+            },
+
+            render: fee => (
+                <Tooltip placement="topLeft" title={fee}>
+                    <span style={{ color: 'red' }}>{fee || 0}元</span>
+                </Tooltip>
+            ),
         },
         {
             title: '回款时间',
             dataIndex: 'time',
             key: 'time',
-            ellipsis: true,
+            ellipsis: {
+                showTitle: false,
+            },
+
+            render: time => (
+                <Tooltip placement="topLeft" title={time}>
+                    {time}
+                </Tooltip>
+            ),
         },
     ]
     const wrapLeftCol = {

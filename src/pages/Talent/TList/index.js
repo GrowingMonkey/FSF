@@ -161,6 +161,7 @@ const TList = () => {
       title: "年龄",
       dataIndex: "age",
       key: "age",
+      width: 60,
       ellipsis: true,
       render: (text) => {
         if (text) {
@@ -173,6 +174,7 @@ const TList = () => {
       title: "学历",
       dataIndex: "education",
       key: "education",
+      width: 80,
       ellipsis: true,
       render: (text) => {
         let str = '';

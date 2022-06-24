@@ -478,7 +478,11 @@ const PList = () => {
     setCurrentPage(value);
   };
   useEffect(() => {
-    selectPList({ pageNo: currentPage, pageSize: 10, ...searchValues }).then(
+    const { location } = history;
+    if (location.state?.keyword) {
+      form.setFieldsValue({ name: location.state?.keyword })
+    }
+    selectPList({ pageNo: currentPage, pageSize: 10, ...searchValues, name: location.state?.keyword ? location.state?.keyword : searchValues?.name }).then(
       (res) => {
         const { data } = res;
         setListData(
@@ -486,7 +490,7 @@ const PList = () => {
             return Object.assign(item, { key: item.id });
           })
         );
-        setTotal(data?.count || 0)
+        setTotal(data?.count || 0);
       }
     );
   }, [currentPage, searchValues]);

@@ -80,7 +80,7 @@ const DataCard = ({ dataState, selectType, dataType = 1 }) => {
           <Row gutter={[0, 68]}>
             <Col {...wrapCol}>
               <div style={leftCss}>
-                <Image src={I1} style={{ width: 56, height: 56 }} />
+                <Image src={I1} preview={false} style={{ width: 56, height: 56 }} />
                 <div className={styles["data-item"]}>
                   <div className={styles.data_info}>{dataList[0].label}</div>
                   <div>
@@ -93,7 +93,7 @@ const DataCard = ({ dataState, selectType, dataType = 1 }) => {
 
             <Col {...wrapCol}>
               <div style={leftCss}>
-                <Image src={I2} style={{ width: 56, height: 56 }} />
+                <Image src={I2} preview={false} style={{ width: 56, height: 56 }} />
 
                 <div className={styles["data-item"]}>
                   <div className={styles.data_info}>{dataList[1].label}</div>
@@ -107,7 +107,7 @@ const DataCard = ({ dataState, selectType, dataType = 1 }) => {
             </Col>
             <Col {...wrapCol}>
               <div style={leftCss}>
-                <Image src={I3} style={{ width: 56, height: 56 }} />
+                <Image src={I3} preview={false} style={{ width: 56, height: 56 }} />
                 <div className={styles["data-item"]}>
                   <div className={styles.data_info}>{dataList[2].label}</div>
 
@@ -124,7 +124,7 @@ const DataCard = ({ dataState, selectType, dataType = 1 }) => {
 
             <Col {...wrapCol}>
               <div style={leftCss}>
-                <Image src={I4} style={{ width: 56, height: 56 }} />
+                <Image src={I4} preview={false} style={{ width: 56, height: 56 }} />
                 <div className={styles["data-item"]}>
                   <div className={styles.data_info}>{dataList[3].label}</div>
 

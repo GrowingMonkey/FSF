@@ -440,7 +440,7 @@ const TCreation = () => {
                         education: eduArr.filter(item => item.label == parsing_result.basic_info.degree)[0]?.value || '',
                         experience: parsing_result.basic_info.num_work_experience,
                         gender: gedArr.filter(item => item.label == parsing_result.basic_info.gender)[0]?.value || '',
-                        birthday: moment(parsing_result.basic_info.date_of_birth, 'YYYY-MM-DD'),
+                        birthday: parsing_result.basic_info.date_of_birth ? moment(parsing_result.basic_info.date_of_birth, 'YYYY-MM-DD') : null,
                         salary: parsing_result.basic_info.current_salary,
                         domicile: parsing_result.basic_info.expect_location,
                         location: parsing_result.basic_info.current_location,

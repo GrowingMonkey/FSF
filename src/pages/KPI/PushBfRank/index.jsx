@@ -99,7 +99,7 @@ const SignRank = () => {
             <div className={styles["search-container"]}>
                 <Row justify="space-between" align="middle">
                     <Col>
-                        <div className={styles["page-title"]}>签约排行</div>
+                        <div className={styles["page-title"]}>实时回款排行</div>
                     </Col>
                     <Col>
                         <Space size={8}>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Select, message } from 'antd';
+import { Select, message, Tooltip } from 'antd';
 import debounce from 'lodash/debounce';
 import { selectMyServiceFeeList } from '@/services/eco';
 /**
@@ -50,8 +50,8 @@ const TalentSearch = ({ value = {}, onChange, filedProps = {}, applyUserId }) =>
         setOptions(
           data.list.map((item) => {
             return (
-              <Option key={item.id}>
-                {item.customerName}/¥{item.fee}
+              <Option key={item.id} title={`${item.customerName}/¥${item.fee}`} style={{ width: '200px' }}>
+                <Tooltip><div>¥{item.fee}/{item.customerName}</div></Tooltip>
               </Option>
             );
           }),

@@ -140,6 +140,13 @@ const UserList = () => {
 
     },
     {
+      title: "职级",
+      dataIndex: "job",
+      ellipsis: true,
+      key: "job",
+
+    },
+    {
       title: "城市",
       dataIndex: "cityCode",
       key: "cityCode",

@@ -219,6 +219,7 @@ const TList = () => {
     {
       title: "所在地",
       dataIndex: "location",
+      width: 100,
       ellipsis: true,
       key: "location",
     },

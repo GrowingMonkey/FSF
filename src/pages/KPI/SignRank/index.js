@@ -67,36 +67,36 @@ const SignRank = () => {
       ellipsis: true,
       key: "roleName",
     },
-    {
-      title: "团队人数",
-      dataIndex: "teamNum",
-      ellipsis: true,
-      key: "teamNum",
-    },
+    // {
+    //   title: "团队人数",
+    //   dataIndex: "teamNum",
+    //   ellipsis: true,
+    //   key: "teamNum",
+    // },
     {
       title: "签约客户数",
       dataIndex: "signNum",
       ellipsis: true,
       key: "signNum",
     },
-    {
-      title: "平均比例",
-      dataIndex: "avg",
-      ellipsis: true,
-      key: "avg",
-    },
-    {
-      title: "首付金额",
-      dataIndex: "money",
-      ellipsis: true,
-      key: "money",
-    },
-    {
-      title: "月份",
-      dataIndex: "month",
-      ellipsis: true,
-      key: "month",
-    },
+    // {
+    //   title: "平均比例",
+    //   dataIndex: "avg",
+    //   ellipsis: true,
+    //   key: "avg",
+    // },
+    // {
+    //   title: "首付金额",
+    //   dataIndex: "money",
+    //   ellipsis: true,
+    //   key: "money",
+    // },
+    // {
+    //   title: "月份",
+    //   dataIndex: "month",
+    //   ellipsis: true,
+    //   key: "month",
+    // },
   ];
   console.log(rankList);
   const handleSearch = () => {

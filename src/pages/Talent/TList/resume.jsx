@@ -37,18 +37,18 @@ const TList = () => {
                         label: "不限",
                         value: 0,
                     },
-                    {
-                        label: "初中及以上",
-                        value: 1,
-                    },
+                    // {
+                    //     label: "初中及以上",
+                    //     value: 1,
+                    // },
                     {
                         label: "中专及以上",
                         value: 2,
                     },
-                    {
-                        label: "高中及以上",
-                        value: 3,
-                    },
+                    // {
+                    //     label: "高中及以上",
+                    //     value: 3,
+                    // },
                     {
                         label: "大专及以上",
                         value: 4,
@@ -194,7 +194,7 @@ const TList = () => {
         },
         {
             title: "所在地",
-
+            width: 100,
             dataIndex: "location",
             ellipsis: true,
             key: "location",

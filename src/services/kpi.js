@@ -11,6 +11,28 @@ export const getSignKpi = (payload) => {
         data: { ...(payload || {}) },
     });
 };
+export const userKpiData = (payload) => {
+    // return new Promise((resolve, reject) => {
+    //   request("home/changeMsgState", payload).then((data) => {
+    //     resolve(data);
+    //   });
+    // });
+    return request('/kpi/userKpiData', {
+        method: 'POST',
+        data: { ...(payload || {}) },
+    });
+};
+export const teamList = (payload) => {
+    // return new Promise((resolve, reject) => {
+    //   request("home/changeMsgState", payload).then((data) => {
+    //     resolve(data);
+    //   });
+    // });
+    return request('/kpi/teamList', {
+        method: 'POST',
+        data: { ...(payload || {}) },
+    });
+};
 export const kpiRank = (payload) => {
     // return new Promise((resolve, reject) => {
     //   request("home/changeMsgState", payload).then((data) => {

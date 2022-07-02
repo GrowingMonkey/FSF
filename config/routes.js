@@ -304,6 +304,11 @@ export default [
         component: "./ECO/KpiList/index",
       },
       {
+        path: "/eco/kpi-my-list",
+        name: "我的业绩",
+        component: "./ECO/KpiList/MyKpi/index",
+      },
+      {
         path: "/eco/kpi-detail",
         name: "业绩详情",
         component: "./ECO/KpiList/Detail/index",

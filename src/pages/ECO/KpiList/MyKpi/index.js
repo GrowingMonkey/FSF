@@ -212,7 +212,12 @@ const KpiList = () => {
     const expandedRowRender = (record) => {
         console.log(record)
         const data = record.childList;
-        return <Table showHeader={false} style={{ marginLeft: '4%' }} columns={kpiColumns} dataSource={data} pagination={false} />;
+        return <Table showHeader={false} columns={[{
+            title: '',
+            dataIndex: 'idx',
+            width: '4%',
+            key: 'id',
+        }, ...kpiColumns]} style={{ marginLeft: 0 }} dataSource={data} pagination={false} />;
     };
 
     return (

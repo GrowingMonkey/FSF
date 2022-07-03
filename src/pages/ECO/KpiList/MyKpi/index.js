@@ -212,7 +212,7 @@ const KpiList = () => {
     const expandedRowRender = (record) => {
         console.log(record)
         const data = record.childList;
-        return <Table showHeader={false} columns={kpiColumns} dataSource={data} pagination={false} />;
+        return <Table showHeader={false} style={{ marginLeft: '4%' }} columns={kpiColumns} dataSource={data} pagination={false} />;
     };
 
     return (
@@ -227,7 +227,7 @@ const KpiList = () => {
             <div className={styles['search-container']}>
                 <Row justify="space-between" align="middle">
                     <Col>
-                        <div className={styles['page-title']}>我的业绩</div>
+                        <div className={styles['page-title']}>我的绩效</div>
                     </Col>
                 </Row>
                 <Divider />

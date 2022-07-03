@@ -303,11 +303,7 @@ export default [
         name: "业绩管理",
         component: "./ECO/KpiList/index",
       },
-      {
-        path: "/eco/kpi-my-list",
-        name: "我的业绩",
-        component: "./ECO/KpiList/MyKpi/index",
-      },
+
       {
         path: "/eco/kpi-detail",
         name: "业绩详情",
@@ -400,6 +396,11 @@ export default [
     name: '绩效管理',
     access: 'canKpi',
     routes: [
+      {
+        path: "/kpi/kpi-my-list",
+        name: "我的绩效",
+        component: "./ECO/KpiList/MyKpi/index",
+      },
       {
         path: '/kpi/sign-rank',
         name: '签约排行',

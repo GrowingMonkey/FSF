@@ -91,9 +91,15 @@ const KpiList = () => {
         },
         {
             title: '确认offer',
+            dataIndex: 'offer',
+            width: 60,
+            key: 'offer',
+            ellipsis: true,
+        },
+        {
+            title: '成功入职',
             dataIndex: 'cgrz',
             width: 60,
-
             key: 'cgrz',
             ellipsis: true,
         },

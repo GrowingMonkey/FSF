@@ -58,6 +58,7 @@ const KpiList = () => {
             key: 'userName',
             width: 60,
             ellipsis: true,
+
         },
         {
             title: '期数',
@@ -72,6 +73,7 @@ const KpiList = () => {
             key: 'job',
             ellipsis: true,
             width: 40,
+            render: (text) => ''
         },
         {
             title: '推给客户',
@@ -123,10 +125,10 @@ const KpiList = () => {
 
         {
             title: '业绩金额',
-            dataIndex: 'kpiFee',
+            dataIndex: 'fee',
             width: 60,
 
-            key: 'kpiFee',
+            key: 'fee',
             ellipsis: true,
         },
         {
@@ -136,6 +138,98 @@ const KpiList = () => {
 
             key: 'score',
             ellipsis: true,
+        },
+
+    ];
+    const kp2Columns = [
+        {
+            title: '顾问名称',
+            dataIndex: 'userName',
+            key: 'userName',
+            width: 60,
+            ellipsis: true,
+            render: (text) => ''
+        },
+        {
+            title: '期数',
+            dataIndex: 'dataTime',
+            key: 'dataTime',
+            width: 100,
+            ellipsis: true,
+        },
+        {
+            title: '职级',
+            dataIndex: 'job',
+            key: 'job',
+            ellipsis: true,
+            width: 40,
+            render: (text) => ''
+
+        },
+        {
+            title: '推给客户',
+            dataIndex: 'tgkh',
+            width: 60,
+
+            key: 'tgkh',
+            ellipsis: true,
+        },
+        {
+            title: '客户面试',
+            dataIndex: 'khms',
+            width: 60,
+
+            key: 'khms',
+            ellipsis: true,
+        },
+        {
+            title: '确认offer',
+            dataIndex: 'offer',
+            width: 60,
+            key: 'offer',
+            ellipsis: true,
+        },
+        {
+            title: '成功入职',
+            dataIndex: 'cgrz',
+            width: 60,
+            key: 'cgrz',
+            ellipsis: true,
+        },
+        {
+            title: '录入人选',
+            dataIndex: 'lrrx',
+            width: 60,
+
+            key: 'lrrx',
+            ellipsis: true,
+
+        },
+        {
+            title: '签约客户',
+            dataIndex: 'qykh',
+            width: 60,
+
+            key: 'qykh',
+            ellipsis: true,
+        },
+
+        {
+            title: '业绩金额',
+            dataIndex: 'fee',
+            width: 60,
+
+            key: 'fee',
+            ellipsis: true,
+        },
+        {
+            title: '考核分数',
+            dataIndex: 'score',
+            width: 60,
+
+            key: 'score',
+            ellipsis: true,
+            render: (text) => ''
         },
 
     ];
@@ -223,7 +317,7 @@ const KpiList = () => {
             dataIndex: 'idx',
             width: '4%',
             key: 'id',
-        }, ...kpiColumns]} style={{ marginLeft: 0 }} dataSource={data} pagination={false} />;
+        }, ...kp2Columns]} style={{ marginLeft: 0, background: '#ddd' }} dataSource={data} pagination={false} />;
     };
 
     return (

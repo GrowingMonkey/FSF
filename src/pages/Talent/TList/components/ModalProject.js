@@ -32,7 +32,7 @@ const ModalProject = ({ visible, onSubmit, onCancel, record, talentId, data = nu
     form.validateFields().then((values) => {
       let payload = Object.assign({}, values);
       if (values.startTime) {
-        payload.startTime = values.startTime.startTime.format('YYYY-MM-DD');
+        payload.startTime = values.startTime.startTime.format('YYYY-MM');
         // payload.endTime = values.startTime.endTime.format('YYYY-MM-DD'); 
         payload.isNow = values.startTime.isNow;
       }

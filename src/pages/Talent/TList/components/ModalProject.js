@@ -36,6 +36,9 @@ const ModalProject = ({ visible, onSubmit, onCancel, record, talentId, data = nu
         // payload.endTime = values.startTime.endTime.format('YYYY-MM-DD'); 
         payload.isNow = values.startTime.isNow;
       }
+      if (values.startTime.endTime) {
+        payload.endTime = values.startTime.endTime.format('YYYY-MM');
+      }
       if (data?.id) {
         updateEP({ talentId: talentId, id: data.id, ...payload }).then(res => {
           message.info(res.message);

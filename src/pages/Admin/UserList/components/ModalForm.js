@@ -208,6 +208,18 @@ const ModalForm = ({ visible, onSubmit, onCancel, record, areaTypes, companyType
             >
               <Select options={areaTypes} onChange={onAreaChange} />
             </Form.Item>
+            <Form.Item
+              label="职级"
+              name="job"
+              rules={[
+                {
+                  required: true,
+                  message: '必填',
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
           </Col>
           <Col span={2} style={{ display: 'flex', justifyContent: 'space-around' }}>
             <Divider type="vertical" style={{ height: '100%' }} />

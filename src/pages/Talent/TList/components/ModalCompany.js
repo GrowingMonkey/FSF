@@ -30,14 +30,15 @@ const ModalCompany = ({ visible, onSubmit, onCancel, record, talentId, data = nu
   const handleOk = () => {
     setConfirmLoading(true);
     form.validateFields().then((values) => {
+      debugger
       let payload = Object.assign({}, values);
       if (values.startTime) {
-        payload.startTime = values.startTime.startTime.format('YYYY-MM-DD');
+        payload.startTime = values.startTime.startTime.format('YYYY-MM');
         // payload.endTime = values.startTime.endTime.format('YYYY-MM-DD');
         payload.isNow = values.startTime.isNow;
       }
-      if (values.endTime) {
-        payload.endTime = values.endTime.format('YYYY-MM-DD');
+      if (values.startTime.endTime) {
+        payload.endTime = values.startTime.endTime.format('YYYY-MM');
       }
       if (data?.id) {
         updateEC({ talentId: talentId, id: data.id, ...payload }).then(res => {

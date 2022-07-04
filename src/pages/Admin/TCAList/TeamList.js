@@ -64,6 +64,7 @@ const TCAList = () => {
             title: "领导",
             dataIndex: "leaderName",
             key: "leaderName",
+            width: "10%",
             ellipsis: true,
             render: (text, record) => {
                 return (
@@ -73,13 +74,11 @@ const TCAList = () => {
                     </Space>
                 );
             },
-            width: "35%",
         },
         {
             title: "团队成员",
             dataIndex: "userList",
             key: "userList",
-            width: "20%",
             ellipsis: true,
             render: (text, record) => {
                 return record.userList.map(item => item.name).join(',')
@@ -93,25 +92,12 @@ const TCAList = () => {
             ellipsis: true,
         },
         {
-            title: "城市",
-            dataIndex: "cityCode",
-            key: "cityCode",
-            ellipsis: true,
-            width: "15%",
-            render: (text) => {
-                if (`${text}`.length === 6) {
-                    return <div>{info(`${text}`).name}</div>;
-                }
-                return <div>/</div>;
-            },
-        },
-        {
             title: "操作",
             key: "action",
             ellipsis: true,
             fixed: 'right',
             render: (text, record) => (
-                <Space size={16}>
+                <Space size={10}>
                     <Button
                         type="link"
                         style={{ padding: 0 }}

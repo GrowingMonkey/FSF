@@ -31,7 +31,7 @@ const ColleagueList = () => {
       key: 'headUrl',
       ellipsis: true,
       render: (text, record) => {
-        return <Avatar src={'https://faithful.oss-cn-shanghai.aliyuncs.com' + text}></Avatar>
+        return <Avatar src={'https://faithful.oss-cn-shanghai.aliyuncs.com' + text + '?x-oss-process=image/resize,w_100,h_100/quality,q_50'}></Avatar>
       }
     },
     {

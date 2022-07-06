@@ -21,12 +21,16 @@ const ModalForm = ({ visible, onSubmit, onCancel, record, areaTypes, companyType
         console.log(companyTypes);
         console.log(record);
         form.setFieldsValue(record);
+        form.setFieldsValue({
+          comId: parseInt(record.comId)
+        })
         form.setFieldsValue({ headUrl: [record.headUrl] });
         setImageUrl(record.headUrl);
         setDate(moment(record.hireDate));
         setModalTitle('编辑角色');
       } else {
         setModalTitle('新增角色');
+        setImageUrl('');
       }
     }
   }, [visible]);
@@ -154,7 +158,7 @@ const ModalForm = ({ visible, onSubmit, onCancel, record, areaTypes, companyType
               name="headUrl"
               title={
                 imageUrl ? (
-                  <img src={'https://faithful.oss-cn-shanghai.aliyuncs.com' + imageUrl} alt="avatar" style={{ width: '100%' }} />
+                  <img src={'https://faithful.oss-cn-shanghai.aliyuncs.com' + imageUrl + '?x-oss-process=image/resize,w_100,h_100/quality,q_50'} alt="avatar" style={{ width: '100%' }} />
                 ) : (
                     uploadButton
                   )

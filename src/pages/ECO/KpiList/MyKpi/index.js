@@ -24,7 +24,7 @@ import { queryKpiList, confirmKpi, refuseKpi } from '@/services/eco';
 import { userKpiData, teamList } from '@/services/kpi';
 const { RangePicker } = DatePicker;
 const { CheckableTag } = Tag;
-import momemt from 'moment'
+import moment from 'moment'
 
 const KpiList = () => {
     const [selectedTags, setSelectedTags] = useState([])
@@ -39,13 +39,13 @@ const KpiList = () => {
     const [teamTag, setTeamTag] = useState([]);
     const formList = [
         {
-            name: 'rate',
+            name: 'appUserName',
             label: '顾问名称',
             type: 'input',
             span: 8,
         },
         {
-            name: "shsj",
+            name: "year",
             label: "年份",
             type: "dateRangPicker",
             span: 6,
@@ -243,29 +243,8 @@ const KpiList = () => {
     // 搜索
     const handleSearch = () => {
         form.validateFields().then((values) => {
-            let payload = Object.assign({}, values);
-            if (values.cityCode) {
-                if (values.cityCode[1]) {
-                    payload.cityCode = `${values.cityCode[0]}/${values.cityCode[1]}`;
-                } else {
-                    payload.cityCode = `${values.cityCode[0]}`;
-                }
-            }
-            if (values.customer) {
-                payload.customerName = values.customer.customerName;
-                delete payload.customer;
-            }
-            if (values.sqsj) {
-                payload.sqsj1 = momemt(values.sqsj[0]).format('YYYY-MM-DD')
-                payload.sqsj2 = moment(values.sqsj[1]).format('YYYY-MM-DD')
-                delete payload.sqsj;
-            }
-            if (values.shsj) {
-                payload.shsj1 = momemt(values.shsj[0]).format('YYYY-MM-DD')
-                payload.shsj2 = momemt(values.shsj[1]).format('YYYY-MM-DD')
-                delete payload.shsj;
-            }
-            setSearchValues(payload);
+            console.log(values)
+            setSearchValues({ year: moment(values.year).format("YYYY"), appUserName: values.appUserName });
         });
     };
 
@@ -288,7 +267,9 @@ const KpiList = () => {
         userKpiData({ ...searchValues, pageNo: pageNo, pageSize: 10, appUserId: selectedTags.length > 0 ? selectedTags[0] : '' }).then((res) => {
 
             setKpiList(
-                res?.data || []
+                res?.data.map((item, index) => {
+                    return Object.assign(item, { key: index });
+                })
             );
             setCount(res?.data.length)
         });
@@ -309,8 +290,8 @@ const KpiList = () => {
         console.log('You are interested in: ', nextSelectedTags);
         setSelectedTags(nextSelectedTags);
     };
-    const expandedRowRender = (record) => {
-        console.log(record)
+    const expandedRowRender = (record, index, indent, expanded) => {
+        console.log(index, indent)
         const data = record.childList;
         return <Table showHeader={false} columns={[{
             title: '',
@@ -402,12 +383,15 @@ const KpiList = () => {
                                 if (col.type === 'dateRangPicker') {
                                     return (<Col span={col.span} key={col.name}>
                                         <Form.Item name={col.name} label={col.label}>
-                                            <DatePicker picker="year" format={`YYYY-MM-DD`} />
+                                            <DatePicker picker="year" format={`YYYY`} />
                                         </Form.Item>
                                     </Col>)
                                 }
                                 return null;
                             })}
+                            <Button type="primary" onClick={handleSearch}>
+                                搜索
+                            </Button>
                         </Row>
                     }
                 </Form>
@@ -428,12 +412,12 @@ const KpiList = () => {
                     pageSize: 10,
                     onChange: e => { setPageNo(e) },
                     showTotal: count => `共${count}条`
-
                 }}
-
-                    expandRowByClick={true}
+                    pagination={false}
+                    // expandRowByClick={true}
                     expandable={{
                         expandedRowRender,
+                        rowExpandable: (record) => true,
                     }}
                     size="small"
                     bordered

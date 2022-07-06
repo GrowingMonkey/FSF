@@ -99,7 +99,7 @@ const AvatarDropdown = ({ menu }) => {
   return (
     <HeaderDropdown overlay={menuHeaderDropdown}>
       <span className={`${styles.action} ${styles.account}`}>
-        <Avatar size="small" className={styles.avatar} src={'https://faithful.oss-cn-shanghai.aliyuncs.com' + currentUser.headUrl} alt="avatar" />
+        <Avatar size="small" className={styles.avatar} src={'https://faithful.oss-cn-shanghai.aliyuncs.com' + currentUser.headUrl + '?x-oss-process=image/resize,w_100,h_100/quality,q_50'} alt="avatar" />
         <span className={`${styles.name} anticon`}>{currentUser.name}</span>
       </span>
     </HeaderDropdown>

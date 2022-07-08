@@ -81,6 +81,9 @@ const AddInvoice = () => {
             return;
         }
     }
+    applyForm.setFieldsValue({
+        companyName: '费思福(成都)人力资源咨询有限公司'
+    })
     return (
         <PageContainer content="">
             <Card bordered={false} title={'申请发票'}>

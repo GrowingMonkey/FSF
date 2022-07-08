@@ -126,8 +126,8 @@ const TPList = () => {
             render: (text, record) => {
                 return <Space size={8}>
                     <Link type="link" to={{
-                        pathname: '/talent/detail',
-                        search: '?talentId=' + record.talentId,
+                        pathname: '/project/talent',
+                        search: '?talentId=' + record.talentId + '&id=' + record.id,
                         state: { record: record },
                     }}>查看详情</Link>
                 </Space>;

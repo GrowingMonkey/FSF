@@ -49,7 +49,7 @@ const UserList = () => {
         areaList.map((area) => {
           return {
             label: area.name,
-            value: area.id,
+            value: area.name,
           };
         })
       );

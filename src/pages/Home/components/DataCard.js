@@ -20,7 +20,7 @@ const DataCard = ({ dataState, selectType, dataType = 1 }) => {
     },
     {
       value: "22",
-      unit: "人",
+      unit: "个",
       label: "年度签约",
     },
     {
@@ -90,7 +90,6 @@ const DataCard = ({ dataState, selectType, dataType = 1 }) => {
                 </div>
               </div>
             </Col>
-
             <Col {...wrapCol}>
               <div style={leftCss}>
                 <Image src={I2} preview={false} style={{ width: 56, height: 56 }} />
@@ -119,9 +118,6 @@ const DataCard = ({ dataState, selectType, dataType = 1 }) => {
                 </div>
               </div>
             </Col>
-
-
-
             <Col {...wrapCol}>
               <div style={leftCss}>
                 <Image src={I4} preview={false} style={{ width: 56, height: 56 }} />
@@ -135,45 +131,48 @@ const DataCard = ({ dataState, selectType, dataType = 1 }) => {
                 </div>
               </div>
             </Col>
-
           </Row>
         </Col>
         <Col span="12">
           <Row gutter={[0, 68]}>
             <Col {...wrapCol}>
               <div className={styles["data-item"]}>
+                <div className={styles.data_info}>{dataList[4].label}</div>
                 <div>
                   <span className={styles["value"]}>{dataState?.addRecommendNum || 0}</span>
                   <span>{dataList[4].unit}</span>
                 </div>
-                <div className={styles.data_info}>{dataList[4].label}</div>
+
               </div>
             </Col>
             <Col {...wrapCol}>
               <div className={styles["data-item"]}>
+                <div className={styles.data_info}>{dataList[5].label}</div>
+
                 <div>
                   <span className={styles["value"]}>{dataState?.addFaceNum || 0}</span>
                   <span>{dataList[5].unit}</span>
                 </div>
-                <div className={styles.data_info}>{dataList[5].label}</div>
               </div>
             </Col>
             <Col {...wrapCol}>
               <div className={styles["data-item"]}>
+                <div className={styles.data_info}>{dataList[6].label}</div>
+
                 <div>
                   <span className={styles["value"]}>{dataState?.addOfferNum || 0}</span>
                   <span>{dataList[6].unit}</span>
                 </div>
-                <div className={styles.data_info}>{dataList[6].label}</div>
               </div>
             </Col>
             <Col {...wrapCol}>
               <div className={styles["data-item"]}>
+                <div className={styles.data_info}>{dataList[7].label}</div>
+
                 <div>
                   <span className={styles["value"]}>{dataState?.addWorkNum || 0}</span>
                   <span>{dataList[7].unit}</span>
                 </div>
-                <div className={styles.data_info}>{dataList[7].label}</div>
               </div>
             </Col>
           </Row>

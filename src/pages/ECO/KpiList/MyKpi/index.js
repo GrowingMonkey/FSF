@@ -414,7 +414,7 @@ const KpiList = () => {
                     showTotal: count => `共${count}条`
                 }}
                     pagination={false}
-                    // expandRowByClick={true}
+                    expandRowByClick={true}
                     expandable={{
                         expandedRowRender,
                         rowExpandable: (record) => true,

@@ -156,7 +156,7 @@ const ColleagueList = () => {
           dataSource={colleagueList}
           pagination={{
             total: total,
-            pageSize: 20,
+            pageSize: 10,
             onChange: (e) => {
               run({ pageNo: e });
             },

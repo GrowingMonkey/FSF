@@ -73,7 +73,6 @@ const KpiList = () => {
             key: 'job',
             ellipsis: true,
             width: 40,
-            render: (text) => ''
         },
         {
             title: '推给客户',

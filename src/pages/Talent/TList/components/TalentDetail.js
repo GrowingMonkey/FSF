@@ -251,28 +251,43 @@ const TalentDetail = () => {
     let str = '';
     switch (+it) {
       case 0:
-        str = '未接听';
+        str = '加入项目';
         break;
       case 1:
-        str = '愿意接触';
+        str = '推给客户';
         break
       case 2:
-        str = '考虑职位';
+        str = '';
         break
       case 3:
-        str = '加入项目';
+        str = '';
         break
       case 4:
-        str = '顾问面试';
-        break
-      case 5:
         str = '人选放弃';
         break
-      case 6:
-        str = '不想变动';
+      case 5:
+        str = '预约面试';
         break
-      case 7:
-        str = '顾问否决';
+      case 6:
+        str = '客户面试';
+        break
+      case 8:
+        str = '确认Offer';
+        break;
+      case 9:
+        str = '成功入职';
+        break;
+      case 10:
+        str = '人选离职';
+        break;
+      case 21:
+        str = '未接听';
+        break;
+      case 22:
+        str = '考虑职位';
+        break;
+      case 23:
+        str = ' 不想变动';
         break;
 
     }
@@ -975,36 +990,52 @@ const TalentDetail = () => {
                 options={[
                   {
                     label: '未接听',
-                    value: 0,
-                  },
-                  {
-                    label: '愿意接触',
-                    value: 1,
+                    value: 21,
                   },
                   {
                     label: '考虑职位',
-                    value: 2,
+                    value: 22,
+                  },
+                  {
+                    label: '推给客户',
+                    value: 1,
                   },
                   {
                     label: '加入项目',
-                    value: 3,
+                    value: 0,
                   },
                   {
-                    label: '顾问面试',
-                    value: 4,
+                    label: '成功入职',
+                    value: 9,
                   },
                   {
-                    label: '人选放弃',
+                    label: '人选离职',
+                    value: 10,
+                  },
+                  {
+                    label: '预约面试',
                     value: 5,
                   },
                   {
-                    label: '不想变动',
+                    label: '客户面试',
                     value: 6,
                   },
                   {
-                    label: '顾问否决',
-                    value: 7,
+                    label: '人选放弃',
+                    value: 4,
                   },
+                  {
+                    label: '确认Offer',
+                    value: 8,
+                  },
+                  {
+                    label: '不想变动',
+                    value: 23,
+                  },
+                  // {
+                  //   label: '顾问否决',
+                  //   value: 7,
+                  // },
                 ]}
               />
 

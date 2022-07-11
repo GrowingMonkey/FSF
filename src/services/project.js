@@ -33,6 +33,22 @@ export const updateTpInfo = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export const updateTPFlow = (payload) => {
+  // return new Promise((resolve, reject) => {
+  //   request
+  //     .post("/project/addProjectTeam", payload)
+  //     .then((data) => {
+  //       resolve(data);
+  //     })
+  //     .catch((error) => {
+  //       reject(error);
+  //     });
+  // });
+  return request('/project/updateTPFlow', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
 export const addProjectTeam = (payload) => {
   // return new Promise((resolve, reject) => {
   //   request

@@ -5,7 +5,7 @@ import I2 from "../../../assets/images/2.png";
 import I3 from "../../../assets/images/3.png";
 import I4 from "../../../assets/images/4.png";
 
-const DataCard = ({ dataState, selectType, dataType = 1 }) => {
+const DataCard = ({ dataState, selectType, selectDateType, dataType = 1, dateType = 'year' }) => {
   // 6 客户面试数、8 offer人数、12 人选录入数，13 签约客户数，14 新增项目数
   const dataList = [
     {
@@ -72,114 +72,121 @@ const DataCard = ({ dataState, selectType, dataType = 1 }) => {
   }
   console.log(dataState)
   return (
-    <div className={styles["container"]}>
-      {/* <div className={styles["title"]}>个人数据</div> */}
-      <Row className={styles["data-list"]} gutter={17}>
+    <div>
+      <div style={{ display: 'flex', marginLeft: 24 }}>
+        <Tag color={dateType == 'year' ? '#108ee9' : null} style={{ cursor: 'pointer', marginTop: 20 }} onClick={() => selectDateType('year')}>年</Tag>
+        <Tag color={dateType == 'month' ? '#108ee9' : null} style={{ cursor: 'pointer', marginTop: 20 }} onClick={() => selectDateType('month')}>月</Tag>
+        <Tag color={dateType == 'day' ? '#108ee9' : null} style={{ cursor: 'pointer', marginTop: 20 }} onClick={() => selectDateType('day')}>日</Tag>
+      </div>
+      <div className={styles["container"]}>
+        {/* <div className={styles["title"]}>个人数据</div> */}
+        <Row className={styles["data-list"]} gutter={17}>
 
-        <Col span="12">
-          <Row gutter={[0, 68]}>
-            <Col {...wrapCol}>
-              <div style={leftCss}>
-                <Image src={I1} preview={false} style={{ width: 56, height: 56 }} />
-                <div className={styles["data-item"]}>
-                  <div className={styles.data_info}>{dataList[0].label}</div>
-                  <div>
-                    <span className={styles["value"]}>{dataState?.addTalentNum || 0}</span>
-                    <span style={{ fontSize: 14 }}>{dataList[0].unit}</span>
+          <Col span="12">
+
+            <Row gutter={[0, 68]}>
+              <Col {...wrapCol}>
+                <div style={leftCss}>
+                  <Image src={I1} preview={false} style={{ width: 56, height: 56 }} />
+                  <div className={styles["data-item"]}>
+                    <div className={styles.data_info}>{dataList[0].label}</div>
+                    <div>
+                      <span className={styles["value"]}>{dataState?.addTalentNum || 0}</span>
+                      <span style={{ fontSize: 14 }}>{dataList[0].unit}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Col>
-            <Col {...wrapCol}>
-              <div style={leftCss}>
-                <Image src={I2} preview={false} style={{ width: 56, height: 56 }} />
+              </Col>
+              <Col {...wrapCol}>
+                <div style={leftCss}>
+                  <Image src={I2} preview={false} style={{ width: 56, height: 56 }} />
 
-                <div className={styles["data-item"]}>
-                  <div className={styles.data_info}>{dataList[1].label}</div>
+                  <div className={styles["data-item"]}>
+                    <div className={styles.data_info}>{dataList[1].label}</div>
 
-                  <div>
-                    <span className={styles["value"]}>{dataState?.addJobNum || 0}</span>
-                    <span>{dataList[1].unit}</span>
+                    <div>
+                      <span className={styles["value"]}>{dataState?.addJobNum || 0}</span>
+                      <span>{dataList[1].unit}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Col>
-            <Col {...wrapCol}>
-              <div style={leftCss}>
-                <Image src={I3} preview={false} style={{ width: 56, height: 56 }} />
-                <div className={styles["data-item"]}>
-                  <div className={styles.data_info}>{dataList[2].label}</div>
+              </Col>
+              <Col {...wrapCol}>
+                <div style={leftCss}>
+                  <Image src={I3} preview={false} style={{ width: 56, height: 56 }} />
+                  <div className={styles["data-item"]}>
+                    <div className={styles.data_info}>{dataList[2].label}</div>
 
+                    <div>
+                      <span className={styles["value"]}>{dataState?.addSignNum || 0}</span>
+                      <span>{dataList[2].unit}</span>
+                    </div>
+
+                  </div>
+                </div>
+              </Col>
+              <Col {...wrapCol}>
+                <div style={leftCss}>
+                  <Image src={I4} preview={false} style={{ width: 56, height: 56 }} />
+                  <div className={styles["data-item"]}>
+                    <div className={styles.data_info}>{dataList[3].label}</div>
+
+                    <div>
+                      <span className={styles["value"]}>{formatNum(dataState?.addServiceFee).num}</span>
+                      <span>{formatNum(dataState?.addServiceFee).toW ? '万' + dataList[3].unit : dataList[3].unit}</span>
+                    </div>
+                  </div>
+                </div>
+              </Col>
+            </Row>
+          </Col>
+          <Col span="12">
+            <Row gutter={[0, 68]}>
+              <Col {...wrapCol}>
+                <div className={styles["data-item"]}>
+                  <div className={styles.data_info}>{dataList[4].label}</div>
                   <div>
-                    <span className={styles["value"]}>{dataState?.addSignNum || 0}</span>
-                    <span>{dataList[2].unit}</span>
+                    <span className={styles["value"]}>{dataState?.addRecommendNum || 0}</span>
+                    <span>{dataList[4].unit}</span>
                   </div>
 
                 </div>
-              </div>
-            </Col>
-            <Col {...wrapCol}>
-              <div style={leftCss}>
-                <Image src={I4} preview={false} style={{ width: 56, height: 56 }} />
+              </Col>
+              <Col {...wrapCol}>
                 <div className={styles["data-item"]}>
-                  <div className={styles.data_info}>{dataList[3].label}</div>
+                  <div className={styles.data_info}>{dataList[5].label}</div>
 
                   <div>
-                    <span className={styles["value"]}>{formatNum(dataState?.addServiceFee).num}</span>
-                    <span>{formatNum(dataState?.addServiceFee).toW ? '万' + dataList[3].unit : dataList[3].unit}</span>
+                    <span className={styles["value"]}>{dataState?.addFaceNum || 0}</span>
+                    <span>{dataList[5].unit}</span>
                   </div>
                 </div>
-              </div>
-            </Col>
-          </Row>
-        </Col>
-        <Col span="12">
-          <Row gutter={[0, 68]}>
-            <Col {...wrapCol}>
-              <div className={styles["data-item"]}>
-                <div className={styles.data_info}>{dataList[4].label}</div>
-                <div>
-                  <span className={styles["value"]}>{dataState?.addRecommendNum || 0}</span>
-                  <span>{dataList[4].unit}</span>
+              </Col>
+              <Col {...wrapCol}>
+                <div className={styles["data-item"]}>
+                  <div className={styles.data_info}>{dataList[6].label}</div>
+
+                  <div>
+                    <span className={styles["value"]}>{dataState?.addOfferNum || 0}</span>
+                    <span>{dataList[6].unit}</span>
+                  </div>
                 </div>
+              </Col>
+              <Col {...wrapCol}>
+                <div className={styles["data-item"]}>
+                  <div className={styles.data_info}>{dataList[7].label}</div>
 
-              </div>
-            </Col>
-            <Col {...wrapCol}>
-              <div className={styles["data-item"]}>
-                <div className={styles.data_info}>{dataList[5].label}</div>
-
-                <div>
-                  <span className={styles["value"]}>{dataState?.addFaceNum || 0}</span>
-                  <span>{dataList[5].unit}</span>
+                  <div>
+                    <span className={styles["value"]}>{dataState?.addWorkNum || 0}</span>
+                    <span>{dataList[7].unit}</span>
+                  </div>
                 </div>
-              </div>
-            </Col>
-            <Col {...wrapCol}>
-              <div className={styles["data-item"]}>
-                <div className={styles.data_info}>{dataList[6].label}</div>
-
-                <div>
-                  <span className={styles["value"]}>{dataState?.addOfferNum || 0}</span>
-                  <span>{dataList[6].unit}</span>
-                </div>
-              </div>
-            </Col>
-            <Col {...wrapCol}>
-              <div className={styles["data-item"]}>
-                <div className={styles.data_info}>{dataList[7].label}</div>
-
-                <div>
-                  <span className={styles["value"]}>{dataState?.addWorkNum || 0}</span>
-                  <span>{dataList[7].unit}</span>
-                </div>
-              </div>
-            </Col>
-          </Row>
-        </Col>
+              </Col>
+            </Row>
+          </Col>
 
 
-        {/*<Col {...wrapCol}>
+          {/*<Col {...wrapCol}>
           <div className={styles["data-item"]}>
             <div>
               <span className={styles["value"]}>{dataState?.addRecommendNum || 0}</span>
@@ -216,11 +223,12 @@ const DataCard = ({ dataState, selectType, dataType = 1 }) => {
           </div>
         </Col> */}
 
-      </Row>
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <Tag color={dataType == 1 ? '#108ee9' : null} style={{ cursor: 'pointer', marginTop: 20 }} onClick={() => selectType(1)}>个人</Tag>
-        <Tag color={dataType == 2 ? '#108ee9' : null} style={{ cursor: 'pointer', marginTop: 20 }} onClick={() => selectType(2)}>团队</Tag>
-        <Tag color={dataType == 3 ? '#108ee9' : null} style={{ cursor: 'pointer', marginTop: 20 }} onClick={() => selectType(3)}>公司</Tag>
+        </Row>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <Tag color={dataType == 1 ? '#108ee9' : null} style={{ cursor: 'pointer', marginTop: 20 }} onClick={() => selectType(1)}>个人</Tag>
+          <Tag color={dataType == 2 ? '#108ee9' : null} style={{ cursor: 'pointer', marginTop: 20 }} onClick={() => selectType(2)}>团队</Tag>
+          <Tag color={dataType == 3 ? '#108ee9' : null} style={{ cursor: 'pointer', marginTop: 20 }} onClick={() => selectType(3)}>公司</Tag>
+        </div>
       </div>
     </div>
   );

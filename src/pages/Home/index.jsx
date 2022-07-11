@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 
 import { PageContainer } from '@ant-design/pro-layout';
-import { Row, Col, Card, Tooltip, List, Table, Image, Typography, Button, Modal, Avatar, Collapse } from "antd";
+import { Row, Col, Card, Tooltip, List, Table, Image, Typography, Button, Modal, Avatar, Collapse, message } from "antd";
 import { selectWorkFlow } from "../../services/home";
 import InfoCard from "./components/InfoCard";
 import DataCard from "./components/DataCard";
 import RankTabCard from "./components/RankTabCard";
 import RankListCard from "./components/RankListCard";
 import styles from "./index.less";
-import { sysNotice, feeRank, recommendRank } from "@/services/home";
+import { sysNotice, feeRank, recommendRank, readNotice } from "@/services/home";
 import { history } from 'umi';
 import M1 from "../../assets/images/M1.png";
 
@@ -31,23 +31,24 @@ const Home = () => {
     const [feeRankData, setFeeRankData] = useState([]);
     const [recommendRankData, setRecommendRankData] = useState([]);
     const [NoticeVisible, setNoticeVisible] = useState(false);
+    const [fresh, setFresh] = useState(false);
     const [NoticeContent, setNoticeContent] = useState({})
     const [Ic, setIc] = useState(0);
     const [dataType, setDataType] = useState(1)
+    const [dateType, setDateType] = useState('year')
+
     useEffect(() => {
-        selectWorkFlow({ type: dataType }).then((res) => {
+        selectWorkFlow({ type: dataType, time: dateType }).then((res) => {
             const { data } = res;
             setDataState(data)
         });
-    }, [dataType]);
+    }, [dataType, dateType]);
     useEffect(() => {
         // selectWorkFlow({type:1}).then((res) => {
         //     const { data } = res;
         //     setDataState(data)
         // });
-        sysNotice().then(res => {
-            setNoticeData(res?.data?.list || []);
-        });
+
         feeRank({ pageSize: 5 }).then(res => {
             setFeeRankData(res?.data?.list || []);
         });
@@ -55,6 +56,31 @@ const Home = () => {
             setRecommendRankData(res?.data?.list || []);
         });
     }, []);
+    useEffect(() => {
+        // selectWorkFlow({type:1}).then((res) => {
+        //     const { data } = res;
+        //     setDataState(data)
+        // });
+        sysNotice().then(res => {
+            setNoticeData(res?.data?.list || []);
+            let rep = isReadMsg(res?.data?.list || []);
+            if (rep.bol) {
+                setNoticeVisible(true);
+                NoticeContent.title == undefined && setNoticeContent(rep.content)
+            }
+        });
+    }, [fresh])
+    const isReadMsg = (arr) => {
+        let bol = false;
+        let content = null;
+        arr && arr.map((item, index) => {
+            content = item;
+            if (item.isRead == 0) {
+                bol = true;
+            }
+        })
+        return { bol: bol, content: content };
+    }
     const feeRankColumns = [
         {
             title: '',
@@ -200,6 +226,22 @@ const Home = () => {
         }
         return str;
     }
+    const getNextMsg = async (content) => {
+        if (content.isRead == 0) {
+            await readNotice({ id: NoticeContent.id }); setNoticeContent({}); setFresh(!fresh);
+        } else {
+            noticeData.map((item, index) => {
+                if (item.id == NoticeContent.id) {
+                    if (noticeData[index + 1]) {
+                        setNoticeContent(noticeData[index + 1])
+                    } else {
+                        message.error('没有更多数据了');
+                        setNoticeVisible(false)
+                    }
+                }
+            })
+        }
+    }
     return (
         <PageContainer>
             <Row gutter={24} style={{ height: "100%", display: 'flex' }} wrap={true}>
@@ -210,7 +252,7 @@ const Home = () => {
                 </Col>
                 <Col {...wrapRightCol}>
                     <div className={styles["data-card"]}>
-                        <DataCard dataType={dataType} selectType={(e) => setDataType(e)} dataState={dataState}></DataCard>
+                        <DataCard dataType={dataType} dateType={dateType} selectDateType={(e) => setDateType(e)} selectType={(e) => setDataType(e)} dataState={dataState}></DataCard>
                     </div>
                 </Col>
             </Row>
@@ -286,11 +328,12 @@ const Home = () => {
                     </Col>
                 </Row>
                 <Modal title={null}
-                    cancelText="取消"
-                    okText="确定"
+                    cancelText={'下一条'}
+                    okText="关闭"
+                    // footer={<Button type="primary" onClick={() => setNoticeVisible(false)}>关闭</Button>}
                     centered closable={false}
-                    onCancel={() => setNoticeVisible(false)}
-                    onOk={() => setNoticeVisible(false)}
+                    onCancel={async () => { await getNextMsg(NoticeContent); }}
+                    onOk={async () => { await readNotice({ id: NoticeContent.id }); setNoticeVisible(false) }}
                     title={<div style={{ textAlign: 'center' }}>{NoticeContent.title}</div>}
                     style={{ position: 'relative', background: 'none' }} visible={NoticeVisible} >
                     <div style={{

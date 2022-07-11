@@ -135,8 +135,8 @@ const StepDetail = () => {
                         <Col span={10}>详细内容</Col>
                         {/* <Col span={2}>操作人</Col> */}
                         <Col span={6}>时间</Col>
-                        {/* <Col span={4}>绩效审核</Col> */}
-                        {/* <Col span={4}>操作</Col> */}
+                        <Col span={4}></Col>
+                        <Col span={3}>操作</Col>
                     </Row>
                 </div>
                 {/* <StepItem title="加入项目"></StepItem>
@@ -146,7 +146,7 @@ const StepDetail = () => {
                 <StepItem title="确认offer"></StepItem>
                 <StepItem title="客户确认"></StepItem>
                 <StepItem title="成功入职" isEnd={true}></StepItem> */
-                    talentJoinDetail.tpFlowList && talentJoinDetail.tpFlowList.map((item, index) => <StepItem title={stateStr(item.state)} isEnd={index == (talentJoinDetail.tpFlowList.length - 1)} info={item}></StepItem>)
+                    talentJoinDetail.tpFlowList && talentJoinDetail.tpFlowList.map((item, index) => <StepItem projectId={talentJoinDetail?.projectId || ''} title={stateStr(item.state)} isEnd={index == (talentJoinDetail.tpFlowList.length - 1)} info={item} flash={() => setFresh(!fresh)}></StepItem>)
                 }
                 <div style={{ marginLeft: '76px' }}>
                     {/* <Space><Button type="primary">添加评语</Button><Button>申请离职</Button><Button>添加评语</Button></Space> */}

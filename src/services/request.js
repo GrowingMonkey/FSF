@@ -24,6 +24,8 @@ export const request = async (url, payload) => {
         return result
     } else if (result.code == 3) {
         return result;
+    } else {
+        return result
     }
 }
 export const requestOther = async (url, headers = {}, payload) => {

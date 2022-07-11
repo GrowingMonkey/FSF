@@ -11,6 +11,18 @@ export const changeMsgState = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export const readNotice = (payload) => {
+  // return new Promise((resolve, reject) => {
+  //   request("home/changeMsgState", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/home/readNotice', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+
 export const changeTripState = (payload) => {
   // return new Promise((resolve, reject) => {
   //   request.post("home/changeTripState", payload).then((data) => {
@@ -94,7 +106,8 @@ export const selectWorkFlow = (payload) => {
   //     resolve(data);
   //   });
   // });
-  return request('/home/selectWorkFlow', {
+  let url = payload.type == 1 ? '/home/selectWorkFlow' : payload.type == 2 ? '/home/selectTeamData' : '/home/selectComData'
+  return request(url, {
     method: 'POST',
     data: { ...(payload || {}) },
   });

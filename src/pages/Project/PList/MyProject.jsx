@@ -405,9 +405,8 @@ const PList = () => {
                     pageSize: 10,
                     ...searchValues,
                 }).then((res) => {
-                    const { data } = res;
                     setListData(
-                        data.list.map((item) => {
+                        res?.data?.list.map((item) => {
                             return Object.assign(item, { key: item.id });
                         })
                     );

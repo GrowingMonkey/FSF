@@ -74,9 +74,10 @@ const Home = () => {
         let bol = false;
         let content = null;
         arr && arr.map((item, index) => {
-            content = item;
+
             if (item.isRead == 0) {
                 bol = true;
+                content = item;
             }
         })
         return { bol: bol, content: content };
@@ -227,8 +228,12 @@ const Home = () => {
         return str;
     }
     const getNextMsg = async (content) => {
+        debugger
         if (content.isRead == 0) {
             await readNotice({ id: NoticeContent.id }); setNoticeContent({}); setFresh(!fresh);
+            if (!(isReadMsg(noticeData).bol)) {
+                setNoticeVisible(false)
+            }
         } else {
             noticeData.map((item, index) => {
                 if (item.id == NoticeContent.id) {
@@ -334,7 +339,7 @@ const Home = () => {
                     centered closable={false}
                     onCancel={async () => { await getNextMsg(NoticeContent); }}
                     onOk={async () => { await readNotice({ id: NoticeContent.id }); setNoticeVisible(false) }}
-                    title={<div style={{ textAlign: 'center' }}>{NoticeContent.title}</div>}
+                    title={<div style={{ textAlign: 'center' }}>{NoticeContent.title}<div style={{ fontSize: 14, fontWeight: 400 }}>{NoticeContent.publishTime}</div></div>}
                     style={{ position: 'relative', background: 'none' }} visible={NoticeVisible} >
                     <div style={{
                         height: '332px',

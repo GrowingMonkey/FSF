@@ -73,13 +73,13 @@ const Home = () => {
     const isReadMsg = (arr) => {
         let bol = false;
         let content = null;
-        arr && arr.map((item, index) => {
-
-            if (item.isRead == 0) {
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i].isRead == 0) {
                 bol = true;
-                content = item;
+                content = arr[i];
+                break;
             }
-        })
+        }
         return { bol: bol, content: content };
     }
     const feeRankColumns = [
@@ -228,19 +228,18 @@ const Home = () => {
         return str;
     }
     const getNextMsg = async (content) => {
-        debugger
         if (content.isRead == 0) {
             await readNotice({ id: NoticeContent.id }); setNoticeContent({}); setFresh(!fresh);
-            if (!(isReadMsg(noticeData).bol)) {
-                setNoticeVisible(false)
-            }
+            // if (!(isReadMsg(noticeData).bol)) {
+            setNoticeVisible(false)
+            // }
         } else {
             noticeData.map((item, index) => {
                 if (item.id == NoticeContent.id) {
                     if (noticeData[index + 1]) {
                         setNoticeContent(noticeData[index + 1])
                     } else {
-                        message.error('没有更多数据了');
+                        // message.error('没有更多数据了');
                         setNoticeVisible(false)
                     }
                 }
@@ -350,7 +349,7 @@ const Home = () => {
                         width: '100%',
                         marginLeft: '-24px',
                         alignItems: 'end'
-                    }}><img src={NoticeContent.type == 0 ? M2 : NoticeContent.type == 1 ? M1 : NoticeContent.type == 2 ? M3 : M4} style={{
+                    }}><img src={NoticeContent.type == 0 ? M2 : NoticeContent.type == 1 ? M1 : NoticeContent.type == 2 ? M3 : NoticeContent.type == 3 ? M4 : ''} style={{
                         width: NoticeContent.type == 0 || NoticeContent.type == 2 ? '70%' : '100%'
                     }} /></div>
                     {

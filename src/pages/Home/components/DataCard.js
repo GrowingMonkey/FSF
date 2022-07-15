@@ -5,7 +5,7 @@ import I2 from "../../../assets/images/2.png";
 import I3 from "../../../assets/images/3.png";
 import I4 from "../../../assets/images/4.png";
 
-const DataCard = ({ dataState, selectType, selectDateType, dataType = 1, dateType = 'year' }) => {
+const DataCard = ({ dataState, selectType, selectDateType, dataType = 1, dateType = 'day' }) => {
   // 6 客户面试数、8 offer人数、12 人选录入数，13 签约客户数，14 新增项目数
   const dataList = [
     {
@@ -74,9 +74,12 @@ const DataCard = ({ dataState, selectType, selectDateType, dataType = 1, dateTyp
   return (
     <div>
       <div style={{ display: 'flex', marginLeft: 24 }}>
-        <Tag color={dateType == 'year' ? '#108ee9' : null} style={{ cursor: 'pointer', marginTop: 20 }} onClick={() => selectDateType('year')}>年</Tag>
-        <Tag color={dateType == 'month' ? '#108ee9' : null} style={{ cursor: 'pointer', marginTop: 20 }} onClick={() => selectDateType('month')}>月</Tag>
         <Tag color={dateType == 'day' ? '#108ee9' : null} style={{ cursor: 'pointer', marginTop: 20 }} onClick={() => selectDateType('day')}>日</Tag>
+        <Tag color={dateType == 'month' ? '#108ee9' : null} style={{ cursor: 'pointer', marginTop: 20 }} onClick={() => selectDateType('month')}>月</Tag>
+
+        <Tag color={dateType == 'year' ? '#108ee9' : null} style={{ cursor: 'pointer', marginTop: 20 }} onClick={() => selectDateType('year')}>年</Tag>
+
+
       </div>
       <div className={styles["container"]}>
         {/* <div className={styles["title"]}>个人数据</div> */}

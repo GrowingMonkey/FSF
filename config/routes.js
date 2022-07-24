@@ -272,6 +272,17 @@ export default [
         component: './Office/AttendanceList/index',
       },
       {
+        path: '/office/company-rule',
+        name: '公司制度',
+        hideInMenu: true,
+        component: './Office/CompanyRule/index',
+      },
+      {
+        path: '/office/rule-add',
+        name: '添加制度',
+        component: './Office/CompanyRule/AddRule',
+      },
+      {
         path: '/office/added-attendance-list',
         name: '申请补卡',
         access: 'canOfficeApply',

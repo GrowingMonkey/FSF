@@ -7,7 +7,18 @@ export const queryDKList = (payload) => {
     data: { ...(payload || {}) },
   });
 };
-
+export const addCI = (payload) => {
+  return request('/office/addCI', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+export const CIList = (payload) => {
+  return request('/office/CIList', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
 // 请假记录
 export const queryLeaveList = (payload) => {
   return request('/office/selectLeaveList', {

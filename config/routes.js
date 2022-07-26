@@ -274,12 +274,13 @@ export default [
       {
         path: '/office/company-rule',
         name: '公司制度',
-        hideInMenu: true,
+
         component: './Office/CompanyRule/index',
       },
       {
         path: '/office/rule-add',
         name: '添加制度',
+        hideInMenu: true,
         component: './Office/CompanyRule/AddRule',
       },
       {

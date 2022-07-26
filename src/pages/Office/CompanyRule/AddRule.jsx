@@ -80,7 +80,7 @@ const AddedAttendanceList = () => {
                             { label: '晋升制度', value: 3 },
                             { label: '合伙人制', value: 4 },
                             { label: '绩效考核', value: 5 },
-                            { label: '年终奖', value: 6 },
+                            { label: '年终奖金', value: 6 },
                             { label: '加薪制度', value: 7 },
                             { label: '降薪制度', value: 8 },
                             { label: '财务制度', value: 9 },

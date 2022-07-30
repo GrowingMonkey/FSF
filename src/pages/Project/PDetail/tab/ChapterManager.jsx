@@ -249,6 +249,7 @@ const ChapterManager = () => {
             title: '推荐人',
             dataIndex: 'userName',
             key: 'userName',
+            width: 150,
             ellipsis: true,
             render: (text, record) => [text, <Button type="link" onClick={() => changeUserName(record)}>变更顾问</Button>]
         },
@@ -323,7 +324,7 @@ const ChapterManager = () => {
     }
     const updateGuWen = (values) => {
         console.log(ModalVisible.current.id)
-        changeTPOwner({ appUserId: values.talent.recommenderName, appUserName: values.talent.recommenderUserId, tpId: ModalVisible.current.id }).then(res => {
+        changeTPOwner({ appUserId: values.talent.recommenderUserId, appUserName: values.talent.recommenderName, tpId: ModalVisible.current.id }).then(res => {
             message.info(res.message);
             setModalVisible({ ...ModalVisible, state: false });
             updatePage();

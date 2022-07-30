@@ -1,4 +1,4 @@
-import { Card, List, message, Form, Input, Button, Space, Descriptions, Table } from 'antd';
+import { Card, List, message, Form, Modal, Input, Button, Space, Descriptions, Table } from 'antd';
 
 import cloneDeep from "lodash/cloneDeep";
 
@@ -10,16 +10,18 @@ import { confirmUserKpi, addKpiFee, selectKpiFeeById } from '@/services/eco'
 import { useEffect } from 'react';
 
 
-const AddInvoice = () => {
+const DetailModal = ({ visibledetail = null, handleClose = () => { }, kpiId = null, sourceId = null }) => {
     const [dataSource, setDataSource] = useState([])
     useEffect(() => {
         const { location: { query } } = history;
         console.log(query)
-        selectKpiFeeById({ kpiId: query.kpiId, sourceId: query.sourceId }).then(res => {
-            console.log(res);
-            setDataSource(res?.data || {})
-        })
-    }, [])
+        if (kpiId) {
+            selectKpiFeeById({ kpiId: kpiId, sourceId: sourceId }).then(res => {
+                console.log(res);
+                setDataSource(res?.data || {})
+            })
+        }
+    }, [kpiId, sourceId])
     const stateChaneTypes = {
         0: [{
             ch: []
@@ -117,9 +119,17 @@ const AddInvoice = () => {
             ellipsis: true,
         },
     ]
-
+    console.log(visibledetail)
     return (
-        <PageContainer content="">
+        <Modal
+            width={900}
+            visible={visibledetail}
+            title={'详情'}
+            okText="关闭"
+            cancelText="取消"
+            onCancel={() => handleClose()}
+            onOk={() => handleClose()}
+        >
             <Card bordered={false} title={'基本详情'} style={{ width: '100%' }}>
                 <Descriptions column={2}>
                     <Descriptions.Item label="回款信息">{dataSource.customerName}</Descriptions.Item>
@@ -143,14 +153,14 @@ const AddInvoice = () => {
                             </Descriptions>
                             <Table columns={columns} dataSource={item?.kpiUserInfos || []} pagination={false} size="small"
                                 bordered
-                                footer={() => <div>提成总计金额{item.kpiUserInfos[0].allCommissionFee}元 业绩总计金额{item.kpiUserInfos[0].kpiFee}</div>}
+                                footer={() => <div>提成总计金额{item.allCommissionFee}元 业绩总计金额{item.kpiUserInfos[0].allKpiFee}</div>}
                             />
                         </List.Item>
                     )}>
                 </List>
             </Card>
-        </PageContainer >
+        </Modal>
     );
 };
 
-export default AddInvoice;
+export default DetailModal;

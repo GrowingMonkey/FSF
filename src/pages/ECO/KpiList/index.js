@@ -19,9 +19,10 @@ import { history } from 'umi';
 import styles from './index.less';
 import { PageContainer } from '@ant-design/pro-layout';
 import ModalForm from './components/ModalForm';
-import { queryKpiList, confirmKpi, refuseKpi } from '@/services/eco';
+import { queryKpiList, confirmKpi, refuseKpi, selectKpiFeeById } from '@/services/eco';
 const { RangePicker } = DatePicker;
 import momemt from 'moment'
+import ModalDetail from './Detail/index.jsx'
 
 const KpiList = () => {
   const [form] = Form.useForm();
@@ -32,6 +33,10 @@ const KpiList = () => {
   const [kpiList, setKpiList] = useState([]);
   const [count, setCount] = useState(0);
   const [pageNo, setPageNo] = useState(1);
+  const [visibleDetail, setVisibleDetail] = useState(false);
+  const [kpiId, setKpiId] = useState(null);
+  const [sourceId, setSourceId] = useState(null);
+
   const formList = [
     {
       name: 'appUserName',
@@ -178,9 +183,9 @@ const KpiList = () => {
             okText="Yes"
             cancelText="No">
             <Button style={{ marginRight: 10 }} type="primary" size="small">拒绝</Button></Popconfirm>,
-          <Button type="primary" size="small" onClick={() => history.push(`/eco/kpi-detail?kpiId=${record.kpiId}&sourceId=${record.sourceId}`)}>查看详情</Button>]
+          <Button type="primary" size="small" onClick={() => { setVisibleDetail(true); setKpiId(record.kpiId); setSourceId(record.sourceId) }}>查看详情</Button>]
         } else {
-          return <Button type="primary" size="small" onClick={() => history.push(`/eco/kpi-detail?kpiId=${record.kpiId}&sourceId=${record.sourceId}`)}>查看详情</Button>
+          return <Button type="primary" size="small" onClick={() => { setVisibleDetail(true); setKpiId(record.kpiId); setSourceId(record.sourceId) }}>查看详情</Button>
         }
       }
     },
@@ -364,6 +369,7 @@ const KpiList = () => {
           scroll={{ x: 1200 }} />
       </div>
       <div style={{ width: '100%', minHeight: '15px' }} />
+      <ModalDetail sourceId={sourceId} visibledetail={visibleDetail} kpiId={kpiId} handleClose={() => setVisibleDetail(false)} />
     </PageContainer>
   );
 };

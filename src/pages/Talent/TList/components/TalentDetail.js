@@ -210,7 +210,10 @@ const TalentDetail = () => {
       message.info(res?.message || '加入成功');
       setIsRecordModalVisible(false);
     })
-    run({ pageNo: 1 });
+    // run({ pageNo: 1 });
+    setTimeout(() => {
+      run({ pageNo: 1 });
+    }, 500)
   }
   const formatAddress = (addressCode) => {
     let addressArrays = []
@@ -987,6 +990,12 @@ const TalentDetail = () => {
               <ProFormRadio.Group
                 name="state"
                 label="沟通类型"
+                rules={[
+                  {
+                    required: true,
+                    message: '请选择',
+                  },
+                ]}
                 options={[
                   {
                     label: '未接听',

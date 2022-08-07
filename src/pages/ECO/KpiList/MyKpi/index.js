@@ -266,9 +266,9 @@ const KpiList = () => {
         userKpiData({ ...searchValues, pageNo: pageNo, pageSize: 10, appUserId: selectedTags.length > 0 ? selectedTags[0] : '' }).then((res) => {
 
             setKpiList(
-                res?.data.map((item, index) => {
+                res.data.length > 0 ? res?.data.map((item, index) => {
                     return Object.assign(item, { key: index });
-                })
+                }) : []
             );
             setCount(res?.data.length)
         });

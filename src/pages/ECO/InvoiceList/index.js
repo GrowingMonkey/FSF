@@ -313,17 +313,17 @@ const InvoiceList = () => {
   const handleSearch = () => {
     form.validateFields().then((values) => {
       let payload = Object.assign({}, values);
-      if (values.cityCode) {
-        if (values.cityCode[1]) {
-          payload.cityCode = `${values.cityCode[0]}/${values.cityCode[1]}`;
-        } else {
-          payload.cityCode = `${values.cityCode[0]}`;
-        }
-      }
-      if (values.customer) {
-        payload.customerName = values.customer.customerName;
-        delete payload.customer;
-      }
+      // if (values.cityCode) {
+      //   if (values.cityCode[1]) {
+      //     payload.cityCode = `${values.cityCode[0]}/${values.cityCode[1]}`;
+      //   } else {
+      //     payload.cityCode = `${values.cityCode[0]}`;
+      //   }
+      // }
+      // if (values.customer) {
+      //   payload.customerName = values.customer.customerName;
+      //   delete payload.customer;
+      // }
 
       setSearchValues(payload);
     });

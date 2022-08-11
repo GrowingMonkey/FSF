@@ -20,8 +20,6 @@ export const request = async (url, payload) => {
         return result;
     } else if (result.code == -2) {
         history.push(`/user/login`);
-    } else if (result.code == 0) {
-        return result
     } else if (result.code == 3) {
         return result;
     } else {

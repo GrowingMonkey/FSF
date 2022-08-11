@@ -141,6 +141,8 @@ const Login = () => {
         const { redirect } = query;
         history.push(redirect || '/');
         return;
+      } else {
+        message.error(msg.message)
       }
 
       console.log(msg); // 如果失败去设置用户错误信息

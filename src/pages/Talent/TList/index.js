@@ -26,7 +26,7 @@ import { positionList } from '@/utils/Position';
 import ProForm, {
   ProFormRadio,
 } from '@ant-design/pro-form';
-import { WomanOutlined, ManOutlined, UserOutlined, DownCircleOutlined, UpCircleOutlined } from "@ant-design/icons";
+import { WomanOutlined, ManOutlined, UserOutlined, SettingOutlined, DownCircleOutlined, UpCircleOutlined } from "@ant-design/icons";
 import CustomerSearch from "@/components/CustomerSearch";
 import ProjectSearch from "@/components/ProjectSearch";
 
@@ -240,12 +240,17 @@ const TList = () => {
     {
       title: "录入人",
       dataIndex: "userName",
-      width: 60,
+      width: 90,
       ellipsis: true,
       key: "userName",
       render: (text, record) => {
         if (text) {
-          return text;
+          if (record.source == 0) {
+            return [text];
+          } else {
+            return [text + ' ', <SettingOutlined style={{ color: '#1890ff' }} />];
+          }
+
         }
         return "系统"
       }

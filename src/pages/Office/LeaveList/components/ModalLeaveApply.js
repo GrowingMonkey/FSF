@@ -7,6 +7,7 @@ import moment from 'moment'
 // import { upload } from '@/utils/lib/upload'
 const ModalLeaveApply = ({ visible, onSubmit, onCancel, record }) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
+  const [yearMsg, setYearMsg] = useState('');
   const [form] = Form.useForm();
   const formList = [
     {
@@ -26,6 +27,7 @@ const ModalLeaveApply = ({ visible, onSubmit, onCancel, record }) => {
         { label: '婚假', value: 2 },
         { label: '丧假', value: 3 },
         { label: '产假', value: 4 },
+        { label: '年假', value: 6 },
         { label: '其他', value: 5 }]
     },
     {
@@ -47,6 +49,16 @@ const ModalLeaveApply = ({ visible, onSubmit, onCancel, record }) => {
       })
     })
   };
+  const changeType = async (e) => {
+    console.log(e);
+    if (e == 6) {
+      // let result = await getYearLeave();
+      setYearMsg('当前年假剩余天数:' + 0)
+
+    }
+    else { setYearMsg('') }
+  }
+
   return (
     <Modal
       forceRender
@@ -83,9 +95,10 @@ const ModalLeaveApply = ({ visible, onSubmit, onCancel, record }) => {
                 name={col.name}
                 label={col.label}
                 rules={col.rules}
+                extra={<div style={{ color: 'red' }}>{yearMsg}</div>}
                 key={col.label}
               >
-                <Select options={col.options}></Select>
+                <Select options={col.options} onChange={(value) => changeType(value)}></Select>
               </Form.Item>
             );
           }

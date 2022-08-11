@@ -153,7 +153,7 @@ const DetailModal = ({ visibledetail = null, handleClose = () => { }, kpiId = nu
                             </Descriptions>
                             <Table columns={columns} dataSource={item?.kpiUserInfos || []} pagination={false} size="small"
                                 bordered
-                                footer={() => <div>提成总计金额{item.allCommissionFee}元 业绩总计金额{item.kpiUserInfos[0].allKpiFee}</div>}
+                                footer={() => <div>提成总计金额{item.kpiUserInfos[0].allCommissionFee}元 业绩总计金额{item.kpiUserInfos[0].allKpiFee}</div>}
                             />
                         </List.Item>
                     )}>

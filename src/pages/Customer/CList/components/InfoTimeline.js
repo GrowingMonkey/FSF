@@ -3,7 +3,7 @@ import styles from "./InfoTimeline.less";
 import "./Timeline.css";
 import { useEffect, useState } from "react";
 import { history } from 'umi'
-
+import { wolfq } from '@/services/customer'
 const InfoTimeline = () => {
   const [timeLineData, setTimeLineData] = useState([]);
   // const timelineData = [

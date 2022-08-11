@@ -284,6 +284,9 @@ const CustomerList = () => {
       width: 80,
       dataIndex: "jobBeansNum",
       key: "jobBeansNum",
+      render: (text) => {
+        return text == 0 ? '不限' : text
+      }
     },
     {
       title: "执行团队",

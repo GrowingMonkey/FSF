@@ -110,7 +110,7 @@ const Search = () => {
                             >
                                 <Descriptions title="基本信息" column={2} extra={<Button type="primary" size="small" onClick={() => setEditModalVisible(true)}><EditOutlined /></Button>}>
                                     <Descriptions.Item label="职位类别">{project.job}</Descriptions.Item>
-                                    <Descriptions.Item label="招聘人数">{project.recruitNum}</Descriptions.Item>
+                                    <Descriptions.Item label="招聘人数">{project.recruitNum == 0 ? '不限' : project.recruitNum}</Descriptions.Item>
                                     <Descriptions.Item label="薪资范围">{project.salary}</Descriptions.Item>
                                     <Descriptions.Item label="所属部门">{project?.department}</Descriptions.Item>
                                 </Descriptions>

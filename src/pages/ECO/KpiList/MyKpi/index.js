@@ -19,6 +19,7 @@ import {
 import { history } from 'umi';
 import styles from '../index.less';
 import { PageContainer } from '@ant-design/pro-layout';
+import SearchInput from '@/components/SearchInput';
 import ModalForm from '../components/ModalForm';
 import { queryKpiList, confirmKpi, refuseKpi } from '@/services/eco';
 import { userKpiData, teamList } from '@/services/kpi';
@@ -41,7 +42,7 @@ const KpiList = () => {
         {
             name: 'appUserName',
             label: '顾问名称',
-            type: 'input',
+            type: 'SearchInput',
             span: 8,
         },
         {
@@ -243,7 +244,7 @@ const KpiList = () => {
     const handleSearch = () => {
         form.validateFields().then((values) => {
             console.log(values)
-            setSearchValues({ year: moment(values.year).format("YYYY"), appUserName: values.appUserName });
+            setSearchValues({ year: moment(values.year).format("YYYY"), appUserName: values.appUserName.recommenderName });
         });
     };
 
@@ -337,6 +338,15 @@ const KpiList = () => {
                                         <Col span={col.span} key={col.name}>
                                             <Form.Item name={col.name} label={col.label} rules={col.rules}>
                                                 <InputNumber />
+                                            </Form.Item>
+                                        </Col>
+                                    );
+                                }
+                                if (col.type === 'SearchInput') {
+                                    return (
+                                        <Col span={col.span} key={col.name}>
+                                            <Form.Item name={col.name} label={col.label} rules={col.rules}>
+                                                <SearchInput></SearchInput>
                                             </Form.Item>
                                         </Col>
                                     );

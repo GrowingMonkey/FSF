@@ -1,4 +1,4 @@
-import { Card, List, message, Form, Modal, Input, Button, Space, Descriptions, Table } from 'antd';
+import { Card, Row, List, message, Form, Modal, Input, Button, Space, Descriptions, Table } from 'antd';
 
 import cloneDeep from "lodash/cloneDeep";
 
@@ -122,7 +122,7 @@ const DetailModal = ({ visibledetail = null, handleClose = () => { }, kpiId = nu
     console.log(visibledetail)
     return (
         <Modal
-            width={900}
+            width={600}
             visible={visibledetail}
             title={'详情'}
             okText="关闭"
@@ -145,12 +145,13 @@ const DetailModal = ({ visibledetail = null, handleClose = () => { }, kpiId = nu
                     bordered
                     dataSource={dataSource?.allotPlans || []}
                     renderItem={item => (
-                        <List.Item>
+                        <List.Item style={{ flexDirection: 'column' }}>
                             <Descriptions>
                                 <Descriptions.Item label="分配金额">{item.serviceFee}</Descriptions.Item>
                                 <Descriptions.Item label="关联人选">{item.talentName}</Descriptions.Item>
                                 <Descriptions.Item label="业绩分类"> {item.type == 1 ? '独立运作' : item.type == 2 ? '组内合作' : item.type == 3 ? '同城合作' : item.type == 4 ? '跨区合作' : ''}</Descriptions.Item>
                             </Descriptions>
+
                             <Table columns={columns} dataSource={item?.kpiUserInfos || []} pagination={false} size="small"
                                 bordered
                                 footer={() => <div>提成总计金额{item.kpiUserInfos[0].allCommissionFee}元 业绩总计金额{item.kpiUserInfos[0].allKpiFee}</div>}

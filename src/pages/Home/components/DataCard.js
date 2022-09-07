@@ -76,6 +76,7 @@ const DataCard = ({ dataState, selectType, selectDateType, dataType = 1, dateTyp
       <div style={{ display: 'flex', marginLeft: 24 }}>
         <Tag color={dateType == 'day' ? '#108ee9' : null} style={{ cursor: 'pointer', marginTop: 20 }} onClick={() => selectDateType('day')}>日</Tag>
         <Tag color={dateType == 'month' ? '#108ee9' : null} style={{ cursor: 'pointer', marginTop: 20 }} onClick={() => selectDateType('month')}>月</Tag>
+        <Tag color={dateType == 'season' ? '#108ee9' : null} style={{ cursor: 'pointer', marginTop: 20 }} onClick={() => selectDateType('season')}>季</Tag>
 
         <Tag color={dateType == 'year' ? '#108ee9' : null} style={{ cursor: 'pointer', marginTop: 20 }} onClick={() => selectDateType('year')}>年</Tag>
 
@@ -118,7 +119,7 @@ const DataCard = ({ dataState, selectType, selectDateType, dataType = 1, dateTyp
                 <div style={leftCss}>
                   <Image src={I3} preview={false} style={{ width: 56, height: 56 }} />
                   <div className={styles["data-item"]}>
-                    <div className={styles.data_info}>{dateType == "year" ? '年度' : dateType == "day" ? '日' : '月'}{dataList[2].label}</div>
+                    <div className={styles.data_info}>{dateType == "year" ? '年度' : dateType == "day" ? '日' : dateType == "season" ? '季' : '月'}{dataList[2].label}</div>
 
                     <div>
                       <span className={styles["value"]}>{dataState?.addSignNum || 0}</span>
@@ -132,7 +133,7 @@ const DataCard = ({ dataState, selectType, selectDateType, dataType = 1, dateTyp
                 <div style={leftCss}>
                   <Image src={I4} preview={false} style={{ width: 56, height: 56 }} />
                   <div className={styles["data-item"]}>
-                    <div className={styles.data_info}>{dateType == "year" ? '年度' : dateType == "day" ? '日' : '月'}{dataList[3].label}</div>
+                    <div className={styles.data_info}>{dateType == "year" ? '年度' : dateType == "day" ? '日' : dateType == "season" ? '季' : '月'}{dataList[3].label}</div>
 
                     <div>
                       <span className={styles["value"]}>{formatNum(dataState?.addServiceFee).num}</span>
@@ -147,7 +148,7 @@ const DataCard = ({ dataState, selectType, selectDateType, dataType = 1, dateTyp
             <Row gutter={[0, 68]}>
               <Col {...wrapCol}>
                 <div className={styles["data-item"]}>
-                  <div className={styles.data_info}>{dateType == "year" ? '年度' : dateType == "day" ? '日' : '月'}{dataList[4].label}</div>
+                  <div className={styles.data_info}>{dateType == "year" ? '年度' : dateType == "day" ? '日' : dateType == "season" ? '季' : '月'}{dataList[4].label}</div>
                   <div>
                     <span className={styles["value"]}>{dataState?.addRecommendNum || 0}</span>
                     <span>{dataList[4].unit}</span>
@@ -157,7 +158,7 @@ const DataCard = ({ dataState, selectType, selectDateType, dataType = 1, dateTyp
               </Col>
               <Col {...wrapCol}>
                 <div className={styles["data-item"]}>
-                  <div className={styles.data_info}>{dateType == "year" ? '年度' : dateType == "day" ? '日' : '月'}{dataList[5].label}</div>
+                  <div className={styles.data_info}>{dateType == "year" ? '年度' : dateType == "day" ? '日' : dateType == "season" ? '季' : '月'}{dataList[5].label}</div>
 
                   <div>
                     <span className={styles["value"]}>{dataState?.addFaceNum || 0}</span>
@@ -167,7 +168,7 @@ const DataCard = ({ dataState, selectType, selectDateType, dataType = 1, dateTyp
               </Col>
               <Col {...wrapCol}>
                 <div className={styles["data-item"]}>
-                  <div className={styles.data_info}>{dateType == "year" ? '年度' : dateType == "day" ? '日' : '月'}{dataList[6].label}</div>
+                  <div className={styles.data_info}>{dateType == "year" ? '年度' : dateType == "day" ? '日' : dateType == "season" ? '季' : '月'}{dataList[6].label}</div>
 
                   <div>
                     <span className={styles["value"]}>{dataState?.addOfferNum || 0}</span>
@@ -177,7 +178,7 @@ const DataCard = ({ dataState, selectType, selectDateType, dataType = 1, dateTyp
               </Col>
               <Col {...wrapCol}>
                 <div className={styles["data-item"]}>
-                  <div className={styles.data_info}>{dateType == "year" ? '年度' : dateType == "day" ? '日' : '月'}{dataList[7].label}</div>
+                  <div className={styles.data_info}>{dateType == "year" ? '年度' : dateType == "day" ? '日' : dateType == "season" ? '季' : '月'}{dataList[7].label}</div>
 
                   <div>
                     <span className={styles["value"]}>{dataState?.addWorkNum || 0}</span>

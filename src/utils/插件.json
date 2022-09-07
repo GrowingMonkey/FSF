@@ -1,0 +1,143 @@
+{
+    "GetToolInstall": {
+        "data": {
+            "showGender": true,
+            "showAge": true,
+            "showLiveLocation": true,
+            "showEducation": true,
+            "showYearsExperience": true,
+            "showRecentJobTitle": true,
+            "showWorkStatus": true,
+            "showAnnualSalary": true,
+            "showJobMatch": true,
+            "showResumeRemind": true,
+            "showHighlights": true,
+            "showWorkDiff": true,
+            "showAll": true
+        },
+        "success": true,
+        "message": "",
+        "statusCode": 1
+    },
+    "loginout": {},
+    "queryresumes1": {
+        "Message": null,
+        "Status": 1,
+        "StatusCode": 0,
+        "Data": {
+            "Count": 0,
+            "EmailAddress": [],
+            "MobileNumber": [],
+            "Name": "",
+            "ResumeIdList": [],
+            "ResumesMatchInfo": [],
+            "SourceResumeExpCount": 0,
+            "Message": "",
+            "ExiteMoblieNumber": null,
+            "ExiteEmailAddress": null,
+            "Status": 2,
+            "WriteStatus": 1,
+            "Gender": null,
+            "Age": null,
+            "LiveLocation": null,
+            "Education": null,
+            "YearsExperience": null,
+            "RecentJobTitle": null,
+            "AnnualSalary": null,
+            "WorkStatus": null,
+            "RiskInfo": [],
+            "Highlights": [],
+            "ShowJobMatch": false,
+            "ResumeMatch": null,
+            "JobSearchView": null,
+            "ResumeDTOText": null,
+            "LastUpdatedTime": null,
+            "WorkDiffArr": null,
+            "OperatorId": 6112,
+            "NoExcavationFlag": false
+        },
+        "RecordCount": 0
+    },
+    // 查询到系统存在
+    "queryresumes2": {
+        "Message": null,
+        "Status": 1,
+        "StatusCode": 0,
+        "Data": {
+            "Count": 1,
+            "EmailAddress": [],
+            "MobileNumber": [
+                "13691311633"
+            ],
+            "Name": "吴女士",
+            "ResumeIdList": [
+                10259444
+            ],
+            "ResumesMatchInfo": [
+                {
+                    "MatchScore": 84.00,
+                    "ResumeExpMatchCount": 0,
+                    "ResumeExpTotal": 0,
+                    "ResumeId": 10259444,
+                    "SourceResumeExpTotal": 0
+                }
+            ],
+            "SourceResumeExpCount": 0,
+            "Message": "",
+            "ExiteMoblieNumber": null,
+            "ExiteEmailAddress": null,
+            "Status": 3,
+            "WriteStatus": 1,
+            "Gender": null,
+            "Age": null,
+            "LiveLocation": null,
+            "Education": null,
+            "YearsExperience": null,
+            "RecentJobTitle": null,
+            "AnnualSalary": null,
+            "WorkStatus": null,
+            "RiskInfo": [],
+            "Highlights": [],
+            "ShowJobMatch": false,
+            "ResumeMatch": null,
+            "JobSearchView": null,
+            "ResumeDTOText": null,
+            "LastUpdatedTime": "2018-12-24",
+            "WorkDiffArr": null,
+            "OperatorId": 6112,
+            "NoExcavationFlag": false
+        },
+        "RecordCount": 0
+    },
+    "GetJobMatchInfo": {
+        "Data": {
+            "TallyResult": null,
+            "NoTallyResult": null,
+            "SetJobKeyWord": null
+        },
+        "Success": false,
+        "Message": "职位不存在",
+        "StatusCode": 0
+    },
+    "GetResumeCommunicationByResumeId": {
+        "Data": [
+            {
+                "StaffName": "邹倩",
+                "Content": "备注：住在昌平 ，先看看资料吧",
+                "PositionName": "实习顾问",
+                "CompanyName": "芜湖公司",
+                "CreatedTimeText": "2022-07-11 16:30"
+            },
+            {
+                "StaffName": "邹倩",
+                "Content": "备注：电话无人接听，有过多个自研引擎的经验，但第一学历是专科，找不到微信，明天继续电话，猎聘留言了",
+                "PositionName": "实习顾问",
+                "CompanyName": "芜湖公司",
+                "CreatedTimeText": "2021-11-17 18:13"
+            }
+        ],
+        "Success": true,
+        "Message": "",
+        "StatusCode": 1
+    }
+}

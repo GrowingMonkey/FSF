@@ -4,6 +4,7 @@ import useMergedState from 'rc-util/es/hooks/useMergedState';
 import React, { useRef } from 'react';
 import classNames from 'classnames';
 import styles from './index.less';
+import { history } from 'umi'
 import { useState } from 'react'
 
 const HeaderSearch = (props) => {
@@ -15,6 +16,7 @@ const HeaderSearch = (props) => {
     placeholder,
     visible,
     defaultVisible,
+    onClickIcon,
     ...restProps
   } = props;
 
@@ -67,6 +69,7 @@ const HeaderSearch = (props) => {
             style={{
               cursor: 'pointer',
             }}
+            onClick={() => onClickIcon(value)}
           />}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {

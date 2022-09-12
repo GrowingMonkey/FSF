@@ -13,6 +13,13 @@ export const addCI = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export const updateCI = (payload) => {
+  return request('/office/updateCI', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+
 export const CIList = (payload) => {
   return request('/office/CIList', {
     method: 'POST',

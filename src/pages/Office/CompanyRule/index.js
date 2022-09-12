@@ -12,6 +12,7 @@ const AttendanceList = () => {
     const [total, setTotal] = useState(0);
     const [searchValues, setSearchValues] = useState(null);
     const [attendanceList, setAttendanceList] = useState([]);
+    const [detailContent, setDetailContent] = useState(null);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const { run } = useRequest(applyKQ, {
         manual: true,
@@ -28,7 +29,7 @@ const AttendanceList = () => {
     const formList = [
         {
             name: 'type',
-            label: '打卡类型',
+            label: '制度类型',
             type: 'select',
             span: 6,
             options: [
@@ -87,6 +88,19 @@ const AttendanceList = () => {
             ellipsis: true,
 
             key: 'createTime',
+        },
+        {
+            title: '操作',
+            dataIndex: 'action',
+            key: 'action',
+            render: (text, record) => {
+                return [<Button size="small" type="primary" key="1" onClick={() => { setIsModalVisible(true), setDetailContent(record.content) }} style={{ marginRight: 20 }}>查看</Button>, <Button size="small" key="2" type="primary" onClick={() =>
+                    history.push({
+                        pathname: '/office/rule-add',
+                        query: { ...record }
+                    })
+                }> 修改</Button >]
+            }
         },
     ];
 
@@ -207,45 +221,8 @@ const AttendanceList = () => {
                 />
             </div>
             <div style={{ width: '100%', minHeight: '15px' }} />
-            <Modal title="打卡" visible={isModalVisible} footer={null} onCancel={() => setIsModalVisible(false)}>
-                <ProForm
-                    hideRequiredMark
-                    style={{
-                        margin: 'auto',
-                        marginTop: 8,
-                        maxWidth: 600,
-                    }}
-                    name="basic"
-                    layout="vertical"
-                    initialValues={{
-                        public: '1',
-                    }}
-                    onFinish={onFinish}
-                >
-                    <ProFormRadio.Group
-                        options={[
-                            {
-                                value: '0',
-                                label: '上班打卡',
-                            },
-                            {
-                                value: '1',
-                                label: '下班打卡',
-                            },
-                        ]}
-                        rules={[
-                            {
-                                required: true,
-                                message: '请输入标题',
-                            },
-                        ]}
-                        label="打卡类型"
-                        help=""//备注
-                        name="type"
-
-                    />
-
-                </ProForm>
+            <Modal title="详情" visible={isModalVisible} footer={null} onCancel={() => setIsModalVisible(false)}>
+                <div dangerouslySetInnerHTML={{ __html: detailContent }}></div>
             </Modal>
         </PageContainer>
     );

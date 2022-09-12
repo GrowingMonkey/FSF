@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { message } from 'antd';
 import Quill from 'quill';
 import 'react-quill/dist/quill.snow.css';
-const QuillEditor = ({ setQuillMaps, setDataLoading }) => {
+const QuillEditor = ({ setQuillMaps, setDataLoading, content }) => {
     let quill = null;
     let quillImages = [];
     useEffect(() => {
@@ -14,6 +14,9 @@ const QuillEditor = ({ setQuillMaps, setDataLoading }) => {
                 let html = quill.root.innerHTML;
                 setQuillMaps(html)
             })
+        }
+        if (content) {
+            quill.root.innerHTML = content
         }
     }, [])
     return (<div id="quill-editor" />)

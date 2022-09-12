@@ -33,6 +33,10 @@ const GlobalHeaderRight = () => {
           console.log('input', value);
           history.replace({ pathname: type, state: { keyword: value } })
         }}
+        onClickIcon={(value) => {
+          console.log('input', value);
+          history.replace({ pathname: type, state: { keyword: value } })
+        }}
       />
       <PlusOutlined onClick={() => history.push('/talent/t-add')} />
       {/* <Button type="dashed" onClick={() => history.push('/talent/t-add')}>简历解析</Button> */}

@@ -11,15 +11,17 @@ import ProForm, {
     ProFormText,
     ProFormTextArea,
 } from '@ant-design/pro-form';
-import { queryDKList, applyKQ, addCI } from '@/services/office';
+import { queryDKList, applyKQ, addCI, updateCI } from '@/services/office';
 
 import { useRequest, history } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
 import { applyBK } from '@/services/office'
 import { upload } from '@/utils/lib/upload'
 import QuillEditor from './QuillEditor';
+import { useEffect } from 'react';
 
 const AddedAttendanceList = () => {
+
     const { run } = useRequest(applyBK, {
         manual: true,
         onSuccess: () => {
@@ -28,17 +30,37 @@ const AddedAttendanceList = () => {
         },
     });
     const [applyForm] = Form.useForm();
+    const { location: { query } } = history;
+    console.log(query.content);
+    if (query.id) {
+        applyForm.setFieldsValue({
+            title: query.title,
+            type: +query.type,
+        })
+    }
+    useEffect(() => {
+
+    })
     /**
      * 
      * @param {Promise} values 
      */
     const onFinish = async (values) => {
-        addCI(values).then(res => {
-            if (res) {
-                message.info(res.message);
-                history.push('/office/company-rule')
-            }
-        })
+        if (query.id) {
+            updateCI({ id: query.id, ...values }).then(res => {
+                if (res) {
+                    message.info(res.message);
+                    history.push('/office/company-rule')
+                }
+            })
+        } else {
+            addCI(values).then(res => {
+                if (res) {
+                    message.info(res.message);
+                    history.push('/office/company-rule')
+                }
+            })
+        }
         // run(values);
     };
 
@@ -98,7 +120,7 @@ const AddedAttendanceList = () => {
 
                     />
                     <Form.Item name="content" label="内容">
-                        <QuillEditor setQuillMaps={e => applyForm.setFieldsValue({ content: e })} setDataLoading={null} />
+                        <QuillEditor content={query.content} setQuillMaps={e => applyForm.setFieldsValue({ content: e })} setDataLoading={null} />
                     </Form.Item>
 
 

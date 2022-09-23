@@ -111,7 +111,7 @@ const TList = () => {
       {
         name: "age",
         label: "年龄",
-        type: "input",
+        type: "inputGroup",
 
       },
 
@@ -300,6 +300,7 @@ const TList = () => {
   const handleSearchConfirm = () => {
     form.validateFields().then((values) => {
       console.log(values)
+
       setSearchValues(values);
       setCurrentPage(1);
     });
@@ -412,9 +413,27 @@ const TList = () => {
                           </Form.Item>
                         </Col>
                       );
-                    } if (col.type === "cascader") {
+                    } if (col.type === "inputGroup") {
                       return (
                         <Col
+
+                          {...wrapCol}
+                          key={`row-${rIndex}-col-${cIndex}`}
+                        >
+                          <Form.Item label={col.label}>
+                            <Input.Group compact style={{ display: 'flex' }}>
+                              <Form.Item name={'ageStart'}>
+                                <Input style={{ width: '100%' }} placeholder="开始" />
+                              </Form.Item>
+                              <Form.Item name={'ageEnd'}>
+                                <Input style={{ width: '100%' }} placeholder="结束" />
+                              </Form.Item>
+                            </Input.Group>
+                          </Form.Item>
+                        </Col>
+                      );
+                      if ((col.type === "cascader")) {
+                        return <Col
 
                           {...wrapCol}
                           key={`row-${rIndex}-col-${cIndex}`}
@@ -423,7 +442,7 @@ const TList = () => {
                             <Cascader options={col.options} placeholder="请选择"></Cascader>
                           </Form.Item>
                         </Col>
-                      );
+                      }
                     }
                     return null;
                   })}

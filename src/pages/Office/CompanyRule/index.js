@@ -221,7 +221,7 @@ const AttendanceList = () => {
                 />
             </div>
             <div style={{ width: '100%', minHeight: '15px' }} />
-            <Modal title="详情" visible={isModalVisible} footer={null} onCancel={() => setIsModalVisible(false)}>
+            <Modal title="详情" style={{ width: '50%' }} visible={isModalVisible} footer={null} onCancel={() => setIsModalVisible(false)}>
                 <div dangerouslySetInnerHTML={{ __html: detailContent }}></div>
             </Modal>
         </PageContainer>

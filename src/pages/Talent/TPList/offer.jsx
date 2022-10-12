@@ -60,6 +60,9 @@ const TPList = () => {
             dataIndex: "customerName",
             ellipsis: true,
             key: "customerName",
+            render: (text, record) => {
+                return <Link to={'/customer/detail?customerId=' + record.customerId + '&customerName=' + record.customerName} >{text}</Link>
+            }
         },
         {
             title: "项目",

@@ -20,7 +20,7 @@ import {
     finishProject,
     closeProject,
 } from "../../../services/project";
-import { history } from 'umi';
+import { history, Link } from 'umi';
 import { cityList } from "../../../utils/CityList";
 import { industryList } from "../../../utils/Industry";
 import { positionList } from "../../../utils/Position";
@@ -61,6 +61,9 @@ const PList = () => {
             dataIndex: "customerName",
             key: "customerName",
             ellipsis: true,
+            render: (text, record) => {
+                return <Link to={'/customer/detail?customerId=' + record.customerId + '&customerName=' + record.customerName} >{text}</Link>
+            }
         },
         {
             title: "职位名称",

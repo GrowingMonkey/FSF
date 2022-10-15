@@ -82,6 +82,13 @@ const KpiList = () => {
 
             key: 'tgkh',
             ellipsis: true,
+            render: (text, record) => {
+                if (text == 0) {
+                    return 0
+                } else {
+                    return <span style={{ color: '' }}>{text}</span>
+                }
+            }
         },
         {
             title: '客户面试',

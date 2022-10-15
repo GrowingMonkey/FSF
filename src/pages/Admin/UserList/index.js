@@ -76,7 +76,7 @@ const UserList = () => {
   }, []);
   const onSubmit = () => {
     setVisible(false);
-    userList({ pageNo: currentPage, pageSize: 10 }).then((res) => {
+    userList({ pageNo: currentPage, pageSize: 10, workState: workState }).then((res) => {
       const { data } = res;
       setList(
         data.list.map((item) => {

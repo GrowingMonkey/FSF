@@ -1,4 +1,4 @@
-import { Card, message } from 'antd';
+import { Card, message, Form } from 'antd';
 import ProForm, {
     ProFormDatePicker,
     ProFormDependency,
@@ -11,10 +11,12 @@ import ProForm, {
 } from '@ant-design/pro-form';
 import { useRequest, history } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
-import { addNotice } from '@/services/employ'
+import { addNotice, updateNotice } from '@/services/employ'
+import { useEffect } from 'react';
 // import { fakeSubmitForm } from './service';
 
 const addTripC = () => {
+    const [form] = Form.useForm();
     const { run } = useRequest(addNotice, {
         manual: true,
         onSuccess: () => {
@@ -22,10 +24,21 @@ const addTripC = () => {
             history.push(`/employ/publish-list`)
         },
     });
-
+    useEffect(() => {
+        const { location: { query } } = history;
+        if (query.id) {
+            form.setFieldsValue({
+                ...query
+            })
+        }
+    })
     const onFinish = async (values) => {
+        const { location: { query } } = history;
         console.log(values)
-        run(values);
+        if (query.id) {
+
+        }
+        else { run(values); }
     };
 
 
@@ -33,6 +46,7 @@ const addTripC = () => {
         <PageContainer content="">
             <Card bordered={false}>
                 <ProForm
+                    form={form}
                     hideRequiredMark
                     style={{
                         margin: 'auto',

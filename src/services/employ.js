@@ -188,6 +188,8 @@ export const addNotice = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+
+
 export const notice = (payload) => {
   // return new Promise((resolve, reject) => {
   //   request.post("/employ/updatePwd", payload).then((data) => {

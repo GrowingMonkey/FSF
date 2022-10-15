@@ -4,6 +4,7 @@ import {
     Col,
     Input,
     Button,
+    Modal,
     Select,
     Table,
     Divider,
@@ -124,9 +125,11 @@ const TripList = () => {
             render: (text, record) => {
                 return (
                     <Space size="middle">
-                        <Button type="primary" size="small" onClick={() => handlerDelete(record)}>发布</Button>
-                        <Button type="default" size="small">查看</Button>
-                        <Button type="primary" size="small">编辑</Button>
+                        {record.state !== 1 && <Button type="primary" size="small" onClick={() => handlerDelete(record)}>发布</Button>}
+                        <Button type="default" size="small" onClick={() => Modal.success({
+                            content: record.content,
+                        })}>查看</Button>
+                        <Button type="primary" size="small" onClick={() => history.push(`/employ/publish-add?id=${record.id}&title=${record.title}&content=${record.content}&type=${record.type}`)}>编辑</Button>
                     </Space>
                 );
             },

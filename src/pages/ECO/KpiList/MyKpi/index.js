@@ -3,6 +3,7 @@ import {
     Form,
     Row,
     Tag,
+    Modal,
     Popconfirm,
     Col,
     Input,
@@ -16,13 +17,13 @@ import {
     Cascader,
     message,
 } from 'antd';
-import { history } from 'umi';
+import { history, Link } from 'umi';
 import styles from '../index.less';
 import { PageContainer } from '@ant-design/pro-layout';
 import SearchInput from '@/components/SearchInput';
 import ModalForm from '../components/ModalForm';
 import { queryKpiList, confirmKpi, refuseKpi } from '@/services/eco';
-import { userKpiData, teamList } from '@/services/kpi';
+import { userKpiData, teamList, kpiPop1, kpiPop12, kpiPop13, kpiPop6, kpiPop9, kpiPop8, kpiFeePop } from '@/services/kpi';
 const { RangePicker } = DatePicker;
 const { CheckableTag } = Tag;
 import moment from 'moment'
@@ -33,6 +34,11 @@ const KpiList = () => {
     const [fresh, setFresh] = useState(false);
     const [visible, setVisible] = useState(false);
     const [formValue, setFormValue] = useState(null);
+    const [talentList, setTalentList] = useState([]);
+    const [modelVisiBle, setModelVisiBle] = useState({
+        type: 'khms', date: '', pageNo: 1, visible: false
+    })
+    const [modalCount, setModalCount] = useState(0)
     const [searchValues, setSearchValues] = useState(null);
     const [kpiList, setKpiList] = useState([]);
     const [count, setCount] = useState(0);
@@ -52,6 +58,42 @@ const KpiList = () => {
             span: 6,
         },
     ];
+    useEffect(async () => {
+        if (modelVisiBle.visible) {
+            console.log(modelVisiBle)
+            let result = null
+            switch (modelVisiBle.type) {
+                case 'tgkh':
+                    result = await kpiPop1({ appUserId: selectedTags.length > 0 ? selectedTags[0] : '', time: modelVisiBle.date, pageNo: modelVisiBle.pageNo, pageSize: 10 })
+                    setModalCount(result?.data?.count || 0);
+                    break;
+                case 'khms':
+                    result = await kpiPop6({ appUserId: selectedTags.length > 0 ? selectedTags[0] : '', time: modelVisiBle.date, pageNo: modelVisiBle.pageNo, pageSize: 10 })
+                    setModalCount(result?.data?.count || 0);
+                    break;
+                case 'offer':
+                    result = await kpiPop8({ appUserId: selectedTags.length > 0 ? selectedTags[0] : '', time: modelVisiBle.date, pageNo: modelVisiBle.pageNo, pageSize: 10 })
+                    setModalCount(result?.data?.count || 0);
+                    break;
+                case 'cgrz':
+                    result = await kpiPop9({ appUserId: selectedTags.length > 0 ? selectedTags[0] : '', time: modelVisiBle.date, pageNo: modelVisiBle.pageNo, pageSize: 10 })
+                    setModalCount(result?.data?.count || 0);
+                    break;
+                case 'lrrx':
+                    result = await kpiPop12({ appUserId: selectedTags.length > 0 ? selectedTags[0] : '', time: modelVisiBle.date, pageNo: modelVisiBle.pageNo, pageSize: 10 })
+                    setModalCount(result?.data?.count || 0);
+                    break;
+                case 'qykh':
+                    result = await kpiPop13({ appUserId: selectedTags.length > 0 ? selectedTags[0] : '', time: modelVisiBle.date, pageNo: modelVisiBle.pageNo, pageSize: 10 })
+                    setModalCount(result?.data?.count || 0);
+                    break;
+                default:
+                    result = await kpiFeePop({ appUserId: selectedTags.length > 0 ? selectedTags[0] : '', time: modelVisiBle.date, pageNo: modelVisiBle.pageNo, pageSize: 10 })
+                    setModalCount(result?.data?.count || 0);
+            }
+            setTalentList(result?.data?.list || [])
+        }
+    }, [modelVisiBle])
     const kpiColumns = [
         {
             title: '顾问名称',
@@ -86,7 +128,7 @@ const KpiList = () => {
                 if (text == 0) {
                     return 0
                 } else {
-                    return <span style={{ color: '' }}>{text}</span>
+                    return <Link style={{ color: '' }}>{text}</Link>
                 }
             }
         },
@@ -97,6 +139,13 @@ const KpiList = () => {
 
             key: 'khms',
             ellipsis: true,
+            render: (text, record) => {
+                if (text == 0) {
+                    return 0
+                } else {
+                    return <Link style={{ color: '' }}>{text}</Link>
+                }
+            }
         },
         {
             title: '确认offer',
@@ -104,6 +153,13 @@ const KpiList = () => {
             width: 60,
             key: 'offer',
             ellipsis: true,
+            render: (text, record) => {
+                if (text == 0) {
+                    return 0
+                } else {
+                    return <Link style={{ color: '' }}>{text}</Link>
+                }
+            }
         },
         {
             title: '成功入职',
@@ -111,6 +167,13 @@ const KpiList = () => {
             width: 60,
             key: 'cgrz',
             ellipsis: true,
+            render: (text, record) => {
+                if (text == 0) {
+                    return 0
+                } else {
+                    return <Link style={{ color: '' }}>{text}</Link>
+                }
+            }
         },
         {
             title: '录入人选',
@@ -119,6 +182,13 @@ const KpiList = () => {
 
             key: 'lrrx',
             ellipsis: true,
+            render: (text, record) => {
+                if (text == 0) {
+                    return 0
+                } else {
+                    return <Link style={{ color: '' }}>{text}</Link>
+                }
+            }
 
         },
         {
@@ -128,6 +198,13 @@ const KpiList = () => {
 
             key: 'qykh',
             ellipsis: true,
+            render: (text, record) => {
+                if (text == 0) {
+                    return 0
+                } else {
+                    return <Link style={{ color: '' }}>{text}</Link>
+                }
+            }
         },
 
         {
@@ -180,6 +257,16 @@ const KpiList = () => {
 
             key: 'tgkh',
             ellipsis: true,
+            render: (text, record) => {
+                if (text == 0) {
+                    return 0
+                } else {
+                    return <Link onClick={() => {
+                        console.log(record)
+                        setModelVisiBle({ type: 'tgkh', date: record.dataTime, pageNo: 1, visible: true })
+                    }}>{text}</Link>
+                }
+            }
         },
         {
             title: '客户面试',
@@ -188,6 +275,13 @@ const KpiList = () => {
 
             key: 'khms',
             ellipsis: true,
+            render: (text, record) => {
+                if (text == 0) {
+                    return 0
+                } else {
+                    return <Link onClick={() => setModelVisiBle({ type: 'khms', date: record.dataTime, pageNo: 1, visible: true })}>{text}</Link>
+                }
+            }
         },
         {
             title: '确认offer',
@@ -195,6 +289,13 @@ const KpiList = () => {
             width: 60,
             key: 'offer',
             ellipsis: true,
+            render: (text, record) => {
+                if (text == 0) {
+                    return 0
+                } else {
+                    return <Link onClick={() => setModelVisiBle({ type: 'offer', date: record.dataTime, pageNo: 1, visible: true })}>{text}</Link>
+                }
+            }
         },
         {
             title: '成功入职',
@@ -202,6 +303,13 @@ const KpiList = () => {
             width: 60,
             key: 'cgrz',
             ellipsis: true,
+            render: (text, record) => {
+                if (text == 0) {
+                    return 0
+                } else {
+                    return <Link onClick={() => setModelVisiBle({ type: 'cgrz', date: record.dataTime, pageNo: 1, visible: true })}>{text}</Link>
+                }
+            }
         },
         {
             title: '录入人选',
@@ -210,6 +318,13 @@ const KpiList = () => {
 
             key: 'lrrx',
             ellipsis: true,
+            render: (text, record) => {
+                if (text == 0) {
+                    return 0
+                } else {
+                    return <Link onClick={() => setModelVisiBle({ type: 'lrrx', date: record.dataTime, pageNo: 1, visible: true })}>{text}</Link>
+                }
+            }
 
         },
         {
@@ -219,6 +334,13 @@ const KpiList = () => {
 
             key: 'qykh',
             ellipsis: true,
+            render: (text, record) => {
+                if (text == 0) {
+                    return 0
+                } else {
+                    return <Link onClick={() => setModelVisiBle({ type: 'qykh', date: record.dataTime, pageNo: 1, visible: true })}>{text}</Link>
+                }
+            }
         },
 
         {
@@ -228,6 +350,13 @@ const KpiList = () => {
 
             key: 'fee',
             ellipsis: true,
+            render: (text, record) => {
+                if (text == 0) {
+                    return 0
+                } else {
+                    return <Link onClick={() => setModelVisiBle({ type: 'yjje', date: record.dataTime, pageNo: 1, visible: true })}>{text}</Link>
+                }
+            }
         },
         {
             title: '考核分数',
@@ -240,6 +369,183 @@ const KpiList = () => {
         },
 
     ];
+    const kp3Columns = [
+        {
+            title: '人选名称',
+            dataIndex: 'talentName',
+            key: 'talentName',
+            width: 80,
+            ellipsis: true,
+
+        },
+        {
+            title: '岗位名称',
+            dataIndex: 'job',
+            key: 'job',
+            ellipsis: true,
+
+        },
+        {
+            title: '公司名称',
+            dataIndex: 'company',
+            key: 'company',
+            ellipsis: true,
+
+        },
+        {
+            title: '日期',
+            dataIndex: 'createTime',
+            key: 'createTime',
+            width: 80,
+            ellipsis: true,
+
+        },
+        // {
+        //     title: '操作',
+        //     width: 80,
+        //     key: 'action',
+        //     render: (text, record) => {
+        //         return <Link>查看详情</Link>
+        //     }
+
+        // },
+    ]
+    const renderColumn = (type) => {
+        let cl = [];
+        switch (type) {
+            case 'lrrx':
+                cl = [
+                    {
+                        title: '录入日期',
+                        dataIndex: 'createTime',
+                        key: 'createTime',
+                        width: 80,
+                        ellipsis: true,
+
+                    },
+                    {
+                        title: '人选名称',
+                        dataIndex: 'talentName',
+                        key: 'talentName',
+                        width: 80,
+                        ellipsis: true,
+
+                    },
+                    {
+                        title: '人选岗位',
+                        dataIndex: 'job',
+                        key: 'job',
+                        ellipsis: true,
+
+                    },
+                    // {
+                    //     title: '操作',
+                    //     key: 'action',
+                    //     width: 80,
+                    //     render: (text, record) => {
+                    //         return <Link>查看详情</Link>
+                    //     }
+
+                    // },
+                ]
+                break;
+            case 'qykh':
+                cl = [{
+                    title: '签约日期',
+                    dataIndex: 'createTime',
+                    key: 'createTime',
+                    width: 80,
+                    ellipsis: true,
+
+                }, {
+                    title: '客户名称',
+                    dataIndex: 'customerName',
+                    key: 'customerName',
+                    ellipsis: true,
+
+                },
+                    // {
+                    //     title: '操作',
+                    //     key: 'action',
+                    //     width: 80,
+                    //     render: (text, record) => {
+                    //         return <Link>查看详情</Link>
+                    //     }
+                    // }
+                ]
+                break;
+            case 'yjje':
+                cl = [{
+                    title: '业绩日期',
+                    dataIndex: 'createTime',
+                    key: 'createTime',
+                    width: 80,
+                    ellipsis: true,
+
+                },
+                {
+                    title: '客户名称',
+                    dataIndex: 'customerName',
+                    key: 'customerName',
+                    ellipsis: true,
+
+                },
+
+                {
+                    title: '回款金额',
+                    dataIndex: 'serviceFee',
+                    key: 'serviceFee',
+                    width: 80,
+                    ellipsis: true,
+
+                },
+                {
+                    title: '业绩比例',
+                    dataIndex: 'rate',
+                    key: 'rate',
+                    width: 80,
+                    ellipsis: true,
+
+                },
+                {
+                    title: '业绩金额',
+                    dataIndex: 'kpiFee',
+                    key: 'kpiFee',
+                    width: 80,
+                    ellipsis: true,
+
+                },
+                {
+                    title: '回款用户',
+                    dataIndex: 'userName',
+                    key: 'userName',
+                    width: 80,
+                    ellipsis: true,
+
+                },]
+                break;
+            default:
+                cl = kp3Columns;
+        }
+        return cl;
+    }
+    const renderTitle = (type) => {
+        let cl = '';
+        switch (type) {
+            case 'lrrx':
+                cl = '录入人选'
+                break;
+            case 'qykh':
+                cl = '客户签约'
+                break;
+            case 'yjje':
+                cl = '业绩金额'
+                break;
+            default:
+                cl = '人选列表';
+        }
+        return cl;
+    }
 
     // 清空
     const handleSearchClear = () => {
@@ -440,6 +746,17 @@ const KpiList = () => {
                     scroll={{ x: 800 }} />
             </div>
             <div style={{ width: '100%', minHeight: '15px' }} />
+            <Modal width={600} title={renderTitle(modelVisiBle.type)} visible={modelVisiBle.visible} onOk={() => setModelVisiBle({ ...modelVisiBle, visible: false })} onCancel={() => setModelVisiBle({ ...modelVisiBle, visible: false })}>
+                {talentList && <Table columns={renderColumn(modelVisiBle.type)} dataSource={talentList} pagination={{
+                    total: modalCount,
+                    pageSize: 10,
+                    onChange: e => { setModelVisiBle({ ...modelVisiBle, pageNo: e }) },
+                    showTotal: modalCount => `共${modalCount}条`
+                }}
+                    size="small"
+                    bordered
+                />}
+            </Modal>
         </PageContainer>
     );
 };

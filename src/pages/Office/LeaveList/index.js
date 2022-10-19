@@ -47,13 +47,6 @@ const LeaveList = () => {
 
     },
     {
-      title: '编号',
-      dataIndex: 'type1',
-      key: 'type1',
-      ellipsis: true,
-
-    },
-    {
       title: '请假用户',
       dataIndex: 'userName',
       key: 'userName',
@@ -79,7 +72,7 @@ const LeaveList = () => {
       dataIndex: 'startTime',
       key: 'startTime',
       ellipsis: true,
-
+      width: 170
     },
     {
       title: '时长',

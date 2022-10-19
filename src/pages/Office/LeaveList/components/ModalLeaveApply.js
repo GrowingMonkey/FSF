@@ -5,15 +5,19 @@ const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 import moment from 'moment'
 // import { upload } from '@/utils/lib/upload'
+import useTime from '@/components/useTime'
+
 const ModalLeaveApply = ({ visible, onSubmit, onCancel, record }) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
+  const { format, disabledDate, onOpenChange, timevalue, settimeValue, hackValue, setDates } = useTime();
+
   const [yearMsg, setYearMsg] = useState('');
   const [form] = Form.useForm();
   const formList = [
     {
       name: "leaveDate",
-      label: "请假时间",
-      type: "dateRange",
+      label: "请假日期",
+      type: "useTime",
       span: 6,
     },
     {
@@ -44,7 +48,7 @@ const ModalLeaveApply = ({ visible, onSubmit, onCancel, record }) => {
     console.log(111);
     form.validateFields().then(value => {
       console.log(value);
-      addLeave({ reason: value.reason, type: value.type, startTime: moment(value.leaveDate[0]).format('YYYY-MM-DD'), endTime: moment(value.leaveDate[1]).format('YYYY-MM-DD') }).then(res => {
+      addLeave({ reason: value.reason, type: value.type, startTime: moment(value.leaveDate[0]).format('YYYY-MM-DD HH:mm:ss'), endTime: moment(value.leaveDate[1]).format('YYYY-MM-DD HH:mm:ss') }).then(res => {
         onSubmit()
       })
     })
@@ -125,6 +129,18 @@ const ModalLeaveApply = ({ visible, onSubmit, onCancel, record }) => {
                 <RangePicker style={{ width: "100%" }} />
               </Form.Item>
             );
+          }
+          if (col.type === 'useTime') {
+            return (<Form.Item name={col.name} label={col.label} key={col.label}>
+              <RangePicker
+                // @ts-ignore
+                value={hackValue || timevalue} showTime format={format}
+                disabledDate={disabledDate} allowClear={false}
+                onCalendarChange={(val) => setDates(val)}
+                onChange={(val) => settimeValue(val)}
+                onOpenChange={onOpenChange}
+              />
+            </Form.Item>)
           }
           return null;
         })}

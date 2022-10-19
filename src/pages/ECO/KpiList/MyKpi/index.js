@@ -101,7 +101,9 @@ const KpiList = () => {
             key: 'userName',
             width: 60,
             ellipsis: true,
-
+            render: (text, record) => {
+                return <span style={{ fontWeight: 'bold' }}>{text}</span>
+            }
         },
         {
             title: '期数',
@@ -109,6 +111,9 @@ const KpiList = () => {
             key: 'dataTime',
             width: 100,
             ellipsis: true,
+            render: (text, record) => {
+                return <span style={{ fontWeight: 'bold' }}>{text}</span>
+            }
         },
         {
             title: '职级',
@@ -116,6 +121,9 @@ const KpiList = () => {
             key: 'job',
             ellipsis: true,
             width: 40,
+            render: (text, record) => {
+                return <span style={{ fontWeight: 'bold' }}>{text}</span>
+            }
         },
         {
             title: '推给客户',
@@ -128,7 +136,7 @@ const KpiList = () => {
                 if (text == 0) {
                     return 0
                 } else {
-                    return <Link style={{ color: '' }}>{text}</Link>
+                    return <Link style={{ fontWeight: 'bold' }}>{text}</Link>
                 }
             }
         },
@@ -143,7 +151,7 @@ const KpiList = () => {
                 if (text == 0) {
                     return 0
                 } else {
-                    return <Link style={{ color: '' }}>{text}</Link>
+                    return <Link style={{ fontWeight: 'bold' }}>{text}</Link>
                 }
             }
         },
@@ -157,7 +165,7 @@ const KpiList = () => {
                 if (text == 0) {
                     return 0
                 } else {
-                    return <Link style={{ color: '' }}>{text}</Link>
+                    return <Link style={{ fontWeight: 'bold' }}>{text}</Link>
                 }
             }
         },
@@ -171,7 +179,7 @@ const KpiList = () => {
                 if (text == 0) {
                     return 0
                 } else {
-                    return <Link style={{ color: '' }}>{text}</Link>
+                    return <Link style={{ fontWeight: 'bold' }}>{text}</Link>
                 }
             }
         },
@@ -186,7 +194,7 @@ const KpiList = () => {
                 if (text == 0) {
                     return 0
                 } else {
-                    return <Link style={{ color: '' }}>{text}</Link>
+                    return <Link style={{ fontWeight: 'bold' }}>{text}</Link>
                 }
             }
 
@@ -202,7 +210,7 @@ const KpiList = () => {
                 if (text == 0) {
                     return 0
                 } else {
-                    return <Link style={{ color: '' }}>{text}</Link>
+                    return <Link style={{ fontWeight: 'bold' }}>{text}</Link>
                 }
             }
         },
@@ -214,6 +222,9 @@ const KpiList = () => {
 
             key: 'fee',
             ellipsis: true,
+            render: (text, record) => {
+                return <span style={{ fontWeight: 'bold' }}>{text}</span>
+            }
         },
         {
             title: '考核分数',
@@ -222,6 +233,9 @@ const KpiList = () => {
 
             key: 'score',
             ellipsis: true,
+            render: (text, record) => {
+                return <span style={{ fontWeight: 'bold' }}>{text}</span>
+            }
         },
 
     ];
@@ -396,7 +410,7 @@ const KpiList = () => {
             title: '日期',
             dataIndex: 'createTime',
             key: 'createTime',
-            width: 80,
+            width: 100,
             ellipsis: true,
 
         },
@@ -419,7 +433,7 @@ const KpiList = () => {
                         title: '录入日期',
                         dataIndex: 'createTime',
                         key: 'createTime',
-                        width: 80,
+                        width: 100,
                         ellipsis: true,
 
                     },
@@ -454,7 +468,7 @@ const KpiList = () => {
                     title: '签约日期',
                     dataIndex: 'createTime',
                     key: 'createTime',
-                    width: 80,
+                    width: 100,
                     ellipsis: true,
 
                 }, {
@@ -479,7 +493,7 @@ const KpiList = () => {
                     title: '业绩日期',
                     dataIndex: 'createTime',
                     key: 'createTime',
-                    width: 80,
+                    width: 100,
                     ellipsis: true,
 
                 },
@@ -746,7 +760,7 @@ const KpiList = () => {
                     scroll={{ x: 800 }} />
             </div>
             <div style={{ width: '100%', minHeight: '15px' }} />
-            <Modal width={600} title={renderTitle(modelVisiBle.type)} visible={modelVisiBle.visible} onOk={() => setModelVisiBle({ ...modelVisiBle, visible: false })} onCancel={() => setModelVisiBle({ ...modelVisiBle, visible: false })}>
+            <Modal width={620} title={renderTitle(modelVisiBle.type)} visible={modelVisiBle.visible} onOk={() => setModelVisiBle({ ...modelVisiBle, visible: false })} onCancel={() => setModelVisiBle({ ...modelVisiBle, visible: false })}>
                 {talentList && <Table columns={renderColumn(modelVisiBle.type)} dataSource={talentList} pagination={{
                     total: modalCount,
                     pageSize: 10,

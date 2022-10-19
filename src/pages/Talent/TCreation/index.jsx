@@ -523,7 +523,7 @@ const TCreation = () => {
                 message: '请输入邮箱地址',
               },
               {
-                pattern: /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/,
+                pattern: /^([a-zA-Z]|[0-9])(\w|\-|\.)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/,
                 message: '邮箱格式不正确',
               },
             ]} />

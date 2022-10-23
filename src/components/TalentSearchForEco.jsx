@@ -6,7 +6,7 @@ import { selectTPListForInvoice } from "@/services/eco";
  * 人选查询select组件
  * @param {props} param0 
  */
-const TalentSearch = ({ value = {}, onChange, filedProps = {}, applyUserId }) => {
+const TalentSearch = ({ value = {}, onChange, filedProps = {}, applyUserId, customerId = '' }) => {
     const { Option } = Select;
     const [options, setOptions] = useState([]);
     const [sourceList, setSourceList] = useState([])
@@ -50,10 +50,10 @@ const TalentSearch = ({ value = {}, onChange, filedProps = {}, applyUserId }) =>
             let user = applyUserId();
             console.log(user);
             if (!user) {
-                message.error('请先选择服务顾问');
+                message.error('请先选择客户');
                 return;
             }
-            selectTPListForInvoice({ pageNo: 1, pageSize: 10, name: value, appUserId: user.recommenderUserId }).then(
+            selectTPListForInvoice({ pageNo: 1, pageSize: 10, name: value, appUserId: user.recommenderUserId, customerId: customerId }).then(
                 (res) => {
                     const { data } = res;
                     setOptions(

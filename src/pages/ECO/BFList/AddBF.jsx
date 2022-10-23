@@ -294,7 +294,7 @@ const AddInvoice = () => {
                                                         {/* <ProFormText initialValue={index} name="rowKey" label={`第 ${index} 配置`} />*/}
 
                                                         <Form.Item labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name={[index, 'talents']} label="选择人选" >
-                                                            <TalentSearch style={{ width: '196px' }} applyUserId={() => applyForm.getFieldValue('appUser')} />
+                                                            <TalentSearch style={{ width: '196px' }} applyUserId={() => applyForm.getFieldValue('appUser')} customerId={() => applyForm.getFieldValue('customerOut')} />
                                                         </Form.Item>
                                                         <ProFormDependency name={['talents']}>
                                                             {({ talents }) => {

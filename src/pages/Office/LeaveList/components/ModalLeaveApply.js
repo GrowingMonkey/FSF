@@ -135,7 +135,7 @@ const ModalLeaveApply = ({ visible, onSubmit, onCancel, record }) => {
               <RangePicker
                 // @ts-ignore
                 value={hackValue || timevalue} showTime format={format}
-                disabledDate={disabledDate} allowClear={false}
+                disabledDate={false} allowClear={false}
                 onCalendarChange={(val) => setDates(val)}
                 onChange={(val) => settimeValue(val)}
                 onOpenChange={onOpenChange}

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import moment from 'moment'
 const useTime = () => {
-    const format = "YYYY-MM-DD HH:mm:ss";
+    const format = "YYYY-MM-DD HH:mm";
     const [dates, setDates] = useState([]);
     const [hackValue, setHackValue] = useState();
     // 默认当天

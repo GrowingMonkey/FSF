@@ -103,6 +103,11 @@ const ChapterManager = () => {
                 value: 4,
                 disabled: true,
             },
+            {
+                label: "推给客户",
+                value: 1,
+                disabled: false,
+            },
         ],
         5: [
             {

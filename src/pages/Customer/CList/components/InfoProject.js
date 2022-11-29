@@ -245,6 +245,7 @@ const InfoProject = ({ record = {} }) => {
           return Object.assign(item, { key: item.id });
         })
       );
+      setListLength(data.count)
     });
     // console.clear();
     // console.log(searchValues, currentPage);

@@ -435,7 +435,7 @@ const ChapterManager = () => {
         remarkForm.resetFields();
         message.success('更改成功');
         setIsRemarkModalVisible(false);
-
+        updatePage();
     }
     return (
         <>

@@ -657,11 +657,11 @@ const KpiList = () => {
     const handleSearch = () => {
         form.validateFields().then((values) => {
             console.log(values);
-            setSelectedTags([]);
+            // setSelectedTags([]);
             setSearchValues({
                 year: moment(values.year).format('YYYY'),
                 appUserName: values.appUserName.recommenderName,
-                appUserId: values.appUserName.recommenderId,
+                appUserId: values.appUserName.recommenderUserId,
             });
         });
     };
@@ -682,11 +682,12 @@ const KpiList = () => {
     };
 
     useEffect(() => {
+        console.log(searchValues)
         userKpiData({
             ...searchValues,
             pageNo: pageNo,
             pageSize: 10,
-            appUserId: selectedTags.length > 0 ? selectedTags[0] : searchValues?.appUserId ? searchValues.appUserId : '',
+            appUserId: selectedTags.length > 0 ? selectedTags[0] : searchValues?.appUserId,
         }).then((res) => {
             setKpiList(
                 res.data.length > 0

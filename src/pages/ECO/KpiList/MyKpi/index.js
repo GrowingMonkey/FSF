@@ -571,7 +571,7 @@ const KpiList = () => {
     const handleSearch = () => {
         form.validateFields().then((values) => {
             console.log(values)
-            setSearchValues({ year: moment(values.year).format("YYYY"), appUserName: values.appUserName.recommenderName });
+            setSearchValues({ year: moment(values.year).format("YYYY"), appUserName: values.appUserName.recommenderName, appUserId: values.appUserName.recommenderId });
         });
     };
 

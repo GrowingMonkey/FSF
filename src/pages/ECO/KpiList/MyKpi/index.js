@@ -78,7 +78,7 @@ const KpiList = () => {
             switch (modelVisiBle.type) {
                 case 'tgkh':
                     result = await kpiPop1({
-                        appUserId: selectedTags.length > 0 ? selectedTags[0] : searchValues.appUserId,
+                        appUserId: selectedTags.length > 0 ? selectedTags[0] : searchValues?.appUserId,
                         time: modelVisiBle.date,
                         pageNo: modelVisiBle.pageNo,
                         pageSize: 10,
@@ -87,7 +87,7 @@ const KpiList = () => {
                     break;
                 case 'khms':
                     result = await kpiPop6({
-                        appUserId: selectedTags.length > 0 ? selectedTags[0] : searchValues.appUserId,
+                        appUserId: selectedTags.length > 0 ? selectedTags[0] : searchValues?.appUserId,
                         time: modelVisiBle.date,
                         pageNo: modelVisiBle.pageNo,
                         pageSize: 10,
@@ -96,7 +96,7 @@ const KpiList = () => {
                     break;
                 case 'offer':
                     result = await kpiPop8({
-                        appUserId: selectedTags.length > 0 ? selectedTags[0] : searchValues.appUserId,
+                        appUserId: selectedTags.length > 0 ? selectedTags[0] : searchValues?.appUserId,
                         time: modelVisiBle.date,
                         pageNo: modelVisiBle.pageNo,
                         pageSize: 10,
@@ -105,7 +105,7 @@ const KpiList = () => {
                     break;
                 case 'cgrz':
                     result = await kpiPop9({
-                        appUserId: selectedTags.length > 0 ? selectedTags[0] : searchValues.appUserId,
+                        appUserId: selectedTags.length > 0 ? selectedTags[0] : searchValues?.appUserId,
                         time: modelVisiBle.date,
                         pageNo: modelVisiBle.pageNo,
                         pageSize: 10,
@@ -114,7 +114,7 @@ const KpiList = () => {
                     break;
                 case 'lrrx':
                     result = await kpiPop12({
-                        appUserId: selectedTags.length > 0 ? selectedTags[0] : searchValues.appUserId,
+                        appUserId: selectedTags.length > 0 ? selectedTags[0] : searchValues?.appUserId,
                         time: modelVisiBle.date,
                         pageNo: modelVisiBle.pageNo,
                         pageSize: 10,
@@ -123,7 +123,7 @@ const KpiList = () => {
                     break;
                 case 'qykh':
                     result = await kpiPop13({
-                        appUserId: selectedTags.length > 0 ? selectedTags[0] : '',
+                        appUserId: selectedTags.length > 0 ? selectedTags[0] : searchValues?.appUserId,
                         time: modelVisiBle.date,
                         pageNo: modelVisiBle.pageNo,
                         pageSize: 10,
@@ -132,7 +132,7 @@ const KpiList = () => {
                     break;
                 default:
                     result = await kpiFeePop({
-                        appUserId: selectedTags.length > 0 ? selectedTags[0] : searchValues.appUserId,
+                        appUserId: selectedTags.length > 0 ? selectedTags[0] : searchValues?.appUserId,
                         time: modelVisiBle.date,
                         pageNo: modelVisiBle.pageNo,
                         pageSize: 10,

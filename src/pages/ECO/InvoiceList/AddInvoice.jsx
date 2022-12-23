@@ -126,7 +126,7 @@ const AddInvoice = () => {
                         <ProFormText labelCol={{ style: { width: '112px' } }} wrapperCol={{ style: { width: '175px' } }} name="appUserCompanyName" label="申请人归属公司"></ProFormText>
                     </ProForm.Group>
                     <ProForm.Group>
-                        <ProFormSelect labelCol={{ style: { width: '113px' } }} options={[
+                        {/* <ProFormSelect labelCol={{ style: { width: '113px' } }} options={[
                             {
                                 label: '外部客户',
                                 value: 0,
@@ -143,7 +143,8 @@ const AddInvoice = () => {
                                     required: true,
                                     message: '必填',
                                 },
-                            ]} />
+                            ]} /> */}
+
                         <Form.Item name="customerOut" labelCol={{ style: { width: '112px' } }} rules={[
                             {
                                 required: true,
@@ -152,7 +153,31 @@ const AddInvoice = () => {
                         ]} wrapperCol={{ style: { width: '175px' } }} label="客户名称">
                             <CustomerSearch></CustomerSearch>
                         </Form.Item>
+                        <ProFormText labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '175px' } }} name="phone" label="联系电话" rules={[
+                            {
+                                required: true,
+                                message: '必填',
+                            },
+                        ]}></ProFormText>
                     </ProForm.Group>
+                    <ProFormText labelCol={{ style: { width: '112px' } }} name="bankNumber" label="银行账户" rules={[
+                        {
+                            required: true,
+                            message: '必填',
+                        },
+                    ]} />
+                    <ProFormText labelCol={{ style: { width: '112px' } }} name="bankName" label="开户银行" rules={[
+                        {
+                            required: true,
+                            message: '必填',
+                        },
+                    ]} />
+                    <ProFormText labelCol={{ style: { width: '112px' } }} name="address" label="公司地址" rules={[
+                        {
+                            required: true,
+                            message: '必填',
+                        },
+                    ]} />
                     <ProForm.Group>
                         <ProFormText labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '175px' } }} name="name" label="开票名称" rules={[
                             {

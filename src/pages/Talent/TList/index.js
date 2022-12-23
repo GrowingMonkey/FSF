@@ -520,7 +520,7 @@ const TList = () => {
                         record.experienceCompanies ? record.experienceCompanies.map(item => (
                           <Descriptions.Item label="">
                             <Space>
-                              <span>{item.startTime} - {item.isNow == 1 ? '至今' : item.endTime}</span><span>|{item.name}</span><span>|{item.job}</span>
+                              <span style={{ display: 'inline-block', width: 130 }}>{item.startTime} - {item.isNow == 1 ? '至今' : item.endTime}</span><span>|{item.name}</span><span>|{item.job}</span>
                             </Space>
                           </Descriptions.Item>)) : <h1> 暂无公司经历</h1>
                       }

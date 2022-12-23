@@ -126,7 +126,7 @@ const UserList = () => {
 
     },
     {
-      title: "名称",
+      title: "姓名",
       dataIndex: "name",
       key: "name",
       ellipsis: true,

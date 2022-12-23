@@ -3,6 +3,7 @@ import {
   Form,
   Row,
   Col,
+  Upload,
   Input,
   InputNumber,
   Button,
@@ -11,11 +12,12 @@ import {
   Divider,
   Space,
   DatePicker,
+  message,
   Cascader,
 } from 'antd';
 import styles from './index.less';
 import { PageContainer } from '@ant-design/pro-layout';
-import { querySalaryList } from '../../../services/eco';
+import { querySalaryList, upSalary } from '../../../services/eco';
 
 const Salarylist = () => {
   const [form] = Form.useForm();
@@ -152,6 +154,37 @@ const Salarylist = () => {
           </Col>
           <Col>
             <Space size={8}>
+              <Upload
+                name="file"
+                showUploadList={false}
+                onChange={() => { }}
+                customRequest={async (options) => {
+                  console.log(options)
+                  let fd = new FormData();
+                  fd.append('file', options.file);
+                  let xhr = new XMLHttpRequest();
+
+                  xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4) {
+                      options.onSuccess();
+                    }
+                  }
+                  xhr.open("POST", 'http://admin.fsfhr.com/api/fsfa/eco/uploadSalary', true);
+                  xhr.setRequestHeader('token', window.localStorage.getItem('token'))
+                  xhr.send(fd);
+                  // let result = await upSalary(options.file);
+                  // console.log(result.res);
+                  // if (result.res.status == 200) {
+
+                  // }
+                  // setImageUrl(
+                  //   result.res.requestUrls[0].split('?')[0] +
+                  //   '?x-oss-process=image/resize,w_100,h_100/quality,q_50',
+                  // );
+                  // options.onSuccess();
+                }}>
+                <Button type="primary">上传</Button>
+              </Upload>
               <Button onClick={handleSearchClear}>清空</Button>
               <Button type="primary" onClick={handleSearch}>
                 搜索
@@ -222,7 +255,7 @@ const Salarylist = () => {
         <Table columns={salaryColumns} dataSource={salaryList} pagination={false} size="small" />
       </div>
       <div style={{ width: '100%', minHeight: '15px' }} />
-    </PageContainer>
+    </PageContainer >
   );
 };
 

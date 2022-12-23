@@ -102,15 +102,16 @@ const TCAList = () => {
                         type="link"
                         style={{ padding: 0 }}
                         onClick={() => {
-                            if (record.level === 0) {
-                                setVisibleArea(true);
-                            }
-                            if (record.level === 1) {
-                                setVisibleCompany(true);
-                            }
-                            if (record.level === 2) {
-                                setVisibleTeam(true);
-                            }
+                            console.log(record)
+                            // if (record.level === 0) {
+                            //     setVisibleArea(true);
+                            // }
+                            // if (record.level === 1) {
+                            //     setVisibleCompany(true);
+                            // }
+                            // if (record.level === 2) {
+                            setVisibleTeam(true);
+                            // }
                             setFormValue(record);
                         }}
                     >

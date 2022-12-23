@@ -106,7 +106,19 @@ const AddInvoice = () => {
                     <Descriptions.Item labelStyle={lableCss} label="开票公司" span={2}>{detailData?.customerName}</Descriptions.Item>
                     <Descriptions.Item labelStyle={lableCss} label="申请用户">{detailData?.userName}</Descriptions.Item>
                     <Descriptions.Item labelStyle={lableCss} label="申请人归属公司">{detailData?.companyName}</Descriptions.Item>
-                    <Descriptions.Item labelStyle={lableCss} label="开票对象">{detailData?.invoiceObj == 0 ? '外部对象' : detailData?.invoiceObj == 1 ? '内部客户' : '其他'}</Descriptions.Item>
+                    {/* <Descriptions.Item labelStyle={lableCss} label="开票对象">{detailData?.invoiceObj == 0 ? '外部对象' : detailData?.invoiceObj == 1 ? '内部客户' : '其他'}</Descriptions.Item> */}
+                    <Descriptions.Item labelStyle={lableCss} label="开户银行">
+                        {detailData?.bankName}
+                    </Descriptions.Item>
+                    <Descriptions.Item labelStyle={lableCss} label="银行账户">
+                        {detailData?.bankNumber}
+                    </Descriptions.Item>
+                    <Descriptions.Item labelStyle={lableCss} label="公司地址">
+                        {detailData?.address}
+                    </Descriptions.Item>
+                    <Descriptions.Item labelStyle={lableCss} label="联系电话">
+                        {detailData?.phone}
+                    </Descriptions.Item>
                     <Descriptions.Item labelStyle={lableCss} label="客户名称">
                         {detailData?.customerOut}
                     </Descriptions.Item>

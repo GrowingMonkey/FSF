@@ -1,5 +1,16 @@
-import { request } from './request';
+import { request, requestOther } from './request';
 
+
+export const upSalary = (payload) => {
+  console.log(payload)
+  return request('/eco/uploadSalary', {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+    },
+    method: 'POST',
+    data: { file: payload },
+  });
+};
 // 业绩查询
 export const queryKpiList = (payload) => {
   return request('/eco/selectKpiList', {

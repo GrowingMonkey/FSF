@@ -51,8 +51,8 @@ const ModalFormCompany = ({ visible, onSubmit, onCancel, record }) => {
         let cityInfo = info(`${value.cityCode}`);
         // console.log(cityInfo);
         let provinceCode = "";
-        let prefectureCode = cityInfo.code;
-        if (cityInfo.prefecture !== cityInfo.province) {
+        let prefectureCode = cityInfo?.code;
+        if (cityInfo?.prefecture !== cityInfo?.province) {
           provinceCode = getCodeByProvinceName(cityInfo.province);
         } else {
           provinceCode = prefectureCode;

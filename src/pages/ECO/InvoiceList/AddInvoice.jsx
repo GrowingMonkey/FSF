@@ -125,42 +125,21 @@ const AddInvoice = () => {
                         </Form.Item>
                         <ProFormText labelCol={{ style: { width: '112px' } }} wrapperCol={{ style: { width: '175px' } }} name="appUserCompanyName" label="申请人归属公司"></ProFormText>
                     </ProForm.Group>
-                    <ProForm.Group>
-                        {/* <ProFormSelect labelCol={{ style: { width: '113px' } }} options={[
-                            {
-                                label: '外部客户',
-                                value: 0,
-                            },
-                            {
-                                label: '内部客户',
-                                value: 1,
-                            },
-                            {
-                                label: '其他',
-                                value: 2,
-                            }]} wrapperCol={{ style: { width: '175px' } }} name="invoiceObj" label="开票对象" rules={[
-                                {
-                                    required: true,
-                                    message: '必填',
-                                },
-                            ]} /> */}
-
-                        <Form.Item name="customerOut" labelCol={{ style: { width: '112px' } }} rules={[
-                            {
-                                required: true,
-                                message: '必填',
-                            },
-                        ]} wrapperCol={{ style: { width: '175px' } }} label="客户名称">
-                            <CustomerSearch></CustomerSearch>
-                        </Form.Item>
-                        <ProFormText labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '175px' } }} name="phone" label="联系电话" rules={[
-                            {
-                                required: true,
-                                message: '必填',
-                            },
-                        ]}></ProFormText>
-                    </ProForm.Group>
-                    <ProFormText labelCol={{ style: { width: '112px' } }} name="bankNumber" label="银行账户" rules={[
+                    <Form.Item name="customerOut" labelCol={{ style: { width: '112px' } }} rules={[
+                        {
+                            required: true,
+                            message: '必填',
+                        },
+                    ]} wrapperCol={{ style: { width: '175px' } }} label="客户名称">
+                        <CustomerSearch></CustomerSearch>
+                    </Form.Item>
+                    <ProFormText labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '175px' } }} name="name" label="开票名称" rules={[
+                        {
+                            required: true,
+                            message: '必填',
+                        },
+                    ]}></ProFormText>
+                    <ProFormText labelCol={{ style: { width: '112px' } }} name="invoiceNumber" label={<b>纳税人识别号</b>} rules={[
                         {
                             required: true,
                             message: '必填',
@@ -172,6 +151,13 @@ const AddInvoice = () => {
                             message: '必填',
                         },
                     ]} />
+                    <ProFormText labelCol={{ style: { width: '112px' } }} name="bankNumber" label="银行账户" rules={[
+                        {
+                            required: true,
+                            message: '必填',
+                        },
+                    ]} />
+
                     <ProFormText labelCol={{ style: { width: '112px' } }} name="address" label="公司地址" rules={[
                         {
                             required: true,
@@ -179,7 +165,8 @@ const AddInvoice = () => {
                         },
                     ]} />
                     <ProForm.Group>
-                        <ProFormText labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '175px' } }} name="name" label="开票名称" rules={[
+
+                        <ProFormText labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '175px' } }} name="phone" label="公司电话" rules={[
                             {
                                 required: true,
                                 message: '必填',
@@ -322,12 +309,7 @@ const AddInvoice = () => {
 
                         }}
                     </ProFormDependency>
-                    <ProFormText labelCol={{ style: { width: '112px' } }} name="invoiceNumber" label="纳税人识别号" rules={[
-                        {
-                            required: true,
-                            message: '必填',
-                        },
-                    ]} />
+
 
                     <ProFormDependency name={['isTalent']}>
                         {({ isTalent }) => {

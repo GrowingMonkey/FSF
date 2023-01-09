@@ -1,4 +1,5 @@
 import { useHistory } from 'react-router-dom';
+// import { useEffect } from 'react';
 import {
   Form,
   Row,
@@ -21,7 +22,7 @@ import {
   addCustomerTeam,
   checkCustomer,
 } from '../../../services/customer';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import RecommenderSearch from './Components/RecommenderSearch';
 import UserSearch from './Components/UserSearch';
 import { cityList } from '../../../utils/CityList';
@@ -123,6 +124,9 @@ const Add = () => {
       });
     });
   };
+  // useEffect(() => {
+  //   contactForm.setFieldsValue({ contact: [{ name: '' }] });
+  // })
   const onReset = () => {
     form.resetFields();
   };
@@ -314,16 +318,12 @@ const Add = () => {
             <div className={styles['page-title']}>新增联系人</div>
           </Col>
         </Row>
-        <ProForm
+        <Form
           form={contactForm}
           layout={'horizontal'}
           labelCol={{ style: { width: '95.33px' } }}
           wrapperCol={{ style: { width: '422px' } }}
-          submitter={{
-            render: (props, dom) => {
-              return null;
-            },
-          }}
+          initialValues={{ contact: [{ name: '' }] }}
         >
           <Form.List name="contact">
             {(fields, { add, remove }) => (
@@ -409,7 +409,7 @@ const Add = () => {
               </>
             )}
           </Form.List>
-        </ProForm>
+        </Form>
       </div>
       <div className={styles['team-container']}>
         <Row justify="space-between" align="middle">

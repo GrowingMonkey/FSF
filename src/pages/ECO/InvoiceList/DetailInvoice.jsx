@@ -107,8 +107,35 @@ const AddInvoice = () => {
                     <Descriptions.Item labelStyle={lableCss} label="申请用户">{detailData?.userName}</Descriptions.Item>
                     <Descriptions.Item labelStyle={lableCss} label="申请人归属公司">{detailData?.companyName}</Descriptions.Item>
                     {/* <Descriptions.Item labelStyle={lableCss} label="开票对象">{detailData?.invoiceObj == 0 ? '外部对象' : detailData?.invoiceObj == 1 ? '内部客户' : '其他'}</Descriptions.Item> */}
+
+                    <Descriptions.Item labelStyle={lableCss} label="发票属性">{detailData?.invoiceType == 0 ? '服务费' : detailData?.invoiceType == 1 ? '咨询费' : '其他'}</Descriptions.Item>
+
+                    <Descriptions.Item labelStyle={lableCss} label="客户名称">
+                        {detailData?.customerName}
+                    </Descriptions.Item>
+                    <Descriptions.Item labelStyle={lableCss} label="收入类型">
+                        {detailData?.payType == 0 ? '服务费' : detailData?.payType == 1 ? '咨询费' : detailData?.payType == 2 ? '首付款' : '其他'}
+                    </Descriptions.Item>
+                    <Descriptions.Item labelStyle={lableCss} label="开票名称">{detailData?.name}</Descriptions.Item>
+                    <Descriptions.Item labelStyle={lableCss} label={<b>是否关联人选</b>}>
+                        {detailData?.serviceType == 0 ? '否' : '是'}
+                    </Descriptions.Item>
+                    <Descriptions.Item labelStyle={lableCss} label={<b>纳税人识别号</b>}>
+                        {detailData?.invoiceNumber}
+                    </Descriptions.Item>
+
+
+
+                    <Descriptions.Item labelStyle={lableCss} label="业务类型">
+                        {detailData?.serviceType == 0 ? '猎头业务' : detailData?.serviceType == 1 ? '咨询业务' : '其他'}
+                    </Descriptions.Item>
                     <Descriptions.Item labelStyle={lableCss} label="开户银行">
                         {detailData?.bankName}
+                    </Descriptions.Item>
+
+                    <Descriptions.Item labelStyle={lableCss} label="发票类型">
+                        {detailData?.type == 0 ? '普通发票' : detailData?.type == 1 ? '专用发票' : '电子普通发票'}
+
                     </Descriptions.Item>
                     <Descriptions.Item labelStyle={lableCss} label="银行账户">
                         {detailData?.bankNumber}
@@ -116,29 +143,9 @@ const AddInvoice = () => {
                     <Descriptions.Item labelStyle={lableCss} label="公司地址">
                         {detailData?.address}
                     </Descriptions.Item>
-                    <Descriptions.Item labelStyle={lableCss} label="联系电话">
-                        {detailData?.phone}
-                    </Descriptions.Item>
-                    <Descriptions.Item labelStyle={lableCss} label="客户名称">
-                        {detailData?.customerOut}
-                    </Descriptions.Item>
-                    <Descriptions.Item labelStyle={lableCss} label="开票名称">{detailData?.name}</Descriptions.Item>
-                    <Descriptions.Item labelStyle={lableCss} label="发票属性">{detailData?.invoiceType == 0 ? '服务费' : detailData?.invoiceType == 1 ? '咨询费' : '其他'}</Descriptions.Item>
-                    <Descriptions.Item labelStyle={lableCss} label="业务类型">
-                        {detailData?.serviceType == 0 ? '猎头业务' : detailData?.serviceType == 1 ? '咨询业务' : '其他'}
-                    </Descriptions.Item>
-                    <Descriptions.Item labelStyle={lableCss} label="收入类型">
-                        {detailData?.payType == 0 ? '服务费' : detailData?.payType == 1 ? '咨询费' : detailData?.payType == 2 ? '首付款' : '其他'}
-                    </Descriptions.Item>
-                    <Descriptions.Item labelStyle={lableCss} label="发票类型">
-                        {detailData?.serviceType == 0 ? '普通发票' : detailData?.serviceType == 1 ? '专用发票' : '电子普通发票'}
 
-                    </Descriptions.Item>
-                    <Descriptions.Item labelStyle={lableCss} label="是否关联人选">
-                        {detailData?.serviceType == 0 ? '否' : '是'}
-                    </Descriptions.Item>
-                    <Descriptions.Item labelStyle={lableCss} label="纳税人识别号" span={2}>
-                        {detailData?.invoiceNumber}
+                    <Descriptions.Item labelStyle={lableCss} label="公司电话">
+                        {detailData?.phone}
                     </Descriptions.Item>
                 </Descriptions>
             </Card>

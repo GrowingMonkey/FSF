@@ -170,6 +170,8 @@ const Salarylist = () => {
                     }
                   }
                   xhr.open("POST", 'http://admin.fsfhr.com/api/fsfa/eco/uploadSalary', true);
+                  // xhr.open("POST", 'http://192.168.31.170:9090/fsfa/eco/uploadSalary', true);
+
                   xhr.setRequestHeader('token', window.localStorage.getItem('token'))
                   xhr.send(fd);
                   // let result = await upSalary(options.file);

@@ -40,6 +40,12 @@ const ModalLeaveApply = ({ visible, onSubmit, onCancel, record }) => {
       type: "textArea",
       span: 6,
     },
+    {
+      name: "file",
+      label: "附件",
+      type: "file",
+      span: 6,
+    },
   ];
   const handleCancel = () => {
     onCancel()

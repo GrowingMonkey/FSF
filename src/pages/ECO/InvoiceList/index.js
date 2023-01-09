@@ -330,7 +330,7 @@ const InvoiceList = () => {
   };
 
   useEffect(() => {
-    selectInvoiceList(searchValues).then((res) => {
+    selectInvoiceList({ ...searchValues, pageNo: pageNo }).then((res) => {
       console.log(res);
       setInvoiceList(
         res?.data?.list || []

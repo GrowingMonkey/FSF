@@ -19,6 +19,7 @@ import { upload } from '@/utils/lib/upload'
 import SearchInput from '@/components/SearchInput';
 import TalentSearchForEco from '@/components/TalentSearchForEco';
 import { useState } from 'react';
+import CustomerInput from '@/components/CustomerInput';
 import CustomerSearch from '@/components/CustomerSearch';
 
 const AddInvoice = () => {
@@ -133,12 +134,30 @@ const AddInvoice = () => {
                     ]} wrapperCol={{ style: { width: '175px' } }} label="客户名称">
                         <CustomerSearch></CustomerSearch>
                     </Form.Item>
-                    <ProFormText labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '175px' } }} name="name" label="开票名称" rules={[
-                        {
-                            required: true,
-                            message: '必填',
-                        },
-                    ]}></ProFormText>
+                    <Form.Item name="hsname" labelCol={{ style: { width: '112px' } }} wrapperCol={{ style: { width: '175px' } }} label="历史开票查询">
+                        <CustomerInput onChange={(e) => {
+                            applyForm.setFieldsValue({
+                                name: e.name || '',
+                                invoiceNumber: e.invoiceNumber || '',
+                                bankName: e.bankName || '',
+                                bankNumber: e.bankNumber || '',
+                                address: e.address || '',
+                                phone: e.phone || ''
+                            })
+                        }}></CustomerInput>
+                    </Form.Item>
+                    <ProFormText
+                        labelCol={{ style: { width: '113px' } }}
+                        wrapperCol={{ style: { width: '175px' } }}
+                        name="name"
+                        label="开票名称"
+                        rules={[
+                            {
+                                required: true,
+                                message: '必填',
+                            },
+                        ]}></ProFormText>
+
                     <ProFormText labelCol={{ style: { width: '112px' } }} name="invoiceNumber" label={<b>纳税人识别号</b>} rules={[
                         {
                             required: true,

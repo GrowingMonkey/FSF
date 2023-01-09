@@ -73,6 +73,7 @@ const TalentSearch = ({ value = {}, onChange, filedProps = {}, applyUserId }) =>
       value={value?.talents?.talentName}
       defaultActiveFirstOption={false}
       showArrow={false}
+      onFocus={() => handleSearch('')}
       filterOption={false}
       onSearch={debouncedSeach}
       onChange={onCustomerChange}

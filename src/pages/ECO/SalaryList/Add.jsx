@@ -174,8 +174,31 @@ const addTripC = () => {
                         />
                         <ProFormText
                             width="sm"
+                            label="月度绩效"
+                            name="kpiFeeMonth"
+                            placeholder="请输入"
+                        />
+
+
+                    </ProForm.Group>
+
+                    <ProForm.Group>
+                        <ProFormText
+                            width="sm"
                             label="交通补助"
                             name="traffic"
+                            // rules={[
+                            //     {
+                            //         required: true,
+                            //         message: '请输入标题',
+                            //     },
+                            // ]}
+                            placeholder="请输入"
+                        />
+                        <ProFormText
+                            width="sm"
+                            label="餐补"
+                            name="food"
                             // rules={[
                             //     {
                             //         required: true,
@@ -189,18 +212,6 @@ const addTripC = () => {
                     <ProForm.Group>
                         <ProFormText
                             width="sm"
-                            label="餐补"
-                            name="food"
-                            // rules={[
-                            //     {
-                            //         required: true,
-                            //         message: '请输入标题',
-                            //     },
-                            // ]}
-                            placeholder="请输入"
-                        />
-                        <ProFormText
-                            width="sm"
                             label="其他补助"
                             name="other"
                             // rules={[
@@ -211,8 +222,6 @@ const addTripC = () => {
                             // ]}
                             placeholder="请输入"
                         />
-                    </ProForm.Group>
-                    <ProForm.Group>
                         <ProFormText
                             width="sm"
                             label="合计扣款"
@@ -225,6 +234,8 @@ const addTripC = () => {
                             // ]}
                             placeholder="请输入"
                         />
+                    </ProForm.Group>
+                    <ProForm.Group>
                         <ProFormText
                             width="sm"
                             label="实发工资"
@@ -252,6 +263,7 @@ const addTripC = () => {
                                 })
                             })
                         }}>计算</Button>
+
                     </ProForm.Group>
                     <Divider></Divider>
                     <ProForm.Group>
@@ -369,6 +381,12 @@ const addTripC = () => {
                                     message: '请输入标题',
                                 },
                             ]}
+                            placeholder="请输入"
+                        />
+                        <ProFormText
+                            width="sm"
+                            label="员工成本"
+                            name="employCost"
                             placeholder="请输入"
                         />
                     </ProForm.Group>

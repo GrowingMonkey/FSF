@@ -121,7 +121,7 @@ const TalentDetail = () => {
       setPhone(data?.phone || '暂无号码');
       setShowBuy(data?.phone?.split("")?.indexOf("*") !== -1);
     })
-  }, [talentId]);
+  }, [talentId, isRefresh]);
   const onSubmit = () => {
     // if (record) {
     debugger

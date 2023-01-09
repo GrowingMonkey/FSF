@@ -22,9 +22,10 @@ import { querySalaryList, upSalary } from '../../../services/eco';
 const Salarylist = () => {
   const [form] = Form.useForm();
   const [searchValues, setSearchValues] = useState(null);
+  const [count, setCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [salaryList, setSalaryList] = useState([]);
-
+  const [isFresh, setIsFresh] = useState(false);
   const formList = [
     {
       name: 'time',
@@ -136,14 +137,17 @@ const Salarylist = () => {
   const onPageChange = (value) => {
     setCurrentPage(value);
   };
-
+  const updatePage = () => {
+    isFresh ? setIsFresh(false) : setIsFresh(true)
+  }
   useEffect(() => {
     querySalaryList({ pageNo: currentPage, pageSize: 10, ...searchValues }).then((res) => {
       setSalaryList(
         res?.data?.list || []
       );
+      setCount(res?.data?.count || 0)
     });
-  }, [currentPage, searchValues]);
+  }, [currentPage, searchValues, isFresh]);
 
   return (
     <PageContainer>
@@ -167,6 +171,7 @@ const Salarylist = () => {
                   xhr.onreadystatechange = function () {
                     if (xhr.readyState == 4) {
                       options.onSuccess();
+                      updatePage()
                     }
                   }
                   xhr.open("POST", 'http://admin.fsfhr.com/api/fsfa/eco/uploadSalary', true);
@@ -254,7 +259,13 @@ const Salarylist = () => {
         </Form>
       </div>
       <div className={styles['list-container']}>
-        <Table columns={salaryColumns} dataSource={salaryList} pagination={false} size="small" />
+        <Table columns={salaryColumns} dataSource={salaryList} pagination={{
+          total: count,
+          pageSize: 10,
+          onChange: e => { setCurrentPage(e) },
+          showTotal: count => `共${count}条`
+
+        }} size="small" />
       </div>
       <div style={{ width: '100%', minHeight: '15px' }} />
     </PageContainer >

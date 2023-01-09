@@ -487,6 +487,9 @@ const KpiList = () => {
             key: 'talentName',
             width: 80,
             ellipsis: true,
+            render: (text, record) => {
+                return <span onClick={() => window.open('/talent/detail?talentId=' + record.talentId)}>{text}</span>
+            }
         },
         {
             title: '岗位名称',
@@ -499,6 +502,9 @@ const KpiList = () => {
             dataIndex: 'company',
             key: 'company',
             ellipsis: true,
+            render: (text, record) => {
+                return <span onClick={() => window.open('/customer/detail?customerId=' + record.customerId + '&customerName=' + record.customerName + '&id=' + record.id)}>{text}</span>
+            }
         },
         {
             title: '日期',
@@ -535,6 +541,9 @@ const KpiList = () => {
                         key: 'talentName',
                         width: 80,
                         ellipsis: true,
+                        render: (text, record) => {
+                            return <span onClick={() => window.open('/talent/detail?talentId=' + record.talentId)}>{text}</span>
+                        }
                     },
                     {
                         title: '人选岗位',
@@ -567,6 +576,9 @@ const KpiList = () => {
                         dataIndex: 'customerName',
                         key: 'customerName',
                         ellipsis: true,
+                        render: (text, record) => {
+                            return <span onClick={() => window.open('/customer/detail?customerId=' + record.customerId + '&customerName=' + record.customerName + '&id=' + record.id)}>{text}</span>
+                        }
                     },
                     // {
                     //     title: '操作',

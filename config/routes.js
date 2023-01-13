@@ -334,8 +334,20 @@ export default [
         component: "./ECO/SalaryList/index",
       },
       {
+        path: "/eco/salary-detail",
+        name: "工资详情",
+        hideInMenu: true,
+        component: "./ECO/SalaryList/Detail",
+      },
+      {
         path: "/eco/salary-add",
         name: "新增工资",
+        component: "./ECO/SalaryList/Add",
+      },
+      {
+        path: "/eco/salary-update",
+        name: "修改工资",
+        hideInMenu: true,
         component: "./ECO/SalaryList/Add",
       },
       {

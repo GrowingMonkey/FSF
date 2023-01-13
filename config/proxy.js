@@ -13,7 +13,7 @@ export default {
       // 要代理的地址
       // target: 'https://preview.pro.ant.design',
       target: 'https://admin.fsfhr.com',
-      // target: 'http://192.168.31.170:9090',
+      // target: 'http://192.168.31.183:9090',
       // pathRewrite: {
       //   '^/api': '',
       // },

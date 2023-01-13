@@ -9,24 +9,22 @@ const ModalFormArea = ({ visible, onSubmit, onCancel, record }) => {
   const [form] = Form.useForm();
   const handleOk = () => {
     setConfirmLoading(true);
-    form
-      .validateFields()
-      .then((values) => {
-        if (record) {
-          updateArea({ id: record.id, ...values, ids: values.ids.map(item => item.value), leaderId: values.leaderId.value }).then(() => {
-            onSubmit();
-            form.resetFields();
-            setConfirmLoading(false);
-          });
-        } else {
-          console.log(values.ids)
-          addArea({ ...values, ids: values.ids.map(item => item.value), leaderId: values.leaderId.value }).then(() => {
-            onSubmit();
-            form.resetFields();
-            setConfirmLoading(false);
-          });
-        }
-      })
+    form.validateFields().then((values) => {
+      if (record) {
+        updateArea({ id: record.id, ...values, ids: values.ids.map(item => item.value), leaderId: values.leaderId.value }).then(() => {
+          onSubmit();
+          form.resetFields();
+          setConfirmLoading(false);
+        });
+      } else {
+        console.log(values.ids)
+        addArea({ ...values, ids: values.ids.map(item => item.value), leaderId: values.leaderId.value }).then(() => {
+          onSubmit();
+          form.resetFields();
+          setConfirmLoading(false);
+        });
+      }
+    })
       .catch((info) => {
         console.log("Validate Failed:", info);
         setConfirmLoading(false);

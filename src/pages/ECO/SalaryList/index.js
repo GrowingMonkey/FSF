@@ -3,6 +3,7 @@ import {
   Form,
   Row,
   Col,
+  Popconfirm,
   Upload,
   Input,
   InputNumber,
@@ -17,7 +18,8 @@ import {
 } from 'antd';
 import styles from './index.less';
 import { PageContainer } from '@ant-design/pro-layout';
-import { querySalaryList, upSalary } from '../../../services/eco';
+import { querySalaryList, upSalary, delSalary } from '../../../services/eco';
+import { history } from "umi"
 
 const Salarylist = () => {
   const [form] = Form.useForm();
@@ -40,6 +42,12 @@ const Salarylist = () => {
       span: 6,
     },
   ];
+  const deleteConfirm = (record) => {
+    delSalary({ id: record.id }).then(res => {
+      message.success('作废成功');
+      setIsFresh(fresh ? false : true)
+    })
+  };
   const salaryColumns = [
     {
       title: '员工姓名',
@@ -105,6 +113,34 @@ const Salarylist = () => {
       title: '备注',
       dataIndex: 'remark',
       key: 'remark',
+    },
+    {
+      title: '操作',
+      dataIndex: 'action',
+      render: (text, record) => {
+        return [<Button type="link" size="small" onClick={() => {
+          history.push({
+            pathname: '/eco/salary-detail',
+            state: record
+          })
+        }}>查看</Button>,
+        <Button type="link" size="small" link onClick={() => {
+          history.push({
+            pathname: '/eco/salary-update',
+            state: record
+          })
+        }}>修改</Button>,
+        <Popconfirm
+          title="确定删除此条工资信息"
+          onConfirm={() => deleteConfirm(record)}
+
+          okText="确定"
+          cancelText="取消"
+        >
+          <Button size="small" type="text" danger>删除</Button>
+        </Popconfirm>
+        ]
+      }
     },
   ];
 

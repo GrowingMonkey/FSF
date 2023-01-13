@@ -18,6 +18,18 @@ export const invoiceInfoList = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export const delSalary = (payload) => {
+  return request('/eco/delSalary', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+export const updateSalary = (payload) => {
+  return request('/eco/updateSalary', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
 // 业绩查询
 export const queryKpiList = (payload) => {
   return request('/eco/selectKpiList', {

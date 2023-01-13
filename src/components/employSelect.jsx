@@ -4,7 +4,9 @@ import debounce from "lodash/debounce";
 import { ulfq } from "@/services/customer";/**
  * 人选查询select组件
  * @param {props} param0 
+ * 
  */
+
 const TalentSearch = ({ value = {}, onChange, filedProps = {}, applyUserId }) => {
     const { Option } = Select;
     const [options, setOptions] = useState([]);
@@ -21,11 +23,9 @@ const TalentSearch = ({ value = {}, onChange, filedProps = {}, applyUserId }) =>
             let newArray = [];
             let id = sourceList.map((item, index) => {
                 if (item.id == newValue) {
-                    console.log(index, newValue)
                     newArray.push(item);
                 }
             });
-            console.log(id);
             newArray.push(JSON.parse(newValue));
             triggerChange([
                 ...newArray
@@ -72,6 +72,8 @@ const TalentSearch = ({ value = {}, onChange, filedProps = {}, applyUserId }) =>
             style={{ width: "100%" }}
             {...filedProps}
             showSearch
+            value={value}
+            disabled={filedProps.disabled || false}
             placeholder=""
             defaultActiveFirstOption={false}
             showArrow={false}

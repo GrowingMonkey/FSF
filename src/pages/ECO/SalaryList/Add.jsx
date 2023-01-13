@@ -12,7 +12,7 @@ import ProForm, {
 import { useRequest, history } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
 import { useState, useEffect } from 'react';
-import { addSalary, gzjsq } from '@/services/eco';
+import { addSalary, gzjsq, updateSalary } from '@/services/eco';
 import { selectPList } from '@/services/project';
 import { selectTalentList } from '@/services/talent';
 import { addTrip } from '@/services/employ'
@@ -35,9 +35,27 @@ const addTripC = () => {
             history.push(`/eco/salary-list`)
         },
     });
-
+    useEffect(() => {
+        const { location: { query, state } } = history;
+        if (state) {
+            console.log(state);
+            applyForm.setFieldsValue({
+                ...state,
+                empoylee: state.userName,
+                appComName: state.comName,
+            })
+        }
+    })
     const onFinish = async (values) => {
-        run({ ...values, appComId: values.empoylee.comId, appUserId: values.empoylee.userId, appUserName: values.empoylee.name });
+        const { location: { query, state } } = history;
+        if (state) {
+            updateSalary({ id: state.id, ...values, appComId: state.comId, appUserId: state.userId, appUserName: state.userName }).then(res => {
+                message.success('修改成功');
+                history.push(`/eco/invioce-list`)
+            })
+        } else {
+            run({ ...values, appComId: values.empoylee.comId, appUserId: values.empoylee.userId, appUserName: values.empoylee.name });
+        }
     };
     const changeType = (e) => {
         setSelectType(e.target.value);
@@ -77,6 +95,14 @@ const addTripC = () => {
                                 applyForm.setFieldsValue({
                                     appComName: e.comName,
                                 })
+                            }} filedProps={{
+                                disabled: (() => {
+                                    const { location: { query, state } } = history;
+                                    if (state) return true;
+                                    else {
+                                        return false
+                                    }
+                                })()
                             }}></ApplyYuanGong>
                         </Form.Item>
                         <ProFormText

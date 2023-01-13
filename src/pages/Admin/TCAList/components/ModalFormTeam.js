@@ -11,30 +11,29 @@ const ModalFormTeam = ({ visible, onSubmit, onCancel, record }) => {
   const [form] = Form.useForm();
   const handleOk = () => {
     setConfirmLoading(true);
-    form
-      .validateFields()
-      .then((values) => {
-        let payload = { ...values };
-        // if (payload.cityCode.length === 2) {
-        //   payload.cityCode = payload.cityCode[1];
-        // }
-        // if (payload.cityCode.length === 1) {
-        //   payload.cityCode = payload.cityCode[0];
-        // }
-        if (record) {
-          updateTeam({ id: record.id, ...payload, ids: values.ids.map(item => item.value), leaderId: values.leaderId.value, superiorId: values.superiorId.value, level: 2 }).then(() => {
-            onSubmit();
-            form.resetFields();
-            setConfirmLoading(false);
-          });
-        } else {
-          addTeam({ ...payload, ids: values.ids.map(item => item.value), leaderId: values.leaderId.value, superiorId: values.superiorId.value, level: 2 }).then(() => {
-            onSubmit();
-            form.resetFields();
-            setConfirmLoading(false);
-          });
-        }
-      })
+    form.validateFields().then((values) => {
+      console.log(values);
+      let payload = { ...values };
+      // if (payload.cityCode.length === 2) {
+      //   payload.cityCode = payload.cityCode[1];
+      // }
+      // if (payload.cityCode.length === 1) {
+      //   payload.cityCode = payload.cityCode[0];
+      // }
+      if (record) {
+        updateTeam({ id: record.id, ...payload, ids: values.ids.map(item => item?.value), leaderId: values.leaderId?.value, superiorId: values.superiorId?.value, level: 2 }).then(() => {
+          onSubmit();
+          form.resetFields();
+          setConfirmLoading(false);
+        });
+      } else {
+        addTeam({ ...payload, ids: values.ids.map(item => item.value), leaderId: values.leaderId.value, superiorId: values.superiorId.value, level: 2 }).then(() => {
+          onSubmit();
+          form.resetFields();
+          setConfirmLoading(false);
+        });
+      }
+    })
       .catch((info) => {
         console.log("Validate Failed:", info);
       });
@@ -58,7 +57,17 @@ const ModalFormTeam = ({ visible, onSubmit, onCancel, record }) => {
         }
         value.cityCode = [provinceCode, prefectureCode];
         console.log(value);
-        form.setFieldsValue({ ...value });
+        form.setFieldsValue({
+          name: value.name,
+          // superiorId: value.superiorId,
+          leaderId: { label: value.leaderName, value: value.leaderId },
+          ids: value.userList.map(item => {
+            return {
+              label: `${item.name} `,
+              value: item.userId,
+            }
+          })
+        });
         setModalTitle("编辑团队");
       } else {
         setModalTitle("新增团队");
@@ -96,7 +105,7 @@ const ModalFormTeam = ({ visible, onSubmit, onCancel, record }) => {
         <Form.Item name="superiorId" label="归属公司">
           <DebounceSelect
             showSearch
-            value={form.getFieldValue('name')}
+            value={form.getFieldValue('superiorId')}
             placeholder="Select users"
             fetchOptions={async (e) => {
               let a = await tcaList({ name: e, level: '1' });
@@ -120,10 +129,10 @@ const ModalFormTeam = ({ visible, onSubmit, onCancel, record }) => {
         </Form.Item>
         <Form.Item name="leaderId" label="团队负责人">
           <DebounceSelect
-            // mode="multiple"
             showSearch
-            value={form.getFieldValue('name')}
+            value={form.getFieldValue('leaderId')}
             placeholder="Select users"
+            onChange={(e) => console.log(e, '团队负责人')}
             fetchOptions={async (e) => {
               let a = await userList({ name: e });
               console.log(a)
@@ -147,9 +156,9 @@ const ModalFormTeam = ({ visible, onSubmit, onCancel, record }) => {
         <Form.Item name="ids" label="团队下属员工">
           <DebounceSelect
             mode="multiple"
-
-            value={form.getFieldValue('name')}
+            value={form.getFieldValue('ids')}
             placeholder="Select users"
+
             fetchOptions={async (e) => {
               let a = await userList({ name: e });
               console.log(a)

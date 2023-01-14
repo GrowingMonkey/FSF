@@ -51,7 +51,7 @@ const addTripC = () => {
         if (state) {
             updateSalary({ id: state.id, ...values, appComId: state.comId, appUserId: state.userId, appUserName: state.userName }).then(res => {
                 message.success('修改成功');
-                history.push(`/eco/invioce-list`)
+                history.push(`/eco/salary-list`)
             })
         } else {
             run({ ...values, appComId: values.empoylee.comId, appUserId: values.empoylee.userId, appUserName: values.empoylee.name });

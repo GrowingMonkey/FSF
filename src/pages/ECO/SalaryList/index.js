@@ -45,7 +45,7 @@ const Salarylist = () => {
   const deleteConfirm = (record) => {
     delSalary({ id: record.id }).then(res => {
       message.success('作废成功');
-      setIsFresh(fresh ? false : true)
+      setIsFresh(isFresh ? false : true)
     })
   };
   const salaryColumns = [

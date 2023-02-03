@@ -587,7 +587,7 @@ const ChapterManager = () => {
                         }} />
 
 
-                        <ProFormText label="议价金额" name="needPayment" rules={[
+                        <ProFormText label="预收服务费" name="needPayment" rules={[
                             {
                                 required: true,
                                 message: '请输入',

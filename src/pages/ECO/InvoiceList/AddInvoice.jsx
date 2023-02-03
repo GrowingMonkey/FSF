@@ -377,7 +377,7 @@ const AddInvoice = () => {
                                                                     required: true,
                                                                     message: '必填',
                                                                 },
-                                                            ]} labelCol={{ style: { width: '112px' } }} wrapperCol={{ style: { width: '168px' } }} disabled name="serviceFee" label="议价服务费" />
+                                                            ]} labelCol={{ style: { width: '112px' } }} wrapperCol={{ style: { width: '168px' } }} disabled name="serviceFee" label="应收服务费" />
                                                             <ProFormText rules={[
                                                                 {
                                                                     required: true,
@@ -468,7 +468,7 @@ const AddInvoice = () => {
                                                         required: true,
                                                         message: '必填',
                                                     },
-                                                ]} labelCol={{ style: { width: '112px' } }} wrapperCol={{ style: { width: '168px' } }} name="serviceFee" label="议价服务费" />
+                                                ]} labelCol={{ style: { width: '112px' } }} wrapperCol={{ style: { width: '168px' } }} name="serviceFee" label="应收服务费" />
                                             </ProForm.Group>
                                             <ProForm.Group>
                                                 <ProFormText rules={[

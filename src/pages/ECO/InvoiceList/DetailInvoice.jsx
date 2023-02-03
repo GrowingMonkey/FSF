@@ -154,12 +154,35 @@ const AddInvoice = () => {
                     console.log(tpItem)
                     return <><Descriptions title="" column={2}>
                         <Descriptions.Item labelStyle={lableCss} label="人选名称" span={2}>{tpItem?.talentName}</Descriptions.Item>
-                        <Descriptions.Item labelStyle={lableCss} label="议价服务费" span={2}>{tpItem?.serviceFee}</Descriptions.Item>
+                        <Descriptions.Item labelStyle={lableCss} label="应收服务费" span={2}>{tpItem?.serviceFee}</Descriptions.Item>
                         <Descriptions.Item labelStyle={lableCss} label="开票金额">{tpItem?.fee}</Descriptions.Item>
                         <Descriptions.Item labelStyle={lableCss} label="税率">{tpItem?.invoiceRate}%</Descriptions.Item>
                         <Descriptions.Item labelStyle={lableCss} label="不含税金额">{tpItem?.freeFee}</Descriptions.Item>
                         <Descriptions.Item labelStyle={lableCss} label="税额">
                             {tpItem?.invoiceFee}
+                        </Descriptions.Item>
+                    </Descriptions>
+                    </>
+                })}
+
+            </Card>
+            <Card bordered={false} title={'回款信息'}>
+                {detailData?.serviceFeeSet && detailData.serviceFeeSet.length > 0 && detailData.serviceFeeSet.map((tpItem) => {
+                    console.log(tpItem)
+                    return <><Descriptions title="" column={2}>
+                        <Descriptions.Item labelStyle={lableCss} label="回款金额" >{tpItem?.fee}</Descriptions.Item>
+                        <Descriptions.Item labelStyle={lableCss} label="服务顾问" >{tpItem?.userName}</Descriptions.Item>
+                        <Descriptions.Item labelStyle={lableCss} label="归属公司">{tpItem?.comName}</Descriptions.Item>
+                        <Descriptions.Item labelStyle={lableCss} label="支付方式">{tpItem?.payWay == 0 ? '现金支付' : tpItem?.payWay == 1 ? '支票转账' : tpItem?.payWay == 2 ? '网银转账' : tpItem?.payWay == 3 ? '其他方式' : '个人电汇'}</Descriptions.Item>
+                        <Descriptions.Item labelStyle={lableCss} label="客户名称">{tpItem?.customerName}</Descriptions.Item>
+                        <Descriptions.Item labelStyle={lableCss} label="收入类型">
+                            {tpItem?.payType == 0 ? '服务费' : tpItem?.payType == 1 ? '咨询费' : tpItem?.payType == 2 ? '首付款' : '其他'}
+                        </Descriptions.Item>
+                        <Descriptions.Item labelStyle={lableCss} label="业务类型">
+                            {tpItem?.serviceType == 0 ? '猎头业务' : tpItem?.serviceType == 1 ? '咨询业务' : '其他'}
+                        </Descriptions.Item>
+                        <Descriptions.Item labelStyle={lableCss} label="回款期限">
+                            {tpItem?.dateType}
                         </Descriptions.Item>
                     </Descriptions>
                     </>

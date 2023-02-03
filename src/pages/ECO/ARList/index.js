@@ -105,7 +105,7 @@ const ARList = () => {
       key: 'type7',
     },
     {
-      title: '议价服务费',
+      title: '应收服务费',
       dataIndex: 'type8',
       key: 'type8',
     },

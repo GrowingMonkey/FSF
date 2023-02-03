@@ -105,7 +105,17 @@ const StepDetail = () => {
     }
     return (
         <>
-            <Card title="人选基本信息" extra={<Button type="primary" size="small" onClick={() => setTalentVisible(true)}>编辑</Button>}>
+            <Card title="人选基本信息" extra={<Button type="primary" size="small" onClick={() => {
+                form.setFieldsValue({
+                    phone: talentJoinDetail.phone,
+                    email: talentDetail.email,
+                    salary: talentDetail.salary,
+                    company: talentDetail.lastCompany,
+                    job: talentDetail.job,
+                    remark: talentDetail.remark,
+                })
+                setTalentVisible(true)
+            }}>编辑</Button>}>
                 <Row>
                     <Col span={2}><Avatar size={64} icon={<UserOutlined />} />
                     </Col>

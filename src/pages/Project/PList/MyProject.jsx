@@ -71,6 +71,15 @@ const PList = () => {
             dataIndex: "name",
             ellipsis: true,
             key: "name",
+            render: (text, record) => {
+                return <Link to={{
+                    pathname: '/project/p-detail/detail',
+                    search: `?projectId=${record.projectId}&customerId=${record.customerId}&id=${record.id}`,
+                    state: { record: record },
+                }} target="_blank" style={{ padding: 0 }}>
+                    {record.name}
+                </Link>
+            }
         },
         {
             title: "工作地点",

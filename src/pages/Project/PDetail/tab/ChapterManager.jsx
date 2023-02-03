@@ -550,10 +550,22 @@ const ChapterManager = () => {
                     >
                         <ProFormDatePicker label="offer时间"
                             help=""//备注
-                            name="offerDate" />
+                            name="offerDate"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: '请选择',
+                                },
+                            ]} />
                         <ProFormDatePicker label="入职时间"
                             help=""//备注
-                            name="workDate" />
+                            name="workDate"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: '请选择',
+                                },
+                            ]} />
 
                         {/* <ProFormSelect options={[
                                 {
@@ -565,17 +577,32 @@ const ChapterManager = () => {
                                     label: '税后',
                                 },
                             ]} label="年薪" /> */}
-                        <ProFormText label="年薪" name="salary" fieldProps={{
+                        <ProFormText label="年薪" name="salary" rules={[
+                            {
+                                required: true,
+                                message: '请输入',
+                            },
+                        ]} fieldProps={{
                             suffix: '万'
                         }} />
 
 
-                        <ProFormText label="议价金额" name="needPayment" fieldProps={{
+                        <ProFormText label="议价金额" name="needPayment" rules={[
+                            {
+                                required: true,
+                                message: '请输入',
+                            },
+                        ]} fieldProps={{
                             suffix: '元'
                         }} />
                         <ProFormText name="quot" label="保用期" fieldProps={{
                             suffix: '月'
-                        }} />
+                        }} rules={[
+                            {
+                                required: true,
+                                message: '请输入',
+                            },
+                        ]} />
                         <ProFormRadio.Group
                             options={[
                                 {
@@ -616,7 +643,12 @@ const ChapterManager = () => {
                                 label: '6%',
                             },
 
-                        ]} label="税率" name="feeRate" />
+                        ]} label="税率" name="feeRate" rules={[
+                            {
+                                required: true,
+                                message: '请选择',
+                            },
+                        ]} />
                         <ProFormDependency name={['chargeWay']}>
                             {
                                 ({ chargeWay }) => {

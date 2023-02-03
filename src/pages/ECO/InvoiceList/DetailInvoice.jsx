@@ -118,7 +118,7 @@ const AddInvoice = () => {
                     </Descriptions.Item>
                     <Descriptions.Item labelStyle={lableCss} label="开票名称">{detailData?.name}</Descriptions.Item>
                     <Descriptions.Item labelStyle={lableCss} label={<b>是否关联人选</b>}>
-                        {detailData?.serviceType == 0 ? '否' : '是'}
+                        {detailData?.talentProjects.length == 0 ? '否' : '是'}
                     </Descriptions.Item>
                     <Descriptions.Item labelStyle={lableCss} label={<b>纳税人识别号</b>}>
                         {detailData?.invoiceNumber}
@@ -150,15 +150,21 @@ const AddInvoice = () => {
                 </Descriptions>
             </Card>
             <Card bordered={false} title={'开票信息'}>
-                <Descriptions title="" column={2}>
-                    <Descriptions.Item labelStyle={lableCss} label="议价服务费" span={2}>{detailData?.serviceFee}</Descriptions.Item>
-                    <Descriptions.Item labelStyle={lableCss} label="开票金额">{detailData?.fee}</Descriptions.Item>
-                    <Descriptions.Item labelStyle={lableCss} label="税率">{detailData?.invoiceRate}%</Descriptions.Item>
-                    <Descriptions.Item labelStyle={lableCss} label="不含税金额">{detailData?.freeFee}</Descriptions.Item>
-                    <Descriptions.Item labelStyle={lableCss} label="税额">
-                        {detailData?.invoiceFee}
-                    </Descriptions.Item>
-                </Descriptions>
+                {detailData?.talentProjects && detailData.talentProjects.length > 0 && detailData.talentProjects.map((tpItem) => {
+                    console.log(tpItem)
+                    return <><Descriptions title="" column={2}>
+                        <Descriptions.Item labelStyle={lableCss} label="人选名称" span={2}>{tpItem?.talentName}</Descriptions.Item>
+                        <Descriptions.Item labelStyle={lableCss} label="议价服务费" span={2}>{tpItem?.serviceFee}</Descriptions.Item>
+                        <Descriptions.Item labelStyle={lableCss} label="开票金额">{tpItem?.fee}</Descriptions.Item>
+                        <Descriptions.Item labelStyle={lableCss} label="税率">{tpItem?.invoiceRate}%</Descriptions.Item>
+                        <Descriptions.Item labelStyle={lableCss} label="不含税金额">{tpItem?.freeFee}</Descriptions.Item>
+                        <Descriptions.Item labelStyle={lableCss} label="税额">
+                            {tpItem?.invoiceFee}
+                        </Descriptions.Item>
+                    </Descriptions>
+                    </>
+                })}
+
             </Card>
             <Card title="申请发票备注" bordered={false}>
                 <Descriptions title="" column={2}>

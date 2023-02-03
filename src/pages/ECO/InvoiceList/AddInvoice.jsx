@@ -287,7 +287,7 @@ const AddInvoice = () => {
                                 value: 1,
                             }]} labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '175px' } }} name="isTalent" label="是否关联人选" />
                     </ProForm.Group>
-                    <ProFormDependency name={['type']}>
+                    {/* <ProFormDependency name={['type']}>
                         {({ type }) => {
                             if (+type == 1) {
                                 return (
@@ -327,7 +327,7 @@ const AddInvoice = () => {
                             }
 
                         }}
-                    </ProFormDependency>
+                    </ProFormDependency> */}
 
 
                     <ProFormDependency name={['isTalent']}>

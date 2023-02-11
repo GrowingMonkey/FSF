@@ -76,8 +76,8 @@ const Salarylist = () => {
     },
     {
       title: '提成金额',
-      dataIndex: 'commision',
-      key: 'commision',
+      dataIndex: 'commissionFee',
+      key: 'commissionFee',
     },
     {
       title: '本月扣款',

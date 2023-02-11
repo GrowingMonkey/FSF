@@ -43,6 +43,20 @@ const CustomerList = () => {
   const [customerRecord, setCustomerRecord] = useState(null);
   const formList = [
     {
+      name: "name",
+      label: "客户名",
+      width: 120,
+      type: "input",
+      span: 6,
+    },
+
+    {
+      name: "appUserName",
+      label: "服务顾问",
+      type: "input",
+      span: 6,
+    },
+    {
       name: "belong",
       label: "客户归属",
       type: "select",
@@ -51,16 +65,6 @@ const CustomerList = () => {
         { label: "所有", value: 0 },
         { label: "我的", value: 1 },
         { label: "我的团队的", value: 2 },
-      ],
-    },
-    {
-      name: "certification",
-      label: "是否认证",
-      type: "select",
-      span: 6,
-      options: [
-        { label: "否", value: 0 },
-        { label: "是", value: 1 },
       ],
     },
     {
@@ -144,13 +148,7 @@ const CustomerList = () => {
         },
       ],
     },
-    {
-      name: "name",
-      label: "客户名",
-      width: 120,
-      type: "input",
-      span: 6,
-    },
+
     // {
     //   name: "signPercentLess",
     //   label: "签约比例最小值",

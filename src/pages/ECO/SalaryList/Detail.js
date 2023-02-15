@@ -67,7 +67,7 @@ const AddInvoice = () => {
     }
     const lableCss = {
         width: 120,
-        justifyContent: 'right',
+        justifyContent: 'left',
         color: '#999'
     }
     const blurFee = () => {
@@ -87,7 +87,7 @@ const AddInvoice = () => {
     }
     return (
         <PageContainer content="">
-            <Card bordered={false} title={'申请发票'}>
+            <Card bordered={false} title={'工资详情'}>
                 <Descriptions title="" column={2}>
                     <Descriptions.Item labelStyle={lableCss} label="员工姓名" span={2}>{detailData?.userName}</Descriptions.Item>
                     <Descriptions.Item labelStyle={lableCss} label="归属公司">{detailData?.comName}</Descriptions.Item>

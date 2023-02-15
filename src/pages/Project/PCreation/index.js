@@ -25,10 +25,12 @@ import { industryList } from '../../../utils/Industry';
 import { positionList } from '../../../utils/Position';
 import CascaderMul from '@/components/CascaderMul';
 import { ulfq } from "@/services/customer";
+
 import styles from './index.less';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProForm, { ProFormText, ProFormSelect, ProFormTextArea } from '@ant-design/pro-form';
 const { TextArea } = Input;
+import DebounceSelect from '@/pages/Admin/TCAList/components/UserSearch'
 import SearchInput from '@/components/SearchInput';
 
 const PCreation = () => {
@@ -75,13 +77,23 @@ const PCreation = () => {
       getProjectId().then((res) => {
         const { data } = res;
         jobForm.validateFields().then((values) => {
-          addProject({ projectId: data, ...payload, ...values, ...params, teams: tags }).then((data) => {
-            // console.log(data);
+          teamForm.validateFields().then(val => {
+            console.log(val)
+            addProject({
+              projectId: data, ...payload, ...values, ...params, teams: val.ids.map(ite => {
+                return {
+                  appUserId: ite.value,
+                  appUserName: ite.label
+                }
+              })
+            }).then((data) => {
+              console.log(data);
 
-            message.success(res.message);
-            setBtnLoading(false)
-            history.push('/project/pm-list');
-          });
+              message.success(res.message);
+              setBtnLoading(false)
+              history.push('/project/pm-list');
+            });
+          })
         });
       });
     }).catch(err => {
@@ -403,8 +415,9 @@ const PCreation = () => {
           </Form.Item>
         */}
         </ProForm>
-        <Card title="执行团队" extra={<Button type="primary" onClick={() => setIsModalVisible(true)}>新增成员</Button>}>
-          {tags && tags.map((tag, index) => {
+        {/* <Card title="执行团队" extra={<Button type="primary" onClick={() => setIsModalVisible(true)}>新增成员</Button>}> */}
+        <Card title="执行团队">
+          {/* {tags && tags.map((tag, index) => {
             const tagElem = (
               <Tag
                 className="edit-tag"
@@ -420,9 +433,42 @@ const PCreation = () => {
               </Tag>
             );
             return tagElem
-          })}
-        </Card>
-        <Modal title="加入团队" visible={isModalVisible} footer={null} onCancel={() => setIsModalVisible(false)}>
+          })} */}
+          <Form
+            form={teamForm}
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 16 }}
+            labelAlign="left"
+          >
+            <Form.Item name="ids" label={null}>
+              <DebounceSelect
+                mode="multiple"
+                value={form.getFieldValue('ids')}
+                placeholder="Select users"
+
+                fetchOptions={async (e) => {
+                  let a = await ulfq({ name: e });
+                  console.log(a)
+                  console.log(e);
+
+                  return a.data.list.map(item => {
+                    return {
+                      label: `${item.name} `,
+                      value: item.userId,
+                    }
+                  });
+                }}
+                onChange={(newValue) => {
+                  // setValue(newValue);
+                }}
+                style={{
+                  width: '100%',
+                }}
+              />
+            </Form.Item>
+
+          </Form> </Card>
+        {/* <Modal title="加入团队" visible={isModalVisible} footer={null} onCancel={() => setIsModalVisible(false)}>
           <ProForm
             hideRequiredMark
             style={{
@@ -445,7 +491,7 @@ const PCreation = () => {
               <SearchInput></SearchInput>
             </Form.Item>
           </ProForm>
-        </Modal>
+        </Modal> */}
 
         <Space>
           <Button

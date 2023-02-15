@@ -74,17 +74,23 @@ const SignRank = () => {
             options: areaList?.list
         },
         {
-            name: "dateRang",
-            label: "时间范围",
-            type: "dateRangPicker",
-            span: 12,
+            name: "startTime",
+            label: "开始时间",
+            type: "date",
+            span: 8,
+        },
+        {
+            name: "endTime",
+            label: "结束时间",
+            type: "date",
+            span: 8,
         },
     ];
     console.log(rankList);
     const handleSearch = () => {
         form.validateFields().then(values => {
             console.log(values)
-            signRun({ areaName: values.areaId, startTime: moment(values.dateRang[0]).format("YYYY/MM/DD"), endTime: moment(values.dateRang[1]).format("YYYY/MM/DD") })
+            signRun({ areaName: values.areaId, startTime: moment(values.startTime).format("YYYY/MM/DD"), endTime: moment(values.endTime).format("YYYY/MM/DD") })
         })
     }
     const handleInpputSearch = (e) => {
@@ -193,6 +199,13 @@ const SignRank = () => {
                                     return (<Col span={col.span} key={col.name}>
                                         <Form.Item name={col.name} label={col.label}>
                                             <RangePicker format={`YYYY-MM-DD`} />
+                                        </Form.Item>
+                                    </Col>)
+                                }
+                                if (col.type === 'date') {
+                                    return (<Col span={col.span} key={col.name}>
+                                        <Form.Item name={col.name} label={col.label}>
+                                            <DatePicker style={{ width: "100%" }} format={`YYYY-MM-DD`} />
                                         </Form.Item>
                                     </Col>)
                                 }

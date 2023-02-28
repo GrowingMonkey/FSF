@@ -53,6 +53,10 @@ const TalentSearch = ({ value = {}, onChange, filedProps = {}, applyUserId, cust
                 message.error('请先选择服务顾问');
                 return;
             }
+            if (!customer) {
+                message.error('请先选择客户名称');
+                return;
+            }
             selectTPListForInvoice({ pageNo: 1, pageSize: 10, name: value, appUserId: user.recommenderUserId, customerId: customer.customerId }).then(
                 (res) => {
                     const { data } = res;

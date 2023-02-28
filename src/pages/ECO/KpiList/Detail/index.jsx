@@ -111,12 +111,18 @@ const DetailModal = ({ visibledetail = null, handleClose = () => { }, kpiId = nu
             dataIndex: 'kpiFee',
             key: 'kpiFee',
             ellipsis: true,
+            render: (text) => {
+                return <span style={{ color: 'red' }}>{text}</span>
+            }
         },
         {
             title: '提成金额',
             dataIndex: 'commissionFee',
             key: 'commissionFee',
             ellipsis: true,
+            render: (text) => {
+                return <span style={{ color: 'red' }}>{text}</span>
+            }
         },
     ]
     console.log(visibledetail)
@@ -135,7 +141,7 @@ const DetailModal = ({ visibledetail = null, handleClose = () => { }, kpiId = nu
                     <Descriptions.Item label="回款信息">{dataSource.customerName}</Descriptions.Item>
                     <Descriptions.Item label="归属公司">{dataSource.comName}</Descriptions.Item>
                     <Descriptions.Item label="提成分类">{dataSource.payType == 0 ? '服务费' : dataSource.type == 1 ? '咨询费' : dataSource.type == 3 ? '首付款' : ''}</Descriptions.Item>
-                    <Descriptions.Item label="提成比例">{dataSource.rate}</Descriptions.Item>
+                    <Descriptions.Item label="提成比例"><span style={{ color: 'red' }}>{dataSource.rate}</span></Descriptions.Item>
                     {dataSource.rate == 5 && [<Descriptions.Item label="回款金额">{dataSource.serviceFee}</Descriptions.Item>,
                     <Descriptions.Item label="提成金额">{dataSource.commissionFee}</Descriptions.Item>]}
                 </Descriptions>
@@ -147,14 +153,14 @@ const DetailModal = ({ visibledetail = null, handleClose = () => { }, kpiId = nu
                     renderItem={item => (
                         <List.Item style={{ flexDirection: 'column' }}>
                             <Descriptions>
-                                <Descriptions.Item label="分配金额">{item.serviceFee}</Descriptions.Item>
+                                <Descriptions.Item label="分配金额"><span style={{ color: 'red' }}>{item.serviceFee}</span></Descriptions.Item>
                                 <Descriptions.Item label="关联人选">{item.talentName}</Descriptions.Item>
                                 <Descriptions.Item label="业绩分类"> {item.type == 1 ? '独立运作' : item.type == 2 ? '组内合作' : item.type == 3 ? '同城合作' : item.type == 4 ? '跨区合作' : ''}</Descriptions.Item>
                             </Descriptions>
 
                             <Table columns={columns} dataSource={item?.kpiUserInfos || []} pagination={false} size="small"
                                 bordered
-                                footer={() => <div>提成总计金额{item.kpiUserInfos[0].allCommissionFee}元 业绩总计金额{item.kpiUserInfos[0].allKpiFee}</div>}
+                                footer={() => <div>提成总计金额<span style={{ color: 'red' }}>{item.kpiUserInfos[0].allCommissionFee}</span>元 业绩总计金额<span style={{ color: 'red' }}>{item.kpiUserInfos[0].allKpiFee}</span></div>}
                             />
                         </List.Item>
                     )}>

@@ -151,26 +151,41 @@ const AddInvoice = () => {
             </Card>
             <Card bordered={false} title={'开票信息'}
                 actions={[
-                    <div>总应收服务费:<b style={{ color: 'red' }}>{detailData?.talentProjects?.length > 0 ? detailData.talentProjects.map(i => i.serviceFee).reduce(function (pre, curr) { return Number(pre) + Number(curr); }) : 0}</b></div>,
-                    <div>总开票金额:<b style={{ color: 'red' }}>{detailData?.talentProjects?.length > 0 ? detailData.talentProjects.map(i => i.fee).reduce(function (pre, curr) { return Number(pre) + Number(curr); }) : 0}</b></div>,
-                    <div>总不含税金额:<b style={{ color: 'red' }}>{detailData?.talentProjects?.length > 0 ? detailData.talentProjects.map(i => i.freeFee).reduce(function (pre, curr) { return Number(pre) + Number(curr); }) : 0}</b></div>,
-                    <div>总税额:<b style={{ color: 'red' }}>{detailData?.talentProjects?.length > 0 ? detailData.talentProjects.map(i => i.invoiceFee).reduce(function (pre, curr) { return Number(pre) + Number(curr); }) : 0}</b></div>
+                    <div>总应收服务费:<b style={{ color: 'red' }}>{detailData?.talentProjects?.length > 0 ? detailData.talentProjects.map(i => i.serviceFee).reduce(function (pre, curr) { return Number(pre) + Number(curr); }) : detailData?.serviceFee || 0}</b></div>,
+                    <div>总开票金额:<b style={{ color: 'red' }}>{detailData?.talentProjects?.length > 0 ? detailData.talentProjects.map(i => i.fee).reduce(function (pre, curr) { return Number(pre) + Number(curr); }) : detailData?.fee || 0}</b></div>,
+                    <div>总不含税金额:<b style={{ color: 'red' }}>{detailData?.talentProjects?.length > 0 ? detailData.talentProjects.map(i => i.freeFee).reduce(function (pre, curr) { return Number(pre) + Number(curr); }) : detailData?.freeFee || 0}</b></div>,
+                    <div>总税额:<b style={{ color: 'red' }}>{detailData?.talentProjects?.length > 0 ? detailData.talentProjects.map(i => i.invoiceFee).reduce(function (pre, curr) { return Number(pre) + Number(curr); }) : detailData?.invoiceFee}</b></div>
                 ]}>
 
-                {detailData?.talentProjects && detailData.talentProjects.length > 0 && detailData.talentProjects.map((tpItem) => {
-                    console.log(tpItem)
-                    return <><Descriptions title="" column={2}>
-                        <Descriptions.Item labelStyle={lableCss} label="人选名称" span={2}><b>{tpItem?.talentName}</b></Descriptions.Item>
-                        <Descriptions.Item labelStyle={lableCss} label="应收服务费" span={2}>{tpItem?.serviceFee}</Descriptions.Item>
-                        <Descriptions.Item labelStyle={lableCss} label="开票金额">{tpItem?.fee}</Descriptions.Item>
-                        <Descriptions.Item labelStyle={lableCss} label="税率">{tpItem?.invoiceRate}%</Descriptions.Item>
-                        <Descriptions.Item labelStyle={lableCss} label="不含税金额">{tpItem?.freeFee}</Descriptions.Item>
-                        <Descriptions.Item labelStyle={lableCss} label="税额">
-                            {tpItem?.invoiceFee}
-                        </Descriptions.Item>
-                    </Descriptions>
-                    </>
-                })}
+                {(() => {
+                    if (detailData?.talentProjects && detailData.talentProjects.length > 0) {
+                        let talent = detailData.talentProjects.map((tpItem) => {
+                            console.log(tpItem)
+                            return <><Descriptions title="" column={2}>
+                                <Descriptions.Item labelStyle={lableCss} label="人选名称" span={2}><b>{tpItem?.talentName}</b></Descriptions.Item>
+                                <Descriptions.Item labelStyle={lableCss} label="应收服务费" span={2}>{tpItem?.serviceFee}</Descriptions.Item>
+                                <Descriptions.Item labelStyle={lableCss} label="开票金额">{tpItem?.fee}</Descriptions.Item>
+                                <Descriptions.Item labelStyle={lableCss} label="税率">{tpItem?.invoiceRate}%</Descriptions.Item>
+                                <Descriptions.Item labelStyle={lableCss} label="不含税金额">{tpItem?.freeFee}</Descriptions.Item>
+                                <Descriptions.Item labelStyle={lableCss} label="税额">
+                                    {tpItem?.invoiceFee}
+                                </Descriptions.Item>
+                            </Descriptions>
+                            </>
+                        })
+                        return talent
+                    } else {
+                        return <Descriptions title="" column={2}>
+                            <Descriptions.Item labelStyle={lableCss} label="应收服务费" span={2}>{detailData?.serviceFee || 0}</Descriptions.Item>
+                            <Descriptions.Item labelStyle={lableCss} label="开票金额">{detailData?.fee || 0}</Descriptions.Item>
+                            <Descriptions.Item labelStyle={lableCss} label="税率">{detailData?.invoiceRate || 0}%</Descriptions.Item>
+                            <Descriptions.Item labelStyle={lableCss} label="不含税金额">{detailData?.freeFee || 0}</Descriptions.Item>
+                            <Descriptions.Item labelStyle={lableCss} label="税额">
+                                {detailData?.invoiceFee}
+                            </Descriptions.Item>
+                        </Descriptions>
+                    }
+                })()}
             </Card>
             <Card bordered={false} title={'回款信息'}>
                 {detailData?.serviceFeeSet && detailData.serviceFeeSet.length > 0 && detailData.serviceFeeSet.map((tpItem) => {

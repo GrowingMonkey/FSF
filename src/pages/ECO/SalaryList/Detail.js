@@ -98,7 +98,7 @@ const AddInvoice = () => {
                     <Descriptions.Item labelStyle={lableCss} label="基本工资">{detailData?.baseSalary}</Descriptions.Item>
 
                     <Descriptions.Item labelStyle={lableCss} label="提成金额">
-                        {detailData?.commision}
+                        {detailData?.commissionFee}
                     </Descriptions.Item>
                     <Descriptions.Item labelStyle={lableCss} label="考勤天数">
                         {detailData?.workDays}
@@ -124,12 +124,7 @@ const AddInvoice = () => {
                         {detailData?.other}
 
                     </Descriptions.Item>
-                    <Descriptions.Item labelStyle={lableCss} label="合计扣款">
-                        {detailData?.reduceFee}
-                    </Descriptions.Item>
-                    <Descriptions.Item labelStyle={lableCss} label="实发工资">
-                        {detailData?.salary}
-                    </Descriptions.Item>
+
                 </Descriptions>
                 <Descriptions title="" column={2}>
                     <Descriptions.Item labelStyle={lableCss} label="病假扣款">
@@ -157,6 +152,12 @@ const AddInvoice = () => {
                     <Descriptions.Item labelStyle={lableCss} label="个税">{detailData?.tax}</Descriptions.Item>
                     <Descriptions.Item labelStyle={lableCss} label="员工成本">
                         {detailData?.employCost}
+                    </Descriptions.Item>
+                    <Descriptions.Item labelStyle={lableCss} label={<b>合计扣款</b>}>
+                        {detailData?.reduceFee}
+                    </Descriptions.Item>
+                    <Descriptions.Item labelStyle={lableCss} label={<b>实发工资</b>}>
+                        {detailData?.salary}
                     </Descriptions.Item>
                 </Descriptions>
             </Card>

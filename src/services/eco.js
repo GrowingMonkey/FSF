@@ -149,6 +149,13 @@ export const relevancePay = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export const addInvoiceNo = (payload) => {
+  return request('/eco/addInvoiceNo', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+
 
 export const selectTPListForInvoice = (payload) => {
   return request('/eco/selectTPListForInvoice', {

@@ -2,7 +2,9 @@ import {
   Form,
   Row,
   Col,
+  Menu,
   Popconfirm,
+  Dropdown,
   Input,
   InputNumber,
   Button,
@@ -15,15 +17,22 @@ import {
   Cascader,
   message,
 } from 'antd';
+import React, { createContext } from 'react';
+import { DownOutlined } from '@ant-design/icons';
 import styles from './index.less';
 import moment from 'moment';
 import { PageContainer } from '@ant-design/pro-layout';
 import { useState, useEffect } from 'react';
-import { selectServiceFeeList, addcp, adddz, selectSFListForInvoice, selectInvoiceList, relevancePay } from '@/services/eco';
+import {
+  abandonInvoice,
+} from '../../../services/eco';
+import { selectServiceFeeList, addcp, adddz, selectSFListForInvoice, selectInvoiceList, relevancePay, addInvoiceNo } from '@/services/eco';
 import { history } from 'umi';
 const InvoiceList = () => {
+
   const [fresh, setFresh] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalVisibleNo, setIsModalVisibleNo] = useState(false);
   const [selectItem, setSelectItem] = useState(null);
   const [InvoiceSelectItem, setInvoiceSelectItem] = useState(null);
   const [form] = Form.useForm();
@@ -34,6 +43,7 @@ const InvoiceList = () => {
   const [count, setCount] = useState(0);
   const [pageNo, setPageNo] = useState(1)
   const [appUserId, setAppUserId] = useState('');
+  const [Num, setNum] = useState('');
   const formList = [
 
     {
@@ -121,6 +131,56 @@ const InvoiceList = () => {
       span: 8,
     },
   ];
+  const configsss = {
+    title: '新增编号',
+    content: (
+      <>
+        <Input />
+        ddd
+        <br />
+      </>
+    ),
+  };
+  const stateChaneTypes = (record) => {
+    let menuG = [
+      {
+        label: <Button type="link" size="small" onClick={() => history.push('/eco/invioce-detail?id=' + record.id)}>查看</Button>,
+        value: 0,
+      },
+      {
+        label: <Popconfirm placement="topLeft" title={'到账'} onConfirm={() => applyedInvoice(record)} okText="确定" cancelText="取消">
+          <Button type="link" size="small">到账</Button>
+        </Popconfirm>,
+        value: 1,
+      },
+      {
+        label: <Popconfirm placement="topLeft" title={'作废'} onConfirm={() => confirm(record)} okText="确定" cancelText="取消">
+          <Button type="link" danger size="small">作废</Button>
+        </Popconfirm>,
+        value: 2,
+      },
+      {
+        label: <Button type="link" size="small" onClick={() => { showModalNo(record); setAppUserId(record.userId) }}>新增编号</Button>,
+        value: 5,
+      },
+    ];
+    if (record.isPay == 0) {
+      menuG.push({
+        label: <Button type="link" size="small" onClick={() => { showModal(record); }}>关联回款</Button>
+        ,
+        value: 3,
+      })
+    }
+    if (record.state < 0) {
+      menuG.push({
+        label: <Popconfirm placement="topLeft" title={'出票'} onConfirm={() => applyInvoice(record)} okText="确定" cancelText="取消">
+          <Button type="link" size="small">出票</Button>
+        </Popconfirm>,
+        value: 4,
+      })
+    }
+    return menuG
+  };
   const invoiceColumns = [
     {
       title: '发票编号',
@@ -216,21 +276,18 @@ const InvoiceList = () => {
       dataIndex: 'type13',
       key: 'type13',
       ellipsis: true,
-      width: 240,
+      width: 120,
       fixed: 'right',
       render: (text, record) => {
         return <>
-          {record.isPay == 0 && <Button type="link" size="small" onClick={() => { showModal(record); setAppUserId(record.userId) }}>关联回款</Button>}
-          {record.state < 1 && <Popconfirm placement="topLeft" title={'出票'} onConfirm={() => applyInvoice(record)} okText="确定" cancelText="取消">
-            <Button type="link" size="small">出票</Button>
-          </Popconfirm>}
-          <Button type="link" size="small" onClick={() => history.push('/eco/invioce-detail?id=' + record.id)}>查看</Button>
-          <Popconfirm placement="topLeft" title={'到账'} onConfirm={() => applyedInvoice(record)} okText="确定" cancelText="取消">
-            <Button type="link" size="small">到账</Button>
-          </Popconfirm>
-          <Popconfirm placement="topLeft" title={'作废'} onConfirm={() => confirm(record)} okText="确定" cancelText="取消">
-            <Button type="link" danger size="small">作废</Button>
-          </Popconfirm>
+          <Select
+            value={0}
+            options={stateChaneTypes(record)}
+            style={{ width: "100%" }}
+          // onChange={(value) => {
+          //   handleStateChange(value, record.projectId);
+          // }}
+          ></Select>
         </>
       }
     },
@@ -263,6 +320,10 @@ const InvoiceList = () => {
     setInvoiceSelectItem(record);
     setIsModalVisible(true);
   };
+  const showModalNo = (record) => {
+    setInvoiceSelectItem(record);
+    setIsModalVisibleNo(true);
+  };
   const handleOk = () => {
     relevancePay({ invoiceId: InvoiceSelectItem.id, serviceFeeId: selectItem.id }).then(res => {
       message.success('关联成功')
@@ -275,7 +336,14 @@ const InvoiceList = () => {
       }
     })
   };
-
+  const handleOkNo = () => {
+    console.log(InvoiceSelectItem.id, Num);
+    addInvoiceNo({ invoiceId: InvoiceSelectItem.id, invoiceNo: Num }).then(res => {
+      message.success(res.message || '添加成功')
+      setIsModalVisibleNo(false);
+      setInvoiceSelectItem(null)
+    })
+  }
   const handleCancel = () => {
     setIsModalVisible(false);
   };
@@ -458,6 +526,9 @@ const InvoiceList = () => {
           bordered
           scroll={{ x: 600 }}
         />
+      </Modal>
+      <Modal title="请输入关联编号" visible={isModalVisibleNo} onOk={handleOkNo} onCancel={() => setIsModalVisibleNo(false)}>
+        <Input onChange={(e) => setNum(e.target.value)} />
       </Modal>
     </PageContainer>
   );

@@ -118,7 +118,10 @@ const AddInvoice = () => {
                 name="basic"
                 layout="horizontal"
                 initialValues={{
-                    isTalent: 0
+                    isTalent: 0,
+                    payWay: 2,
+                    serviceType: 0
+
                 }}
                 submitter={{
                     render: (props, dom) => {
@@ -134,15 +137,24 @@ const AddInvoice = () => {
                         return '新增回款'
                     }
                 })()} style={{ minWidth: '700px' }}>
-                    <Form.Item labelCol={{ style: { width: '113px' } }} name="fee" label="回款金额" rules={[
+                    <Form.Item name="customerOut" labelCol={{ style: { width: '112px' } }} rules={[
                         {
                             required: true,
                             message: '必填',
                         },
-                    ]}>
-                        <Input />
+                    ]} wrapperCol={{ style: { width: '175px' } }} label="客户名称">
+                        <CustomerSearch url={2}></CustomerSearch>
                     </Form.Item>
+
                     <ProForm.Group>
+                        <Form.Item labelCol={{ style: { width: '113px' } }} name="fee" label="回款金额" rules={[
+                            {
+                                required: true,
+                                message: '必填',
+                            },
+                        ]}>
+                            <Input />
+                        </Form.Item>
                         <Form.Item name="appUser" labelCol={{ style: { width: '112px' } }} rules={[
                             {
                                 required: true,
@@ -151,9 +163,10 @@ const AddInvoice = () => {
                         ]} wrapperCol={{ style: { width: '175px' } }} label="服务顾问">
                             <SearchInput></SearchInput>
                         </Form.Item>
-                        <ProFormText labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="appUserCompany" label="归属公司"></ProFormText>
                     </ProForm.Group>
                     <ProForm.Group>
+                        <ProFormText labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="appUserCompany" label="归属公司"></ProFormText>
+
                         <ProFormSelect options={[
                             {
                                 label: '现金支付',
@@ -181,14 +194,7 @@ const AddInvoice = () => {
                                 message: '必填',
                             },
                         ]} />
-                        <Form.Item name="customerOut" labelCol={{ style: { width: '112px' } }} rules={[
-                            {
-                                required: true,
-                                message: '必填',
-                            },
-                        ]} wrapperCol={{ style: { width: '175px' } }} label="客户名称">
-                            <CustomerSearch url={2}></CustomerSearch>
-                        </Form.Item>
+
                     </ProForm.Group>
                     <ProForm.Group>
                         <ProFormSelect options={[

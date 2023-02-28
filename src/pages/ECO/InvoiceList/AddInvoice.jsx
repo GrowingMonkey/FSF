@@ -115,6 +115,7 @@ const AddInvoice = () => {
                     ]} label="我司名称">
                         <ProFormText style={{ width: '196px' }} />
                     </Form.Item>
+
                     <ProForm.Group>
                         <Form.Item name="appUser" labelCol={{ style: { width: '112px' } }} rules={[
                             {
@@ -133,6 +134,9 @@ const AddInvoice = () => {
                         },
                     ]} wrapperCol={{ style: { width: '175px' } }} label="客户名称">
                         <CustomerSearch></CustomerSearch>
+                    </Form.Item>
+                    <Form.Item name="invoiceNo" labelCol={{ style: { width: '112px' } }} style={{ marginBottom: 0 }} label="发票编号">
+                        <ProFormText style={{ width: '196px' }} />
                     </Form.Item>
                     <Form.Item name="hsname" labelCol={{ style: { width: '112px' } }} wrapperCol={{ style: { width: '175px' } }} label="历史开票查询">
                         <CustomerInput onChange={(e) => {

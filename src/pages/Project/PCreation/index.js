@@ -80,12 +80,12 @@ const PCreation = () => {
           teamForm.validateFields().then(val => {
             console.log(val)
             addProject({
-              projectId: data, ...payload, ...values, ...params, teams: val.ids.map(ite => {
+              projectId: data, ...payload, ...values, ...params, teams: val.ids ? val.ids.map(ite => {
                 return {
                   appUserId: ite.value,
                   appUserName: ite.label
                 }
-              })
+              }) : ''
             }).then((data) => {
               console.log(data);
 

@@ -183,9 +183,16 @@ const InvoiceList = () => {
   };
   const invoiceColumns = [
     {
-      title: '发票编号',
+      title: 'ID',
       dataIndex: 'id',
       key: 'id',
+      ellipsis: true,
+
+    },
+    {
+      title: '发票编号',
+      dataIndex: 'invoiceNo',
+      key: 'invoiceNo',
       ellipsis: true,
 
     },

@@ -103,7 +103,8 @@ const AddInvoice = () => {
         <PageContainer content="">
             <Card bordered={false} title={'申请发票'}>
                 <Descriptions title="" column={2}>
-                    <Descriptions.Item labelStyle={lableCss} label="开票公司" span={2}>{detailData?.customerName}</Descriptions.Item>
+                    <Descriptions.Item labelStyle={lableCss} label="开票公司" >{detailData?.customerName}</Descriptions.Item>
+                    <Descriptions.Item labelStyle={lableCss} label="发票编号" ><b style={{ color: 'red' }}>{detailData?.invoiceNo}</b></Descriptions.Item>
                     <Descriptions.Item labelStyle={lableCss} label="申请用户">{detailData?.userName}</Descriptions.Item>
                     <Descriptions.Item labelStyle={lableCss} label="申请人归属公司">{detailData?.companyName}</Descriptions.Item>
                     {/* <Descriptions.Item labelStyle={lableCss} label="开票对象">{detailData?.invoiceObj == 0 ? '外部对象' : detailData?.invoiceObj == 1 ? '内部客户' : '其他'}</Descriptions.Item> */}

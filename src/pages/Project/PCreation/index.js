@@ -94,6 +94,8 @@ const PCreation = () => {
               history.push('/project/pm-list');
             });
           })
+        }).catch(err => {
+          setBtnLoading(false);
         });
       });
     }).catch(err => {

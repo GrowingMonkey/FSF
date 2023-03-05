@@ -77,7 +77,7 @@ const TCreation = () => {
     const [jobForm] = Form.useForm();
     const [jiexiNum, setJiexiNum] = useState(0);
     const [sourceFile, setSourceFile] = useState(null);
-
+    const [otherData, setOtherData] = useState({})
     useEffect(() => {
         upFileLimit().then(res => {
             setJiexiNum(res)
@@ -111,6 +111,7 @@ const TCreation = () => {
                 if (jobFormResult.RJob) {
                     jobFormResult.RJob = jobFormResult.RJob[jobFormResult.RJob.length - 1];
                 }
+
                 Promise.all([
                     educationForm.validateFields(),
                     projectForm.validateFields(),
@@ -206,6 +207,7 @@ const TCreation = () => {
                             gzjl: gzjl,
                             xmjl: xmjl,
                             jyjl: jyjl,
+                            ...otherData
                         }).then((data) => {
                             console.log(data);
                             if (data.code == 0) {
@@ -402,6 +404,7 @@ const TCreation = () => {
                         phone: parsing_result.contact_info.phone_number,
                         email: parsing_result.contact_info.email
                     })
+                    setOtherData({ resume_rawtext: parsing_result?.resume_rawtext || '' })
                     const eduArr = [
                         {
                             label: '大专以下',
@@ -520,7 +523,7 @@ const TCreation = () => {
                     <Col>
                         <Button type="primary" onClick={handleSubmit}>
                             提交
-            </Button>
+                        </Button>
                     </Col>
                 </Row>
                 <Divider></Divider>
@@ -1078,7 +1081,7 @@ const TCreation = () => {
                     labelCol={{ style: { width: '95.33px' } }}
                     wrapperCol={{ style: { width: '328px' } }}
                     labelAlign="left"
-                    initialValues={{ education: [{ name: '' }] }}
+
                 >
                     <Form.List name="education">
                         {(fields, { add, remove }) => (

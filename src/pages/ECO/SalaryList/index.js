@@ -20,9 +20,10 @@ import styles from './index.less';
 import { PageContainer } from '@ant-design/pro-layout';
 import { querySalaryList, upSalary, delSalary } from '../../../services/eco';
 import { history } from "umi"
-
+import moment from 'moment';
 const Salarylist = () => {
   const [form] = Form.useForm();
+
   const [searchValues, setSearchValues] = useState(null);
   const [count, setCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -30,13 +31,13 @@ const Salarylist = () => {
   const [isFresh, setIsFresh] = useState(false);
   const formList = [
     {
-      name: 'time',
+      name: 'payDay',
       label: '工资发放月份',
       type: 'datePicker',
       span: 6,
     },
     {
-      name: 'name',
+      name: 'appUserName',
       label: '员工',
       type: 'input',
       span: 6,
@@ -105,7 +106,7 @@ const Salarylist = () => {
       key: 'salary',
     },
     {
-      title: '发放时间',
+      title: '工资发放月份',
       dataIndex: 'payDay',
       key: 'payDay',
     },
@@ -163,6 +164,9 @@ const Salarylist = () => {
       if (values.customer) {
         payload.customerName = values.customer.customerName;
         delete payload.customer;
+      }
+      if (values.payDay) {
+        payload.payDay = moment(values.payDay).format("YYYY-MM")
       }
 
       setSearchValues(payload);
@@ -283,7 +287,7 @@ const Salarylist = () => {
                   return (
                     <Col span={col.span} key={col.name}>
                       <Form.Item name={col.name} label={col.label}>
-                        <DatePicker style={{ width: '100%' }} />
+                        <DatePicker style={{ width: '100%' }} picker="month" format="YYYY-MM" />
                       </Form.Item>
                     </Col>
                   );

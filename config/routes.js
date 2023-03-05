@@ -332,6 +332,7 @@ export default [
         path: "/eco/salary-list",
         name: "工资管理",
         component: "./ECO/SalaryList/index",
+        access: 'canEcoSalaryList'
       },
       {
         path: "/eco/salary-detail",

@@ -113,5 +113,9 @@ export default function access(initialState) {
     canEcoBF: RouteUrl.has('route/eco/bf-list'),
     canEcoBFAdd: RouteUrl.has('route/eco/bf-add'),
     canEcoBFDetail: RouteUrl.has('route/eco/bf-detail'),
+    canEcoSalaryList: RouteUrl.has('route/eco/salary-list'),
+    canEcoSalaryAdd: RouteUrl.has('route/eco/salary-add'),
+    canEcoKpiList: RouteUrl.has('route/eco/kpi-list'),
+    canEcoKpiAdd: RouteUrl.has('route/eco/kpi-add'),
   };
 }

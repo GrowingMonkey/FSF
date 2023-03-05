@@ -314,6 +314,7 @@ export default [
         path: "/eco/kpi-list",
         name: "业绩管理",
         component: "./ECO/KpiList/index",
+        access: 'canEcoKpiList'
       },
 
       {
@@ -327,6 +328,7 @@ export default [
         name: "新增业绩",
         hideInMenu: true,
         component: "./ECO/KpiList/Add/index",
+        access: 'canEcoKpiAdd'
       },
       {
         path: "/eco/salary-list",
@@ -344,6 +346,7 @@ export default [
         path: "/eco/salary-add",
         name: "新增工资",
         component: "./ECO/SalaryList/Add",
+        access: 'canEcoSalaryAdd'
       },
       {
         path: "/eco/salary-update",

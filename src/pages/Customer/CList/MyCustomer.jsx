@@ -28,7 +28,7 @@ import VIP1 from "../../../assets/images/VIP1.png";
 import CustomerDetail from "./components/CustomerDetail";
 import styles from "./index.less";
 import { PageContainer } from "@ant-design/pro-layout";
-import { Link } from "umi";
+import { Link, history } from "umi";
 import CompanySearch from "@/components/CompanySearch";
 
 const CustomerList = () => {
@@ -252,13 +252,21 @@ const CustomerList = () => {
                             width="33"
                             height="17"
                         ></img>
-                        <div
+                        <Button
                             style={{
                                 paddingTop: "2px",
                             }}
+                            type="link"
+                            onClick={() => {
+                                history.push({
+                                    pathname: '/customer/detail',
+                                    search: '?id=' + record.id + '&customerId=' + record.customerId + '&customerName=' + record.name,
+                                    state: { record: record },
+                                })
+                            }}
                         >
                             {text}
-                        </div>
+                        </Button>
                     </Space>
                 );
             },

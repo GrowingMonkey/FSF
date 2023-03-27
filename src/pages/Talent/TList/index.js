@@ -21,6 +21,7 @@ import { selectTalentList, selectTalentById, talentJoinProject } from "../../../
 import CardTableExpand from "./components/CardTableExpand";
 import TalentDetail from "./components/TalentDetail";
 import styles from "./index.less";
+import './myIndex.less'
 import { PageContainer } from "@ant-design/pro-layout";
 import { positionList } from '@/utils/Position';
 import ProForm, {
@@ -33,6 +34,7 @@ import ProjectSearch from "@/components/ProjectSearch";
 const TList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [listLength, setListLength] = useState(0);
+  const [rowIndex, setRowIndex] = useState('')
   const [listData, setListData] = useState([]);
   const [searchValues, setSearchValues] = useState(null);
   const [detailVisible, setDetailVisible] = useState(false);
@@ -154,7 +156,13 @@ const TList = () => {
       ellipsis: true,
       width: 80,
       render: (text, record) => {
-        return record.gender == 2 ? (<span><WomanOutlined twoToneColor="#eb2f96" style={{ color: '#eb2f96' }} />{record.name}</span>) : record.gender == 1 ? (<span><ManOutlined style={{ color: '#1890ff' }} />{record.name}</span>) : (<span><UserOutlined />{record.name}</span>)
+        return <Button type="text" onClick={() => {
+          history.push({
+            pathname: '/talent/detail',
+            search: '?talentId=' + record.talentId,
+            state: { record: record },
+          })
+        }}>{record.gender == 2 ? (<span><WomanOutlined twoToneColor="#eb2f96" style={{ color: '#eb2f96' }} />{record.name}</span>) : record.gender == 1 ? (<span><ManOutlined style={{ color: '#1890ff' }} />{record.name}</span>) : (<span><UserOutlined />{record.name}</span>)}</Button>
       }
     },
     {
@@ -314,6 +322,9 @@ const TList = () => {
     setCurrentPage(value);
   };
 
+  const zjq = (rowItem, index) => {
+    setRowIndex(index)
+  }
   useEffect(() => {
     const { location } = history;
     if (location.state?.keyword) {
@@ -479,7 +490,21 @@ const TList = () => {
             columns={listColumns}
             dataSource={listData}
             pagination={false}
-
+            onRow={(record, index) => {
+              return {
+                onClick: _ => {
+                  console.log(index + '......')
+                  zjq(record, index)
+                },
+              }
+            }}
+            rowClassName={(record, index) => {
+              if (index === rowIndex) {
+                return 'mySelfClassName'
+              } else {
+                return "className"
+              }
+            }}
             expandRowByClick={true}
             expandable={{
               expandIcon: ({ expanded, onExpand, record }) => null,

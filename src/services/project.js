@@ -225,6 +225,12 @@ export const selectTPList = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export const selectTPListNumber = (payload) => {
+  return request('/project/selectTPListNumber', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
 export const updateProject = (payload) => {
   // return new Promise((resolve, reject) => {
   //   request

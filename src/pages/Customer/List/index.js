@@ -256,13 +256,14 @@ const List = () => {
               width="33"
               height="17"
             ></img>
-            <div
+            <Button
               style={{
                 paddingTop: "2px",
               }}
+              type="link"
             >
               {text}
-            </div>
+            </Button>
           </Space>
         );
       },

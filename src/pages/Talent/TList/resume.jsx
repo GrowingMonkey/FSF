@@ -129,7 +129,13 @@ const TList = () => {
             width: 80,
             ellipsis: true,
             render: (text, record) => {
-                return record.gender == 2 ? (<span><WomanOutlined twoToneColor="#eb2f96" style={{ color: '#eb2f96' }} />{record.name}</span>) : record.gender == 1 ? (<span><ManOutlined style={{ color: '#1890ff' }} />{record.name}</span>) : (<span><UserOutlined />{record.name}</span>)
+                return <Button type="text" onClick={() => {
+                    history.push({
+                        pathname: '/talent/detail',
+                        search: '?talentId=' + record.talentId,
+                        state: { record: record },
+                    })
+                }}>{record.gender == 2 ? (<span><WomanOutlined twoToneColor="#eb2f96" style={{ color: '#eb2f96' }} />{record.name}</span>) : record.gender == 1 ? (<span><ManOutlined style={{ color: '#1890ff' }} />{record.name}</span>) : (<span><UserOutlined />{record.name}</span>)}</Button>
             }
         },
         {

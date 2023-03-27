@@ -3,7 +3,7 @@ import { Input, Card, Button, Tabs, Form, Table, Select, Modal, message } from '
 import { history, Link } from 'umi';
 import { useEffect } from 'react';
 import {
-    selectTPList, recommendTalent, updateTP, Interview, rejectTalent, talentGiveUp, sendOffer, confirmOffer,
+    selectTPListNumber, selectTPList, recommendTalent, updateTP, Interview, rejectTalent, talentGiveUp, sendOffer, confirmOffer,
     customerReject, quitWork, changeTPOwner, customerInterview
 } from '@/services/project'
 import { useState } from 'react';
@@ -17,6 +17,7 @@ const ChapterManager = () => {
     const [searchForm] = Form.useForm();
     const [remarkForm] = Form.useForm();
     const [TPList, setTPList] = useState([])
+    const [TpListNum, setTpListNum] = useState({})
     const [state, setState] = useState('')
     const [customId, setCustomId] = useState('')
     const [isYuYueModalVisible, setIsYuYueModalVisible] = useState(false);
@@ -209,6 +210,9 @@ const ChapterManager = () => {
             // setTPList([{ address: '111', username: 'hh' }])
             console.log(TPList);
 
+        })
+        selectTPListNumber({ projectId: query.projectId }).then(res => {
+            setTpListNum(res?.data || {})
         })
     }, [pageNo, pageSize, state, customId, isfresh])
     const changeUserName = (record) => {
@@ -457,18 +461,18 @@ const ChapterManager = () => {
                     </Form.Item>
                 </Form>
                 <Tabs centered onChange={e => { setState(e); setPageNo(1) }}>
-                    <TabPane tab="全部" key=""></TabPane>
-                    <TabPane tab="加项目" key="0"></TabPane>
-                    <TabPane tab="给客户" key="1"></TabPane>
+                    <TabPane tab={"全部(" + TpListNum.all + ")"} key=""></TabPane>
+                    <TabPane tab={"加项目(" + TpListNum.jxm + ")"} key="0"></TabPane>
+                    <TabPane tab={"给客户(" + TpListNum.gkh + ")"} key="1"></TabPane>
                     {/* <TabPane tab="否决人选" key="2"></TabPane> */}
 
-                    <TabPane tab="约面试" key="5"></TabPane>
-                    <TabPane tab="客户面试" key="6"></TabPane>
+                    <TabPane tab={"约面试(" + TpListNum.yms + ")"} key="5"></TabPane>
+                    <TabPane tab={"客户面试(" + TpListNum.khms + ")"} key="6"></TabPane>
                     {/* <TabPane tab="客户否决" key="7"></TabPane> */}
-                    <TabPane tab="确认offer" key="8"></TabPane>
-                    <TabPane tab="已入职" key="9"></TabPane>
-                    <TabPane tab="人选离职" key="10"></TabPane>
-                    <TabPane tab="放弃人选" key="4"></TabPane>
+                    <TabPane tab={"确认offer(" + TpListNum.offer + ")"} key="8"></TabPane>
+                    <TabPane tab={"已入职(" + TpListNum.yrz + ")"} key="9"></TabPane>
+                    <TabPane tab={"人选离职(" + TpListNum.rxlz + ")"} key="10"></TabPane>
+                    <TabPane tab={"放弃人选(" + TpListNum.fqrx + ")"} key="4"></TabPane>
                 </Tabs>
                 <Table columns={columns} dataSource={TPList} pagination={{
                     total: total,

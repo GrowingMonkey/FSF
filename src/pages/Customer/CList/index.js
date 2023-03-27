@@ -251,13 +251,21 @@ const CustomerList = () => {
               width="33"
               height="17"
             ></img>
-            <div
+            <Button
               style={{
                 paddingTop: "2px",
               }}
+              type="link"
+              onClick={() => {
+                history.push({
+                  pathname: '/customer/detail',
+                  search: '?id=' + record.id + '&customerId=' + record.customerId + '&customerName=' + record.name,
+                  state: { record: record },
+                })
+              }}
             >
               {text}
-            </div>
+            </Button>
           </Space>
         );
       },

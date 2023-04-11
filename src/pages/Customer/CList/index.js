@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import {
   Form,
   Row,
+  Modal,
   Col,
   Input,
   InputNumber,
@@ -16,7 +17,9 @@ import {
   Pagination,
 } from "antd";
 import { industryList } from "../../../utils/Industry";
-import { cstList } from "../../../services/customer";
+import SearchInput from '@/components/SearchInput';
+
+import { cstList, shiftCustomer } from "../../../services/customer";
 import LV0 from "../../../assets/images/LV0.png";
 import LV1 from "../../../assets/images/LV1.png";
 import LV2 from "../../../assets/images/LV2.png";
@@ -34,6 +37,12 @@ import { history } from "umi"
 const CustomerList = () => {
   console.clear()
   const [form] = Form.useForm();
+  const [modelForm] = Form.useForm();
+  const [curRecord, setCurRecord] = useState('');
+  const [confirmLoading, setConfirmLoading] = useState(false);
+
+  const [modelVibel, setModelVibel] = useState(false);
+
   const [showState, setShowState] = useState(true)
   const [currentPage, setCurrentPage] = useState(1);
   const [searchValues, setSearchValues] = useState(null);
@@ -41,6 +50,21 @@ const CustomerList = () => {
   const [customerList, setCustomerList] = useState([]);
   const [detailVisible, setDetailVisible] = useState(false);
   const [customerRecord, setCustomerRecord] = useState(null);
+  const handleOk = () => {
+    setConfirmLoading(true);
+    modelForm.validateFields().then((values) => {
+      //shiftCustomer
+      console.log(curRecord);
+      shiftCustomer({ customerId: curRecord, appUserId: values?.appUserName?.recommenderUserId }).then(() => {
+        setConfirmLoading(false);
+        modelForm.resetFields();
+        setModelVibel(false)
+      });
+    }).catch((info) => {
+      console.log("Validate Failed:", info);
+      setConfirmLoading(false);
+    });
+  };
   const formList = [
     {
       name: "name",
@@ -370,7 +394,7 @@ const CustomerList = () => {
             search: '?id=' + record.id + '&customerId=' + record.customerId + '&customerName=' + record.name,
             state: { record: record },
           }}>查看</Link>
-          <Button type="link" style={{ padding: 0 }}>
+          <Button type="link" style={{ padding: 0 }} onClick={() => { setModelVibel(true); setCurRecord(record.customerId) }}>
             转移
           </Button>
         </Space>
@@ -627,6 +651,28 @@ const CustomerList = () => {
           </Col>
         </Row>
       </div>
+      <Modal
+        forceRender
+        visible={modelVibel}
+        title="转移"
+        okText="提交"
+        cancelText="取消"
+        onCancel={() => setModelVibel(false)}
+        onOk={handleOk}
+        confirmLoading={confirmLoading}
+        width={300}
+      >
+        <Form
+          form={modelForm}
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 16 }}
+          labelAlign="left"
+        >
+          <Form.Item name="appUserName" label="转移顾问">
+            <SearchInput></SearchInput>
+          </Form.Item>
+        </Form>
+      </Modal>
     </PageContainer>
   );
 };

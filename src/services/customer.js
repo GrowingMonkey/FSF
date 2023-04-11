@@ -382,6 +382,14 @@ export const myCustomerList = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export const shiftCustomer = (payload) => {
+
+  return request('/customer/shiftCustomer', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+
 //合作客户
 export const hzCustomerList = (payload) => {
   return request('/customer/hzCustomerList', {

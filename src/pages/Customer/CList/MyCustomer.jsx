@@ -16,7 +16,7 @@ import {
     Pagination,
 } from "antd";
 import { industryList } from "../../../utils/Industry";
-import { myCustomerList } from "@/services/customer";
+import { myCustomerList, shiftCustomer } from "@/services/customer";
 import LV0 from "../../../assets/images/LV0.png";
 import LV1 from "../../../assets/images/LV1.png";
 import LV2 from "../../../assets/images/LV2.png";
@@ -26,16 +26,23 @@ import LV5 from "../../../assets/images/LV5.png";
 import VIP0 from "../../../assets/images/VIP0.png";
 import VIP1 from "../../../assets/images/VIP1.png";
 import CustomerDetail from "./components/CustomerDetail";
+import SearchInput from '@/components/SearchInput';
+
 import styles from "./index.less";
 import { PageContainer } from "@ant-design/pro-layout";
 import { Link, history } from "umi";
 import CompanySearch from "@/components/CompanySearch";
+import Modal from "antd/lib/modal/Modal";
 
 const CustomerList = () => {
     console.clear()
     const [form] = Form.useForm();
-    const [showState, setShowState] = useState(true)
+    const [modelForm] = Form.useForm();
 
+    const [confirmLoading, setConfirmLoading] = useState(false);
+    const [showState, setShowState] = useState(true);
+    const [modelVibel, setModelVibel] = useState(false);
+    const [curRecord, setCurRecord] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [searchValues, setSearchValues] = useState(null);
     const [listLength, setListLength] = useState(0);
@@ -222,6 +229,21 @@ const CustomerList = () => {
             ],
         },
     ];
+    const handleOk = () => {
+        setConfirmLoading(true);
+        modelForm.validateFields().then((values) => {
+            //shiftCustomer
+            console.log(values);
+            shiftCustomer({ customerId: curRecord, appUserId: values?.appUserName?.recommenderUserId }).then(() => {
+                setConfirmLoading(false);
+                modelForm.resetFields();
+                setModelVibel(false)
+            });
+        }).catch((info) => {
+            console.log("Validate Failed:", info);
+            setConfirmLoading(false);
+        });
+    };
     const customerColumns = [
         {
             title: "来源",
@@ -371,7 +393,7 @@ const CustomerList = () => {
                         search: '?id=' + record.id + '&customerId=' + record.customerId + '&customerName=' + record.name,
                         state: { record: record },
                     }}>查看</Link>
-                    <Button type="link" style={{ padding: 0 }}>
+                    <Button type="link" style={{ padding: 0 }} onClick={() => { setModelVibel(true); setCurRecord(record.customerId) }}>
                         转移
               </Button>
                 </Space>
@@ -639,6 +661,28 @@ const CustomerList = () => {
                     </Col>
                 </Row>
             </div>
+            <Modal
+                forceRender
+                visible={modelVibel}
+                title="转移"
+                okText="提交"
+                cancelText="取消"
+                onCancel={() => setModelVibel(false)}
+                onOk={handleOk}
+                confirmLoading={confirmLoading}
+                width={300}
+            >
+                <Form
+                    form={modelForm}
+                    labelCol={{ span: 8 }}
+                    wrapperCol={{ span: 16 }}
+                    labelAlign="left"
+                >
+                    <Form.Item name="appUserName" label="转移顾问">
+                        <SearchInput></SearchInput>
+                    </Form.Item>
+                </Form>
+            </Modal>
         </PageContainer>
     );
 };

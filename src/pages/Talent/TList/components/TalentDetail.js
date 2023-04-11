@@ -12,6 +12,7 @@ import {
   Divider,
   Pagination,
   message,
+  Typography,
   Cascader,
   Space,
   Tag,
@@ -19,6 +20,7 @@ import {
   Descriptions,
   Popconfirm,
 } from "antd";
+const { Paragraph, Text } = Typography;
 import { CloseOutlined, LoadingOutlined, EditOutlined } from "@ant-design/icons";
 
 import {
@@ -102,6 +104,7 @@ const TalentDetail = () => {
   const [contactModalVisible, setContactModalVisible] = useState(false);
   const [basicModalVisible, setBasicModalVisible] = useState(false);
   const [detail, setDetail] = useState(null);
+  const [ellipsis, setEllipsis] = useState(true);
   const [phone, setPhone] = useState(null);
   const [showBuy, setShowBuy] = useState(false);
   const [educationVisible, setEducationVisible] = useState(false);
@@ -111,7 +114,7 @@ const TalentDetail = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isRecordModalVisible, setIsRecordModalVisible] = useState(false);
   const workStateTypes = ["当前在职 ", "已离职", "失业"];
-  const isAllTimeTypes = ["是", "否"];
+  const isAllTimeTypes = ["统招", "非统招"];
   useEffect(() => {
     selectTalentById({ talentId: talentId }).then(res => {
       const { data } = res;
@@ -358,6 +361,7 @@ const TalentDetail = () => {
       setContactModalVisible(false);
     })
   }
+
   const uploadButton = (
     <div>
       {<PlusOutlined />}
@@ -456,40 +460,52 @@ const TalentDetail = () => {
               <div className={styles["project-container"]} style={{ position: 'relative' }}>
                 <div className={styles["page-title"]}>基本信息<span style={{ paddingLeft: '24px', fontSize: '14px', color: '#1890ff' }}>简历编号#：{talentId}</span><EditOutlined style={{ float: 'right' }} onClick={() => setBasicModalVisible(true)}></EditOutlined></div>
                 <Divider></Divider>
-                <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', fontWeight: 'bold', justifyContent: 'flex-start' }} column={2}>
-                  <Descriptions.Item label="姓名">
+                <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', fontWeight: 'bold', justifyContent: 'flex-start' }} column={3}>
+                  <Descriptions.Item label="姓名" style={{ paddingBottom: 0 }}>
                     {detail.name}
                   </Descriptions.Item>
-                  <Descriptions.Item label="学历">
+                  <Descriptions.Item label="学历" style={{ paddingBottom: 0 }}>
                     {formatEducation(detail.education)}
                   </Descriptions.Item>
-                  <Descriptions.Item label="年龄">
+                  <Descriptions.Item label="年龄" style={{ paddingBottom: 0 }}>
                     {detail.age}
                   </Descriptions.Item>
-                  <Descriptions.Item label="性别">
+                  <Descriptions.Item label="性别" style={{ paddingBottom: 0 }}>
                     {genderTypes[detail.gender]}
                   </Descriptions.Item>
-                  <Descriptions.Item label="工作经验">
+                  <Descriptions.Item label="工作经验" style={{ paddingBottom: 0 }}>
                     {detail.experience}
                   </Descriptions.Item>
-                  <Descriptions.Item label="出生日期">
+                  <Descriptions.Item label="出生日期" style={{ paddingBottom: 0 }}>
                     {detail.birthday}
                   </Descriptions.Item>
-                  <Descriptions.Item label="目前年薪">
+                  <Descriptions.Item label="目前年薪" style={{ paddingBottom: 0 }}>
                     {detail.salary}
                   </Descriptions.Item>
-                  <Descriptions.Item label="户籍地址">
+                  <Descriptions.Item label="户籍地址" style={{ paddingBottom: 0 }}>
                     {detail.domicile}
                   </Descriptions.Item>
 
-                  <Descriptions.Item label="现居地">
+                  <Descriptions.Item label="现居地" style={{ paddingBottom: 0 }}>
                     {detail.location}
                   </Descriptions.Item>
 
-                  <Descriptions.Item label="工作状态">
+                  <Descriptions.Item label="工作状态" style={{ paddingBottom: 0 }}>
                     {workStateTypes[detail.workSate]}
                   </Descriptions.Item>
-                  <div style={{ position: 'absolute', top: 95, right: 28, width: '100px', height: '100px', borderRadius: '5px', background: '#ddd' }}>{detail.headUrl ? <PlusOutlined /> : <img src={detail.headUrl} />}</div>
+                  <Descriptions.Item label="期望地点" style={{ paddingBottom: 0 }}>
+                    {findAreaText(formatAddress(detail.rcity))}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="期望行业" style={{ paddingBottom: 0 }}>
+                    {`${detail.rindustry ? detail.rindustry : ''}` + `${detail?.rindustryChild ? '/' + detail?.rindustryChild : ''}`}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="期望岗位" style={{ paddingBottom: 0 }}>
+                    {detail.job || detail.rjob}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="期望薪资" style={{ paddingBottom: 0 }}>
+                    {detail.rsalary || detail.salary}
+                  </Descriptions.Item>
+                  {/* <div style={{ position: 'absolute', top: 95, right: 28, width: '100px', height: '100px', borderRadius: '5px', background: '#ddd' }}>{detail.headUrl ? <PlusOutlined /> : <img src={detail.headUrl} />}</div> */}
                 </Descriptions>
                 <Descriptions labelStyle={{ width: '95.33px', display: 'flex', fontWeight: 'bold', justifyContent: 'flex-start' }}>
                   <Descriptions.Item label="个人介绍">
@@ -708,24 +724,24 @@ const TalentDetail = () => {
                   </ProForm>
                 </Modal>
               </div>
-              <div className={styles["project-container"]}>
+              {/* <div className={styles["project-container"]}>
                 <div className={styles["page-title"]}>求职意向</div>
                 <Divider></Divider>
                 <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', fontWeight: 'bold', justifyContent: 'flex-start' }} column={1}>
-                  <Descriptions.Item label="期望地点">
+                  <Descriptions.Item label="期望地点" style={{ paddingBottom: 0 }}>
                     {findAreaText(formatAddress(detail.rcity))}
                   </Descriptions.Item>
-                  <Descriptions.Item label="期望行业">
+                  <Descriptions.Item label="期望行业" style={{ paddingBottom: 0 }}>
                     {`${detail.rindustry ? detail.rindustry : ''}` + `${detail?.rindustryChild ? '/' + detail?.rindustryChild : ''}`}
                   </Descriptions.Item>
-                  <Descriptions.Item label="期望岗位">
+                  <Descriptions.Item label="期望岗位" style={{ paddingBottom: 0 }}>
                     {detail.job || detail.rjob}
                   </Descriptions.Item>
-                  <Descriptions.Item label="期望薪资">
+                  <Descriptions.Item label="期望薪资" style={{ paddingBottom: 0 }}>
                     {detail.rsalary || detail.salary}
                   </Descriptions.Item>
                 </Descriptions>
-              </div>
+              </div> */}
               <div className={styles["project-container"]}>
                 <Row justify="space-between" align="middle">
                   <Col>
@@ -768,8 +784,9 @@ const TalentDetail = () => {
                           setCompanyVisible(true);
                         }}>修改</Button>
                       </Divider>
+                      <h3> <span style={{ color: '#03A9F4' }}>{formatDateStr(item)}</span>·{item.name}· {item.job} · {item.industry}{item.industryChild}</h3>
                       <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', fontWeight: 'bold', justifyContent: 'flex-start' }} column={1}>
-                        <Descriptions.Item label="工作时间">
+                        {/* <Descriptions.Item label="工作时间">
                           {formatDateStr(item)}
                         </Descriptions.Item>
                         <Descriptions.Item label="所在公司">
@@ -780,10 +797,18 @@ const TalentDetail = () => {
                         </Descriptions.Item>
                         <Descriptions.Item label="所在行业">
                           {item.industry} {item.industryChild}
-                        </Descriptions.Item>
+                        </Descriptions.Item> */}
 
                         <Descriptions.Item label="工作职责" style={{ whiteSpace: 'pre-line' }}>
-                          {item.duty}
+                          <Paragraph ellipsis={
+                            ellipsis
+                              ? {
+                                rows: 4,
+                                expandable: true,
+                                symbol: '加载更多',
+                              }
+                              : false
+                          }> {item.duty}</Paragraph>
                         </Descriptions.Item>
                       </Descriptions>
                     </div>
@@ -835,8 +860,9 @@ const TalentDetail = () => {
                           setProjectVisible(true);
                         }}>修改</Button>
                       </Divider>
+                      <h3><span style={{ color: '#03A9F4' }}>{formatDateStr(item)}</span>· {item.name}·{item.job}</h3>
                       <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', fontWeight: 'bold', justifyContent: 'flex-start' }} column={1}>
-                        <Descriptions.Item label="项目时间">
+                        {/* <Descriptions.Item label="项目时间">
                           {formatDateStr(item)}
                         </Descriptions.Item>
                         <Descriptions.Item label="项目名称">
@@ -844,9 +870,17 @@ const TalentDetail = () => {
                         </Descriptions.Item>
                         <Descriptions.Item label="项目职务">
                           {item.job}
-                        </Descriptions.Item>
+                        </Descriptions.Item> */}
                         <Descriptions.Item label="项目职责" style={{ whiteSpace: 'pre-line' }}>
-                          {item.duty}
+                          <Paragraph ellipsis={
+                            ellipsis
+                              ? {
+                                rows: 4,
+                                expandable: true,
+                                symbol: '加载更多',
+                              }
+                              : false
+                          }> {item.duty} </Paragraph>
                         </Descriptions.Item>
                       </Descriptions>
                     </div>
@@ -893,7 +927,7 @@ const TalentDetail = () => {
 
                         }}>修改</Button>
                       </Divider>
-                      <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', fontWeight: 'bold', justifyContent: 'flex-start' }} column={1}>
+                      {/* <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', fontWeight: 'bold', justifyContent: 'flex-start' }} column={1}>
                         <Descriptions.Item label="学习时间">
                           {formatDateStr(item)}
                         </Descriptions.Item>
@@ -906,7 +940,9 @@ const TalentDetail = () => {
                         <Descriptions.Item label="是否统招">
                           {isAllTimeTypes[item.isAllTime]}
                         </Descriptions.Item>
-                      </Descriptions>
+                      </Descriptions> */}
+                      <h3><span style={{ color: '#03A9F4' }}>{formatDateStr(item)}</span>—{item.name} · {item.classes}·{item.education}({isAllTimeTypes[item.isAllTime]})</h3>
+
                     </div>
                   );
                 })}

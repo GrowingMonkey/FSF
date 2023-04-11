@@ -200,6 +200,7 @@ const CustomerDetail = () => {
                                         type="text"
                                         onClick={() => {
                                             setTab(tabItem.value);
+                                            setTabNumber(tabItem.countIndex)
                                         }}
                                         style={{ color: tab == tabItem.value ? '#1890ff' : '' }}
                                     >
@@ -219,7 +220,7 @@ const CustomerDetail = () => {
                         {tab === "" ? <InfoBasic record={record} update={updateCustomer}></InfoBasic> : null}
                         {tab === "file" ? <InfoFile record={record}></InfoFile> : null}
                         {tab === "position" ? (
-                            <InfoProject record={record}></InfoProject>
+                            <InfoProject record={record} tabNumber={tabNumber}></InfoProject>
                         ) : null}
                         {tab === "timeline" ? (
                             <InfoTimeline record={record}></InfoTimeline>

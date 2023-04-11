@@ -17,39 +17,166 @@ import { selectPList } from "@/services/customer";
 import { cityList } from "../../../../utils/CityList";
 import { industryList } from "../../../../utils/Industry";
 import { positionList } from "../../../../utils/Position";
+import {
+  pauseProject,
+  runProject,
+  finishProject,
+  closeProject,
+} from "@/services/project";
 import styles from "./InfoProject.less";
 import { history } from 'umi'
 
-const InfoProject = ({ record = {} }) => {
+const InfoProject = ({ record = {}, tabNumber }) => {
   const [form] = Form.useForm();
   const [currentPage, setCurrentPage] = useState(1);
   const [listLength, setListLength] = useState(0);
   const [listData, setListData] = useState([]);
   const [industryChildList, setIndustryChildList] = useState([]);
   const [searchValues, setSearchValues] = useState({});
-  // const stateTypes = [
-  //   {
-  //     color: "blue",
-  //   },
-  //   {
-  //     color: "green",
-  //   },
-  //   {
-  //     color: "yellow",
-  //   },
-  //   {
-  //     color: "red",
-  //   },
-  // ];
   const stateTypes = ["草稿", "发布"];
+  const stateChaneTypes = {
+    0: [
+      {
+        label: "草稿",
+        value: 0,
+        disabled: true,
+      },
+      {
+        label: "发布",
+        value: 1,
+      },
+    ],
+    1: [
+      {
+        label: "发布",
+        value: 1,
+        disabled: true,
+      },
+      {
+        label: "结束",
+        value: 2,
+      },
+      {
+        label: "暂停",
+        value: 3,
+      },
+      {
+        label: "关闭",
+        value: 4,
+      },
+    ],
+    2: [
+      {
+        label: "结束",
+        value: 2,
+      },
+    ],
+    3: [
+      {
+        label: "发布",
+        value: 1,
+      },
+      {
+        label: "暂停",
+        value: 3,
+        disabled: true,
+      },
+    ],
+    4: [
+      {
+        label: "关闭",
+        value: 4,
+        disabled: true,
+      },
+    ]
+  };
+  const handleStateChange = (value, projectId) => {
+
+    console.log(value, projectId);
+    if (value === 1) {
+      runProject({ projectId: projectId }).then((data) => {
+        console.log(data);
+        myJobList({
+          pageNo: currentPage,
+          pageSize: 10,
+          ...searchValues,
+        }).then((res) => {
+          console.log(data);
+          const { data } = res;
+          setListData(
+            data?.list?.map((item) => {
+              return Object.assign(item, { key: item.id });
+            })
+          );
+        });
+      });
+    }
+    if (value === 2) {
+      finishProject({ projectId: projectId }).then(() => {
+        myJobList({
+          pageNo: currentPage,
+          pageSize: 10,
+          ...searchValues,
+        }).then((res) => {
+          setListData(
+            res?.data?.list.map((item) => {
+              return Object.assign(item, { key: item.id });
+            })
+          );
+        });
+      });
+    }
+    if (value === 3) {
+      pauseProject({ projectId: projectId }).then(() => {
+        myJobList({
+          pageNo: currentPage,
+          pageSize: 10,
+          ...searchValues,
+        }).then((res) => {
+          const { data } = res;
+          setListData(
+            data.list.map((item) => {
+              return Object.assign(item, { key: item.id });
+            })
+          );
+        });
+      });
+    }
+    if (value === 4) {
+      closeProject({ projectId: projectId }).then(() => {
+        myJobList({
+          pageNo: currentPage,
+          pageSize: 10,
+          ...searchValues,
+        }).then((res) => {
+          const { data } = res;
+          setListData(
+            data.list.map((item) => {
+              return Object.assign(item, { key: item.id });
+            })
+          );
+        });
+      });
+    }
+  };
   const listColumns = [
     {
       title: "状态",
       dataIndex: "state",
       key: "state",
       ellipsis: true,
-      render: (text) => {
-        return stateTypes[text];
+      render: (text, record) => {
+        return (
+          <Select
+            value={record.state}
+            options={stateChaneTypes[text]}
+            style={{ width: "100%" }}
+            onChange={(value) => {
+              handleStateChange(value, record.projectId);
+            }}
+          ></Select>
+        );
+        // return stateTypes[text];
       },
     },
     {
@@ -129,74 +256,14 @@ const InfoProject = ({ record = {} }) => {
     //   key: "k9",
     // },
   ];
-  // const listColumns = [
-  //   {
-  //     title: "状态",
-  //     dataIndex: "state",
-  //     key: "state",
-  //     render: (text) => {
-  //       return (
-  //         <div
-  //           className={styles["state-icon"]}
-  //           style={{ backgroundColor: stateTypes[text].color }}
-  //         ></div>
-  //       );
-  //     },
-  //   },
-  //   {
-  //     title: "职位名称",
-  //     dataIndex: "positionTitle",
-  //     key: "positionTitle",
-  //   },
-  //   {
-  //     title: "职位年薪",
-  //     dataIndex: "salary",
-  //     key: "salary",
-  //   },
-  //   {
-  //     title: "人选",
-  //     dataIndex: "count",
-  //     key: "count",
-  //   },
-  //   {
-  //     title: "地点",
-  //     dataIndex: "location",
-  //     key: "location",
-  //   },
-  //   {
-  //     title: "招聘企业",
-  //     dataIndex: "employee",
-  //     key: "employee",
-  //   },
-  //   // {
-  //   //   title: "执行团队",
-  //   //   dataIndex: "team",
-  //   //   key: "team",
-  //   // },
-  //   // {
-  //   //   title: "归属公司",
-  //   //   dataIndex: "company",
-  //   //   key: "company",
-  //   // },
-  //   {
-  //     title: "更新时间",
-  //     dataIndex: "updateTime",
-  //     key: "updateTime",
-  //   },
-  //   {
-  //     title: "活跃",
-  //     dataIndex: "activity",
-  //     key: "activity",
-  //   },
-  // ];
   const formList = [
     {
-      name: "name",
+      name: "projectName",
       label: "职位名",
       type: "input",
       span: 12,
     }, {
-      name: "name",
+      name: "appUserName",
       label: "服务顾问",
       type: "input",
       span: 12,

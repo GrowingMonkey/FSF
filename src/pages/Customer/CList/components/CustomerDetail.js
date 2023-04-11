@@ -21,7 +21,7 @@ const CustomerDetail = ({ setDetailVisible, record }) => {
     {
       unit: "万",
       image: coin,
-      description: "回款金额",
+      description: "回款金额1",
       enDescription: "Refund amount",
     },
     {

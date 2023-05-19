@@ -133,7 +133,6 @@ export default [
         access: 'canProjectAdd',
         component: './Project/PCreation/index',
       },
-
     ],
   },
   //人才管理
@@ -162,6 +161,12 @@ export default [
         name: '我的简历',
         access: 'canMyTalent',
         component: './Talent/TList/resume',
+      },
+      {
+        path: '/talent/my-list-update',
+        name: '我的更新',
+        access: 'canMyupdateTalent',
+        component: './Talent/TList/update',
       },
       {
         path: '/talent/tp-list',
@@ -311,48 +316,48 @@ export default [
     access: 'canEco',
     routes: [
       {
-        path: "/eco/kpi-list",
-        name: "业绩管理",
-        component: "./ECO/KpiList/index",
-        access: 'canEcoKpiList'
+        path: '/eco/kpi-list',
+        name: '业绩管理',
+        component: './ECO/KpiList/index',
+        access: 'canEcoKpiList',
       },
 
       {
-        path: "/eco/kpi-detail",
-        name: "业绩详情",
-        component: "./ECO/KpiList/Detail/index",
-        hideInMenu: true
-      },
-      {
-        path: "/eco/kpi-add",
-        name: "新增业绩",
+        path: '/eco/kpi-detail',
+        name: '业绩详情',
+        component: './ECO/KpiList/Detail/index',
         hideInMenu: true,
-        component: "./ECO/KpiList/Add/index",
-        access: 'canEcoKpiAdd'
       },
       {
-        path: "/eco/salary-list",
-        name: "工资管理",
-        component: "./ECO/SalaryList/index",
-        access: 'canEcoSalaryList'
-      },
-      {
-        path: "/eco/salary-detail",
-        name: "工资详情",
+        path: '/eco/kpi-add',
+        name: '新增业绩',
         hideInMenu: true,
-        component: "./ECO/SalaryList/Detail",
+        component: './ECO/KpiList/Add/index',
+        access: 'canEcoKpiAdd',
       },
       {
-        path: "/eco/salary-add",
-        name: "新增工资",
-        component: "./ECO/SalaryList/Add",
-        access: 'canEcoSalaryAdd'
+        path: '/eco/salary-list',
+        name: '工资管理',
+        component: './ECO/SalaryList/index',
+        access: 'canEcoSalaryList',
       },
       {
-        path: "/eco/salary-update",
-        name: "修改工资",
+        path: '/eco/salary-detail',
+        name: '工资详情',
         hideInMenu: true,
-        component: "./ECO/SalaryList/Add",
+        component: './ECO/SalaryList/Detail',
+      },
+      {
+        path: '/eco/salary-add',
+        name: '新增工资',
+        component: './ECO/SalaryList/Add',
+        access: 'canEcoSalaryAdd',
+      },
+      {
+        path: '/eco/salary-update',
+        name: '修改工资',
+        hideInMenu: true,
+        component: './ECO/SalaryList/Add',
       },
       {
         path: '/eco/invioce-list',
@@ -425,9 +430,9 @@ export default [
     access: 'canKpi',
     routes: [
       {
-        path: "/kpi/kpi-my-list",
-        name: "我的绩效",
-        component: "./ECO/KpiList/MyKpi/index",
+        path: '/kpi/kpi-my-list',
+        name: '我的绩效',
+        component: './ECO/KpiList/MyKpi/index',
       },
       {
         path: '/kpi/sign-rank',

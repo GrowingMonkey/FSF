@@ -1,4 +1,4 @@
-import { request, requestOther } from "./request";
+import { request, requestOther } from './request';
 
 export const addEC = (payload) => {
   // return new Promise((resolve, reject) => {
@@ -333,15 +333,29 @@ export const myTalentList = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export const myTalentUpdateList = (payload) => {
+  // return new Promise((resolve, reject) => {
+  //   request.post("/talent/updateTalent", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/talent/myTalentUpdateList', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
 export const parseBase = (header, payload) => {
   // return new Promise((resolve, reject) => {
   //   request.post("/talent/updateTalent", payload).then((data) => {
   //     resolve(data);
   //   });
   // });
-  return requestOther('http://xiaoxi.market.alicloudapi.com/v1/parser/parse_base?avatar=1&handle_image=1&rawtext=1&parse_mode=fast', header, {
-    method: 'POST',
-    data: { ...(payload || {}) },
-  });
+  return requestOther(
+    'http://xiaoxi.market.alicloudapi.com/v1/parser/parse_base?avatar=1&handle_image=1&rawtext=1&parse_mode=fast',
+    header,
+    {
+      method: 'POST',
+      data: { ...(payload || {}) },
+    },
+  );
 };
-

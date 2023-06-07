@@ -183,6 +183,7 @@ const Add = () => {
           <Form.Item
             name="name"
             label="客户名称"
+            required
             rules={[
               ({ getFieldValue }) => ({
                 async validator(_, value) {
@@ -217,7 +218,12 @@ const Add = () => {
             >
               <Select options={industryList} style={{ width: '145px' }}></Select>
             </Form.Item>
-            <Form.Item name="sourceType" label="客户来源" style={{ width: '242px' }}>
+            <Form.Item name="sourceType" label="客户来源" style={{ width: '242px' }} rules={[
+              {
+                required: true,
+                message: '必填',
+              },
+            ]}>
               <Select
                 options={[
                   {
@@ -277,7 +283,12 @@ const Add = () => {
                 style={{ width: '145px' }}
               ></Select>
             </Form.Item>
-            <Form.Item name="customerNature" label="公司性质" style={{ width: '242px' }}>
+            <Form.Item name="customerNature" label="公司性质" style={{ width: '242px' }} rules={[
+              {
+                required: true,
+                message: '必填',
+              },
+            ]}>
               <Select
                 options={[
                   { label: '国企', value: 0 },
@@ -294,7 +305,12 @@ const Add = () => {
               ></Select>
             </Form.Item>
           </ProForm.Group>
-          <Form.Item name="registeredAddress" label="客户地点">
+          <Form.Item name="registeredAddress" label="客户地点" rules={[
+            {
+              required: true,
+              message: '必填',
+            },
+          ]}>
             {/* <Cascader
               style={{ width: '422px' }}
               options={cityList}

@@ -66,7 +66,7 @@ const InfoBasic = ({ record, update }) => {
       title: "联系人",
       dataIndex: "name",
       key: "name",
-      ellipsis: true,
+
       render: (text, record) => {
         return (
           <div>
@@ -85,7 +85,7 @@ const InfoBasic = ({ record, update }) => {
       title: "手机",
       dataIndex: "phone",
       key: "phone",
-      ellipsis: true,
+      width: '180',
     },
     {
       title: "微信",
@@ -99,17 +99,12 @@ const InfoBasic = ({ record, update }) => {
       key: "job",
       ellipsis: true,
     },
-    {
-      title: "QQ",
-      dataIndex: "qq",
-      key: "qq",
-      ellipsis: true,
-    },
+
     {
       title: "邮箱地址",
       dataIndex: "email",
       key: "email",
-      ellipsis: true,
+
     },
     {
       title: "备注",
@@ -120,8 +115,7 @@ const InfoBasic = ({ record, update }) => {
     {
       title: "操作",
       key: "action",
-      ellipsis: true,
-      width: "10%",
+      width: '180',
       fixed: 'right',
       render: (text, record) => (
         <Space size={1}>

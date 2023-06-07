@@ -254,7 +254,7 @@ const AddInvoice = () => {
                 >
                     <Form.Item labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="talents" label="选择人选" >
                         {/* <TalentSearch style={{ width: '196px' }} filedProps={{ mode: 'multiple' }} /> */}
-                        <span>{bfDetail?.tpList?.map(item => item.userName).join(',')}</span>
+                        <span>{bfDetail?.tpList?.map(item => item.talentName).join(',')}</span>
                     </Form.Item>
                 </ProForm>
 

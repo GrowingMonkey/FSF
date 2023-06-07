@@ -5,6 +5,7 @@ import {
   Row,
   Col,
   Input,
+  message,
   InputNumber,
   Select,
   DatePicker,
@@ -120,7 +121,7 @@ const ModalCustomerContact = ({
         });
       } else {
         addContact({ ...values, customerId: customerId }).then((data) => {
-          message.info(data.message);
+          message.info(data?.message || '成功');
           form.resetFields();
           setConfirmLoading(false);
           onSubmit();

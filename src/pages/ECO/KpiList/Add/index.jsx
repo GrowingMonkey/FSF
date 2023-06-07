@@ -205,7 +205,7 @@ const AddInvoice = () => {
         return (<ModalForm
             title="选择人员"
             name="modal"
-            width={'855px'}
+            width={'1012px'}
             form={talentForm}
             visible={modalVisit}
             onVisibleChange={e => {
@@ -273,6 +273,14 @@ const AddInvoice = () => {
                     return (
                         <>
                             {/* <ProFormText name="tarent" label={`提成人`} labelCol={{ style: { width: '100px' } }} wrapperCol={{ style: { width: '100px' } }} /> */}
+                            <Form.Item name="comis_type" label={`所属类型`} wrapperCol={{ style: { width: '125px' } }} labelCol={{ style: { width: '125px' } }} rules={[
+                                // {
+                                //     required: true,
+                                //     message: '必填',
+
+                                // },
+
+                            ]}><Input defaultValue={index == 0 ? '客户线索' : index == 1 ? "签约谈判" : index == 2 ? "人选线索" : index == 3 ? "人选推荐" : index == 4 ? "职位运作" : "款项回收"} disabled /></Form.Item>
                             <Form.Item name="empoylee" labelCol={{ style: { width: '125px' } }} rules={[
                                 // {
                                 //     required: true,

@@ -115,7 +115,7 @@ const ModalLeaveApply = ({ visible, onSubmit, onCancel, record }) => {
           if (col.type === "datePicker") {
             return (
               <Form.Item name={col.name} label={col.label} key={col.label}>
-                <DatePicker style={{ width: "100%" }}></DatePicker>
+                <DatePicker style={{ width: "100%" }} format={"YYYY-MM-DD hh"}></DatePicker>
               </Form.Item>
             );
           }

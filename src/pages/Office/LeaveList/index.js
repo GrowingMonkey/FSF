@@ -233,7 +233,7 @@ const LeaveList = () => {
                   return (
                     <Col span={col.span} key={col.name}>
                       <Form.Item name={col.name} label={col.label}>
-                        <DatePicker style={{ width: '100%' }}></DatePicker>
+                        <DatePicker style={{ width: '100%' }} format={"YY-MM-DD"}></DatePicker>
                       </Form.Item>
                     </Col>
                   );

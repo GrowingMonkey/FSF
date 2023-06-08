@@ -89,6 +89,12 @@ const DetailModal = ({ visibledetail = null, handleClose = () => { }, kpiId = nu
     };
     const columns = [
         {
+            title: '类型',
+            dataIndex: 'comis_type',
+            key: 'comis_type',
+            ellipsis: true,
+        },
+        {
             title: '提成人',
             dataIndex: 'userName',
             key: 'userName',

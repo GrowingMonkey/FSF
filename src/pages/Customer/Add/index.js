@@ -63,12 +63,13 @@ const Add = () => {
             getCustomerId().then((res) => {
               const { data } = res;
               payload.customerId = data;
+              const CurCustomerId = data
               setId(data);
               addCustomer({ ...payload, ...outValues }).then((data) => {
                 let extraInfo = [];
                 if (contactValues.contact && contactValues.contact.length > 0) {
                   let contactPromises = contactValues.contact.map((item) => {
-                    return addContact({ ...item, customerId: id });
+                    return addContact({ ...item, customerId: CurCustomerId });
                   });
                   extraInfo.push(...contactPromises);
                 }

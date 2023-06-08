@@ -366,6 +366,7 @@ const Add = () => {
                     getCustomerId().then((res) => {
                         const { data } = res;
                         payload.customerId = data;
+                        const CurCustomerId = data
                         setId(data);
                         addCustomer(payload).then((data) => {
                             let extraInfo = [];
@@ -373,7 +374,7 @@ const Add = () => {
                             console.log(contactValues)
                             if (contactValues.contact && contactValues.contact.length > 0) {
                                 let contactPromises = contactValues.contact.map((item) => {
-                                    return addContact({ ...item, customerId: id });
+                                    return addContact({ ...item, customerId: CurCustomerId });
                                 });
                                 extraInfo.push(...contactPromises);
                             }

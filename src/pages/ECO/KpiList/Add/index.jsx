@@ -65,9 +65,14 @@ const AddInvoice = () => {
                 rate: applyForm.getFieldValue('rate'),
                 kpiUserInfos: []
             }
+            if (values.allotPlan.length != 6) {
+                message.error('请添加完所有相关提成人（6类）');
+                return false
+            }
             values.allotPlan.map(item => {
                 param.kpiUserInfos.push({ userId: item.empoylee.id, userName: item.empoylee.name, rate: item.rate });
             })
+
             confirmUserKpi(param).then(res => {
                 let allotPlan = cloneDeep(values.allotPlan);
                 allotPlan.map((item, index) => {
@@ -162,9 +167,13 @@ const AddInvoice = () => {
     const handleModalSubmit = () => {
         let fpList = cloneDeep(fenPeiList)
         let list = cloneDeep(talentForm.getFieldValue('allotPlan'));
+        if (list.length < 6) {
+            message.error("请添加完所有相关提成人（6）");
+            return false
+        }
         let otherParams = cloneDeep(talentForm.getFieldsValue(true));
         debugger
-        list.map(item => {
+        list.map((item, curindex) => {
             item.serviceFee = otherParams.serviceFee;
             item.tpId = otherParams?.sgrx;
             try {
@@ -173,7 +182,8 @@ const AddInvoice = () => {
                 console.log(err)
                 item.talentName = '';
             }
-            item.type = otherParams.yjfl;
+            item.comis_type = curindex == 0 ? '客户线索' : curindex == 1 ? "签约谈判" : curindex == 2 ? "人选线索" : curindex == 3 ? "人选推荐" : curindex == 4 ? "职位运作" : "款项回收",
+                item.type = otherParams.yjfl;
             item.userId = item.empoylee.userId;
             item.userName = item.empoylee.name;
             item.comId = item.empoylee.comId;
@@ -253,9 +263,11 @@ const AddInvoice = () => {
             <ProFormList
                 layout="inline"
                 name={['allotPlan']}
+                max={6}
                 creatorButtonProps={{
                     position: 'bottom',
-
+                    max: 6,
+                    min: 1,
                     creatorButtonText: '点击添加提成人员',
                 }}
 
@@ -319,8 +331,8 @@ const AddInvoice = () => {
     }
     const columns = [
         {
-            title: '人选名称',
-            dataIndex: 'talentName',
+            title: '类型',
+            dataIndex: 'comis_type',
         },
         {
             title: '提成人',

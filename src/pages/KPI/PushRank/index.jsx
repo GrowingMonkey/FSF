@@ -14,7 +14,7 @@ import {
 } from "antd";
 import moment from "moment";
 import styles from "./index.less";
-import { useRequest } from 'umi'
+import { useRequest, history } from 'umi'
 import { PageContainer } from "@ant-design/pro-layout";
 import { tcaList } from '@/services/admin'
 import { sysNotice, feeRank, recommendRank } from "@/services/kpi";
@@ -57,12 +57,24 @@ const SignRank = () => {
             title: '人选名称',
             dataIndex: 'talentName',
             key: 'talentName',
+            render: (text, record) => {
+                return <span style={{ color: 'blue' }} onClick={() => history.push(`/talent/detail?talentId=${record.talentId}`)}> {text}</span>
+            },
             ellipsis: true,
         },
         {
             title: '人选职位',
             dataIndex: 'job',
             key: 'job',
+            ellipsis: true,
+            render: (text, record) => {
+                return <span style={{ color: 'blue' }} onClick={() => history.push(`/project/p-detail/detail?projectId=${record.projectId}&customerId=${record.customerId}&id=573`)}> {text}</span>
+            },
+        },
+        {
+            title: '录入时间',
+            dataIndex: 'offerDate ',
+            key: 'offerDate ',
             ellipsis: true,
         },
         {
@@ -81,16 +93,17 @@ const SignRank = () => {
             span: 8,
             options: areaList?.list
         },
+
         {
-            name: "startTime",
-            label: "开始时间",
-            type: "date",
+            name: "creatTime",
+            label: "录入时间",
+            type: "dateRangPicker",
             span: 8,
         },
         {
-            name: "endTime",
-            label: "结束时间",
-            type: "date",
+            name: "offerDate",
+            label: "offer时间",
+            type: "dateRangPicker",
             span: 8,
         },
     ];
@@ -98,7 +111,14 @@ const SignRank = () => {
     const handleSearch = () => {
         form.validateFields().then(values => {
             console.log(values)
-            signRun({ areaName: values.areaId, startTime: moment(values.startTime).format("YYYY/MM/DD"), endTime: moment(values.endTime).format("YYYY/MM/DD") })
+            signRun({
+                areaName: values.areaId,
+                startTime: values.creatTime ? moment(values.creatTime[0]).format("YYYY/MM/DD") : '',
+                endTime: values.creatTime ? moment(values.creatTime[1]).format("YYYY/MM/DD") : '',
+                offerDate1: values.offerDate ? moment(values.offerDate[0]).format("YYYY/MM/DD") : '',
+                offerDate2: values.offerDate ? moment(values.offerDate[1]).format("YYYY/MM/DD") : '',
+
+            })
         })
     }
     const handleInpputSearch = (e) => {

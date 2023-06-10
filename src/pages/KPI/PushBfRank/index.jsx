@@ -14,7 +14,7 @@ import {
 } from "antd";
 import moment from "moment";
 import styles from "./index.less";
-import { useRequest } from 'umi'
+import { useRequest, history } from 'umi'
 import { PageContainer } from "@ant-design/pro-layout";
 import { tcaList } from '@/services/admin'
 import { sysNotice, feeRank, recommendRank } from "@/services/kpi";
@@ -50,6 +50,9 @@ const SignRank = () => {
             dataIndex: 'customerName',
             key: 'customerName',
             ellipsis: true,
+            render: (text, record) => {
+                return <span style={{ color: 'blue' }} onClick={() => history.push(`/customer/detail?id=389&customerId=${record.customerId}&customerName=${record?.customerName}`)}> {text}</span>
+            },
         },
         {
             title: '回款金额',
@@ -74,23 +77,22 @@ const SignRank = () => {
             options: areaList?.list
         },
         {
-            name: "startTime",
-            label: "开始时间",
-            type: "date",
+            name: "creatTime",
+            label: "回款时间",
+            type: "dateRangPicker",
             span: 8,
         },
-        {
-            name: "endTime",
-            label: "结束时间",
-            type: "date",
-            span: 8,
-        },
+
     ];
     console.log(rankList);
     const handleSearch = () => {
         form.validateFields().then(values => {
             console.log(values)
-            signRun({ areaName: values.areaId, startTime: moment(values.startTime).format("YYYY/MM/DD"), endTime: moment(values.endTime).format("YYYY/MM/DD") })
+            signRun({
+                areaName: values.areaId,
+                startTime: values.creatTime ? moment(values.creatTime[0]).format("YYYY/MM/DD") : '',
+                endTime: values.creatTime ? moment(values.creatTime[1]).format("YYYY/MM/DD") : ''
+            })
         })
     }
     const handleInpputSearch = (e) => {

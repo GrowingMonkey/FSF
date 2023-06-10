@@ -182,7 +182,7 @@ const AddInvoice = () => {
                 console.log(err)
                 item.talentName = '';
             }
-            item.comis_type = curindex == 0 ? '客户线索' : curindex == 1 ? "签约谈判" : curindex == 2 ? "人选线索" : curindex == 3 ? "人选推荐" : curindex == 4 ? "职位运作" : "款项回收",
+            item.comisType = curindex == 0 ? '客户线索' : curindex == 1 ? "签约谈判" : curindex == 2 ? "人选线索" : curindex == 3 ? "人选推荐" : curindex == 4 ? "职位运作" : "款项回收",
                 item.type = otherParams.yjfl;
             item.userId = item.empoylee.userId;
             item.userName = item.empoylee.name;
@@ -285,7 +285,7 @@ const AddInvoice = () => {
                     return (
                         <>
                             {/* <ProFormText name="tarent" label={`提成人`} labelCol={{ style: { width: '100px' } }} wrapperCol={{ style: { width: '100px' } }} /> */}
-                            <Form.Item name="comis_type" label={`所属类型`} wrapperCol={{ style: { width: '125px' } }} labelCol={{ style: { width: '125px' } }} rules={[
+                            <Form.Item name="comisType" label={`所属类型`} wrapperCol={{ style: { width: '125px' } }} labelCol={{ style: { width: '125px' } }} rules={[
                                 // {
                                 //     required: true,
                                 //     message: '必填',
@@ -332,7 +332,7 @@ const AddInvoice = () => {
     const columns = [
         {
             title: '类型',
-            dataIndex: 'comis_type',
+            dataIndex: 'comisType',
         },
         {
             title: '提成人',

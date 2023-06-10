@@ -90,8 +90,8 @@ const DetailModal = ({ visibledetail = null, handleClose = () => { }, kpiId = nu
     const columns = [
         {
             title: '类型',
-            dataIndex: 'comis_type',
-            key: 'comis_type',
+            dataIndex: 'comisType',
+            key: 'comisType',
             ellipsis: true,
         },
         {

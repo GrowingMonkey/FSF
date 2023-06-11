@@ -134,7 +134,7 @@ const DetailModal = ({ visibledetail = null, handleClose = () => { }, kpiId = nu
     console.log(visibledetail)
     return (
         <Modal
-            width={600}
+            width={1000}
             visible={visibledetail}
             title={'详情'}
             okText="关闭"

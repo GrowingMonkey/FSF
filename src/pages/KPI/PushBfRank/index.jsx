@@ -77,9 +77,15 @@ const SignRank = () => {
             options: areaList?.list
         },
         {
-            name: "creatTime",
+            name: "creatTime1",
             label: "回款时间",
-            type: "dateRangPicker",
+            type: "date",
+            span: 8,
+        },
+        {
+            name: "creatTime2",
+            label: "",
+            type: "date",
             span: 8,
         },
 
@@ -90,8 +96,8 @@ const SignRank = () => {
             console.log(values)
             signRun({
                 areaName: values.areaId,
-                startTime: values.creatTime ? moment(values.creatTime[0]).format("YYYY/MM/DD") : '',
-                endTime: values.creatTime ? moment(values.creatTime[1]).format("YYYY/MM/DD") : ''
+                startTime: values.creatTime1 ? moment(values.creatTime1).format("YYYY/MM/DD") : '',
+                endTime: values.creatTime2 ? moment(values.creatTime2).format("YYYY/MM/DD") : ''
             })
         })
     }

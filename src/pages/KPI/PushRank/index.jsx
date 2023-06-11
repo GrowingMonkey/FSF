@@ -71,17 +71,24 @@ const SignRank = () => {
                 return <span style={{ color: 'blue' }} onClick={() => history.push(`/project/p-detail/detail?projectId=${record.projectId}&customerId=${record.customerId}&id=573`)}> {text}</span>
             },
         },
-        {
-            title: '录入时间',
-            dataIndex: 'offerDate ',
-            key: 'offerDate ',
-            ellipsis: true,
-        },
+
         {
             title: '人选年薪',
             dataIndex: 'salary',
             key: 'salary',
             render: text => <span style={{ color: 'red' }}>{text || 0}万</span>,
+            ellipsis: true,
+        },
+        {
+            title: 'offer时间',
+            dataIndex: 'offerDate',
+            key: 'offerDate',
+            ellipsis: true,
+        },
+        {
+            title: '录入时间',
+            dataIndex: 'createTime',
+            key: 'createTime ',
             ellipsis: true,
         },
     ]
@@ -95,15 +102,27 @@ const SignRank = () => {
         },
 
         {
-            name: "creatTime",
+            name: "creatTime1",
             label: "录入时间",
-            type: "dateRangPicker",
+            type: "date",
             span: 8,
         },
         {
-            name: "offerDate",
+            name: "creatTime2",
+            label: "",
+            type: "date",
+            span: 8,
+        },
+        {
+            name: "offerDate1",
             label: "offer时间",
-            type: "dateRangPicker",
+            type: "date",
+            span: 8,
+        },
+        {
+            name: "offerDate2",
+            label: "",
+            type: "date",
             span: 8,
         },
     ];
@@ -113,10 +132,10 @@ const SignRank = () => {
             console.log(values)
             signRun({
                 areaName: values.areaId,
-                startTime: values.creatTime ? moment(values.creatTime[0]).format("YYYY/MM/DD") : '',
-                endTime: values.creatTime ? moment(values.creatTime[1]).format("YYYY/MM/DD") : '',
-                offerDate1: values.offerDate ? moment(values.offerDate[0]).format("YYYY/MM/DD") : '',
-                offerDate2: values.offerDate ? moment(values.offerDate[1]).format("YYYY/MM/DD") : '',
+                startTime: values.creatTime1 ? moment(values.creatTime1).format("YYYY/MM/DD") : '',
+                endTime: values.creatTime2 ? moment(values.creatTime2).format("YYYY/MM/DD") : '',
+                offerDate1: values.offerDate1 ? moment(values.offerDate1).format("YYYY/MM/DD") : '',
+                offerDate2: values.offerDate2 ? moment(values.offerDate2).format("YYYY/MM/DD") : '',
 
             })
         })

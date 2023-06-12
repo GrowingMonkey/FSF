@@ -45,7 +45,7 @@ const TalentSearch = ({ value = {}, onChange, filedProps = {}, applyUserId }) =>
   };
   const handleSearch = (value) => {
     if (value) {
-      selectMyServiceFeeList({ pageNo: 1, pageSize: 10, name: value }).then((res) => {
+      selectMyServiceFeeList({ pageNo: 1, pageSize: 10, customerName: value }).then((res) => {
         const { data } = res;
         setOptions(
           data.list.map((item) => {

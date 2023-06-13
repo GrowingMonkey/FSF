@@ -97,7 +97,7 @@ const AddInvoice = () => {
                             },
                         ]} wrapperCol={{ style: { width: '175px' } }} label="服务顾问">
                             {/* <SearchInput></SearchInput> */}
-                            <span>{bfDetail?.auditorName || ''}</span>
+                            <span>{bfDetail?.userName || ''}</span>
                         </Form.Item>
                         <Form.Item name="appUserCompany" labelCol={{ style: { width: '112px' } }} wrapperCol={{ style: { width: '168px' } }} label="归属公司">
                             <span>{

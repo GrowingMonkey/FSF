@@ -47,55 +47,52 @@ const InvoiceList = () => {
   const formList = [
 
     {
-      name: 'state',
+      name: 'serviceType',
       label: '业务类型',
       type: 'select',
       span: 8,
       options: [
-        { label: '已到账', value: 0 },
-        { label: '未到账', value: 1 },
-        { label: '已支出', value: 2 },
-        { label: '未支出', value: 3 },
+        { label: '猎头业务', value: 0 },
+        { label: '咨询业务', value: 1 },
+        { label: '其他', value: 9 },
       ],
     },
     {
-      name: 'type12',
+      name: 'invoiceType',
       label: '发票属性',
       type: 'select',
       span: 8,
       options: [
-        { label: '已到账', value: 0 },
-        { label: '未到账', value: 1 },
-        { label: '已支出', value: 2 },
-        { label: '未支出', value: 3 },
+        { label: '服务费', value: 0 },
+        { label: '咨询费', value: 1 },
+        { label: '其他', value: 9 },
       ],
     },
     {
-      name: 'isBack',
+      name: 'isPay',
       label: '回款状态',
       type: 'select',
       span: 8,
       options: [
-        { label: '已到账', value: 0 },
-        { label: '未到账', value: 1 },
-        { label: '已支出', value: 2 },
-        { label: '未支出', value: 3 },
+        { label: '否', value: 0 },
+        { label: '是', value: 1 },
+
+
       ],
     },
     {
-      name: 'type1',
+      name: 'type',
       label: '发票类型',
       type: 'select',
       span: 8,
       options: [
-        { label: '已到账', value: 0 },
-        { label: '未到账', value: 1 },
-        { label: '已支出', value: 2 },
-        { label: '未支出', value: 3 },
+        { label: '普通发票', value: 0 },
+        { label: '专用发票', value: 1 },
+        { label: '电子普通发票', value: 2 },
       ],
     },
     {
-      name: 'state1',
+      name: 'state',
       label: '发票状态',
       type: 'select',
       span: 8,
@@ -106,14 +103,14 @@ const InvoiceList = () => {
       ],
     },
     {
-      name: 'name',
+      name: 'talentName',
       label: '上岗人选',
       type: 'input',
       span: 8,
     },
 
     {
-      name: 'userName',
+      name: 'auditorName',
       label: '开票人',
       type: 'input',
       span: 8,

@@ -51,7 +51,11 @@ const SignRank = () => {
             key: 'customerName',
             ellipsis: true,
             render: (text, record) => {
-                return <span style={{ color: 'blue' }} onClick={() => history.push(`/customer/detail?id=389&customerId=${record.customerId}&customerName=${record?.customerName}`)}> {text}</span>
+                if (record.customerId) {
+                    return <span style={{ color: 'blue' }} onClick={() => history.push(`/customer/detail?id=389&customerId=${record.customerId}&customerName=${record?.customerName}`)}> {text}</span>
+                } else {
+                    return text
+                }
             },
         },
         {

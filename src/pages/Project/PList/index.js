@@ -135,13 +135,6 @@ const PList = () => {
   ];
   const formList = [
     {
-      name: "cityCode",
-      label: "城市",
-      type: "cascader",
-      options: cityList,
-      span: 6,
-    },
-    {
       name: "customerName",
       label: "客户名",
       type: "input",
@@ -156,6 +149,20 @@ const PList = () => {
       //   );
       // },
     },
+    {
+      name: "name",
+      label: "职位名",
+      type: "input",
+      span: 6,
+    },
+    {
+      name: "cityCode",
+      label: "城市",
+      type: "cascader",
+      options: cityList,
+      span: 6,
+    },
+
     {
       name: "industry",
       label: "行业",
@@ -207,12 +214,7 @@ const PList = () => {
       ],
       span: 6,
     },
-    {
-      name: "name",
-      label: "职位名",
-      type: "input",
-      span: 6,
-    },
+
     {
       name: "quotTime",
       label: "所保用期限",

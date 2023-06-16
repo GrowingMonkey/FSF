@@ -58,7 +58,13 @@ const SignRank = () => {
             dataIndex: 'talentName',
             key: 'talentName',
             render: (text, record) => {
-                return <span style={{ color: 'blue' }} onClick={() => history.push(`/talent/detail?talentId=${record.talentId}`)}> {text}</span>
+                if (record.talentId) {
+
+
+                    return <span style={{ color: 'blue' }} onClick={() => history.push(`/talent/detail?talentId=${record.talentId}`)}> {text}</span>
+                } else {
+                    return text
+                }
             },
             ellipsis: true,
         },
@@ -68,7 +74,13 @@ const SignRank = () => {
             key: 'job',
             ellipsis: true,
             render: (text, record) => {
-                return <span style={{ color: 'blue' }} onClick={() => history.push(`/project/p-detail/detail?projectId=${record.projectId}&customerId=${record.customerId}&id=573`)}> {text}</span>
+                if (record.projectId) {
+
+
+                    return <span style={{ color: 'blue' }} onClick={() => history.push(`/project/p-detail/detail?projectId=${record.projectId}&customerId=${record.customerId}&id=573`)}> {text}</span>
+                } else {
+                    return text
+                }
             },
         },
 
@@ -86,7 +98,7 @@ const SignRank = () => {
             ellipsis: true,
         },
         {
-            title: '录入时间',
+            title: '入职时间',
             dataIndex: 'createTime',
             key: 'createTime ',
             ellipsis: true,
@@ -103,7 +115,7 @@ const SignRank = () => {
 
         {
             name: "creatTime1",
-            label: "录入时间",
+            label: "入职时间",
             type: "date",
             span: 8,
         },

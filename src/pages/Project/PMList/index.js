@@ -74,18 +74,25 @@ const PMList = () => {
   ];
   const formList = [
     {
+      name: "customerName",
+      label: "客户名",
+      type: "input",
+      span: 6,
+    },
+    {
+      name: "name",
+      label: "职位名",
+      type: "input",
+      span: 6,
+    },
+    {
       name: "cityCode",
       label: "城市",
       type: "cascader",
       options: cityList,
       span: 6,
     },
-    {
-      name: "customerName",
-      label: "客户名",
-      type: "input",
-      span: 6,
-    },
+
     {
       name: "industry",
       label: "行业",

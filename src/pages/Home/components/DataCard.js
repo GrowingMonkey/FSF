@@ -40,14 +40,15 @@ const DataCard = ({ dataState, selectType, selectDateType, dataType = 1, dateTyp
     },
     {
       value: "104",
-      unit: "人",
-      label: "offer",
+      unit: "元",
+      label: "回款",
     },
     {
       value: "105",
       unit: "人",
-      label: "入职",
+      label: "offer/入职",
     },
+
   ];
   const wrapCol = {
     xs: 12,
@@ -136,8 +137,8 @@ const DataCard = ({ dataState, selectType, selectDateType, dataType = 1, dateTyp
                     <div className={styles.data_info}>{dateType == "year" ? '年度' : dateType == "day" ? '日' : dateType == "season" ? '季' : '月'}{dataList[3].label}</div>
 
                     <div>
-                      <span className={styles["value"]}>{formatNum(dataState?.addServiceFee).num}</span>
-                      <span>{formatNum(dataState?.addServiceFee).toW ? '万' + dataList[3].unit : dataList[3].unit}</span>
+                      <span className={styles["value"]}>{formatNum(dataState?.addKPIFee).num}</span>
+                      <span>{formatNum(dataState?.addKPIFee).toW ? '万' + dataList[3].unit : dataList[3].unit}</span>
                     </div>
                   </div>
                 </div>
@@ -171,17 +172,17 @@ const DataCard = ({ dataState, selectType, selectDateType, dataType = 1, dateTyp
                   <div className={styles.data_info}>{dateType == "year" ? '年度' : dateType == "day" ? '日' : dateType == "season" ? '季' : '月'}{dataList[6].label}</div>
 
                   <div>
-                    <span className={styles["value"]}>{dataState?.addOfferNum || 0}</span>
-                    <span>{dataList[6].unit}</span>
+                    <span className={styles["value"]}>{formatNum(dataState?.addServiceFee).num}</span>
+                    <span>{formatNum(dataState?.addServiceFee).toW ? '万' + dataList[3].unit : dataList[3].unit}</span>
                   </div>
                 </div>
               </Col>
               <Col {...wrapCol}>
                 <div className={styles["data-item"]}>
-                  <div className={styles.data_info}>{dateType == "year" ? '年度' : dateType == "day" ? '日' : dateType == "season" ? '季' : '月'}{dataList[7].label}</div>
+                  <div className={styles.data_info}>{dateType == "year" ? '年' : dateType == "day" ? '日' : dateType == "season" ? '季' : '月'}{dataList[7].label}</div>
 
                   <div>
-                    <span className={styles["value"]}>{dataState?.addWorkNum || 0}</span>
+                    <span className={styles["value"]}>{dataState?.addOfferNum + '/' + dataState?.addWorkNum}</span>
                     <span>{dataList[7].unit}</span>
                   </div>
                 </div>

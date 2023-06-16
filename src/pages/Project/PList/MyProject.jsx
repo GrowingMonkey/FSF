@@ -148,6 +148,27 @@ const PList = () => {
     ];
     const formList = [
         {
+            name: "customerName",
+            label: "客户名",
+            type: "input",
+            span: 6,
+            // render: () => {
+            //     return (
+            //         <Col span={6} key="customer" {...wrapCol}>
+            //             <Form.Item name="customer" label="客户">
+            //                 <CustomerSearch></CustomerSearch>
+            //             </Form.Item>
+            //         </Col>
+            //     );
+            // },
+        },
+        {
+            name: "name",
+            label: "职位名",
+            type: "input",
+            span: 6,
+        },
+        {
             name: "cityCode",
             label: "城市",
             type: "cascader",

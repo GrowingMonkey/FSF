@@ -307,6 +307,17 @@ export const ulfq = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export const ulfqAll = (payload) => {
+  // return new Promise((resolve, reject) => {
+  //   request.post("/customer/ulfq", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/customer/ulfqAll', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
 export const updateContact = (payload) => {
   // return new Promise((resolve, reject) => {
   //   request.post("/customer/updateContact", payload).then((data) => {

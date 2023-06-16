@@ -24,6 +24,8 @@ import TalentSearch from '@/components/TalentSearch';
 import CustomerSearch from '@/components/CustomerSearch';
 import BFSearch from '../components/BFSearch';
 import FenPeiYuanGong from '../components/FenPeiYuanGong'
+import FenPeiYuanGongAll from '../components/FenPeiYuanGongAll'
+
 import { useState } from 'react';
 import { confirmUserKpi, addKpiFee } from '@/services/eco'
 import { EditableProTable } from '@ant-design/pro-table';
@@ -78,7 +80,10 @@ const AddInvoice = () => {
                 allotPlan.map((item, index) => {
                     item.kpiFee = res.data[index].kpiFee;
                     item.commissionFee = res.data[index].commissionFee
+                    item.allCommissionFee = res.data[0].allCommissionFee
+                    item.allKpiFee = res.data[0].allKpiFee
                 })
+
                 setComputedRedData(`提成总计金额${res.data[0].allCommissionFee}元 业绩总计金额${res.data[0].allKpiFee}`)
                 talentForm.setFieldsValue({
                     allotPlan: allotPlan
@@ -299,13 +304,13 @@ const AddInvoice = () => {
                                 //     message: '必填',
                                 // },
                             ]} wrapperCol={{ style: { width: '125px' } }} label={`提成人`}>
-                                <FenPeiYuanGong onChange={e => {
+                                <FenPeiYuanGongAll onChange={e => {
                                     console.log(e)
                                     action.setCurrentRowData({
                                         com: e.comName,
                                         empoylee: e
                                     })
-                                }}></FenPeiYuanGong>
+                                }}></FenPeiYuanGongAll>
                             </Form.Item>
 
                             <ProFormText name="com" label="所在公司" labelCol={{ style: { width: '125px' } }} wrapperCol={{ style: { width: '125px' } }} />
@@ -414,17 +419,22 @@ const AddInvoice = () => {
                         console.log(item);
                         return (!filterArr.includes(+(item.value)));
                     })
+                    console.log(sgrxOptions)
                     setSgrxOptions(newOp);
                     setModalVisit(true);
                 }}>+分配方案</Button>]} >
                     {fenPeiList.map((item, index) =>
                         <EditableProTable rowKey={index}
                             toolBarRender={() => [
+                                <span style={{ color: 'blue', marginRight: 60 }}>分配金额: {item.serviceFee}上岗人选:{sgrxOptions.length > 0 && item.sgrx ? sgrxOptions.filter(ite => ite.tpId == item.sgrx)[0].label : ''} 业绩分类:{item.yjfl && item.yjfl == 1 ? '独立运作' : item.yjfl && item.yjfl == 2 ? '组内合作' : item.yjfl && item.yjfl == 3 ? '同城合作' : item.yjfl && item.yjfl == 4 ? '跨区合作' : ''} </span>,
+                                <span style={{ color: 'red' }}>提成总计金额:{item.allotPlan[0].allCommissionFee}业绩总计金额:{item.allotPlan[0].allKpiFee}</span>,
                                 <Button type="primary" size="small" onClick={() => updateFenPeiList(item)}>修改</Button>,
                                 <Button type="dashed" size="small" onClick={() => {
                                     setFenPeiList(cloneDeep(fenPeiList).filter(item => item.sgrx != item.sgrx))
                                 }}>删除</Button>
                             ]}
+
+
                             recordCreatorProps={false} loading={false} columns={columns}
                             // request={async () => ({
                             //     data: defaultData,

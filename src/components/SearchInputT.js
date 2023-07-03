@@ -2,8 +2,8 @@
 import { useState } from "react";
 import { Select } from "antd";
 import debounce from "lodash/debounce";
-import { ulfq } from "../services/customer";
-import { userListForKpi } from "../services/eco";
+import { ulfq, userListForKpi } from "../services/customer";
+
 
 /**
  * 员工列表，同事列表select组件
@@ -27,7 +27,7 @@ const SearchInput = ({ value = {}, onChange, filedProps = {} }) => {
   };
 
   const onRecommenderNameChange = (newValue) => {
-
+    console.log(newValue)
     //单选
     if (!Array.isArray(newValue)) {
 
@@ -70,6 +70,7 @@ const SearchInput = ({ value = {}, onChange, filedProps = {} }) => {
   };
 
   const handleSearch = (value) => {
+    console.log(value)
     if (value) {
       userListForKpi({ name: value }).then((res) => {
         const { data } = res;

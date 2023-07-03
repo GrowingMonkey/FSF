@@ -185,7 +185,7 @@ const DetailModal = ({ visibledetail = null, handleClose = () => { }, kpiId = nu
                             </Descriptions>
 
                             <Table
-                                title={() => <b>各环杰提成分配</b>}
+                                title={() => <b>各环节提成分配</b>}
                                 columns={columns} dataSource={item?.kpiUserInfos || []} pagination={false} size="small"
                                 bordered
                             />

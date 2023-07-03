@@ -56,6 +56,18 @@ export const addContact = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export const userListForKpi = (payload) => {
+  // return new Promise((resolve, reject) => {
+  //   request.post("/customer/addContact", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/eco/userListForKpi', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+
 
 export const addCustomer = (payload) => {
   // return new Promise((resolve, reject) => {

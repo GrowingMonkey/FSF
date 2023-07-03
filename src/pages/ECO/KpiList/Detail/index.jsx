@@ -87,6 +87,26 @@ const DetailModal = ({ visibledetail = null, handleClose = () => { }, kpiId = nu
             }
         ],
     };
+    const Allcolumns = [
+        {
+            title: '提成用户',
+            dataIndex: 'userName',
+            key: 'userName',
+            ellipsis: true,
+        },
+        {
+            title: '提成金额',
+            dataIndex: 'commissionFeeAll',
+            key: 'commissionFeeAll',
+            ellipsis: true,
+        },
+        {
+            title: '业绩金额',
+            dataIndex: 'kpiFeeAll',
+            key: 'kpiFeeAll',
+            ellipsis: true,
+        },
+    ]
     const columns = [
         {
             title: '类型',
@@ -142,7 +162,7 @@ const DetailModal = ({ visibledetail = null, handleClose = () => { }, kpiId = nu
             onCancel={() => handleClose()}
             onOk={() => handleClose()}
         >
-            <Card bordered={false} title={'基本详情'} style={{ width: '100%' }}>
+            <Card bordered={false} title={null} style={{ width: '100%' }}>
                 <Descriptions column={2}>
                     <Descriptions.Item label="回款信息">{dataSource.customerName}</Descriptions.Item>
                     <Descriptions.Item label="归属公司">{dataSource.comName}</Descriptions.Item>
@@ -164,9 +184,16 @@ const DetailModal = ({ visibledetail = null, handleClose = () => { }, kpiId = nu
                                 <Descriptions.Item label="业绩分类"> {item.type == 1 ? '独立运作' : item.type == 2 ? '组内合作' : item.type == 3 ? '同城合作' : item.type == 4 ? '跨区合作' : ''}</Descriptions.Item>
                             </Descriptions>
 
-                            <Table columns={columns} dataSource={item?.kpiUserInfos || []} pagination={false} size="small"
+                            <Table
+                                title={() => <b>各环杰提成分配</b>}
+                                columns={columns} dataSource={item?.kpiUserInfos || []} pagination={false} size="small"
                                 bordered
+                            />
+                            <Table
+                                title={() => <b>提成分配汇总</b>}
+                                columns={Allcolumns} bordered dataSource={dataSource?.kpiuserTotalList || []} pagination={false} size="small"
                                 footer={() => <div>提成总计金额<span style={{ color: 'red' }}>{item.kpiUserInfos[0].allCommissionFee}</span>元 业绩总计金额<span style={{ color: 'red' }}>{item.kpiUserInfos[0].allKpiFee}</span></div>}
+
                             />
                         </List.Item>
                     )}>

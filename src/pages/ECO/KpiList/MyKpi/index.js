@@ -20,7 +20,7 @@ import {
 import { history, Link } from 'umi';
 import styles from '../index.less';
 import { PageContainer } from '@ant-design/pro-layout';
-import SearchInput from '@/components/SearchInput';
+import SearchInput from '@/components/SearchInputT';
 import ModalForm from '../components/ModalForm';
 import { queryKpiList, confirmKpi, refuseKpi } from '@/services/eco';
 import {

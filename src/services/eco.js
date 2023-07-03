@@ -69,6 +69,13 @@ export const queryComIncomeList = (payload) => {
     ...(payload || {}),
   });
 };
+// 我的提成
+export const userListForKpi = (payload) => {
+  return request('/eco/userListForKpi', {
+    method: 'POST',
+    ...(payload || {}),
+  });
+};
 
 // 我的提成
 export const queryCommisionList = (payload) => {

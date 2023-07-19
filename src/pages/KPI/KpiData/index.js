@@ -8,6 +8,7 @@ import {
     Col,
     Input,
     InputNumber,
+    Radio,
     Button,
     Select,
     Table,
@@ -18,11 +19,12 @@ import {
     message,
 } from 'antd';
 import { history, Link } from 'umi';
-import styles from '../index.less';
+import styles from './index.less';
 import { PageContainer } from '@ant-design/pro-layout';
 import SearchInput from '@/components/SearchInputT';
-import ModalForm from '../components/ModalForm';
+import ModalForm from '@/pages/ECO/KpiList/components/ModalForm';
 import { queryKpiList, confirmKpi, refuseKpi } from '@/services/eco';
+import { allUserData } from '@/services/home';
 import {
     userKpiData,
     teamList,
@@ -45,6 +47,7 @@ const KpiList = () => {
     const [visible, setVisible] = useState(false);
     const [formValue, setFormValue] = useState(null);
     const [talentList, setTalentList] = useState([]);
+    const [dataSeoType, setDataSeoType] = useState('year')
     const [modelVisiBle, setModelVisiBle] = useState({
         type: 'khms',
         date: '',
@@ -68,6 +71,12 @@ const KpiList = () => {
             name: 'year',
             label: '年份',
             type: 'dateRangPicker',
+            span: 6,
+        },
+        {
+            name: 'type',
+            label: '年份',
+            type: 'radio',
             span: 6,
         },
     ];
@@ -153,32 +162,14 @@ const KpiList = () => {
                 return <span style={{ fontWeight: 'bold' }}>{text}</span>;
             },
         },
-        {
-            title: '期数',
-            dataIndex: 'dataTime',
-            key: 'dataTime',
-            width: 100,
-            ellipsis: true,
-            render: (text, record) => {
-                return <span style={{ fontWeight: 'bold' }}>{text}</span>;
-            },
-        },
-        {
-            title: '职级',
-            dataIndex: 'job',
-            key: 'job',
-            ellipsis: true,
-            width: 40,
-            render: (text, record) => {
-                return <span style={{ fontWeight: 'bold' }}>{text}</span>;
-            },
-        },
+
+
         {
             title: '推给客户',
-            dataIndex: 'tgkh',
+            dataIndex: 'addRecommendNum',
             width: 60,
 
-            key: 'tgkh',
+            key: 'addRecommendNum',
             ellipsis: true,
             render: (text, record) => {
                 if (text == 0) {
@@ -190,10 +181,10 @@ const KpiList = () => {
         },
         {
             title: '客户面试',
-            dataIndex: 'khms',
+            dataIndex: 'addFaceNum',
             width: 60,
 
-            key: 'khms',
+            key: 'addFaceNum',
             ellipsis: true,
             render: (text, record) => {
                 if (text == 0) {
@@ -205,9 +196,9 @@ const KpiList = () => {
         },
         {
             title: '确认offer',
-            dataIndex: 'offer',
+            dataIndex: 'addOfferNum',
             width: 60,
-            key: 'offer',
+            key: 'addOfferNum',
             ellipsis: true,
             render: (text, record) => {
                 if (text == 0) {
@@ -219,9 +210,9 @@ const KpiList = () => {
         },
         {
             title: '成功入职',
-            dataIndex: 'cgrz',
+            dataIndex: 'addWorkNum',
             width: 60,
-            key: 'cgrz',
+            key: 'addWorkNum',
             ellipsis: true,
             render: (text, record) => {
                 if (text == 0) {
@@ -233,10 +224,10 @@ const KpiList = () => {
         },
         {
             title: '录入人选',
-            dataIndex: 'lrrx',
+            dataIndex: 'addTalentNum',
             width: 60,
 
-            key: 'lrrx',
+            key: 'addTalentNum',
             ellipsis: true,
             render: (text, record) => {
                 if (text == 0) {
@@ -248,10 +239,10 @@ const KpiList = () => {
         },
         {
             title: '签约客户',
-            dataIndex: 'qykh',
+            dataIndex: 'addSignNum',
             width: 60,
 
-            key: 'qykh',
+            key: 'addSignNum',
             ellipsis: true,
             render: (text, record) => {
                 if (text == 0) {
@@ -261,24 +252,34 @@ const KpiList = () => {
                 }
             },
         },
+        {
+            title: '回款金额',
+            dataIndex: 'addServiceFee',
+            width: 60,
+
+            key: 'addServiceFee',
+            ellipsis: true,
+            render: (text, record) => {
+                return <span style={{ fontWeight: 'bold' }}>{text}</span>;
+            },
+        },
 
         {
             title: '业绩金额',
-            dataIndex: 'fee',
+            dataIndex: 'addKPIFee',
             width: 60,
 
-            key: 'fee',
+            key: 'addKPIFee',
             ellipsis: true,
             render: (text, record) => {
                 return <span style={{ fontWeight: 'bold' }}>{text}</span>;
             },
         },
         {
-            title: '考核分数',
-            dataIndex: 'score',
+            title: '日期',
+            dataIndex: 'createTime',
             width: 60,
-
-            key: 'score',
+            key: 'createTime',
             ellipsis: true,
             render: (text, record) => {
                 return <span style={{ fontWeight: 'bold' }}>{text}</span>;
@@ -669,9 +670,10 @@ const KpiList = () => {
     const handleSearch = () => {
         form.validateFields().then((values) => {
             console.log(values);
+
             // setSelectedTags([]);
             setSearchValues({
-                year: moment(values.year).format('YYYY'),
+                [dataSeoType]: moment(values.year).format(dataSeoType == 'year' ? 'YYYY' : dataSeoType == 'month' ? 'YYYY-MM' : 'YYYY-MM-DD'),
                 appUserName: values?.appUserName?.recommenderName || '',
                 appUserId: values?.appUserName?.recommenderUserId || '',
             });
@@ -695,20 +697,24 @@ const KpiList = () => {
 
     useEffect(() => {
         console.log(searchValues)
-        userKpiData({
+        allUserData({
             ...searchValues,
             pageNo: pageNo,
             pageSize: 10,
             appUserId: selectedTags.length > 0 ? selectedTags[0] : searchValues?.appUserId,
         }).then((res) => {
+            console.log(res)
             setKpiList(
-                res.data.length > 0
-                    ? res?.data.map((item, index) => {
+                res.data.list.length > 0
+                    ? res?.data.list.map((item, index) => {
+
                         return Object.assign(item, { key: index });
                     })
                     : [],
             );
-            setCount(res?.data.length);
+
+            setCount(res?.data.count);
+            console.log(count)
         });
     }, [searchValues, count, pageNo, fresh, selectedTags]);
     useEffect(() => {
@@ -757,7 +763,7 @@ const KpiList = () => {
             <div className={styles['search-container']}>
                 <Row justify="space-between" align="middle">
                     <Col>
-                        <div className={styles['page-title']}>我的绩效</div>
+                        <div className={styles['page-title']}>绩效数据</div>
                     </Col>
                 </Row>
                 <Divider />
@@ -838,7 +844,20 @@ const KpiList = () => {
                                     return (
                                         <Col span={col.span} key={col.name}>
                                             <Form.Item name={col.name} label={col.label}>
-                                                <DatePicker picker="year" format={`YYYY`} />
+                                                <DatePicker picker={dataSeoType} format={dataSeoType == 'year' ? 'YYYY' : dataSeoType == 'month' ? 'YYYY-MM' : 'YYYY-MM-DD'} />
+                                            </Form.Item>
+                                        </Col>
+                                    );
+                                }
+                                if (col.type === 'radio') {
+                                    return (
+                                        <Col span={col.span} key={col.name}>
+                                            <Form.Item name={col.name} label={col.label}>
+                                                <Radio.Group onChange={(e) => { console.log(e.target.value); setDataSeoType(e.target.value) }}>
+                                                    <Radio value={'year'}>年</Radio>
+                                                    <Radio value={'month'}>月</Radio>
+                                                    <Radio value={'date'}>日</Radio>
+                                                </Radio.Group>
                                             </Form.Item>
                                         </Col>
                                     );
@@ -852,7 +871,7 @@ const KpiList = () => {
                     }
                 </Form>
 
-                {teamTag.length > 0 &&
+                {/* {teamTag.length > 0 &&
                     teamTag.map((tag) => (
                         <CheckableTag
                             key={tag.userId}
@@ -861,7 +880,7 @@ const KpiList = () => {
                         >
                             {tag.name}
                         </CheckableTag>
-                    ))}
+                    ))} */}
             </div>
             <div className={styles['list-container']}>
                 <Table
@@ -875,7 +894,6 @@ const KpiList = () => {
                         },
                         showTotal: (count) => `共${count}条`,
                     }}
-                    pagination={false}
                     expandRowByClick={true}
                     expandable={{
                         expandedRowRender,

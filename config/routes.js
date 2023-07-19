@@ -435,6 +435,11 @@ export default [
         component: './ECO/KpiList/MyKpi/index',
       },
       {
+        path: '/kpi/kpi-data',
+        name: '绩效数据',
+        component: './KPI/KpiData/index',
+      },
+      {
         path: '/kpi/sign-rank',
         name: '签约排行',
         access: 'canKpiSign',

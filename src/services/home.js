@@ -34,6 +34,17 @@ export const changeTripState = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export const allUserData = (payload) => {
+  // return new Promise((resolve, reject) => {
+  //   request.post("home/changeTripState", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/home/allUserData', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
 export const cRank = (payload) => {
   // return new Promise((resolve, reject) => {
   //   request.post("home/cRank", payload).then((data) => {

@@ -295,6 +295,12 @@ const TalentDetail = () => {
       case 23:
         str = ' 不想变动';
         break;
+      case 31:
+        str = '无合适岗位';
+        break;
+      case 99:
+        str = ' 其他';
+        break;
 
     }
     return str
@@ -1076,6 +1082,14 @@ const TalentDetail = () => {
                   {
                     label: '不想变动',
                     value: 23,
+                  },
+                  {
+                    label: '无合适岗位',
+                    value: 31,
+                  },
+                  {
+                    label: '其他',
+                    value: 99,
                   },
                   // {
                   //   label: '顾问否决',

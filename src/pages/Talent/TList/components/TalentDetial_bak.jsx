@@ -700,6 +700,14 @@ const TalentDetail = () => {
                                         label: '顾问否决',
                                         value: 7,
                                     },
+                                    {
+                                        label: '无合适岗位',
+                                        value: 31,
+                                    },
+                                    {
+                                        label: '其他',
+                                        value: 99,
+                                    },
                                 ]}
                             />
 

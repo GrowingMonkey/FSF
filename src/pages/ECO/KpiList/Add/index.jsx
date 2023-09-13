@@ -61,6 +61,7 @@ const AddInvoice = () => {
     };
     const computedMoney = () => {
         talentForm.validateFields().then(values => {
+
             console.log(values);
             let param = {
                 serviceFee: values.serviceFee,
@@ -74,7 +75,14 @@ const AddInvoice = () => {
             values.allotPlan.map(item => {
                 param.kpiUserInfos.push({ userId: item.empoylee.id, userName: item.empoylee.name, rate: item.rate });
             })
-
+            let rateNum = 0;
+            values.allotPlan.map(item => {
+                rateNum += item.rate;
+            })
+            if (rateNum > 100) {
+                message.error('分配比例不正确,超过100%');
+                return false
+            }
             confirmUserKpi(param).then(res => {
                 let allotPlan = cloneDeep(values.allotPlan);
                 allotPlan.map((item, index) => {

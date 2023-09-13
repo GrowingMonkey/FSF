@@ -184,6 +184,18 @@ const AddInvoice = () => {
             message.error("请添加完所有相关提成人（6）");
             return false
         }
+        let rateNum = 0, isRate = true;
+        list.map(item => {
+            if (item.rate !== undefined || item.rate == null) {
+                isRate = false;
+            }
+            rateNum += item.rate;
+        })
+        if (!isRate) { message.error("请正确填写分配比例"); return false; }
+        if (rateNum > 100) {
+            message.error("分配比例不正确,超过100%");
+            return false
+        }
         let otherParams = cloneDeep(talentForm.getFieldsValue(true));
         debugger
         list.map((item, curindex) => {

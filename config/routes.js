@@ -190,6 +190,7 @@ export default [
         path: '/talent/t-creatiion',
         name: '新增人选',
         access: 'canTalentAdd',
+        target: true,
         component: './Talent/TCreation/index',
       },
       {

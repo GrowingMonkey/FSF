@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { Table, Radio, Button, Space, Row, Col, Pagination, Divider, message, Modal } from "antd";
+import { Table, Radio, Button, Space, Row, Col, Popconfirm, Pagination, Divider, message, Modal } from "antd";
 import ModalForm from "./components/ModalForm";
 import { userList, tcaList, roleList } from "../../../services/admin";
 import styles from "./index.less";
 import { PageContainer } from "@ant-design/pro-layout";
-import { updateUser } from '@/services/admin';
+import { updateUser, resetPwd } from '@/services/admin';
 import ProForm, { ProFormDatePicker } from "@ant-design/pro-form";
 
 const UserList = () => {
@@ -135,7 +135,7 @@ const UserList = () => {
     {
       title: "电话",
       dataIndex: "phone",
-      ellipsis: true,
+      // ellipsis: true,
       key: "phone",
 
     },
@@ -202,6 +202,7 @@ const UserList = () => {
     {
       title: "操作",
       key: "action",
+      // width: 500,
       ellipsis: true,
       fixed: 'right',
       render: (text, record) => (
@@ -216,7 +217,19 @@ const UserList = () => {
             }}
           >
             编辑
-          </Button>{
+          </Button>
+          <Popconfirm
+            title="确认要重置密码吗?"
+            onConfirm={() => {
+              resetPwd({ appUserId: record.userId })
+            }}
+            okText="Yes"
+            cancelText="No"
+          >
+            <a href="#">重置</a>
+          </Popconfirm>
+
+          {
             workState != 1 && <Button
               type="link"
               style={{ padding: 0 }}
@@ -224,6 +237,7 @@ const UserList = () => {
             >
               离职
           </Button>
+
           }
 
           {
@@ -252,7 +266,7 @@ const UserList = () => {
 
         </Space>
       ),
-      width: 140,
+      width: 200,
     },
   ];
   return (

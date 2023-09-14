@@ -17,6 +17,12 @@ export const delTeam = (payload) => {
     data: { ...(payload || {}) },
   });
 }
+export const resetPwd = (payload) => {
+  return request('/employ/resetPwd', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+}
 export const teamList = (payload) => {
   // return new Promise((resolve, reject) => {
   //   request.post("/admin/TCAList", payload).then((data) => {

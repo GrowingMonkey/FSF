@@ -119,8 +119,8 @@ const KpiList = () => {
     },
     {
       title: '提成金额',
-      dataIndex: 'kpiFee',
-      key: 'kpiFee',
+      dataIndex: 'commissionFee',
+      key: 'commissionFee',
       ellipsis: true,
     },
     {

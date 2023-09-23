@@ -89,15 +89,18 @@ const PList = () => {
             key: "cityCode",
             render: (text) => {
                 let cityCode = text.split("/");
-                // console.log(cityCode);
-                let city = "";
-                if (cityCode.length === 2) {
-                    city = cityCode[1];
-                }
-                if (cityCode.length === 1) {
-                    city = cityCode[0];
-                }
-                return <span>{info(city)?.name || '不限'}</span>;
+                console.log(cityCode);
+                let city = [];
+                cityCode.map((item) => {
+                    city.push(info(item)?.name)
+                })
+                // if (cityCode.length === 2) {
+                //   city = cityCode[1];
+                // }
+                // if (cityCode.length === 1) {
+                //   city = cityCode[0];
+                // }
+                return <span>{city.join(',') || '不限'}</span>;
             },
         },
 

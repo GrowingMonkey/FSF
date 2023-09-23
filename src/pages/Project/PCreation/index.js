@@ -64,10 +64,13 @@ const PCreation = () => {
         payload.endTime = values.endTime.format('YYYY-MM-DD');
       }
       if (values.cityCode) {
+        debugger
+        console.log(values.cityCode);
         if (values.cityCode[1]) {
-          payload.cityCode = `${values.cityCode[0]}/${values.cityCode[1]}`;
+          // payload.cityCode = `${values.cityCode[0]}/${values.cityCode[1]}`;
+          payload.cityCode = `${values.cityCode.join('/')}`;
         } else {
-          payload.cityCode = `${values.cityCode[0]}`;
+          payload.cityCode = `${values.cityCode[0]} `;
         }
       }
       delete payload.customer;

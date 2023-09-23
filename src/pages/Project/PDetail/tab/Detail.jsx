@@ -14,6 +14,8 @@ import ProForm, {
 } from '@ant-design/pro-form';
 import SearchInput from '@/components/SearchInput';
 import { EditOutlined } from "@ant-design/icons";
+import { info } from "china-region";
+
 const { TextArea } = Input;
 const { TabPane } = Tabs;
 const Search = () => {
@@ -113,6 +115,25 @@ const Search = () => {
                                     <Descriptions.Item label="招聘人数">{project.recruitNum == 0 ? '不限' : project.recruitNum}</Descriptions.Item>
                                     <Descriptions.Item label="薪资范围">{project.salary}</Descriptions.Item>
                                     <Descriptions.Item label="所属部门">{project?.department}</Descriptions.Item>
+                                    <Descriptions.Item label="工作地址">{(() => {
+                                        if (project?.cityCode) {
+                                            let cityCode = project.cityCode.split("/");
+                                            let city = [];
+                                            cityCode.map((item) => {
+                                                city.push(info(item)?.name);
+                                            })
+                                            // if (cityCode.length === 2) {
+                                            //     city = cityCode[1];
+                                            // }
+                                            // if (cityCode.length === 1) {
+                                            //     city = cityCode[0];
+                                            // }
+                                            return <span>{city.join(',') || '不限'}</span>;
+                                        }
+                                    })()
+                                        // console.log(cityCode);
+
+                                    }</Descriptions.Item>
                                 </Descriptions>
                                 <Descriptions title="岗位描述" column={1}>
                                     <Descriptions.Item label="岗位职责">{project.details}</Descriptions.Item>

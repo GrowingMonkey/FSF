@@ -119,10 +119,13 @@ const TalentDetail = () => {
     selectTalentById({ talentId: talentId }).then(res => {
       const { data } = res;
       // setRecord(data);
-      setDetail(data);
-      setImageUrl(data?.headUrl || '');
-      setPhone(data?.phone || '暂无号码');
-      setShowBuy(data?.phone?.split("")?.indexOf("*") !== -1);
+      console.log(data)
+      if (data) {
+        setDetail(data);
+        setImageUrl(data?.headUrl || '');
+        setPhone(data?.phone || '暂无号码');
+        setShowBuy(data?.phone?.split("")?.indexOf("*") !== -1);
+      }
     })
   }, [talentId, isRefresh]);
   const onSubmit = () => {
@@ -156,7 +159,7 @@ const TalentDetail = () => {
     delEDU({ talentId: talentId, id: id }).then(() => {
       selectTalentById({ talentId: talentId }).then((res) => {
         const { data } = res;
-        setDetail(data);
+        dataa && setDetail(data);
         setPhone(data.phone);
         setShowBuy(data.phone.split("").indexOf("*") !== -1);
       });
@@ -167,7 +170,7 @@ const TalentDetail = () => {
 
       selectTalentById({ talentId: talentId }).then((res) => {
         const { data } = res;
-        setDetail(data);
+        data && setDetail(data);
         setPhone(data.phone);
         setShowBuy(data.phone.split("").indexOf("*") !== -1);
       });
@@ -766,10 +769,10 @@ const TalentDetail = () => {
                     </Space>
                   </Col>
                 </Row>
-                {detail.experienceCompanies.length > 0 ? null : (
+                {detail?.experienceCompanies?.length > 0 ? null : (
                   <Divider></Divider>
                 )}
-                {detail.experienceCompanies.map((item) => {
+                {detail?.experienceCompanies?.map((item) => {
                   return (
                     <div key={item.id}>
                       <Divider orientation="right">
@@ -842,10 +845,10 @@ const TalentDetail = () => {
                     </Space>
                   </Col>
                 </Row>
-                {detail.experienceProjects.length > 0 ? null : (
+                {detail?.experienceProjects?.length > 0 ? null : (
                   <Divider></Divider>
                 )}
-                {detail.experienceProjects.map((item) => {
+                {detail?.experienceProjects?.map((item) => {
                   return (
                     <div key={item.id}>
                       <Divider orientation="right">
@@ -911,8 +914,8 @@ const TalentDetail = () => {
                     </Space>
                   </Col>
                 </Row>
-                {detail.experienceEdus.length > 0 ? null : <Divider></Divider>}
-                {detail.experienceEdus.map((item) => {
+                {detail?.experienceEdus?.length > 0 ? null : <Divider></Divider>}
+                {detail?.experienceEdus?.map((item) => {
                   return (
                     <div key={item.id}>
                       <Divider orientation="right">

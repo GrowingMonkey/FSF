@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import {
   Form,
   Row,
@@ -19,9 +19,9 @@ import {
   Table,
   Descriptions,
   Popconfirm,
-} from "antd";
+} from 'antd';
 const { Paragraph, Text } = Typography;
-import { CloseOutlined, LoadingOutlined, EditOutlined } from "@ant-design/icons";
+import { CloseOutlined, LoadingOutlined, EditOutlined } from '@ant-design/icons';
 
 import {
   selectTalentById,
@@ -29,48 +29,58 @@ import {
   delEC,
   delEP,
   checkTalentPhone,
-} from "../../../../services/talent";
-import { industryList } from "@/utils/Industry";
-import { cityList } from "@/utils/CityList";
-import ModalEducation from "./ModalEducation";
-import ModalProject from "./ModalProject";
-import { talentJoinProject, selectTCList, addTalentC, talentCheck, updateTalent } from "@/services/talent";
-import ModalCompany from "./ModalCompany";
-import styles from "./TalentDetail.less";
+} from '../../../../services/talent';
+import { industryList } from '@/utils/Industry';
+import { cityList } from '@/utils/CityList';
+import ModalEducation from './ModalEducation';
+import ModalProject from './ModalProject';
+import {
+  talentJoinProject,
+  selectTCList,
+  addTalentC,
+  talentCheck,
+  updateTalent,
+} from '@/services/talent';
+import ModalCompany from './ModalCompany';
+import styles from './TalentDetail.less';
 import stylesR from './index.less';
-import ProjectSearch from "@/components/ProjectSearch";
-import { useLocation, history, useRequest } from "umi";
+import ProjectSearch from '@/components/ProjectSearch';
+import { useLocation, history, useRequest, Link } from 'umi';
 import ProForm, {
-  ProFormRadio, ProFormTextArea, ProFormText, ProFormSelect, ProFormDatePicker, ProFormUploadButton
+  ProFormRadio,
+  ProFormTextArea,
+  ProFormText,
+  ProFormSelect,
+  ProFormDatePicker,
+  ProFormUploadButton,
 } from '@ant-design/pro-form';
-import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 const findAreaText = (location) => {
-  console.log(location, cityList)
-  let result = []
+  console.log(location, cityList);
+  let result = [];
   for (let i = 0; i < cityList.length; i++) {
     if (cityList[i].value === location[0] + '') {
-      result.push(cityList[i].label)
+      result.push(cityList[i].label);
     }
     for (let j = 0; j < cityList[i].children.length; j++) {
       if (cityList[i].children[j].value === location[1] + '') {
-        result.push(cityList[i].children[j].label)
+        result.push(cityList[i].children[j].label);
       }
       if (Array.isArray(cityList[i].children[j].children)) {
         for (let z = 0; z < cityList[i].children[j].children.length; z++) {
-          if (
-            cityList[i].children[j].children[z].value ===
-            location[2] + ''
-          ) {
-            result.push(cityList[i].children[j].children[z].label)
+          if (cityList[i].children[j].children[z].value === location[2] + '') {
+            result.push(cityList[i].children[j].children[z].label);
           }
         }
       }
     }
   }
-  return result
-}
+  return result;
+};
 
-const ArticleListContent = ({ data: { content, updatedAt, userName, updateTime, avatar, owner, href } }) => (
+const ArticleListContent = ({
+  data: { content, updatedAt, userName, updateTime, avatar, owner, href },
+}) => (
   <div className={stylesR.listContent}>
     <div className={stylesR.description}>{content}</div>
     <div className={stylesR.extra}>
@@ -83,14 +93,16 @@ let pageNo = 1;
 const TalentDetail = () => {
   const [isRefresh, setIsRefresh] = useState(false);
   const [imageUrl, setImageUrl] = useState('');
-  const { query: { talentId } } = useLocation();
+  const {
+    query: { talentId },
+  } = useLocation();
   const { data, reload, run, loading, loadMore, loadingMore } = useRequest(
     (values) => {
       return selectTCList({
         pageNo: pageNo,
         pageSize: 10,
         talentId: talentId,
-        ...values
+        ...values,
       });
     },
     {
@@ -110,27 +122,27 @@ const TalentDetail = () => {
   const [educationVisible, setEducationVisible] = useState(false);
   const [projectVisible, setProjectVisible] = useState(false);
   const [companyVisible, setCompanyVisible] = useState(false);
-  const genderTypes = ["未知", "男", "女"];
+  const genderTypes = ['未知', '男', '女'];
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isRecordModalVisible, setIsRecordModalVisible] = useState(false);
-  const workStateTypes = ["当前在职 ", "已离职", "失业"];
-  const isAllTimeTypes = ["统招", "非统招"];
+  const workStateTypes = ['当前在职 ', '已离职', '失业'];
+  const isAllTimeTypes = ['统招', '非统招'];
   useEffect(() => {
-    selectTalentById({ talentId: talentId }).then(res => {
+    selectTalentById({ talentId: talentId }).then((res) => {
       const { data } = res;
       // setRecord(data);
-      console.log(data)
+      console.log(data);
       if (data) {
         setDetail(data);
         setImageUrl(data?.headUrl || '');
         setPhone(data?.phone || '暂无号码');
-        setShowBuy(data?.phone?.split("")?.indexOf("*") !== -1);
+        setShowBuy(data?.phone?.split('')?.indexOf('*') !== -1);
       }
-    })
+    });
   }, [talentId, isRefresh]);
   const onSubmit = () => {
     // if (record) {
-    debugger
+    debugger;
     // console.log(record.name);
     selectTalentById({ talentId: talentId }).then((res) => {
       const { data } = res;
@@ -152,7 +164,7 @@ const TalentDetail = () => {
     checkTalentPhone({ talentId: talentId }).then((res) => {
       const { data } = res;
       setPhone(data);
-      setShowBuy(data.split("").indexOf("*") !== -1);
+      setShowBuy(data.split('').indexOf('*') !== -1);
     });
   };
   const deleteEducation = (id) => {
@@ -161,20 +173,18 @@ const TalentDetail = () => {
         const { data } = res;
         dataa && setDetail(data);
         setPhone(data.phone);
-        setShowBuy(data.phone.split("").indexOf("*") !== -1);
+        setShowBuy(data.phone.split('').indexOf('*') !== -1);
       });
     });
   };
   const deleteProject = (id) => {
     delEP({ talentId: talentId, id: id }).then(() => {
-
       selectTalentById({ talentId: talentId }).then((res) => {
         const { data } = res;
         data && setDetail(data);
         setPhone(data.phone);
-        setShowBuy(data.phone.split("").indexOf("*") !== -1);
+        setShowBuy(data.phone.split('').indexOf('*') !== -1);
       });
-
     });
   };
   const deleteCompany = (id) => {
@@ -183,7 +193,7 @@ const TalentDetail = () => {
         const { data } = res;
         setDetail(data);
         setPhone(data.phone);
-        setShowBuy(data.phone.split("").indexOf("*") !== -1);
+        setShowBuy(data.phone.split('').indexOf('*') !== -1);
       });
     });
   };
@@ -191,43 +201,49 @@ const TalentDetail = () => {
     let str = '';
 
     if (item.startTime) {
-      str += item.startTime.split(" ")[0];
+      str += item.startTime.split(' ')[0];
     }
-    str += ' 至 '
+    str += ' 至 ';
     if (item.isNow) {
-      str += '至今'
+      str += '至今';
     } else if (item.endTime) {
-      str += item.endTime.split(" ")[0];
+      str += item.endTime.split(' ')[0];
     }
-    return str
-  }
+    return str;
+  };
   const onFinish = (values) => {
-    const { location: { query } } = history;
+    const {
+      location: { query },
+    } = history;
     console.log(values);
     // run(values);
-    talentJoinProject({ projectId: values.customer.projectId, talentId: query.talentId }).then(res => {
-      message.info(res?.message || '加入成功');
-    })
-    setIsModalVisible(false)
-  }
+    talentJoinProject({ projectId: values.customer.projectId, talentId: query.talentId }).then(
+      (res) => {
+        message.info(res?.message || '加入成功');
+      },
+    );
+    setIsModalVisible(false);
+  };
   const onRecordFinish = (values) => {
-    const { location: { query } } = history;
-    addTalentC({ talentId: query.talentId, ...values, talentName: detail.name }).then(res => {
+    const {
+      location: { query },
+    } = history;
+    addTalentC({ talentId: query.talentId, ...values, talentName: detail.name }).then((res) => {
       message.info(res?.message || '加入成功');
       setIsRecordModalVisible(false);
-    })
+    });
     // run({ pageNo: 1 });
     setTimeout(() => {
       run({ pageNo: 1 });
-    }, 500)
-  }
+    }, 500);
+  };
   const formatAddress = (addressCode) => {
-    let addressArrays = []
+    let addressArrays = [];
     if (addressCode) {
-      addressArrays = addressCode.split('/')
+      addressArrays = addressCode.split('/');
     }
     return addressArrays;
-  }
+  };
   const loadMoreDom = data?.list.length > 0 && (
     <div
       style={{
@@ -250,8 +266,8 @@ const TalentDetail = () => {
             <LoadingOutlined /> 加载中...
           </span>
         ) : (
-            '加载更多'
-          )}
+          '加载更多'
+        )}
       </Button>
     </div>
   );
@@ -264,22 +280,22 @@ const TalentDetail = () => {
         break;
       case 1:
         str = '推给客户';
-        break
+        break;
       case 2:
         str = '';
-        break
+        break;
       case 3:
         str = '';
-        break
+        break;
       case 4:
         str = '人选放弃';
-        break
+        break;
       case 5:
         str = '预约面试';
-        break
+        break;
       case 6:
         str = '客户面试';
-        break
+        break;
       case 8:
         str = '确认Offer';
         break;
@@ -304,10 +320,9 @@ const TalentDetail = () => {
       case 99:
         str = ' 其他';
         break;
-
     }
-    return str
-  }
+    return str;
+  };
   const formatEducation = (value) => {
     let str = '';
     switch (+value) {
@@ -339,7 +354,7 @@ const TalentDetail = () => {
         str = value;
     }
     return str;
-  }
+  };
   const cnkiPhoneAndEmail = (value) => {
     console.log(value);
     //检查手机号或邮箱是否重复
@@ -356,20 +371,22 @@ const TalentDetail = () => {
         }
       });
     }
-  }
+  };
   const updateData = () => {
     isRefresh ? setIsRefresh(false) : setIsRefresh(true);
-  }
+  };
   const basicModalOk = (value) => {
     console.log(value);
-    const { location: { query } } = history;
-    updateTalent({ ...value, talentId: query.talentId }).then(res => {
+    const {
+      location: { query },
+    } = history;
+    updateTalent({ ...value, talentId: query.talentId }).then((res) => {
       message.info(res?.message || '修改失败');
       updateData();
       setBasicModalVisible(false);
       setContactModalVisible(false);
-    })
-  }
+    });
+  };
 
   const uploadButton = (
     <div>
@@ -378,7 +395,7 @@ const TalentDetail = () => {
     </div>
   );
   return (
-    <div className={styles["talent-detail"]}>
+    <div className={styles['talent-detail']}>
       <ModalEducation
         visible={educationVisible}
         onSubmit={onSubmit}
@@ -404,14 +421,36 @@ const TalentDetail = () => {
         <>
           <Row gutter={16}>
             <Col span={16}>
-              <div className={styles["basic-container"]}>
-                <div className={styles["page-title"]}>联系方式
-                  <Button type="primary" size="small" style={{ marginLeft: '18px' }} onClick={() => setIsModalVisible(true)}>加入项目</Button>
-                  <EditOutlined style={{ float: 'right' }} onClick={() => setContactModalVisible(true)}></EditOutlined>
-                  <span style={{ marginLeft: '25%', fontSize: '14px', color: '#1890ff' }}>录入人:{detail.userName == 0 ? '系统录入' : detail.userName}</span>
+              <div className={styles['basic-container']}>
+                <div className={styles['page-title']}>
+                  联系方式
+                  <Button
+                    type="primary"
+                    size="small"
+                    style={{ marginLeft: '18px' }}
+                    onClick={() => setIsModalVisible(true)}
+                  >
+                    加入项目
+                  </Button>
+                  <EditOutlined
+                    style={{ float: 'right' }}
+                    onClick={() => setContactModalVisible(true)}
+                  ></EditOutlined>
+                  <span style={{ marginLeft: '25%', fontSize: '14px', color: '#1890ff' }}>
+                    录入人:{detail.userName == 0 ? '系统录入' : detail.userName}
+                  </span>
                 </div>
                 <Divider></Divider>
-                <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', fontWeight: 'bold', justifyContent: 'flex-start' }} column={2}>
+                <Descriptions
+                  middle="sm"
+                  labelStyle={{
+                    width: '95.33px',
+                    display: 'flex',
+                    fontWeight: 'bold',
+                    justifyContent: 'flex-start',
+                  }}
+                  column={2}
+                >
                   <Descriptions.Item label="电话">
                     <Space>
                       <span>{phone}</span>
@@ -427,9 +466,9 @@ const TalentDetail = () => {
                         >
                           <span
                             style={{
-                              paddingLeft: "10px",
-                              color: "#1181f8",
-                              cursor: "pointer",
+                              paddingLeft: '10px',
+                              color: '#1181f8',
+                              cursor: 'pointer',
                             }}
                           >
                             使用额度查看
@@ -438,17 +477,21 @@ const TalentDetail = () => {
                       ) : null}
                     </Space>
                   </Descriptions.Item>
-                  <Descriptions.Item label="邮箱">
-                    {detail.email}
-                  </Descriptions.Item>
+                  <Descriptions.Item label="邮箱">{detail.email}</Descriptions.Item>
                 </Descriptions>
-                <Modal title="联系方式" visible={contactModalVisible} footer={null} onCancel={() => setContactModalVisible(false)}>
+                <Modal
+                  title="联系方式"
+                  visible={contactModalVisible}
+                  footer={null}
+                  onCancel={() => setContactModalVisible(false)}
+                >
                   <ProForm
                     onFinish={basicModalOk}
                     form={contactForm}
                     initialValues={{ phone: detail.phone, email: detail.email }}
                     onValuesChange={(changeValues) => cnkiPhoneAndEmail(changeValues)}
-                    layout="horizontal">
+                    layout="horizontal"
+                  >
                     <ProForm.Group>
                       <ProFormText
                         rules={[
@@ -466,10 +509,35 @@ const TalentDetail = () => {
                   </ProForm>
                 </Modal>
               </div>
-              <div className={styles["project-container"]} style={{ position: 'relative' }}>
-                <div className={styles["page-title"]}>基本信息<span style={{ paddingLeft: '24px', fontSize: '14px', color: '#1890ff' }}>简历编号#：{talentId}</span><EditOutlined style={{ float: 'right' }} onClick={() => setBasicModalVisible(true)}></EditOutlined></div>
+              <div className={styles['project-container']} style={{ position: 'relative' }}>
+                <div className={styles['page-title']}>
+                  基本信息
+                  <span style={{ paddingLeft: '24px', fontSize: '14px', color: '#1890ff' }}>
+                    简历编号#：{talentId}
+                  </span>
+                  <EditOutlined
+                    style={{ float: 'right' }}
+                    onClick={() => setBasicModalVisible(true)}
+                  ></EditOutlined>
+                  <Link
+                    style={{ marginLeft: 40 }}
+                    target="_blank"
+                    to={'/wordpage/?talentId=' + talentId}
+                  >
+                    生成简历报告
+                  </Link>
+                </div>
                 <Divider></Divider>
-                <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', fontWeight: 'bold', justifyContent: 'flex-start' }} column={3}>
+                <Descriptions
+                  middle="sm"
+                  labelStyle={{
+                    width: '95.33px',
+                    display: 'flex',
+                    fontWeight: 'bold',
+                    justifyContent: 'flex-start',
+                  }}
+                  column={3}
+                >
                   <Descriptions.Item label="姓名" style={{ paddingBottom: 0 }}>
                     {detail.name}
                   </Descriptions.Item>
@@ -506,7 +574,8 @@ const TalentDetail = () => {
                     {findAreaText(formatAddress(detail.rcity))}
                   </Descriptions.Item>
                   <Descriptions.Item label="期望行业" style={{ paddingBottom: 0 }}>
-                    {`${detail.rindustry ? detail.rindustry : ''}` + `${detail?.rindustryChild ? '/' + detail?.rindustryChild : ''}`}
+                    {`${detail.rindustry ? detail.rindustry : ''}` +
+                      `${detail?.rindustryChild ? '/' + detail?.rindustryChild : ''}`}
                   </Descriptions.Item>
                   <Descriptions.Item label="期望岗位" style={{ paddingBottom: 0 }}>
                     {detail.job || detail.rjob}
@@ -516,12 +585,23 @@ const TalentDetail = () => {
                   </Descriptions.Item>
                   {/* <div style={{ position: 'absolute', top: 95, right: 28, width: '100px', height: '100px', borderRadius: '5px', background: '#ddd' }}>{detail.headUrl ? <PlusOutlined /> : <img src={detail.headUrl} />}</div> */}
                 </Descriptions>
-                <Descriptions labelStyle={{ width: '95.33px', display: 'flex', fontWeight: 'bold', justifyContent: 'flex-start' }}>
-                  <Descriptions.Item label="个人介绍">
-                    {detail.introduce}
-                  </Descriptions.Item>
+                <Descriptions
+                  labelStyle={{
+                    width: '95.33px',
+                    display: 'flex',
+                    fontWeight: 'bold',
+                    justifyContent: 'flex-start',
+                  }}
+                >
+                  <Descriptions.Item label="个人介绍">{detail.introduce}</Descriptions.Item>
                 </Descriptions>
-                <Modal width={680} title="基本信息" visible={basicModalVisible} footer={null} onCancel={() => setBasicModalVisible(false)} >
+                <Modal
+                  width={680}
+                  title="基本信息"
+                  visible={basicModalVisible}
+                  footer={null}
+                  onCancel={() => setBasicModalVisible(false)}
+                >
                   <ProForm
                     onFinish={basicModalOk}
                     form={basicForm}
@@ -539,12 +619,15 @@ const TalentDetail = () => {
                       introduce: detail.introduce,
                       headUrl: detail.headUrl,
                     }}
-                    layout="horizontal">
+                    layout="horizontal"
+                  >
                     <ProForm.Group>
                       <ProFormText
-                        fieldProps={{
-                          // ...formItemLayout,
-                        }}
+                        fieldProps={
+                          {
+                            // ...formItemLayout,
+                          }
+                        }
                         width="sm"
                         rules={[
                           {
@@ -597,9 +680,11 @@ const TalentDetail = () => {
                     </ProForm.Group>
                     <ProForm.Group>
                       <ProFormText
-                        fieldProps={{
-                          // ...formItemLayout,
-                        }}
+                        fieldProps={
+                          {
+                            // ...formItemLayout,
+                          }
+                        }
                         width="sm"
                         rules={[
                           {
@@ -613,10 +698,8 @@ const TalentDetail = () => {
                       <ProFormRadio.Group
                         label="人选性别"
                         name="gender"
-
                         labelCol={{
                           style: { textAlign: 'left' },
-
                         }}
                         options={[
                           {
@@ -699,9 +782,7 @@ const TalentDetail = () => {
                       />
                     </ProForm.Group>
                     <ProForm.Group>
-                      <ProFormTextArea width="sm"
-                        name="introduce"
-                        label="人选备注" />
+                      <ProFormTextArea width="sm" name="introduce" label="人选备注" />
                       <ProFormUploadButton
                         icon={null}
                         fieldProps={{
@@ -709,12 +790,12 @@ const TalentDetail = () => {
                           className: 'avatar-uploader',
                           showUploadList: false,
                           customRequest: async (options) => {
-                            let result = await upload(options.file, () => { });
+                            let result = await upload(options.file, () => {});
                             console.log(result.res.requestUrls[0]);
                             basicForm.setFieldsValue({ headUrl: [result.name] });
                             setImageUrl(
                               result.res.requestUrls[0].split('?')[0] +
-                              '?x-oss-process=image/resize,w_100,h_100/quality,q_50',
+                                '?x-oss-process=image/resize,w_100,h_100/quality,q_50',
                             );
                             options.onSuccess(result.res.requestUrls[0], result.res.requestUrls[0]);
                           },
@@ -725,8 +806,8 @@ const TalentDetail = () => {
                           imageUrl ? (
                             <img src={imageUrl} alt="avatar" style={{ width: '100%' }} />
                           ) : (
-                              uploadButton
-                            )
+                            uploadButton
+                          )
                         }
                       />
                     </ProForm.Group>
@@ -751,10 +832,10 @@ const TalentDetail = () => {
                   </Descriptions.Item>
                 </Descriptions>
               </div> */}
-              <div className={styles["project-container"]}>
+              <div className={styles['project-container']}>
                 <Row justify="space-between" align="middle">
                   <Col>
-                    <div className={styles["page-title"]}>工作经历</div>
+                    <div className={styles['page-title']}>工作经历</div>
                   </Col>
                   <Col>
                     <Space>
@@ -769,9 +850,7 @@ const TalentDetail = () => {
                     </Space>
                   </Col>
                 </Row>
-                {detail?.experienceCompanies?.length > 0 ? null : (
-                  <Divider></Divider>
-                )}
+                {detail?.experienceCompanies?.length > 0 ? null : <Divider></Divider>}
                 {detail?.experienceCompanies?.map((item) => {
                   return (
                     <div key={item.id}>
@@ -786,15 +865,33 @@ const TalentDetail = () => {
                           cancelText="No"
                         >
                           <Button type="text">删除</Button>
-
                         </Popconfirm>
-                        <Button type="link" onClick={() => {
-                          setCompanyData(item);
-                          setCompanyVisible(true);
-                        }}>修改</Button>
+                        <Button
+                          type="link"
+                          onClick={() => {
+                            setCompanyData(item);
+                            setCompanyVisible(true);
+                          }}
+                        >
+                          修改
+                        </Button>
                       </Divider>
-                      <h3> <span style={{ color: '#03A9F4' }}>{formatDateStr(item)}</span>·{item.name}· {item.job} · {item.industry}{item.industryChild}</h3>
-                      <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', fontWeight: 'bold', justifyContent: 'flex-start' }} column={1}>
+                      <h3>
+                        {' '}
+                        <span style={{ color: '#03A9F4' }}>{formatDateStr(item)}</span>·{item.name}·{' '}
+                        {item.job} · {item.industry}
+                        {item.industryChild}
+                      </h3>
+                      <Descriptions
+                        middle="sm"
+                        labelStyle={{
+                          width: '95.33px',
+                          display: 'flex',
+                          fontWeight: 'bold',
+                          justifyContent: 'flex-start',
+                        }}
+                        column={1}
+                      >
                         {/* <Descriptions.Item label="工作时间">
                           {formatDateStr(item)}
                         </Descriptions.Item>
@@ -809,35 +906,38 @@ const TalentDetail = () => {
                         </Descriptions.Item> */}
 
                         <Descriptions.Item label="工作职责" style={{ whiteSpace: 'pre-line' }}>
-                          <Paragraph ellipsis={
-                            ellipsis
-                              ? {
-                                rows: 4,
-                                expandable: true,
-                                symbol: '加载更多',
-                              }
-                              : false
-                          }> {item.duty}</Paragraph>
+                          <Paragraph
+                            ellipsis={
+                              ellipsis
+                                ? {
+                                    rows: 4,
+                                    expandable: true,
+                                    symbol: '加载更多',
+                                  }
+                                : false
+                            }
+                          >
+                            {' '}
+                            {item.duty}
+                          </Paragraph>
                         </Descriptions.Item>
                       </Descriptions>
                     </div>
                   );
                 })}
               </div>
-              <Modal footer={null}>
-
-              </Modal>
-              <div className={styles["company-container"]}>
+              <Modal footer={null}></Modal>
+              <div className={styles['company-container']}>
                 <Row justify="space-between" align="middle">
                   <Col>
-                    <div className={styles["page-title"]}>项目经历</div>
+                    <div className={styles['page-title']}>项目经历</div>
                   </Col>
                   <Col>
                     <Space>
                       <Button
                         onClick={() => {
                           setProjectVisible(true);
-                          setProjectData(null)
+                          setProjectData(null);
                         }}
                       >
                         添加
@@ -845,9 +945,7 @@ const TalentDetail = () => {
                     </Space>
                   </Col>
                 </Row>
-                {detail?.experienceProjects?.length > 0 ? null : (
-                  <Divider></Divider>
-                )}
+                {detail?.experienceProjects?.length > 0 ? null : <Divider></Divider>}
                 {detail?.experienceProjects?.map((item) => {
                   return (
                     <div key={item.id}>
@@ -862,15 +960,31 @@ const TalentDetail = () => {
                           cancelText="No"
                         >
                           <Button type="text">删除</Button>
-
                         </Popconfirm>
-                        <Button type="link" onClick={() => {
-                          setProjectData(item);
-                          setProjectVisible(true);
-                        }}>修改</Button>
+                        <Button
+                          type="link"
+                          onClick={() => {
+                            setProjectData(item);
+                            setProjectVisible(true);
+                          }}
+                        >
+                          修改
+                        </Button>
                       </Divider>
-                      <h3><span style={{ color: '#03A9F4' }}>{formatDateStr(item)}</span>· {item.name}·{item.job}</h3>
-                      <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', fontWeight: 'bold', justifyContent: 'flex-start' }} column={1}>
+                      <h3>
+                        <span style={{ color: '#03A9F4' }}>{formatDateStr(item)}</span>· {item.name}
+                        ·{item.job}
+                      </h3>
+                      <Descriptions
+                        middle="sm"
+                        labelStyle={{
+                          width: '95.33px',
+                          display: 'flex',
+                          fontWeight: 'bold',
+                          justifyContent: 'flex-start',
+                        }}
+                        column={1}
+                      >
                         {/* <Descriptions.Item label="项目时间">
                           {formatDateStr(item)}
                         </Descriptions.Item>
@@ -881,32 +995,37 @@ const TalentDetail = () => {
                           {item.job}
                         </Descriptions.Item> */}
                         <Descriptions.Item label="项目职责" style={{ whiteSpace: 'pre-line' }}>
-                          <Paragraph ellipsis={
-                            ellipsis
-                              ? {
-                                rows: 4,
-                                expandable: true,
-                                symbol: '加载更多',
-                              }
-                              : false
-                          }> {item.duty} </Paragraph>
+                          <Paragraph
+                            ellipsis={
+                              ellipsis
+                                ? {
+                                    rows: 4,
+                                    expandable: true,
+                                    symbol: '加载更多',
+                                  }
+                                : false
+                            }
+                          >
+                            {' '}
+                            {item.duty}{' '}
+                          </Paragraph>
                         </Descriptions.Item>
                       </Descriptions>
                     </div>
                   );
                 })}
               </div>
-              <div className={styles["education-container"]}>
+              <div className={styles['education-container']}>
                 <Row justify="space-between" align="middle">
                   <Col>
-                    <div className={styles["page-title"]}>教育经历</div>
+                    <div className={styles['page-title']}>教育经历</div>
                   </Col>
                   <Col>
                     <Space>
                       <Button
                         onClick={() => {
                           setEducationVisible(true);
-                          setEducationData(null)
+                          setEducationData(null);
                         }}
                       >
                         添加
@@ -930,11 +1049,15 @@ const TalentDetail = () => {
                         >
                           <Button type="text">删除</Button>
                         </Popconfirm>
-                        <Button type="link" onClick={() => {
-                          setEducationData(item);
-                          setEducationVisible(true);
-
-                        }}>修改</Button>
+                        <Button
+                          type="link"
+                          onClick={() => {
+                            setEducationData(item);
+                            setEducationVisible(true);
+                          }}
+                        >
+                          修改
+                        </Button>
                       </Divider>
                       {/* <Descriptions middle='sm' labelStyle={{ width: '95.33px', display: 'flex', fontWeight: 'bold', justifyContent: 'flex-start' }} column={1}>
                         <Descriptions.Item label="学习时间">
@@ -950,18 +1073,28 @@ const TalentDetail = () => {
                           {isAllTimeTypes[item.isAllTime]}
                         </Descriptions.Item>
                       </Descriptions> */}
-                      <h3><span style={{ color: '#03A9F4' }}>{formatDateStr(item)}</span>—{item.name} · {item.classes}·{item.education}({isAllTimeTypes[item.isAllTime]})</h3>
-
+                      <h3>
+                        <span style={{ color: '#03A9F4' }}>{formatDateStr(item)}</span>—{item.name}{' '}
+                        · {item.classes}·{item.education}({isAllTimeTypes[item.isAllTime]})
+                      </h3>
                     </div>
                   );
                 })}
               </div>
-
-
             </Col>
             <Col span={8}>
-              <div className={styles["basic-container"]}>
-                <div className={styles["page-title"]}>沟通记录<Button type="primary" size="small" style={{ marginLeft: '18px', float: 'right' }} onClick={() => setIsRecordModalVisible(true)}>新增沟通</Button></div>
+              <div className={styles['basic-container']}>
+                <div className={styles['page-title']}>
+                  沟通记录
+                  <Button
+                    type="primary"
+                    size="small"
+                    style={{ marginLeft: '18px', float: 'right' }}
+                    onClick={() => setIsRecordModalVisible(true)}
+                  >
+                    新增沟通
+                  </Button>
+                </div>
                 <List
                   size="large"
                   loading={loading}
@@ -971,17 +1104,10 @@ const TalentDetail = () => {
                   loadMore={loadMoreDom}
                   dataSource={data?.list || []}
                   renderItem={(item) => (
-                    <List.Item
-                      style={{ width: '100%' }}
-                      key={item.id}
-                    >
+                    <List.Item style={{ width: '100%' }} key={item.id}>
                       <List.Item.Meta
                         style={{ width: '100%' }}
-                        title={
-                          <a className={styles.listItemMetaTitle}>
-
-                          </a>
-                        }
+                        title={<a className={styles.listItemMetaTitle}></a>}
                         description={
                           <span>
                             <Tag>{formatStr(item.state)}</Tag>
@@ -996,7 +1122,12 @@ const TalentDetail = () => {
               </div>
             </Col>
           </Row>
-          <Modal title="加入项目" visible={isModalVisible} footer={null} onCancel={() => setIsModalVisible(false)}>
+          <Modal
+            title="加入项目"
+            visible={isModalVisible}
+            footer={null}
+            onCancel={() => setIsModalVisible(false)}
+          >
             <ProForm
               hideRequiredMark
               style={{
@@ -1011,13 +1142,18 @@ const TalentDetail = () => {
               }}
               onFinish={onFinish}
             >
-              <Form.Item name={'customer'} label={"选择职位"} >
+              <Form.Item name={'customer'} label={'选择职位'}>
                 <ProjectSearch />
               </Form.Item>
-
             </ProForm>
           </Modal>
-          <Modal title="新增沟通" visible={isRecordModalVisible} maskClosable={false} footer={null} onCancel={() => setIsRecordModalVisible(false)}>
+          <Modal
+            title="新增沟通"
+            visible={isRecordModalVisible}
+            maskClosable={false}
+            footer={null}
+            onCancel={() => setIsRecordModalVisible(false)}
+          >
             <ProForm
               hideRequiredMark
               style={{
@@ -1105,7 +1241,7 @@ const TalentDetail = () => {
             </ProForm>
           </Modal>
 
-          <div style={{ width: "100%", minHeight: "15px" }}></div>
+          <div style={{ width: '100%', minHeight: '15px' }}></div>
         </>
       )}
     </div>

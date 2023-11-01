@@ -531,6 +531,7 @@ const CustomerList = () => {
                     labelCol={{ span: 8 }}
                     wrapperCol={{ span: 16 }}
                     labelAlign="left"
+                    onKeyDown={e => { if (e.keyCode == 13) { onSearch() } }}
                 >
                     {
                         <Row gutter={32}>

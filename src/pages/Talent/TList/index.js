@@ -386,6 +386,7 @@ const TList = () => {
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 16 }}
             labelAlign="center"
+            onKeyDown={e => { if (e.keyCode == 13) { handleSearchConfirm() } }}
           >
 
             {/* <Row gutter={32}>

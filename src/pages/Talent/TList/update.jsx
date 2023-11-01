@@ -135,11 +135,11 @@ const TList = () => {
                 {record.name}
               </span>
             ) : (
-              <span>
-                <UserOutlined />
-                {record.name}
-              </span>
-            )}
+                  <span>
+                    <UserOutlined />
+                    {record.name}
+                  </span>
+                )}
           </Button>
         );
       },
@@ -323,66 +323,66 @@ const TList = () => {
       {detailVisible ? (
         <TalentDetail setDetailVisible={setDetailVisible} record={detailRecord}></TalentDetail>
       ) : (
-        <>
-          <div className={styles['search-container']}>
-            <Row justify="space-between" align="middle">
-              <Col>
-                <div className={styles['page-title']}>人才库</div>
-              </Col>
-              <Col>
-                <Space>
-                  <Button onClick={handleSearchClear}>清空</Button>
-                  <Button type="primary" onClick={handleSearchConfirm}>
-                    搜索
+          <>
+            <div className={styles['search-container']}>
+              <Row justify="space-between" align="middle">
+                <Col>
+                  <div className={styles['page-title']}>人才库</div>
+                </Col>
+                <Col>
+                  <Space>
+                    <Button onClick={handleSearchClear}>清空</Button>
+                    <Button type="primary" onClick={handleSearchConfirm}>
+                      搜索
                   </Button>
-                </Space>
-              </Col>
-            </Row>
-            <Divider></Divider>
-            <Form form={form} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} labelAlign="left">
-              <Row>
-                <Col span={24}>
-                  <Form.Item labelCol={{ span: 4 }} name={'keyWord'} label={'关键词'}>
-                    <Input></Input>
-                  </Form.Item>
+                  </Space>
                 </Col>
               </Row>
-              {formList.map((row, rIndex) => {
-                return (
-                  <Row gutter={32} key={`row-${rIndex}`}>
-                    {row.map((col, cIndex) => {
-                      if (col.type === 'select') {
-                        return (
-                          <Col {...wrapCol} key={`row-${rIndex}-col-${cIndex}`}>
-                            <Form.Item name={col.name} label={col.label}>
-                              <Select options={col.options}></Select>
-                            </Form.Item>
-                          </Col>
-                        );
-                      }
-                      if (col.type === 'input') {
-                        return (
-                          <Col {...wrapCol} key={`row-${rIndex}-col-${cIndex}`}>
-                            <Form.Item name={col.name} label={col.label}>
-                              <Input></Input>
-                            </Form.Item>
-                          </Col>
-                        );
-                      }
-                      return null;
-                    })}
-                  </Row>
-                );
-              })}
-            </Form>
-          </div>
-          <div className={styles['list-container']}>
-            <div className={styles['list-title']}>
-              <span>共</span>
-              <span style={{ color: '#58BDFA', padding: '0 5px' }}>{listLength}</span>
-              <span>简历</span>
+              <Divider></Divider>
+              <Form form={form} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} labelAlign="left" onKeyDown={e => { if (e.keyCode == 13) { handleSearchConfirm() } }}>
+                <Row>
+                  <Col span={24}>
+                    <Form.Item labelCol={{ span: 4 }} name={'keyWord'} label={'关键词'}>
+                      <Input></Input>
+                    </Form.Item>
+                  </Col>
+                </Row>
+                {formList.map((row, rIndex) => {
+                  return (
+                    <Row gutter={32} key={`row-${rIndex}`}>
+                      {row.map((col, cIndex) => {
+                        if (col.type === 'select') {
+                          return (
+                            <Col {...wrapCol} key={`row-${rIndex}-col-${cIndex}`}>
+                              <Form.Item name={col.name} label={col.label}>
+                                <Select options={col.options}></Select>
+                              </Form.Item>
+                            </Col>
+                          );
+                        }
+                        if (col.type === 'input') {
+                          return (
+                            <Col {...wrapCol} key={`row-${rIndex}-col-${cIndex}`}>
+                              <Form.Item name={col.name} label={col.label}>
+                                <Input></Input>
+                              </Form.Item>
+                            </Col>
+                          );
+                        }
+                        return null;
+                      })}
+                    </Row>
+                  );
+                })}
+              </Form>
             </div>
-            {/* <Row gutter={32}>
+            <div className={styles['list-container']}>
+              <div className={styles['list-title']}>
+                <span>共</span>
+                <span style={{ color: '#58BDFA', padding: '0 5px' }}>{listLength}</span>
+                <span>简历</span>
+              </div>
+              {/* <Row gutter={32}>
           {listData.map((record) => {
             return (
               <Col
@@ -395,48 +395,48 @@ const TList = () => {
             );
           })}
         </Row> */}
-            <Table
-              style={{ marginTop: '15px' }}
-              columns={listColumns}
-              dataSource={listData}
-              pagination={false}
-              expandRowByClick={true}
-              expandable={{
-                expandIcon: ({ expanded, onExpand, record }) => null,
-                // expanded ? (
-                //   <MinusCircleTwoTone onClick={e => onExpand(record, e)} />
-                // ) : (
-                //     <PlusCircleTwoTone onClick={e => onExpand(record, e)} />
-                //   ),
-                expandedRowRender: (record, index, indent, expanded) => (
-                  <CardTableExpand
-                    record={record}
-                    index={index}
-                    indent={indent}
-                    expanded={expanded}
-                  ></CardTableExpand>
-                ),
-                rowExpandable: (record) => true,
-              }}
-              size="small"
-              bordered
-              scroll={{ x: 900 }}
-            />
-            <Row justify="end" style={{ marginTop: '15px' }}>
-              <Col>
-                <Pagination
-                  current={currentPage}
-                  onChange={onPageChange}
-                  total={listLength}
-                  showSizeChanger={false}
-                  showTotal={(listLength) => `共${listLength}条`}
-                ></Pagination>
-              </Col>
-            </Row>
-          </div>
-          <div style={{ width: '100%', minHeight: '15px' }}></div>
-        </>
-      )}
+              <Table
+                style={{ marginTop: '15px' }}
+                columns={listColumns}
+                dataSource={listData}
+                pagination={false}
+                expandRowByClick={true}
+                expandable={{
+                  expandIcon: ({ expanded, onExpand, record }) => null,
+                  // expanded ? (
+                  //   <MinusCircleTwoTone onClick={e => onExpand(record, e)} />
+                  // ) : (
+                  //     <PlusCircleTwoTone onClick={e => onExpand(record, e)} />
+                  //   ),
+                  expandedRowRender: (record, index, indent, expanded) => (
+                    <CardTableExpand
+                      record={record}
+                      index={index}
+                      indent={indent}
+                      expanded={expanded}
+                    ></CardTableExpand>
+                  ),
+                  rowExpandable: (record) => true,
+                }}
+                size="small"
+                bordered
+                scroll={{ x: 900 }}
+              />
+              <Row justify="end" style={{ marginTop: '15px' }}>
+                <Col>
+                  <Pagination
+                    current={currentPage}
+                    onChange={onPageChange}
+                    total={listLength}
+                    showSizeChanger={false}
+                    showTotal={(listLength) => `共${listLength}条`}
+                  ></Pagination>
+                </Col>
+              </Row>
+            </div>
+            <div style={{ width: '100%', minHeight: '15px' }}></div>
+          </>
+        )}
     </PageContainer>
   );
 };

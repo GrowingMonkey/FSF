@@ -338,6 +338,8 @@ const InfoProject = ({ record = {}, tabNumber }) => {
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 16 }}
           labelAlign="left"
+          onKeyDown={e => { if (e.keyCode == 13) { onFormSearch() } }}
+
         >
           <Row gutter={32}>
             {formList.map((item) => {

@@ -196,6 +196,7 @@ const TPList = () => {
                     labelCol={{ span: 8 }}
                     wrapperCol={{ span: 16 }}
                     labelAlign="left"
+                    onKeyDown={e => { if (e.keyCode == 13) { handleSearchConfirm() } }}
                 >
                     <Row gutter={32}>
                         {/* <Col span={8}>

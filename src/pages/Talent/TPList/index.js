@@ -205,7 +205,7 @@ const TPList = () => {
           </Col>
         </Row>
         <Divider></Divider>
-        <Form form={form} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} labelAlign="left">
+        <Form form={form} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} labelAlign="left" onKeyDown={e => { if (e.keyCode == 13) { handleSearchConfirm() } }}>
           <Row gutter={32}>
             {/* <Col span={8}>
               <Form.Item name="state" label="当前人选状态">

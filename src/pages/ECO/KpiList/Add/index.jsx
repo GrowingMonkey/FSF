@@ -109,7 +109,8 @@ const AddInvoice = () => {
             console.log(fenPeiList)
             console.log(BFData)
             run({ ...values[0], serviceType: BFData?.serviceType, sfId: BFData.sfId, payType: BFData.payType, customerId: BFData.customerId, customerName: BFData.customerName, allotPlan: [...fenPeiList] })
-            history.push('/eco/kpi-list')
+            setTimeout(() => history.push('/eco/kpi-list'), 1000)
+            // history.push('/eco/kpi-list')
         })
     }
     const stateChaneTypes = {

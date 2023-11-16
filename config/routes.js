@@ -307,6 +307,13 @@ export default [
         access: 'canOfficeOnfield',
         component: './Office/OnFieldList/index',
       },
+      {
+        path: '/office/onfield-detail',
+        name: '出差详情',
+        access: 'canOfficeOnfield',
+        component: './Office/OnFieldList/Detail',
+        hideInMenu: true
+      },
     ],
   },
   // //财务管理

@@ -3,7 +3,7 @@ import ModalOnFieldApply from './components/ModalOnFieldApply';
 import styles from './index.less';
 import { PageContainer } from '@ant-design/pro-layout';
 import { useState, useEffect } from 'react';
-import { useRequest } from 'umi'
+import { useRequest, history } from 'umi'
 import { queryBtripList, passBtrip, denyBtrip } from '../../../services/office';
 
 const OnFieldList = () => {
@@ -43,42 +43,53 @@ const OnFieldList = () => {
       dataIndex: 'type',
       key: 'type',
       ellipsis: true,
-
+      render: (text, record) => {
+        return text == 1 ? '多人出差' : '单人出差'
+      }
     },
     {
-      title: '外出用户',
+      title: '出差用户',
       dataIndex: 'userName',
       key: 'userName',
       ellipsis: true,
+      render: (text, record) => {
+        return parseInt(record.type) == 0 ? text : record?.bstripMembers?.map(item => item.userName).join(',')
+      }
 
     },
+    // {
+    //   title: '审批用户',
+    //   dataIndex: 'leaderName',
+    //   key: 'leaderName',
+    //   ellipsis: true,
+
+    // },
+    // {
+    //   title: ' 归属公司',
+    //   dataIndex: 'type3',
+    //   ellipsis: true,
+
+    //   key: 'type3',
+    // },
     {
-      title: '审批用户',
-      dataIndex: 'leaderName',
-      key: 'leaderName',
+      title: '状态',
+      dataIndex: 'state',
       ellipsis: true,
 
-    },
-    {
-      title: ' 归属公司',
-      dataIndex: 'type3',
-      ellipsis: true,
-
-      key: 'type3',
-    },
-    {
-      title: '办事单位',
-      dataIndex: 'type4',
-      ellipsis: true,
-
-      key: 'type4',
+      key: 'state',
+      render: (text, record) => {
+        return parseInt(text) == 0 ? '申请中' : parseInt(text) == 1 ? '已通过' : '未通过:' + record.reasonNo
+      }
     },
     {
       title: '外出地址',
-      dataIndex: 'type5',
+      dataIndex: 'targetCity',
       ellipsis: true,
 
-      key: 'type5',
+      key: 'targetCity',
+      render: (text, record) => {
+        return record.targetCity + record.targetAddress
+      }
     },
     {
       title: '外出时间',
@@ -123,6 +134,7 @@ const OnFieldList = () => {
             >
               <Button type="link">审批</Button>
             </Popconfirm>
+            <Button type="link" onClick={() => history.push('/office/onfield-detail?id=' + record.id)}>查看</Button>
           </Space>
         );
       },

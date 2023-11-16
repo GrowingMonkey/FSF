@@ -12,3 +12,16 @@ export const cityList = getProvinces().map((province) => {
     }),
   };
 });
+export const cityListName = getProvinces().map((province) => {
+  return {
+    label: province.name,
+    value: province.name,
+    children: getPrefectures(province.name).map((prefecture) => {
+      return {
+        label: prefecture.name,
+        value: prefecture.name,
+      };
+    }),
+  };
+});
+

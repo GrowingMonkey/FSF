@@ -1,16 +1,22 @@
 import { useState, useEffect } from "react";
-import { Table, Button, Space, Divider, Row, Col, Pagination, message } from "antd";
+import { Table, Tag, Modal, Button, Space, Form, Divider, Row, Col, Pagination, message } from "antd";
 import { info } from "china-region";
 import ModalFormArea from "./components/ModalFormArea";
 import ModalFormCompany from "./components/ModalFormCompany";
 import ModalFormTeam from "./components/ModalFormTeam";
-import { tcaList, teamList, delTeam } from "../../../services/admin";
+import { tcaList, teamList, delTeam, addTeamUser, delTeamUser } from "../../../services/admin";
 import styles from "./index.less";
+import SearchInput from '@/components/SearchInput';
+
 import { PageContainer } from "@ant-design/pro-layout";
+import {
+    EditTwoTone, PlusOutlined
+} from '@ant-design/icons';
+import ProForm from '@ant-design/pro-form';
 
 const TCAList = () => {
     const [isFresh, setIsFreash] = useState(false);
-
+    const [teamForm, setTeamForm] = Form.useForm();
     const [visibleTeam, setVisibleTeam] = useState(false);
     const [visibleCompany, setVisibleCompany] = useState(false);
     const [visibleArea, setVisibleArea] = useState(false);
@@ -18,6 +24,11 @@ const TCAList = () => {
     const [listLength, setListLength] = useState(0);
     const [list, setList] = useState([]);
     const [formValue, setFormValue] = useState(null);
+    const [TeamModal, setTeamModal] = useState(false);
+    const [TeamId, setTeamId] = useState('');
+    const [TeamAddModal, setTeamAddModal] = useState(false);
+
+    const [TeamData, setTeamData] = useState([]);
     useEffect(() => {
         // level:'2'
         teamList({ pageNo: currentPage, pageSize: 10, level: '2' }).then((res) => {
@@ -32,6 +43,11 @@ const TCAList = () => {
             setListLength(res?.data?.count);
         });
     }, [currentPage, isFresh]);
+    useEffect(() => {
+        if (TeamData.length > 0) {
+
+        }
+    }, [])
     const onPageChange = (page) => {
         setCurrentPage(page);
     };
@@ -81,7 +97,7 @@ const TCAList = () => {
             key: "userList",
             ellipsis: true,
             render: (text, record) => {
-                return record.userList.map(item => item.name).join(',')
+                return [record.userList.map(item => item.name).join(','), <EditTwoTone onClick={() => { setTeamModal(true), setTeamId(record.id), setTeamData(record.userList) }} />]
             }
         },
         {
@@ -125,6 +141,86 @@ const TCAList = () => {
     ];
     return (
         <PageContainer>
+            <Modal
+                visible={TeamAddModal}
+                title={'新增成员'}
+                onCancel={() => setTeamAddModal(false)}
+                footer={null}
+            >
+                <ProForm
+                    form={teamForm}
+                    hideRequiredMark
+                    style={{
+                        margin: 'auto',
+                        marginTop: 8,
+                        maxWidth: 600,
+                    }}
+                    name="basic"
+                    layout="vertical"
+                    initialValues={{
+                        public: '1',
+                    }}
+                    onFinish={(values) => {
+                        addTeamUser({ appUserId: values.project.recommenderUserId, superId: TeamId }).then((v) => {
+                            if (v.code == 0) {
+                                TeamData.push({ name: values.project.recommenderName, id: values.project.recommenderUserId });
+                                setTeamAddModal(false);
+                                teamForm.resetFields();
+                            } else {
+                                message.error(v.message)
+                            }
+                        })
+
+                    }}
+                >
+                    <Form.Item
+                        label="顾问名称"
+                        name="project"
+                    >
+                        <SearchInput></SearchInput>
+                    </Form.Item>
+                </ProForm>
+
+            </Modal>
+            <Modal
+                visible={TeamModal}
+                title={'团队成员'}
+                cancelText={'关闭'}
+                onCancel={() => { setTeamModal(false); setIsFreash(!isFresh) }}
+                onOk={() => { setTeamModal(false); setIsFreash(!isFresh) }}
+            >
+                {TeamData.map((tag, index) => {
+                    console.log(tag);
+                    const tagElem = (
+                        <Tag
+                            className="edit-tag"
+                            key={tag.id}
+                            closable
+                            color={["#f50", "#87d068", "#2db7f5", "#108ee9"][index % 4]}
+                            onClose={(e) => {
+                                e.preventDefault();
+                                delTeamUser({
+                                    appUserId: tag.userId,
+                                    superId: TeamId
+                                }).then(res => {
+                                    if (res.code == 0) {
+                                        setTeamData(TeamData.filter((cur) => cur.userId != tag.userId))
+                                    } else {
+                                        message.error(res.message)
+                                    }
+                                })
+
+                            }}
+                        >
+                            {tag.name}
+                        </Tag>
+                    );
+                    return tagElem
+                })}
+                <Tag className="site-tag-plus" onClick={() => setTeamAddModal(true)}>
+                    <PlusOutlined />新增成员
+                </Tag>
+            </Modal>
 
             <ModalFormArea
                 visible={visibleArea}
@@ -138,6 +234,7 @@ const TCAList = () => {
                 onCancel={onCancel}
                 record={formValue}
             ></ModalFormCompany>
+
             <ModalFormTeam
                 visible={visibleTeam}
                 onSubmit={onSubmit}

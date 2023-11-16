@@ -17,6 +17,19 @@ export const delTeam = (payload) => {
     data: { ...(payload || {}) },
   });
 }
+export const addTeamUser = (payload) => {
+  return request('/admin/addTeamUser', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+}
+
+export const delTeamUser = (payload) => {
+  return request('/admin/delTeamUser', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+}
 export const resetPwd = (payload) => {
   return request('/employ/resetPwd', {
     method: 'POST',

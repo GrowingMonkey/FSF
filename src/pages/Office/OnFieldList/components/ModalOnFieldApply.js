@@ -1,30 +1,53 @@
 import { useState, useEffect } from "react";
-import { Modal, Form, Input, DatePicker, Select } from "antd";
+import { Modal, Form, Input, DatePicker, Select, Radio, Cascader } from "antd";
 import { addBtrip } from '@/services/office'
+import DebounceSelect from '@/pages/Admin/TCAList/components/UserSearch'
+import { userList } from "@/services/admin";
+import CascaderMul from '@/components/CascaderMul';
+import { cityListName } from '@/utils/CityList';
+import moment from 'moment';
+
+
+
+
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 const ModalOnFieldApply = ({ visible, onSubmit, onCancel, record }) => {
+  const [num, setNum] = useState(0)
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [form] = Form.useForm();
   const formList = [
     {
-      name: "address",
-      label: "出差地址",
+      name: "type",
+      label: " ",
+      type: "radio",
+      span: 6,
+    },
+    {
+      name: "members",
+      label: "添加成员",
+      type: "inputUser",
+      span: 6,
+    },
+    {
+      name: "sourceCity",
+      label: "出发城市",
+      type: "cascader",
+      options: cityListName,
+      span: 6,
+    },
+    {
+      name: "targetCity",
+      label: "目标城市",
+      type: "cascader",
+      options: cityListName,
+      span: 6,
+    },
+    {
+      name: "targetAddress",
+      label: "详细地址",
       type: "input",
       span: 6,
-    },
-    {
-      name: "attendanceId",
-      label: "出差业务",
-      type: "select",
-      span: 6,
-    },
-    {
-      name: "type",
-      label: "出差类型",
-      type: "select",
-      span: 6,
-      options: [{ label: '单人出差', value: 0 }, { label: '多人出差', value: 1 }]
     },
     {
       name: "onfiledDate",
@@ -45,7 +68,23 @@ const ModalOnFieldApply = ({ visible, onSubmit, onCancel, record }) => {
   const handleOk = () => {
     form.validateFields().then(value => {
       console.log(value);
-      addBtrip(value).then(res => {
+      let params = {
+        ...value,
+        sourceCity: value.sourceCity[0],
+        targetCity: value.targetCity[0],
+        startTime: moment(value.onfiledDate[0]).format('YYYY/MM/DD'),
+        endTime: moment(value.onfiledDate[1]).format('YYYY/MM/DD'),
+        onfiledDate: '',
+      }
+      if (value.type == 1) {
+        params.members = value.members.map((item => {
+          return {
+            appUserId: item.value,
+            appUserName: item.label
+          }
+        }))
+      }
+      addBtrip(params).then(res => {
         onSubmit()
       })
     })
@@ -97,6 +136,60 @@ const ModalOnFieldApply = ({ visible, onSubmit, onCancel, record }) => {
             return (
               <Form.Item name={col.name} label={col.label} key={col.label}>
                 <DatePicker style={{ width: "100%" }}></DatePicker>
+              </Form.Item>
+            );
+          }
+          if (col.type === "radio") {
+            return (
+              <Form.Item name={col.name} label={col.label} key={col.label}>
+                <Radio.Group onChange={(e) => setNum(e.target.value)}>
+                  <Radio default value="0">单人出差</Radio>
+                  <Radio value="1">多人出差</Radio>
+                </Radio.Group>
+              </Form.Item>
+            );
+          }
+          if (col.type === "inputUser") {
+            console.log(form.getFieldValue('type'))
+            if (form.getFieldValue('type') != 0) {
+              return (
+                <Form.Item name={col.name} label={col.label} key={col.label}>
+                  <DebounceSelect
+                    mode="multiple"
+                    value={form.getFieldValue('ids')}
+                    placeholder="Select users"
+
+                    fetchOptions={async (e) => {
+                      let a = await userList({ name: e });
+                      console.log(a)
+                      console.log(e);
+
+                      return a.data.list.map(item => {
+                        return {
+                          label: `${item.name} `,
+                          value: item.userId,
+                        }
+                      });
+                    }}
+                    onChange={(newValue) => {
+                      // setValue(newValue);
+                    }}
+                    style={{
+                      width: '100%',
+                    }}
+                  />
+                </Form.Item>
+              );
+            }
+
+          }
+          if (col.type === "cascader") {
+            return (
+              <Form.Item name={col.name} label={col.label}>
+                <Cascader
+                  options={col.options}
+                  placeholder=""
+                ></Cascader>
               </Form.Item>
             );
           }

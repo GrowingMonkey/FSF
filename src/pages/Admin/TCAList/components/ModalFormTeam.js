@@ -20,14 +20,15 @@ const ModalFormTeam = ({ visible, onSubmit, onCancel, record }) => {
       // if (payload.cityCode.length === 1) {
       //   payload.cityCode = payload.cityCode[0];
       // }
+      // ids: values.ids.map(item => item?.value)
       if (record) {
-        updateTeam({ id: record.id, ...payload, ids: values.ids.map(item => item?.value), leaderId: values.leaderId?.value, superiorId: values.superiorId?.value, level: 2 }).then(() => {
+        updateTeam({ id: record.id, ...payload, leaderId: values.leaderId?.value, superiorId: values.superiorId?.value, level: 2 }).then(() => {
           onSubmit();
           form.resetFields();
           setConfirmLoading(false);
         });
       } else {
-        addTeam({ ...payload, ids: values.ids.map(item => item.value), leaderId: values.leaderId.value, superiorId: values.superiorId.value, level: 2 }).then(() => {
+        addTeam({ ...payload, leaderId: values.leaderId.value, superiorId: values.superiorId.value, level: 2 }).then(() => {
           onSubmit();
           form.resetFields();
           setConfirmLoading(false);
@@ -61,12 +62,12 @@ const ModalFormTeam = ({ visible, onSubmit, onCancel, record }) => {
           name: value.name,
           // superiorId: value.superiorId,
           leaderId: { label: value.leaderName, value: value.leaderId },
-          ids: value.userList.map(item => {
-            return {
-              label: `${item.name} `,
-              value: item.userId,
-            }
-          })
+          // ids: value.userList.map(item => {
+          //   return {
+          //     label: `${item.name} `,
+          //     value: item.userId,
+          //   }
+          // })
         });
         setModalTitle("编辑团队");
       } else {
@@ -153,7 +154,7 @@ const ModalFormTeam = ({ visible, onSubmit, onCancel, record }) => {
             }}
           />
         </Form.Item>
-        <Form.Item name="ids" label="团队下属员工">
+        {/* <Form.Item name="ids" label="团队下属员工">
           <DebounceSelect
             mode="multiple"
             value={form.getFieldValue('ids')}
@@ -178,7 +179,7 @@ const ModalFormTeam = ({ visible, onSubmit, onCancel, record }) => {
               width: '100%',
             }}
           />
-        </Form.Item>
+        </Form.Item> */}
         <Form.Item name="remark" label="说明">
           <Input.TextArea />
         </Form.Item>

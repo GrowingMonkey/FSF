@@ -62,6 +62,12 @@ export const addBtrip = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export const selectBtripById = (payload) => {
+  return request('/office/selectBtripById', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
 //申请请假
 export const addLeave = (payload) => {
   return request('/office/addLeave', {
@@ -69,6 +75,7 @@ export const addLeave = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+
 //请假未通过
 export const denyLeave = (payload) => {
   return request('/office/denyLeave', {

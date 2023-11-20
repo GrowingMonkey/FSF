@@ -68,7 +68,7 @@ const AddInvoice = () => {
                     hideRequiredMark
                     style={{
                         // margin: 'auto',
-                        marginTop: 8,
+                        marginTop: 0,
                         maxWidth: 600,
                     }}
                     form={applyForm}
@@ -80,36 +80,36 @@ const AddInvoice = () => {
                         },
                     }}
                 >
-                    <Form.Item labelCol={{ style: { width: '113px' } }} name="fee" label="回款金额" rules={[
+                    <Form.Item style={{ marginBottom: 0 }} labelCol={{ style: { width: '113px', fontWeight: 'bold' } }} name="fee" label="回款金额" rules={[
                         {
                             required: true,
                             message: '必填',
                         },
                     ]}>
                         {/* <Input /> */}
-                        <span>{bfDetail?.fee || ''}</span>
+                        <span style={{ color: 'red' }}>{bfDetail?.fee || ''}</span>
                     </Form.Item>
                     <ProForm.Group>
-                        <Form.Item name="appUser" labelCol={{ style: { width: '112px' } }} rules={[
+                        <Form.Item style={{ marginBottom: 0 }} name="appUser" labelCol={{ style: { width: '112px', fontWeight: 'bold' } }} rules={[
                             {
                                 required: true,
                                 message: '必填',
                             },
                         ]} wrapperCol={{ style: { width: '175px' } }} label="服务顾问">
                             {/* <SearchInput></SearchInput> */}
-                            <span>{bfDetail?.userName || ''}</span>
+                            <span style={{ color: 'red' }}>{bfDetail?.userName || ''}</span>
                         </Form.Item>
-                        <Form.Item name="appUserCompany" labelCol={{ style: { width: '112px' } }} wrapperCol={{ style: { width: '168px' } }} label="归属公司">
+                        <Form.Item style={{ marginBottom: 0 }} name="appUserCompany" labelCol={{ style: { width: '112px', fontWeight: 'bold' } }} wrapperCol={{ style: { width: '168px' } }} label="归属公司">
                             <span>{
                                 bfDetail?.comName}</span>
                         </Form.Item>
                         {/* <ProFormText labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="appUserCompany" label="归属公司"></ProFormText> */}
                     </ProForm.Group>
                     <ProForm.Group>
-                        <Form.Item labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="payWay" label="支付方式">
+                        <Form.Item style={{ marginBottom: 0 }} labelCol={{ style: { width: '113px', fontWeight: 'bold' } }} wrapperCol={{ style: { width: '168px' } }} name="payWay" label="支付方式">
                             <span>{bfDetail?.payWay == 0 ? '现金支付' : bfDetail?.payWay == 1 ? '支票转账' : bfDetail?.payWay == 2 ? '网银转账' : bfDetail?.payWay == 3 ? '其他方式' : bfDetail?.payWay == 4 ? '个人电汇' : ''}</span>
                         </Form.Item>
-                        <Form.Item labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="customerName" label="客户名称" >
+                        <Form.Item style={{ marginBottom: 0 }} labelCol={{ style: { width: '113px', fontWeight: 'bold' } }} wrapperCol={{ style: { width: '168px' } }} name="customerName" label="客户名称" >
                             <span>{bfDetail?.customerName || ""}</span>
                         </Form.Item>
                         {/* <ProFormSelect options={[
@@ -147,10 +147,10 @@ const AddInvoice = () => {
                         ]}></ProFormText> */}
                     </ProForm.Group>
                     <ProForm.Group>
-                        <Form.Item labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="payType" label="收入类型">
+                        <Form.Item style={{ marginBottom: 0 }} labelCol={{ style: { width: '113px', fontWeight: 'bold' } }} wrapperCol={{ style: { width: '168px' } }} name="payType" label="收入类型">
                             <span>{bfDetail?.payType == 0 ? '服务费' : bfDetail?.payType == 1 ? '咨询费' : bfDetail?.payType == 2 ? '首付款' : bfDetail?.payType == 9 ? '其他' : '' || ' '}</span>
                         </Form.Item>
-                        <Form.Item labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="serviceType" label="业务类型" >
+                        <Form.Item style={{ marginBottom: 0 }} labelCol={{ style: { width: '113px', fontWeight: 'bold' } }} wrapperCol={{ style: { width: '168px' } }} name="serviceType" label="业务类型" >
                             <span>{bfDetail?.serviceType == 0 ? '猎头业务' : bfDetail?.serviceType == 1 ? '咨询业务' : bfDetail?.serviceType == 9 ? '其他' : '' || ' '}</span>
                         </Form.Item>
                         {/* <ProFormSelect options={[
@@ -192,10 +192,10 @@ const AddInvoice = () => {
                             ]} /> */}
                     </ProForm.Group>
                     <ProForm.Group>
-                        <Form.Item labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="dateType" label="回款期限">
+                        <Form.Item style={{ marginBottom: 0 }} labelCol={{ style: { width: '113px', fontWeight: 'bold' } }} wrapperCol={{ style: { width: '168px' } }} name="dateType" label="回款期限">
                             <span>{bfDetail?.dateType || ' '}</span>
                         </Form.Item>
-                        <Form.Item labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="isTalent" label="是否关联人选" >
+                        <Form.Item style={{ marginBottom: 0 }} labelCol={{ style: { width: '113px', fontWeight: 'bold' } }} wrapperCol={{ style: { width: '168px' } }} name="isTalent" label="是否关联人选" >
                             <span>{bfDetail?.tpList.length > 0 ? '是' : '否'}</span>
                         </Form.Item>
                         {/* <ProFormSelect labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} options={[
@@ -252,7 +252,7 @@ const AddInvoice = () => {
                         },
                     }}
                 >
-                    <Form.Item labelCol={{ style: { width: '113px' } }} wrapperCol={{ style: { width: '168px' } }} name="talents" label="选择人选" >
+                    <Form.Item labelCol={{ style: { width: '113px', fontWeight: 'bold' } }} wrapperCol={{ style: { width: '168px' } }} name="talents" label="选择人选" >
                         {/* <TalentSearch style={{ width: '196px' }} filedProps={{ mode: 'multiple' }} /> */}
                         <span>{bfDetail?.tpList?.map(item => item.talentName).join(',')}</span>
                     </Form.Item>

@@ -1,4 +1,4 @@
-import { Form, Row, Col, Input, Button, Select, Table, Divider, Popconfirm, Space, DatePicker } from 'antd';
+import { Form, Row, Col, Input, Button, Select, Table, Divider, Popconfirm, Space, DatePicker, message } from 'antd';
 import ModalOnFieldApply from './components/ModalOnFieldApply';
 import styles from './index.less';
 import { PageContainer } from '@ant-design/pro-layout';
@@ -38,17 +38,9 @@ const OnFieldList = () => {
     },
   ];
   const onFieldColumns = [
+
     {
-      title: '外出分类',
-      dataIndex: 'type',
-      key: 'type',
-      ellipsis: true,
-      render: (text, record) => {
-        return text == 1 ? '多人出差' : '单人出差'
-      }
-    },
-    {
-      title: '出差用户',
+      title: '申请人',
       dataIndex: 'userName',
       key: 'userName',
       ellipsis: true,
@@ -82,7 +74,7 @@ const OnFieldList = () => {
       }
     },
     {
-      title: '外出地址',
+      title: '出差地址',
       dataIndex: 'targetCity',
       ellipsis: true,
 
@@ -92,11 +84,20 @@ const OnFieldList = () => {
       }
     },
     {
-      title: '外出时间',
+      title: '出差时间',
       dataIndex: 'startTime',
       key: 'startTime',
       ellipsis: true,
 
+    },
+    {
+      title: '出差人员',
+      dataIndex: 'type',
+      key: 'type',
+      ellipsis: true,
+      render: (text, record) => {
+        return text == 1 ? record?.bstripMembers?.map(item => item.userName)?.join(',') : record.userName
+      }
     },
     {
       title: '返回时间',
@@ -124,9 +125,19 @@ const OnFieldList = () => {
           <Space size="middle">
             <Popconfirm
               title="确定审核当前用户的请求？"
-              onConfirm={() => { passBtrip({ id: record.id }) }}
+              onConfirm={() => {
+                passBtrip({ id: record.id }).then(res => {
+                  if (res.code != 0) {
+                    message.info(res.message)
+                  }
+                })
+              }}
               onCancel={() => {
-                denyBtrip({ id: record.id })
+                denyBtrip({ id: record.id }).then(res => {
+                  if (res.code != 0) {
+                    message.info(res.message)
+                  }
+                })
               }
               }
               okText="通过"

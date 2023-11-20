@@ -86,7 +86,9 @@ const Detail = () => {
         <PageContainer content="">
             <Card bordered={false} title={'出差详情'}>
                 <Descriptions title="" column={1}>
-                    <Descriptions.Item labelStyle={lableCss} label="出差类型" span={2}>{detailData?.type == 0 ? '单人出差' : '多人出差'}</Descriptions.Item>
+                    <Descriptions.Item labelStyle={lableCss} label="申请人" span={2}>{detailData?.userName}</Descriptions.Item>
+                    <Descriptions.Item labelStyle={lableCss} label="出差人员" span={2}>{detailData?.type == 0 ? detailData?.userName : detailData?.bstripMembers?.map(item => item.userName)?.join(',')}</Descriptions.Item>
+
                     <Descriptions.Item labelStyle={lableCss} label="出发城市">{detailData?.sourceCity}</Descriptions.Item>
                     <Descriptions.Item labelStyle={lableCss} label="目的城市">{detailData?.targetCity}</Descriptions.Item>
                     <Descriptions.Item labelStyle={lableCss} label="详细地址">{detailData?.targetAddress}</Descriptions.Item>

@@ -147,25 +147,31 @@ const ModalLeaveApply = ({ visible, onSubmit, onCancel, record }) => {
                   const hour = moment(disabledTime).hour();
                   return current && hour < 23 ? current < moment(disabledTime).subtract(1, 'd') : current < moment(disabledTime)
                 }}
+                hideDisabledOptions={true}
                 disabledTime={(now, partial) => {
-                  console.log(now)
                   if (now) {
                     const disabledTime = moment();
                     const disabledDay = moment(disabledTime).date();
                     const nowDay = moment(now).date();
+                    // console.log(nowDay, disabledDay)
                     if (disabledDay === nowDay) {
                       return ({
                         disabledHours: () => {
-                          let hours = [];
+                          let hours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 19, 20, 21, 22, 23];
                           let time = moment();
                           let hour = moment(time).hour();
                           for (let i = 0; i < hour + 1; i++) {
                             hours.push(i);
                           }
-                          console.log(hours);
+
+                          // console.log(hours);
                           return hours
                         }
                       })
+                    } else {
+                      return {
+                        disabledHours: () => [0, 1, 2, 3, 4, 5, 6, 7, 8, 19, 20, 21, 22, 23]
+                      }
                     }
                   }
                   return {}

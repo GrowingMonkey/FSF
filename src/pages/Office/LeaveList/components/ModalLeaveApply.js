@@ -115,7 +115,7 @@ const ModalLeaveApply = ({ visible, onSubmit, onCancel, record }) => {
           if (col.type === "datePicker") {
             return (
               <Form.Item name={col.name} label={col.label} key={col.label}>
-                <DatePicker style={{ width: "100%" }} format={"YYYY-MM-DD hh"}></DatePicker>
+                <DatePicker style={{ width: "100%" }} format={"YYYY-MM-DD HH"}></DatePicker>
               </Form.Item>
             );
           }
@@ -140,8 +140,36 @@ const ModalLeaveApply = ({ visible, onSubmit, onCancel, record }) => {
             return (<Form.Item name={col.name} label={col.label} key={col.label}>
               <RangePicker
                 // @ts-ignore
-                value={hackValue || timevalue} showTime format={format}
+                value={hackValue || timevalue} showTime format={'YYYY-MM-DD hh'}
                 disabledDate={false} allowClear={false}
+                disabledDate={(current) => {
+                  const disabledTime = moment();
+                  const hour = moment(disabledTime).hour();
+                  return current && hour < 23 ? current < moment(disabledTime).subtract(1, 'd') : current < moment(disabledTime)
+                }}
+                disabledTime={(now, partial) => {
+                  console.log(now)
+                  if (now) {
+                    const disabledTime = moment();
+                    const disabledDay = moment(disabledTime).date();
+                    const nowDay = moment(now).date();
+                    if (disabledDay === nowDay) {
+                      return ({
+                        disabledHours: () => {
+                          let hours = [];
+                          let time = moment();
+                          let hour = moment(time).hour();
+                          for (let i = 0; i < hour + 1; i++) {
+                            hours.push(i);
+                          }
+                          console.log(hours);
+                          return hours
+                        }
+                      })
+                    }
+                  }
+                  return {}
+                }}
                 onCalendarChange={(val) => setDates(val)}
                 onChange={(val) => settimeValue(val)}
                 onOpenChange={onOpenChange}

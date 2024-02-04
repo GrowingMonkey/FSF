@@ -81,14 +81,14 @@ const findAreaText = (location) => {
 const ArticleListContent = ({
   data: { content, updatedAt, userName, updateTime, avatar, owner, href },
 }) => (
-  <div className={stylesR.listContent}>
-    <div className={stylesR.description}>{content}</div>
-    <div className={stylesR.extra}>
-      <a href={href}>{userName}</a> 在 <a href={href}>{href}</a>
-      <em>{updateTime}</em>创建
+    <div className={stylesR.listContent}>
+      <div className={stylesR.description}>{content}</div>
+      <div className={stylesR.extra}>
+        <a href={href}>{userName}</a> 在 <a href={href}>{href}</a>
+        <em>{updateTime}</em>创建
     </div>
-  </div>
-);
+    </div>
+  );
 let pageNo = 1;
 const TalentDetail = () => {
   const [isRefresh, setIsRefresh] = useState(false);
@@ -266,8 +266,8 @@ const TalentDetail = () => {
             <LoadingOutlined /> 加载中...
           </span>
         ) : (
-          '加载更多'
-        )}
+            '加载更多'
+          )}
       </Button>
     </div>
   );
@@ -790,12 +790,12 @@ const TalentDetail = () => {
                           className: 'avatar-uploader',
                           showUploadList: false,
                           customRequest: async (options) => {
-                            let result = await upload(options.file, () => {});
+                            let result = await upload(options.file, () => { });
                             console.log(result.res.requestUrls[0]);
                             basicForm.setFieldsValue({ headUrl: [result.name] });
                             setImageUrl(
                               result.res.requestUrls[0].split('?')[0] +
-                                '?x-oss-process=image/resize,w_100,h_100/quality,q_50',
+                              '?x-oss-process=image/resize,w_100,h_100/quality,q_50',
                             );
                             options.onSuccess(result.res.requestUrls[0], result.res.requestUrls[0]);
                           },
@@ -806,8 +806,8 @@ const TalentDetail = () => {
                           imageUrl ? (
                             <img src={imageUrl} alt="avatar" style={{ width: '100%' }} />
                           ) : (
-                            uploadButton
-                          )
+                              uploadButton
+                            )
                         }
                       />
                     </ProForm.Group>
@@ -910,10 +910,10 @@ const TalentDetail = () => {
                             ellipsis={
                               ellipsis
                                 ? {
-                                    rows: 4,
-                                    expandable: true,
-                                    symbol: '加载更多',
-                                  }
+                                  rows: 4,
+                                  expandable: true,
+                                  symbol: '加载更多',
+                                }
                                 : false
                             }
                           >
@@ -999,10 +999,10 @@ const TalentDetail = () => {
                             ellipsis={
                               ellipsis
                                 ? {
-                                    rows: 4,
-                                    expandable: true,
-                                    symbol: '加载更多',
-                                  }
+                                  rows: 4,
+                                  expandable: true,
+                                  symbol: '加载更多',
+                                }
                                 : false
                             }
                           >
@@ -1186,38 +1186,38 @@ const TalentDetail = () => {
                     label: '考虑职位',
                     value: 22,
                   },
-                  {
-                    label: '推给客户',
-                    value: 1,
-                  },
-                  {
-                    label: '加入项目',
-                    value: 0,
-                  },
-                  {
-                    label: '成功入职',
-                    value: 9,
-                  },
-                  {
-                    label: '人选离职',
-                    value: 10,
-                  },
-                  {
-                    label: '预约面试',
-                    value: 5,
-                  },
-                  {
-                    label: '客户面试',
-                    value: 6,
-                  },
-                  {
-                    label: '人选放弃',
-                    value: 4,
-                  },
-                  {
-                    label: '确认Offer',
-                    value: 8,
-                  },
+                  // {
+                  //   label: '推给客户',
+                  //   value: 1,
+                  // },
+                  // {
+                  //   label: '加入项目',
+                  //   value: 0,
+                  // },
+                  // {
+                  //   label: '成功入职',
+                  //   value: 9,
+                  // },
+                  // {
+                  //   label: '人选离职',
+                  //   value: 10,
+                  // },
+                  // {
+                  //   label: '预约面试',
+                  //   value: 5,
+                  // },
+                  // {
+                  //   label: '客户面试',
+                  //   value: 6,
+                  // },
+                  // {
+                  //   label: '人选放弃',
+                  //   value: 4,
+                  // },
+                  // {
+                  //   label: '确认Offer',
+                  //   value: 8,
+                  // },
                   {
                     label: '不想变动',
                     value: 23,

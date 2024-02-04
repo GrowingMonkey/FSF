@@ -94,7 +94,7 @@ const Detail = () => {
                     <Descriptions.Item labelStyle={lableCss} label="详细地址">{detailData?.targetAddress}</Descriptions.Item>
                     <Descriptions.Item labelStyle={lableCss} label="出差时间">{detailData?.startTime + '-' + detailData?.endTime}</Descriptions.Item>
                     <Descriptions.Item labelStyle={lableCss} label="出差原因">{detailData?.reason}</Descriptions.Item>
-                    {/* <Descriptions.Item labelStyle={lableCss} label="附件">{detailData?.files?.url}</Descriptions.Item> */}
+                    <Descriptions.Item labelStyle={lableCss} label="附件">{detailData?.files?.url ? <Image src={detailData?.files?.url} width={200}></Image> : ''}</Descriptions.Item>
 
 
                     {/* <Descriptions.Item labelStyle={lableCss} label="开票对象">{detailData?.invoiceObj == 0 ? '外部对象' : detailData?.invoiceObj == 1 ? '内部客户' : '其他'}</Descriptions.Item> */}

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Table, Radio, Button, Space, Row, Col, Popconfirm, Pagination, Divider, message, Modal } from "antd";
+import { Table, Radio, Button, Form, Input, Space, Row, Col, Popconfirm, Pagination, Divider, message, Modal } from "antd";
 import ModalForm from "./components/ModalForm";
 import { userList, tcaList, roleList } from "../../../services/admin";
 import styles from "./index.less";
@@ -8,6 +8,7 @@ import { updateUser, resetPwd } from '@/services/admin';
 import ProForm, { ProFormDatePicker } from "@ant-design/pro-form";
 
 const UserList = () => {
+  const [form] = Form.useForm();
   const [visible, setVisible] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [isRemarkModalVisible, setIsRemarkModalVisible] = useState(false);
@@ -19,8 +20,21 @@ const UserList = () => {
   const [roleTypes, setRoleTypes] = useState([]);
   const [formValue, setFormValue] = useState(null);
   const [workState, setWorkState] = useState(0);
+  const [searchValues, setSearchValues] = useState(null);
+
+  const handleSearch = () => {
+    form.validateFields().then((values) => {
+      let payload = Object.assign({}, values);
+      setSearchValues(payload);
+    });
+  };
+  const handleSearchClear = () => {
+    form.resetFields();
+    setSearchValues(null);
+    setCurrentPage(1);
+  };
   useEffect(() => {
-    userList({ pageNo: currentPage, pageSize: 10, workState: workState }).then((res) => {
+    userList({ pageNo: currentPage, pageSize: 10, workState: workState, ...searchValues }).then((res) => {
       const { data } = res;
       setList(
         data.list.map((item) => {
@@ -31,7 +45,7 @@ const UserList = () => {
       );
       setListLength(data.count);
     });
-  }, [currentPage, workState]);
+  }, [currentPage, workState, searchValues]);
   useEffect(() => {
     tcaList({ pageNo: 1, pageSize: 1000 }).then((res) => {
       let areaList = [];
@@ -117,6 +131,20 @@ const UserList = () => {
       });
     })
   }
+  const formList = [
+    {
+      name: 'name',
+      label: '员工名称',
+      type: 'input',
+      span: 6,
+    },
+    {
+      name: 'phone',
+      label: '员工电话',
+      type: 'input',
+      span: 6,
+    }
+  ]
   const userColumns = [
     {
       title: "账户名",
@@ -297,9 +325,35 @@ const UserList = () => {
             >
               新增用户
             </Button>
+            <Button type="primary" onClick={handleSearch} style={{ marginLeft: 8 }}>
+              搜索
+              </Button>
+            <Button onClick={handleSearchClear}>清空</Button>
           </Col>
         </Row>
+
         <Divider></Divider>
+        <Form form={form} labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} labelAlign="left" onKeyDown={e => { if (e.keyCode == 13) { handleSearch() } }}>
+          {
+            <Row gutter={32}>
+              {formList.map((col) => {
+                if (col.render) {
+                  return col.render();
+                }
+                if (col.type === 'input') {
+                  return (
+                    <Col span={col.span} key={col.name}>
+                      <Form.Item name={col.name} label={col.label} rules={col.rules}>
+                        <Input />
+                      </Form.Item>
+                    </Col>
+                  );
+                }
+                return null;
+              })}
+            </Row>
+          }
+        </Form>
         <Radio.Group defaultValue={workState} onChange={(e) => { setCurrentPage(1); setWorkState(e.target.value); }}>
           <Radio.Button value={0}>在职</Radio.Button>
           <Radio.Button value={1}>离职</Radio.Button>

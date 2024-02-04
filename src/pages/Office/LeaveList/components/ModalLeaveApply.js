@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
-import { Modal, Form, Input, DatePicker, Select } from "antd";
+import { Modal, Form, Input, DatePicker, Select, Upload, Button, message } from "antd";
 import { addLeave } from '@/services/office'
+import { upload } from '@/utils/lib/upload';
+import { MinusCircleOutlined, PlusOutlined, InboxOutlined } from '@ant-design/icons';
+
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 import moment from 'moment'
@@ -8,6 +11,7 @@ import moment from 'moment'
 import useTime from '@/components/useTime'
 
 const ModalLeaveApply = ({ visible, onSubmit, onCancel, record }) => {
+  const [fileUrl, setFileUrl] = useState(null);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const { format, disabledDate, onOpenChange, timevalue, settimeValue, hackValue, setDates } = useTime();
 
@@ -19,12 +23,20 @@ const ModalLeaveApply = ({ visible, onSubmit, onCancel, record }) => {
       label: "请假日期",
       type: "useTime",
       span: 6,
+      rules: [{
+        required: true,
+        message: '请输入请假时间'
+      }]
     },
     {
       name: "type",
       label: "请假类型",
       type: "select",
       span: 6,
+      rules: [{
+        required: true,
+        message: '请选择请假类型'
+      }],
       options: [
         { label: '事假', value: 0 },
         { label: '病假', value: 1 },
@@ -38,6 +50,10 @@ const ModalLeaveApply = ({ visible, onSubmit, onCancel, record }) => {
       name: "reason",
       label: "请假原因",
       type: "textArea",
+      rules: [{
+        required: true,
+        message: '请输入请假原因'
+      }],
       span: 6,
     },
     {
@@ -53,8 +69,9 @@ const ModalLeaveApply = ({ visible, onSubmit, onCancel, record }) => {
   const handleOk = () => {
     console.log(111);
     form.validateFields().then(value => {
+      debugger
       console.log(value);
-      addLeave({ reason: value.reason, type: value.type, startTime: moment(value.leaveDate[0]).format('YYYY-MM-DD HH:mm:ss'), endTime: moment(value.leaveDate[1]).format('YYYY-MM-DD HH:mm:ss') }).then(res => {
+      addLeave({ reason: value.reason, file: fileUrl, type: value.type, startTime: moment(value?.leaveDate[0]).format('YYYY-MM-DD HH:mm:ss'), endTime: moment(value.leaveDate[1]).format('YYYY-MM-DD HH:mm:ss') }).then(res => {
         onSubmit()
       })
     })
@@ -68,7 +85,12 @@ const ModalLeaveApply = ({ visible, onSubmit, onCancel, record }) => {
     }
     else { setYearMsg('') }
   }
-
+  const uploadButton = (
+    <div>
+      {<PlusOutlined />}
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </div>
+  );
   return (
     <Modal
       forceRender
@@ -114,14 +136,14 @@ const ModalLeaveApply = ({ visible, onSubmit, onCancel, record }) => {
           }
           if (col.type === "datePicker") {
             return (
-              <Form.Item name={col.name} label={col.label} key={col.label}>
+              <Form.Item name={col.name} label={col.label} key={col.label} rules={col.rules}>
                 <DatePicker style={{ width: "100%" }} format={"YYYY-MM-DD HH"}></DatePicker>
               </Form.Item>
             );
           }
           if (col.type === "textArea") {
             return (
-              <Form.Item name={col.name} label={col.label} key={col.label}>
+              <Form.Item name={col.name} label={col.label} key={col.label} rules={col.rules}>
                 <TextArea
                   placeholder="Controlled autosize"
                   autoSize={{ minRows: 3, maxRows: 5 }}
@@ -131,13 +153,13 @@ const ModalLeaveApply = ({ visible, onSubmit, onCancel, record }) => {
           }
           if (col.type === "dateRange") {
             return (
-              <Form.Item name={col.name} label={col.label} key={col.label}>
+              <Form.Item name={col.name} label={col.label} key={col.label} rules={col.rules}>
                 <RangePicker style={{ width: "100%" }} />
               </Form.Item>
             );
           }
           if (col.type === 'useTime') {
-            return (<Form.Item name={col.name} label={col.label} key={col.label}>
+            return (<Form.Item name={col.name} label={col.label} key={col.label} rules={col.rules}>
               <RangePicker
                 // @ts-ignore
                 value={hackValue || timevalue} showTime format={'YYYY-MM-DD hh'}
@@ -180,6 +202,43 @@ const ModalLeaveApply = ({ visible, onSubmit, onCancel, record }) => {
                 onChange={(val) => settimeValue(val)}
                 onOpenChange={onOpenChange}
               />
+            </Form.Item>)
+          }
+          if (col.type === 'file') {
+            return (<Form.Item name={col.name} label={col.label} key={col.label}>
+              <Upload
+                name="file"
+                showUploadList={false}
+                listType='picture-card'
+                onChange={() => { }}
+                customRequest={async (options) => {
+                  let result = await upload(options.file, () => { console.log('chenggong') }, '/file/');
+                  console.log(result.res);
+                  if (result.res.status == 200) {
+                    message.info('上传成功');
+                    let name = result.name.split('/').filter(i => i.indexOf('.') > 0);
+                    console.log(name)
+                    console.log(result.res.requestUrls[0]);
+                    form.setFieldsValue({ file: result.name.split('?')[0] });
+                    setFileUrl(result.res.requestUrls[0])
+                    console.log(form.getFieldValue('file'))
+
+                  }
+                  options.onSuccess();
+                }}>
+                {fileUrl ? (
+                  <img
+                    src={fileUrl}
+                    alt="avatar"
+                    style={{
+                      width: '100%',
+                    }}
+                  />
+                ) : (
+                    uploadButton
+                  )}
+              </Upload>
+
             </Form.Item>)
           }
           return null;

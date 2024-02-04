@@ -44,23 +44,23 @@ const TalentSearch = ({ value = {}, onChange, filedProps = {}, applyUserId }) =>
     }
   };
   const handleSearch = (value) => {
-    if (value) {
-      selectMyServiceFeeList({ pageNo: 1, pageSize: 10, customerName: value }).then((res) => {
-        const { data } = res;
-        setOptions(
-          data.list.map((item) => {
-            return (
-              <Option key={item.id} title={`${item.customerName}/¥${item.fee}`} style={{ width: '200px' }}>
-                <Tooltip><div>¥{item.fee}/{item.customerName}</div></Tooltip>
-              </Option>
-            );
-          }),
-        );
-        setSourceList(res.data.list);
-      });
-    } else {
-      setOptions([]);
-    }
+    // if (value) {
+    selectMyServiceFeeList({ pageNo: 1, pageSize: 10, customerName: value }).then((res) => {
+      const { data } = res;
+      setOptions(
+        data.list.map((item) => {
+          return (
+            <Option key={item.id} title={`${item.customerName}/¥${item.fee}`} style={{ width: '200px' }}>
+              <Tooltip><div>¥{item.fee}/{item.customerName}</div></Tooltip>
+            </Option>
+          );
+        }),
+      );
+      setSourceList(res.data.list);
+    });
+    // } else {
+    //   setOptions([]);
+    // }
   };
   const debouncedSeach = debounce(handleSearch, 250);
   console.log('value');

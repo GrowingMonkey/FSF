@@ -103,6 +103,15 @@ const LeaveList = () => {
 
     },
     {
+      title: '附件',
+      dataIndex: 'file',
+      key: 'file',
+      ellipsis: true,
+      render: (text, record) => {
+        return <Image src={text} width="50"></Image>
+      }
+    },
+    {
       title: '操作',
       dataIndex: 'action',
       key: 'action',

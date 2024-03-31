@@ -213,6 +213,13 @@ export const refuseKpi = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export const kpiRefund = (payload) => {
+  return request('/kpi/kpiRefund', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
+
 export const selectKpiFeeById = (payload) => {
   return request('/eco/selectKpiFeeById', {
     method: 'POST',

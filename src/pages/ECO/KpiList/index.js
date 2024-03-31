@@ -19,7 +19,7 @@ import { history } from 'umi';
 import styles from './index.less';
 import { PageContainer } from '@ant-design/pro-layout';
 import ModalForm from './components/ModalForm';
-import { queryKpiList, confirmKpi, refuseKpi, selectKpiFeeById } from '@/services/eco';
+import { queryKpiList, confirmKpi, refuseKpi, selectKpiFeeById, kpiRefund } from '@/services/eco';
 const { RangePicker } = DatePicker;
 import momemt from 'moment'
 import ModalDetail from './Detail/index.jsx'
@@ -135,7 +135,7 @@ const KpiList = () => {
       key: 'state',
       ellipsis: true,
       render: (text, record) => {
-        return text == 0 ? '待审核' : text == 1 ? '已通过' : text == 2 ? '已驳回' : ''
+        return text == 0 ? '待审核' : text == 1 ? '已通过' : text == 2 ? '已驳回' : text == 3 ? '已退回' : ''
       }
     },
     {
@@ -185,7 +185,19 @@ const KpiList = () => {
             <Button style={{ marginRight: 10 }} type="primary" size="small">拒绝</Button></Popconfirm>,
           <Button type="primary" size="small" onClick={() => { setVisibleDetail(true); setKpiId(record.kpiId); setSourceId(record.sourceId) }}>查看详情</Button>]
         } else {
-          return <Button type="primary" size="small" onClick={() => { setVisibleDetail(true); setKpiId(record.kpiId); setSourceId(record.sourceId) }}>查看详情</Button>
+          return [<Button type="primary" size="small" onClick={() => { setVisibleDetail(true); setKpiId(record.kpiId); setSourceId(record.sourceId) }}>查看详情</Button>, <Popconfirm
+            title="task?"
+            onConfirm={() => {
+              kpiRefund({ kpiId: record.sourceId }).then(res => {
+                message.info(res.message)
+                setFresh(fresh ? false : true)
+
+              })
+            }}
+            okText="Yes"
+            cancelText="No">
+            <Button style={{ marginRight: 10 }} type="link" size="small">退回</Button></Popconfirm>,]
+
         }
       }
     },

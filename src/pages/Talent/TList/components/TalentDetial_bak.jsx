@@ -66,14 +66,14 @@ const findAreaText = (location) => {
 const ArticleListContent = ({
   data: { content, updatedAt, userName, updateTime, avatar, owner, href },
 }) => (
-  <div className={stylesR.listContent}>
-    <div className={stylesR.description}>{content}</div>
-    <div className={stylesR.extra}>
-      <a href={href}>{userName}</a> 在 <a href={href}>{href}</a>
-      <em>{updateTime}</em>创建
+    <div className={stylesR.listContent}>
+      <div className={stylesR.description}>{content}</div>
+      <div className={stylesR.extra}>
+        <a href={href}>{userName}</a> 在 <a href={href}>{href}</a>
+        <em>{updateTime}</em>创建
     </div>
-  </div>
-);
+    </div>
+  );
 let pageNo = 1;
 const TalentDetail = () => {
   const {
@@ -94,6 +94,7 @@ const TalentDetail = () => {
   );
   // const [record, setRecord] = useState(null);
   const [detail, setDetail] = useState(null);
+  const [detailProject, setDetailProject] = useState(null);
   const [phone, setPhone] = useState(null);
   const [showBuy, setShowBuy] = useState(false);
   const [educationVisible, setEducationVisible] = useState(false);
@@ -111,7 +112,13 @@ const TalentDetail = () => {
       setDetail(data);
       setPhone(data?.phone || '暂无号码');
       setShowBuy(data?.phone?.split('')?.indexOf('*') !== -1);
+
     });
+    selectTalentByIdDetail({ talentId: talentId }).then(res => {
+      const { data } = res;
+      // setRecord(data);
+      setDetailProject(data);
+    })
   }, [talentId]);
   const onSubmit = () => {
     // if (record) {
@@ -236,8 +243,8 @@ const TalentDetail = () => {
             <LoadingOutlined /> 加载中...
           </span>
         ) : (
-          '加载更多'
-        )}
+            '加载更多'
+          )}
       </Button>
     </div>
   );
@@ -447,6 +454,17 @@ const TalentDetail = () => {
                 >
                   <Descriptions.Item label="个人介绍">{detail.introduce}</Descriptions.Item>
                 </Descriptions>
+                <Descriptions
+                  labelStyle={{
+                    width: '95.33px',
+                    display: 'flex',
+                    fontWeight: 'bold',
+                    justifyContent: 'flex-start',
+                  }}
+                >
+                  <Descriptions.Item label="已加项目">{0}</Descriptions.Item>
+                </Descriptions>
+
               </div>
               <div className={styles['project-container']}>
                 <div className={styles['page-title']}>求职意向</div>

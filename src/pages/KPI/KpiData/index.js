@@ -607,6 +607,13 @@ const KpiList = () => {
                         ellipsis: true,
                     },
 
+                    // {
+                    //     title: '提成金额',
+                    //     dataIndex: 'commissionFee',
+                    //     key: 'commissionFee',
+                    //     width: 80,
+                    //     ellipsis: true,
+                    // },
                     {
                         title: '回款金额',
                         dataIndex: 'serviceFee',

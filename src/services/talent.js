@@ -177,6 +177,17 @@ export const selectTalentById = (payload) => {
     data: { ...(payload || {}) },
   });
 };
+export const talentProjectList = (payload) => {
+  // return new Promise((resolve, reject) => {
+  //   request.post("/talent/selectTalentById", payload).then((data) => {
+  //     resolve(data);
+  //   });
+  // });
+  return request('/talent/talentProjectList', {
+    method: 'POST',
+    data: { ...(payload || {}) },
+  });
+};
 export const selectTalentList = (payload) => {
   // return new Promise((resolve, reject) => {
   //   request.post("/talent/selectTalentList", payload).then((data) => {

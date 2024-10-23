@@ -25,6 +25,7 @@ import { CloseOutlined, LoadingOutlined, EditOutlined } from '@ant-design/icons'
 
 import {
   selectTalentById,
+  talentProjectList,
   delEDU,
   delEC,
   delEP,
@@ -110,6 +111,8 @@ const TalentDetail = () => {
     },
   );
   const [contactForm, basicForm] = Form.useForm();
+  const [detailProject, setDetailProject] = useState(null);
+
   const [EducationData, setEducationData] = useState(null);
   const [companyData, setCompanyData] = useState(null);
   const [projectData, setProjectData] = useState(null);
@@ -139,6 +142,12 @@ const TalentDetail = () => {
         setShowBuy(data?.phone?.split('')?.indexOf('*') !== -1);
       }
     });
+    talentProjectList({ talentId: talentId }).then(res => {
+      const { data } = res;
+      // setRecord(data);
+      console.log(data);
+      setDetailProject(data);
+    })
   }, [talentId, isRefresh]);
   const onSubmit = () => {
     // if (record) {
@@ -594,6 +603,20 @@ const TalentDetail = () => {
                   }}
                 >
                   <Descriptions.Item label="个人介绍">{detail.introduce}</Descriptions.Item>
+                </Descriptions>
+                <Descriptions
+                  labelStyle={{
+                    width: '95.33px',
+                    display: 'flex',
+                    fontWeight: 'bold',
+                    justifyContent: 'flex-start',
+                  }}
+                >
+                  <Descriptions.Item label="已加项目">{detailProject && detailProject.length > 0 ? detailProject.map(da => <Link to={{
+                    pathname: '/project/p-detail/detail',
+                    search: '?projectId=' + da.projectId + '&customerId=' + data.customerId + '&id=994',
+                  }} target="_blank">{da.customerName + '-' + da.projectName}</Link>) : '暂无'}
+                  </Descriptions.Item>
                 </Descriptions>
                 <Modal
                   width={680}

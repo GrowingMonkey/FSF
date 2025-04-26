@@ -930,18 +930,10 @@ const TalentDetail = () => {
 
                         <Descriptions.Item label="工作职责" style={{ whiteSpace: 'pre-line' }}>
                           <Paragraph
-                            ellipsis={
-                              ellipsis
-                                ? {
-                                  rows: 4,
-                                  expandable: true,
-                                  symbol: '加载更多',
-                                }
-                                : false
-                            }
+                            
                           >
                             {' '}
-                            {item?.duty?.replace(/\n/g,'<br>')}
+                            {item?.duty?.replace(/\n/g,' <br/> ')}
                           </Paragraph>
                         </Descriptions.Item>
                       </Descriptions>

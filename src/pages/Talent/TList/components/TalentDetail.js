@@ -930,10 +930,18 @@ const TalentDetail = () => {
 
                         <Descriptions.Item label="工作职责" style={{ whiteSpace: 'pre-line' }}>
                           <Paragraph
-                            
+                            // ellipsis={
+                            //   ellipsis
+                            //     ? {
+                            //       rows: 4,
+                            //       expandable: true,
+                            //       symbol: '加载更多',
+                            //     }
+                            //     : false
+                            // }
                           >
                             {' '}
-                            {item?.duty?.replace(/\n/g,' <br/> ')}
+                           <Text>{item.duty}</Text>
                           </Paragraph>
                         </Descriptions.Item>
                       </Descriptions>
@@ -1011,15 +1019,15 @@ const TalentDetail = () => {
                         </Descriptions.Item> */}
                         <Descriptions.Item label="项目职责" style={{ whiteSpace: 'pre-line' }}>
                           <Paragraph
-                            ellipsis={
-                              ellipsis
-                                ? {
-                                  rows: 4,
-                                  expandable: true,
-                                  symbol: '加载更多',
-                                }
-                                : false
-                            }
+                            // ellipsis={
+                            //   ellipsis
+                            //     ? {
+                            //       rows: 4,
+                            //       expandable: true,
+                            //       symbol: '加载更多',
+                            //     }
+                            //     : false
+                            // }
                           >
                             {' '}
                             {item.duty}{' '}

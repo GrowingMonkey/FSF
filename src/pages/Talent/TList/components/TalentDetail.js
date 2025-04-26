@@ -941,7 +941,7 @@ const TalentDetail = () => {
                             }
                           >
                             {' '}
-                            {()=>item?.duty?.replace(/\n/g,'<br>')}
+                            {item?.duty?.replace(/\n/g,'<br>')}
                           </Paragraph>
                         </Descriptions.Item>
                       </Descriptions>

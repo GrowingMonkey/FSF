@@ -397,7 +397,7 @@ const TalentDetail = () => {
                   <Button
                     type="link"
                     onClick={history.push(
-                      'https://admin.fsfhr.com/wordpage/?talentId=618566919347245056',
+                      'https://preview.pro.ant.design/wordpage/?talentId=618566919347245056',
                     )}
                   >
                     生成简历报告

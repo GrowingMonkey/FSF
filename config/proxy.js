@@ -11,8 +11,12 @@ export default {
     // localhost:8000/api/** -> https://preview.pro.ant.design/api/**
     '/api/': {
       // 要代理的地址
-      target: 'https://preview.pro.ant.design',
-      
+      // target: 'https://preview.pro.ant.design',
+      target: 'http://127.0.0.1:8080:',
+      // target: 'http://192.168.31.183:9090',
+      // pathRewrite: {
+      //   '^/api': '',
+      // },
 
       debug: true,
       logLevel: 'debug',

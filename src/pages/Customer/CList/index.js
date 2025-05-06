@@ -34,7 +34,7 @@ import { PageContainer } from "@ant-design/pro-layout";
 import { Link } from "umi";
 import CompanySearch from "@/components/CompanySearch";
 import { history } from "umi"
-const CustomerList = () => {
+const CustomerList = (props) => {
   console.clear()
   const [form] = Form.useForm();
   const [modelForm] = Form.useForm();
@@ -493,7 +493,7 @@ const CustomerList = () => {
       setListLength(data.count);
     }
     );
-  }, [currentPage, searchValues]);
+  }, [currentPage, searchValues,props]);
   const wrapCol = {
     xs: 24,
     sm: 12,

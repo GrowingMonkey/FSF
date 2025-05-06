@@ -27,7 +27,7 @@ import { positionList } from "../../../utils/Position";
 import styles from "./index.less";
 import { PageContainer } from "@ant-design/pro-layout";
 
-const PList = () => {
+const PList = (props) => {
   const [form] = Form.useForm();
   const [currentPage, setCurrentPage] = useState(1);
   const [listLength, setListLength] = useState(0);
@@ -498,7 +498,7 @@ const PList = () => {
         setTotal(data?.count || 0);
       }
     );
-  }, [currentPage, searchValues]);
+  }, [currentPage, searchValues,props]);
   const wrapCol = {
     xs: 24,
     sm: 12,

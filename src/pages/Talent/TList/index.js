@@ -31,7 +31,7 @@ import { WomanOutlined, ManOutlined, UserOutlined, SettingOutlined, DownCircleOu
 import CustomerSearch from "@/components/CustomerSearch";
 import ProjectSearch from "@/components/ProjectSearch";
 
-const TList = () => {
+const TList = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [listLength, setListLength] = useState(0);
   const [rowIndex, setRowIndex] = useState('')
@@ -346,7 +346,7 @@ const TList = () => {
         })
       );
     });
-  }, [currentPage, searchValues]);
+  }, [currentPage, searchValues,props]);
   const onFinish = (values) => {
     console.log(values);
     // run(values);
